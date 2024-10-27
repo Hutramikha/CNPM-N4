@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.admin_sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 260px;
+    background: #05022c;
+}
+
+.admin_sidebar .logo-details {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.admin_sidebar .logo-details i {
+    font-size: 30px;
+    color: #fff;
+    height: 50px;
+    min-width: 20%;
+    text-align: center;
+    line-height: 50px;
+}
+
+.admin_sidebar .logo-details .logo_name {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.admin_sidebar .nav-links {
+    background: #05022c;
+    height: 100%;
+    padding-top: 10% ;
+}
+
+.admin_sidebar .nav-links li {
+    position: relative;
+    list-style: none;
+    transition: all 0.4s ease;
+}
+
+.admin_sidebar .nav-links .out-li:hover {
+    background: #130b82;
+}
+
+.admin_sidebar .nav-links li i {
+    height: 50px;
+    min-width: 20%;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    font-size: 20px;
+}
+
+.admin_sidebar .nav-links li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.admin_sidebar .nav-links li .link_name {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.admin_sidebar .nav-links li .sub-menu {
+    padding: 2% 2% 5% 22%;
+    margin-top: -5%;
+    background-color: #110b64;
+    /* display: none; */
+}
+
+.admin_sidebar .nav-links li .sub-menu a{
+    color: #fff;
+    font-size: 15px;
+    padding: 3% 0;
+    white-space: nowrap;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.admin_sidebar .nav-links li .sub-menu i {
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.admin_sidebar .nav-links li .sub-menu li:hover a,
+.admin_sidebar .nav-links li .sub-menu li:hover i{
+    opacity: 1;
+}
+
+.admin_sidebar .nav-links li .close-sub .sub-menu {
+    position: absolute;
+    left: 100%;
+    top: -10px;
+    margin-top: 0;
+    padding: 5% 10%;
+    border-radius: 0 6px 6px 0;
+    transition: all 0.4s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.admin_sidebar .nav-links li:hover .close-sub .sub-menu {
+    top: 0;
+    opacity: 1;
+    pointer-events: auto;
+} 
+
+.admin_sidebar .nav-links li .sub-menu .link_name {
+    font-size: 18px;
+}

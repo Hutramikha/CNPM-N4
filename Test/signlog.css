@@ -156,7 +156,7 @@
 }
 
 .wrapper .form-box .input-box input {
-    width: 100.5%;
+    width: 85%;
     height: 100%;
     background: transparent;
     border: none;
@@ -164,7 +164,7 @@
     font-size: 1rem;
     color: rgb(19, 152, 200);
     font-weight: 600;
-    padding: 0 35px 0 5px;
+    padding: 0 0 0 10px;
 }
 
 .wrapper .form-box .input-box .icon {

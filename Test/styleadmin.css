@@ -6,13 +6,47 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.no-select {
+    user-select: none; /* Ngăn chọn văn bản */
+    -webkit-user-select: none; /* Dành cho trình duyệt WebKit */
+    -moz-user-select: none; /* Dành cho Firefox */
+    -ms-user-select: none; /* Dành cho IE/Edge */
+}
+
 .admin_sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 260px;
-    background: #05022c;
+    background: #060244;
+}
+
+
+.admin_sidebar .btn {
+    cursor: pointer;
+}
+
+.admin_sidebar .btn i {
+    margin-right: 2%;
+}
+
+.homesection {
+    position: absolute;
+    z-index: 1;
+    background-color: #E4E9F7;
+    width: calc(100% - 260px);
+    left: 260px;
+    transition: all 0.5s ease;
+}
+
+.admin_sidebar.close ~ .homesection {
+    width: calc(100% - 55px);
+    left: 55px;
+}
+
+.homesection .homecontent {
+    height: 100vh;
 }
 
 .admin_sidebar .logo-details {
@@ -20,6 +54,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .admin_sidebar .logo-details i {
@@ -38,7 +73,7 @@
 }
 
 .admin_sidebar .nav-links {
-    background: #05022c;
+    background: #060244;
     height: 100%;
     padding-top: 10% ;
 }
@@ -62,10 +97,9 @@
     font-size: 20px;
 }
 
-.admin_sidebar .nav-links li a {
+.admin_sidebar .nav-links li .btn {
     display: flex;
     align-items: center;
-    text-decoration: none;
 }
 
 .admin_sidebar .nav-links li .link_name {
@@ -75,13 +109,21 @@
 }
 
 .admin_sidebar .nav-links li .sub-menu {
-    padding: 2% 2% 5% 22%;
+    padding: 2% 2% 2% 12%;
     margin-top: -5%;
     background-color: #110b64;
-    /* display: none; */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.admin_sidebar .nav-links li .sub-menu a{
+.sub-menu.show {
+    display: block;
+    opacity: 1; 
+    transform: translateY(10px);
+}
+
+.admin_sidebar .nav-links li .sub-menu .btn{
     color: #fff;
     font-size: 15px;
     padding: 3% 0;
@@ -90,12 +132,13 @@
     transition: all 0.3s ease;
 }
 
+
 .admin_sidebar .nav-links li .sub-menu i {
     opacity: 0.5;
     transition: all 0.3s ease;
 }
 
-.admin_sidebar .nav-links li .sub-menu li:hover a,
+.admin_sidebar .nav-links li .sub-menu li:hover .btn,
 .admin_sidebar .nav-links li .sub-menu li:hover i{
     opacity: 1;
 }
@@ -121,3 +164,44 @@
 .admin_sidebar .nav-links li .sub-menu .link_name {
     font-size: 18px;
 }
+
+.admin_sidebar .profile-details {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #09025e;
+    width: 100%;
+    max-width: 260px;
+    padding: 6px 0;
+    transition: background 0.3s ease; /* Hiệu ứng chuyển đổi cho màu nền */
+}
+
+.admin_sidebar .profile-details #profile-img {
+    max-height: 70px;
+    max-width: 70px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 0 0 3%;
+    border: solid 4px #140a88;
+    transition: max-height 0.3s ease, max-width 0.3s ease; /* Hiệu ứng chuyển đổi cho kích thước ảnh */
+}
+
+.admin_sidebar .profile-details .profile-name {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.admin_sidebar .profile-details .job {
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.admin_sidebar .profile-details .profile-content {
+    display: flex;
+    align-items: center;
+}
+

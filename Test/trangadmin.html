@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,71 +9,113 @@
     <link rel="stylesheet" href="styleadmin.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <div class="admin_sidebar">
         <div class="logo-details">
-            <i class='bx bx-library'></i>
-            <span class="logo_name">DiagonAlley.com</span>
+            <i class='bx bx-library' style="margin-right: 1%;"></i>
+            <span class="logo_name" id="title-visible">DiagonAlley.com</span>
         </div>
         <ul class="nav-links">
             <li class="out-li">
-                <a href="">
-                    <i class='bx bx-book'></i>
-                    <span class="link_name"> QL Sách</span>
-                </a>
+                <div class="toggle-menu btn">
+                    <i class='bx bx-menu'></i>
+                    <span class="link_name" id="text-visible"> Thu nhỏ</span>
+                </div>
             </li>
             <li class="out-li">
-                <a href="">
+                <div class="btn-qlsach btn">
+                    <i class='bx bx-book-add'></i>
+                    <span class="link_name" id="text-visible"> QL Sách</span>
+                </div>
+            </li>
+            <li class="out-li">
+                <div class="btn-qlnhanvien btn">
                     <i class='bx bx-briefcase-alt-2'></i>
-                    <span class="link_name"> QL Nhân viên</span>
-                </a>
+                    <span class="link_name no-select" id="text-visible"> QL Nhân viên</span>
+                </div>
             </li>
             <li class="out-li">
-                <a href="">
+                <div class="btn-qldocgia btn">
                     <i class='bx bx-id-card'></i>
-                    <span class="link_name"> QL Độc giả</span>
-                </a>
-            </li>
-            <li class="out-li">
-                <div class="icon-link"> 
-                    <a href="">
-                        <i class='bx bx-clipboard'></i>
-                        <span class="link_name"> QL Mượn/Trả</span>
-                        <i class='bx bxs-chevron-down arrow' style="padding-left: 15%;"></i>
-                    </a>
-                </div>
-                <div class="close-sub">
-                <ul class="sub-menu">
-                    <li style="display: flex;">
-                        <i class='bx bx-task' style="padding-right: 10%;"></i>
-                        <a class="link_name" href="">Mượn sách</a>
-                    </li>
-                    <li style="display: flex;">
-                        <i class='bx bx-task-x' style="padding-right: 4%;"></i>
-                        <a class="link_name" href="">Trả sách</a>
-                    </li>
-                </ul>
+                    <span class="link_name no-select" id="text-visible"> QL Độc giả</span>
                 </div>
             </li>
+            <li class="out-li sub-menu-li">
+                <div class="icon-link">
+                    <div style="cursor: pointer;" class="sub-menu-show btn">
+                        <i class='bx bx-book'></i>
+                        <span class="link_name no-select" id="text-visible"> QL Mượn/Trả</span>
+                        <i class='bx bx-chevron-down toggle-arrow' style="padding-left: 10%; font-size: 30px;" id="text-visible"></i>
+                    </div>
+                </div>
+                <!-- <div class="close-sub"> -->
+                    <ul class="sub-menu">
+                        <li style="display: flex;">
+                            <i class='bx bx-task'></i>
+                            <div class="link_name btn-muonsach btn no-select">Mượn sách</div>
+                        </li>
+                        <li style="display: flex;">
+                            <i class='bx bx-task-x'></i>
+                            <div class="link_name btn-trasach btn no-select">Trả sách</div>
+                        </li>
+                    </ul>
+                <!-- </div> -->
+            </li>
             <li class="out-li">
-                <a href="">
+                <div class="btn-qlphieunhap btn">
                     <i class='bx bx-receipt'></i>
-                    <span class="link_name"> QL Phiếu nhập</span>
-                </a>
+                    <span class="link_name no-select" id="text-visible"> QL Phiếu nhập</span>
+                </div>
             </li>
             <li class="out-li">
-                <a href="">
+                <div class="btn-qltaikhoan btn">
                     <i class='bx bxs-user-account'></i>
-                    <span class="link_name"> QL Tài khoản</span>
-                </a>
+                    <span class="link_name no-select" id="text-visible"> QL Tài khoản</span>
+                </div>
             </li>
             <li class="out-li">
-                <a href="">
+                <div class="btn-thongke btn">
                     <i class='bx bx-bar-chart-alt-2'></i>
-                    <span class="link_name"> Thống kê</span>
-                </a>
+                    <span class="link_name no-select" id="text-visible"> Thống kê</span>
+                </div>
+            </li>
+            <li>
+            <div class="profile-details">
+                <div class="profile-content">
+                    <img src="./imgProfile/download.jpg" alt="profile" id="profile-img">
+                </div>
+                    <div class="name-job">
+                        <div class="profile-name no-select">KhangGan</div>
+                        <div class="job no-select">Thủ thư</div>
+                    </div>
+                    <i class='bx bx-log-out no-select btn-logout' style="cursor: pointer;"></i>
+            </div>
             </li>
         </ul>
     </div>
+
+    <section class="homesection">
+        <div class="homecontent">
+            <div>
+                khang
+                <div>
+                    kjajsdsad
+                </div>
+                <div>
+                    kjajsdsad
+                </div>
+                <div>
+                    kjajsdsad
+                </div>
+                <div>
+                    kjajsdsad
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="./jsadmin.js"></script>
 </body>
+
 </html>

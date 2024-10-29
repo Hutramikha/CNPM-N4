@@ -176,7 +176,7 @@
 }
 
 
-/* .wrapper_info {
+.wrapper_info {
     position: fixed;
     width: 500px;
     height: 600px;
@@ -193,13 +193,13 @@
     transform: scale(0);
     transition: transform 0.5s ease;
     z-index: 60;
-} */
+}
 
-/* .wrapper_info.active_form {
+.wrapper_info.active_form {
     transform: scale(1);
-} */
+}
 
-/* .wrapper_info #icon-close_info {
+.wrapper_info #icon-close_info {
     position: absolute;
     top: 0;
     right: 0;
@@ -214,31 +214,31 @@
     border-bottom-left-radius: 20px;
     cursor: pointer;
     z-index: 10;
-} */
+}
 
-/* .wrapper_info .form-box h2 {
+.wrapper_info .form-box h2 {
     font-size: 1.8em;
     color: var(--primary-color);
     text-align: center;
-} */
+}
 
-/* .wrapper_info .form-box .input-box {
+.wrapper_info .form-box .input-box {
     position: relative;
     width: 100%;
-    /* height: 50px;
+    /* height: 50px; */
     margin: 30px 0;
-} */
+}
 
-/* .wrapper_info .form-box .input-box label {
+.wrapper_info .form-box .input-box label {
     left: 5px;
     font-size: 1.2em;
     color: var(--primary-color);
     font-weight: bold;
     pointer-events: none;
     margin-right: 2%;
-} */
+}
 
-/* .wrapper_info .form-box .input-box input {
+.wrapper_info .form-box .input-box input {
     width: 100%;
     height: 3.5vh;
     background: transparent;
@@ -247,13 +247,13 @@
     color: rgb(19, 152, 200);
     font-weight: 600;
     margin-top: 1%;
-} */
+}
 
-/* .wrapper_info .form-box .input-box .icon {
+.wrapper_info .form-box .input-box .icon {
     font-size: 1.5em;
     color: var(--primary-color);
     margin-left: .5%;
-} */
+}
 
 #remember-forget, #agree-with {
     font-size: 0.9em;

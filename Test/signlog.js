@@ -244,233 +244,233 @@ function resetError() {
 
 
 // --------ajax đăng nhập-----------
-$(document).ready(function () {
-    $('#loginForm').submit(function (event) {
-        event.preventDefault(); // Ngăn chặn form submit mặc định
-        var username = $('#input_username_login').val();
-        var password = $('#input_password_login').val();
+// $(document).ready(function () {
+//     $('#loginForm').submit(function (event) {
+//         event.preventDefault(); // Ngăn chặn form submit mặc định
+//         var username = $('#input_username_login').val();
+//         var password = $('#input_password_login').val();
 
-        console.log(username);
-        console.log(password);
+//         console.log(username);
+//         console.log(password);
 
-        if ($('#remember-checkbox').prop('checked')) {
-            var usernameLuu = $('#input_username_login').val();
-            var passwordLuu = $('#input_password_login').val();
-        } else {
-            var usernameLuu = "";
-            var passwordLuu = "";
-            console.log('Checkbox ko được check');
-        }
+//         if ($('#remember-checkbox').prop('checked')) {
+//             var usernameLuu = $('#input_username_login').val();
+//             var passwordLuu = $('#input_password_login').val();
+//         } else {
+//             var usernameLuu = "";
+//             var passwordLuu = "";
+//             console.log('Checkbox ko được check');
+//         }
 
-        var errorUsername = document.querySelector('.error_username_login');
-        var errorPassword = document.querySelector('.error_password_login');
+//         var errorUsername = document.querySelector('.error_username_login');
+//         var errorPassword = document.querySelector('.error_password_login');
 
-        if (username === '') {
-            errorUsername.classList.add('active');
-            return;
-        }
+//         if (username === '') {
+//             errorUsername.classList.add('active');
+//             return;
+//         }
 
-        if (password === '') {
-            errorPassword.classList.add('active');
-            return;
-        }
+//         if (password === '') {
+//             errorPassword.classList.add('active');
+//             return;
+//         }
 
-        if (username !== '' && password !== '') {
-            $.ajax({
-                url: 'phpForm/checktk.php',
-                type: 'POST',
-                data: { usernamekk: username },
-                success: function (response) {
-                    console.log(response);
-                    var data = JSON.parse(response);
-                    console.log(data.tttk);
-                    if (data.tttk === 'fail') {
-                        // Thực hiện hành động khi tttk = 1
-                        document.querySelector('.error_login').classList.add('active');
-                        document.querySelector('.error_login').innerHTML = '* Tài khoản này đã bị khóa';
-                    } else if (data.recovery === 'fail') {
-                        document.querySelector('.error_login').classList.add('active');
-                        document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
-                    }
-                    else {
-                        $.ajax({
-                            url: 'phpForm/login.php', // Đường dẫn đến file PHP xử lý kiểm tra đăng nhập
-                            type: 'POST',
-                            data: { username_dn: username, password_dn: password, username_luu: usernameLuu, password_luu: passwordLuu },
-                            dataType: 'json',
-                            success: function (response) {
-                                console.log(response.status);
-                                console.log(response.username);
-                                if (response.status === 'success') {
-                                    // Đăng nhập thành công, lưu username vào localStorage
-                                    localStorage.setItem('username', response.username);
+//         if (username !== '' && password !== '') {
+//             $.ajax({
+//                 url: 'phpForm/checktk.php',
+//                 type: 'POST',
+//                 data: { usernamekk: username },
+//                 success: function (response) {
+//                     console.log(response);
+//                     var data = JSON.parse(response);
+//                     console.log(data.tttk);
+//                     if (data.tttk === 'fail') {
+//                         // Thực hiện hành động khi tttk = 1
+//                         document.querySelector('.error_login').classList.add('active');
+//                         document.querySelector('.error_login').innerHTML = '* Tài khoản này đã bị khóa';
+//                     } else if (data.recovery === 'fail') {
+//                         document.querySelector('.error_login').classList.add('active');
+//                         document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
+//                     }
+//                     else {
+//                         $.ajax({
+//                             url: 'phpForm/login.php', // Đường dẫn đến file PHP xử lý kiểm tra đăng nhập
+//                             type: 'POST',
+//                             data: { username_dn: username, password_dn: password, username_luu: usernameLuu, password_luu: passwordLuu },
+//                             dataType: 'json',
+//                             success: function (response) {
+//                                 console.log(response.status);
+//                                 console.log(response.username);
+//                                 if (response.status === 'success') {
+//                                     // Đăng nhập thành công, lưu username vào localStorage
+//                                     localStorage.setItem('username', response.username);
 
-                                    // Đăng nhập thành công, chuyển hướng đến trang khác hoặc thực hiện các hành động khác
-                                    resetInputDN();
-                                    closeForm();
-                                    // Thay đổi trang chủ khi đăng nhập thành công
-                                    // window.location.href = 'Form.php';
-                                    // Lấy username từ localStorage
+//                                     // Đăng nhập thành công, chuyển hướng đến trang khác hoặc thực hiện các hành động khác
+//                                     resetInputDN();
+//                                     closeForm();
+//                                     // Thay đổi trang chủ khi đăng nhập thành công
+//                                     // window.location.href = 'Form.php';
+//                                     // Lấy username từ localStorage
 
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    }, 250);
-                                }
-                                else {
-                                    // Hiển thị thông báo lỗi đăng nhập
-                                    document.querySelector('.error_login').classList.add('active');
-                                    document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
-                                }
-                            }
-                        });
-                    }
-                },
-            });
-        }
-    });
+//                                     setTimeout(function () {
+//                                         window.location.reload();
+//                                     }, 250);
+//                                 }
+//                                 else {
+//                                     // Hiển thị thông báo lỗi đăng nhập
+//                                     document.querySelector('.error_login').classList.add('active');
+//                                     document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
+//                                 }
+//                             }
+//                         });
+//                     }
+//                 },
+//             });
+//         }
+//     });
 
-    $('#input_username_login').on('input', function () {
-        var errorElement = document.querySelector('.error_username_login');
-        if (this.value !== '') {
-            errorElement.classList.remove('active');
-        }
-    });
+//     $('#input_username_login').on('input', function () {
+//         var errorElement = document.querySelector('.error_username_login');
+//         if (this.value !== '') {
+//             errorElement.classList.remove('active');
+//         }
+//     });
 
-    $('#input_password_login').on('input', function () {
-        var errorElement = document.querySelector('.error_password_login');
-        if (this.value !== '') {
-            errorElement.classList.remove('active');
-        }
-    });
-});
+//     $('#input_password_login').on('input', function () {
+//         var errorElement = document.querySelector('.error_password_login');
+//         if (this.value !== '') {
+//             errorElement.classList.remove('active');
+//         }
+//     });
+// });
 //--------kết thúc-----------
 
 
 // -------ajax đăng ký Khách Hàng--------
-$(document).ready(function () {
-    $('#regisForm').submit(function (event) {
-        event.preventDefault();
-        var username = $('#input_username_regis').val();
-        var password = $('#input_password_regis').val();
-        var email = $('#input_email_regis').val();
-        var repassword = $('#input_repassword_regis').val();
+// $(document).ready(function () {
+//     $('#regisForm').submit(function (event) {
+//         event.preventDefault();
+//         var username = $('#input_username_regis').val();
+//         var password = $('#input_password_regis').val();
+//         var email = $('#input_email_regis').val();
+//         var repassword = $('#input_repassword_regis').val();
 
-        console.log(username);
-        console.log(email);
-        console.log(password);
-        console.log(repassword);
+//         console.log(username);
+//         console.log(email);
+//         console.log(password);
+//         console.log(repassword);
 
-        var errorUsernameDK = document.querySelector('.error_username_regis');
-        var errorEmailDK = document.querySelector('.error_email_regis');
-        var errorPassDK = document.querySelector('.error_password_regis');
-        var errorRePassDK = document.querySelector('.error_repasssword_regis');
+//         var errorUsernameDK = document.querySelector('.error_username_regis');
+//         var errorEmailDK = document.querySelector('.error_email_regis');
+//         var errorPassDK = document.querySelector('.error_password_regis');
+//         var errorRePassDK = document.querySelector('.error_repasssword_regis');
 
 
-        if (username === '') {
-            errorUsernameDK.classList.add('active');
-            return;
-        }
+//         if (username === '') {
+//             errorUsernameDK.classList.add('active');
+//             return;
+//         }
 
-        if (email === '') {
-            errorEmailDK.classList.add('active');
-            return;
-        }
+//         if (email === '') {
+//             errorEmailDK.classList.add('active');
+//             return;
+//         }
 
-        // Kiểm tra tính hợp lệ của email
-        if (!validateEmail(email)) {
-            errorEmailDK.innerHTML = '* Email không hợp lệ';
-            errorEmailDK.classList.add('active');
-            return;
-        }
+//         // Kiểm tra tính hợp lệ của email
+//         if (!validateEmail(email)) {
+//             errorEmailDK.innerHTML = '* Email không hợp lệ';
+//             errorEmailDK.classList.add('active');
+//             return;
+//         }
 
-        if (password === '') {
-            errorPassDK.classList.add('active');
-            return;
-        }
+//         if (password === '') {
+//             errorPassDK.classList.add('active');
+//             return;
+//         }
 
-        // Kiểm tra mật khẩu
-        if (!validatePassword(password)) {
-            errorPassDK.innerHTML = '* Ít nhất 8 ký tự (có: chữ in hoa, ký tự đặc biệt, số)'
-            errorPassDK.classList.add('active');
-            return;
-        }
+//         // Kiểm tra mật khẩu
+//         if (!validatePassword(password)) {
+//             errorPassDK.innerHTML = '* Ít nhất 8 ký tự (có: chữ in hoa, ký tự đặc biệt, số)'
+//             errorPassDK.classList.add('active');
+//             return;
+//         }
 
-        if (repassword === '') {
-            errorRePassDK.classList.add('active');
-            return;
-        }
+//         if (repassword === '') {
+//             errorRePassDK.classList.add('active');
+//             return;
+//         }
 
-        // Kiểm tra mật khẩu và mật khẩu nhập lại có khớp hay không
-        if (password !== repassword) {
-            errorRePassDK.innerHTML = '* Mật khẩu xác nhận không trùng khớp';
-            errorRePassDK.classList.add('active');
-            return;
-        }
+//         // Kiểm tra mật khẩu và mật khẩu nhập lại có khớp hay không
+//         if (password !== repassword) {
+//             errorRePassDK.innerHTML = '* Mật khẩu xác nhận không trùng khớp';
+//             errorRePassDK.classList.add('active');
+//             return;
+//         }
 
-        // Kiểm tra checkbox
-        var agreementCheckbox = document.getElementById('checkbox_regis');
-        if (!agreementCheckbox.checked) {
-            document.querySelector('.error_regis').classList.add('active');
-            return;
-        }
+//         // Kiểm tra checkbox
+//         var agreementCheckbox = document.getElementById('checkbox_regis');
+//         if (!agreementCheckbox.checked) {
+//             document.querySelector('.error_regis').classList.add('active');
+//             return;
+//         }
 
-        // Gửi dữ liệu đăng ký lên server
-        $.ajax({
-            type: 'POST',
-            url: 'phpForm/signupKH.php',
-            data: { username_dk: username, email: email, password_dk: password, repassword_dk: repassword },
-            dataType: 'json',
-            success: function (response) {
-                console.log(response.status);
-                if (response.status === 'success') {
-                    resetInputDK();
-                    SignupAlert();
-                    console.log('oke');
-                } else {
-                    console.log('not oke');
-                    errorUsernameDK.innerHTML = response.message;
-                    errorUsernameDK.classList.add('active');
-                }
-            },
-        });
-    });
+//         // Gửi dữ liệu đăng ký lên server
+//         $.ajax({
+//             type: 'POST',
+//             url: 'phpForm/signupKH.php',
+//             data: { username_dk: username, email: email, password_dk: password, repassword_dk: repassword },
+//             dataType: 'json',
+//             success: function (response) {
+//                 console.log(response.status);
+//                 if (response.status === 'success') {
+//                     resetInputDK();
+//                     SignupAlert();
+//                     console.log('oke');
+//                 } else {
+//                     console.log('not oke');
+//                     errorUsernameDK.innerHTML = response.message;
+//                     errorUsernameDK.classList.add('active');
+//                 }
+//             },
+//         });
+//     });
 
-    $('#input_username_regis').on('input', function () {
-        var errorElement = document.querySelector('.error_username_regis');
-        if (this.value !== '') {
-            errorElement.classList.remove('active');
-        }
-    });
+//     $('#input_username_regis').on('input', function () {
+//         var errorElement = document.querySelector('.error_username_regis');
+//         if (this.value !== '') {
+//             errorElement.classList.remove('active');
+//         }
+//     });
 
-    $('#input_password_regis').on('input', function () {
-        var errorElement = document.querySelector('.error_password_regis');
-        if (this.value !== '') {
-            errorElement.classList.remove('active');
-        }
-    });
+//     $('#input_password_regis').on('input', function () {
+//         var errorElement = document.querySelector('.error_password_regis');
+//         if (this.value !== '') {
+//             errorElement.classList.remove('active');
+//         }
+//     });
 
-    $('#input_email_regis').on('input', function () {
-        var errorElement = document.querySelector('.error_email_regis');
-        if (this.value !== '') {
-            errorElement.classList.remove('active');
-        }
-    });
+//     $('#input_email_regis').on('input', function () {
+//         var errorElement = document.querySelector('.error_email_regis');
+//         if (this.value !== '') {
+//             errorElement.classList.remove('active');
+//         }
+//     });
 
-    $('#input_repassword_regis').on('input', function () {
-        var errorElement = document.querySelector('.error_repasssword_regis');
-        if (this.value !== '') {
-            errorElement.classList.remove('active');
-        }
-    });
+//     $('#input_repassword_regis').on('input', function () {
+//         var errorElement = document.querySelector('.error_repasssword_regis');
+//         if (this.value !== '') {
+//             errorElement.classList.remove('active');
+//         }
+//     });
 
-    $('#checkbox_regis').on('click', function () {
-        var errorElement = document.querySelector('.error_regis');
-        if (this.checked) {
-            errorElement.classList.remove('active');
-        }
-    });
+//     $('#checkbox_regis').on('click', function () {
+//         var errorElement = document.querySelector('.error_regis');
+//         if (this.checked) {
+//             errorElement.classList.remove('active');
+//         }
+//     });
 
-});
+// });
 //--------kết thúc-----------
 
 
@@ -489,45 +489,45 @@ function validatePassword(password) {
 
 
 //------ajax đăng xuất-------
-$(document).ready(function () {
-    // Thêm sự kiện click cho nút đăng xuất
-    $('#btn_dangxuat_menu').on('click',function (event) {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
-        console.log("đã nhấn");
-        $.ajax({
-            url: 'phpForm/logout.php', // Đường dẫn đến file PHP xử lý đăng xuất
-            type: 'POST',
-            success: function (response) {
-                console.log(response);
-                if (response === 'success') {
-                    // Xử lý khi thành công đăng xuất
+// $(document).ready(function () {
+//     // Thêm sự kiện click cho nút đăng xuất
+//     $('#btn_dangxuat_menu').on('click',function (event) {
+//         event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+//         console.log("đã nhấn");
+//         $.ajax({
+//             url: 'phpForm/logout.php', // Đường dẫn đến file PHP xử lý đăng xuất
+//             type: 'POST',
+//             success: function (response) {
+//                 console.log(response);
+//                 if (response === 'success') {
+//                     // Xử lý khi thành công đăng xuất
                     
-                    localStorage.removeItem('username');
-                    console.log("ĐÃ Đăng Xuất");
-                    // window.location.href = 'Form.php';
-                    window.location.reload();
-                }
-            }
-        });
-    });
-});
+//                     localStorage.removeItem('username');
+//                     console.log("ĐÃ Đăng Xuất");
+//                     // window.location.href = 'Form.php';
+//                     window.location.reload();
+//                 }
+//             }
+//         });
+//     });
+// });
 //--------kết thúc-----------
 
 
 
 
-$(document).ready(function () {
-    $.ajax({
-        url: "php/cookie.php",
-        type: "POST",
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-        }
-    });
-});
+// $(document).ready(function () {
+//     $.ajax({
+//         url: "php/cookie.php",
+//         type: "POST",
+//         success: function (response) {
+//             console.log(response);
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.log(textStatus, errorThrown);
+//         }
+//     });
+// });
 
 
 

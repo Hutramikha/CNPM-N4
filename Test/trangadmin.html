@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="admin_sidebar">
+    <div class="admin_sidebar close">
         <div class="logo-details">
             <i class='bx bx-library' style="margin-right: 1%;"></i>
             <span class="logo_name" id="title-visible">DiagonAlley.com</span>
@@ -20,13 +20,13 @@
             <li class="out-li">
                 <div class="toggle-menu btn">
                     <i class='bx bx-menu'></i>
-                    <span class="link_name" id="text-visible"> Thu nhỏ</span>
+                    <span class="link_name no-select" id="text-visible"> Thu nhỏ</span>
                 </div>
             </li>
             <li class="out-li">
                 <div class="btn-qlsach btn">
                     <i class='bx bx-book-add'></i>
-                    <span class="link_name" id="text-visible"> QL Sách</span>
+                    <span class="link_name no-select" id="text-visible"> QL Sách</span>
                 </div>
             </li>
             <li class="out-li">
@@ -51,13 +51,13 @@
                 </div>
                 <!-- <div class="close-sub"> -->
                     <ul class="sub-menu">
-                        <li style="display: flex;">
-                            <i class='bx bx-task'></i>
-                            <div class="link_name btn-muonsach btn no-select">Mượn sách</div>
+                        <li style="display: flex;" class="btn-muonsach">
+                            <i class='bx bx-task'  style="cursor: pointer;"></i>
+                            <div class="link_name btn no-select">Mượn sách</div>
                         </li>
-                        <li style="display: flex;">
-                            <i class='bx bx-task-x'></i>
-                            <div class="link_name btn-trasach btn no-select">Trả sách</div>
+                        <li style="display: flex;" class="btn-trasach">
+                            <i class='bx bx-task-x' style="cursor: pointer;"></i>
+                            <div class="link_name btn no-select">Trả sách</div>
                         </li>
                     </ul>
                 <!-- </div> -->
@@ -97,20 +97,29 @@
 
     <section class="homesection">
         <div class="homecontent">
-            <div>
-                khang
-                <div>
-                    kjajsdsad
-                </div>
-                <div>
-                    kjajsdsad
-                </div>
-                <div>
-                    kjajsdsad
-                </div>
-                <div>
-                    kjajsdsad
-                </div>
+            <div class="quanlysach">
+              QL sách
+            </div>
+            <div class="quanlynhanvien">
+              QL nhân viên
+            </div>
+            <div class="quanlydocgia">
+                QL độc giả
+            </div>
+            <div class="quanlymuonsach">
+                QL mượn sách
+            </div>
+            <div class="quanlytrasach">
+                QL trả sách
+            </div>
+            <div class="quanlyphieunhap">
+                QL phiếu nhập
+            </div>
+            <div class="quanlytaikhoan">
+                QL tài khoản
+            </div>
+            <div class="thongke">
+                Thống kê
             </div>
         </div>
     </section>

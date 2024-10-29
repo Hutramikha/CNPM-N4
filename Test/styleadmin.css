@@ -6,6 +6,16 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.quanlysach , .quanlynhanvien ,.quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke  {
+    display: none;
+}
+
+.showpage {
+    display: block;
+}
+
+
+
 .no-select {
     user-select: none; /* Ngăn chọn văn bản */
     -webkit-user-select: none; /* Dành cho trình duyệt WebKit */
@@ -21,6 +31,7 @@
     width: 260px;
     background: #060244;
 }
+
 
 
 .admin_sidebar .btn {
@@ -75,7 +86,23 @@
 .admin_sidebar .nav-links {
     background: #060244;
     height: 100%;
-    padding-top: 10% ;
+    padding-top: 10%;
+    overflow: auto;
+}
+
+/* Ẩn scrollbar trong Chrome, Safari và Edge */
+.admin_sidebar .nav-links::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ẩn scrollbar trong Firefox */
+.admin_sidebar .nav-links {
+    scrollbar-width: none; /* "auto" hoặc "thin" cũng có thể được sử dụng */
+}
+
+/* Ẩn scrollbar trong Internet Explorer */
+.admin_sidebar .nav-links {
+    -ms-overflow-style: none; /* Ẩn scrollbar */
 }
 
 .admin_sidebar .nav-links li {
@@ -94,7 +121,7 @@
     text-align: center;
     line-height: 50px;
     color: #fff;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .admin_sidebar .nav-links li .btn {
@@ -111,6 +138,7 @@
 .admin_sidebar .nav-links li .sub-menu {
     padding: 2% 2% 2% 12%;
     margin-top: -5%;
+    margin-bottom: 3.9%;
     background-color: #110b64;
     display: none;
     opacity: 0;

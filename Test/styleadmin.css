@@ -30,6 +30,7 @@
     height: 100%;
     width: 260px;
     background: #060244;
+    overflow: auto;
 }
 
 
@@ -87,21 +88,20 @@
     background: #060244;
     height: 100%;
     padding-top: 10%;
-    overflow: auto;
 }
 
 /* Ẩn scrollbar trong Chrome, Safari và Edge */
-.admin_sidebar .nav-links::-webkit-scrollbar {
+.admin_sidebar::-webkit-scrollbar {
     display: none;
 }
 
 /* Ẩn scrollbar trong Firefox */
-.admin_sidebar .nav-links {
+.admin_sidebar{
     scrollbar-width: none; /* "auto" hoặc "thin" cũng có thể được sử dụng */
 }
 
 /* Ẩn scrollbar trong Internet Explorer */
-.admin_sidebar .nav-links {
+.admin_sidebar{
     -ms-overflow-style: none; /* Ẩn scrollbar */
 }
 
@@ -231,5 +231,20 @@
 .admin_sidebar .profile-details .profile-content {
     display: flex;
     align-items: center;
+}
+
+.admin_title_content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6vh;
+}
+
+.admin_title_content .admin_title {
+    display: flex;
+    justify-content: center;
+    border-bottom: 5px solid black;
+    width: 25%;
+    border-radius: 7px;
 }
 

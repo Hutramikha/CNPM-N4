@@ -38,7 +38,6 @@ if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
 
 
 
-
 <div class="user__signup__login">
 
 <div class="form_cover">

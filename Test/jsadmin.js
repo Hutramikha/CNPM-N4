@@ -98,93 +98,39 @@ const btn_qltrasach = document.querySelector(".btn-trasach");
 const btn_qlphieunhap = document.querySelector(".btn-qlphieunhap");
 const btn_qltaikhoan = document.querySelector(".btn-qltaikhoan");
 const btn_thongke = document.querySelector(".btn-thongke");
+const btn_thongtincanhan = document.querySelector(".btn-thongtincanhan");
 
-btn_qlsach.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.add("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
+// Hàm để ẩn tất cả các trang
+function hideAllPages() {
+    const pages = document.querySelectorAll('.quanlysach, .quanlynhanvien, .quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke, .thongtincanhan');
+    pages.forEach(page => {
+        if (page.classList.contains('showpage')) {
+            page.style.opacity = '0'; // Mờ đi
+            setTimeout(() => {
+                page.classList.remove('showpage'); // Xóa class showpage sau khi hiệu ứng hoàn tất
+            }, 150); // Thời gian trễ bằng thời gian hiệu ứng
+        }
+    });
+}
 
-btn_qlnhanvien.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.add("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
+// Hàm để hiển thị trang tương ứng
+function showPage(pageClass) {
+    const page = document.querySelector(pageClass);
+    hideAllPages(); // Đầu tiên ẩn tất cả các trang
+    page.classList.add('showpage'); // Thêm class showpage
+    setTimeout(() => {
+        page.style.opacity = '1'; // Hiện rõ
+    }, 10); // Thời gian trễ nhỏ để kích hoạt hiệu ứng
+}
 
-btn_qldocgia.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.add("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
-
-btn_qlmuonsach.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.add("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
-
-btn_qltrasach.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.add("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
-
-btn_qlphieunhap.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.add("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
-
-btn_qltaikhoan.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.add("showpage");
-    document.querySelector(".thongke").classList.remove("showpage");
-})
-
-btn_thongke.addEventListener("click", () => {
-    document.querySelector(".quanlysach").classList.remove("showpage");
-    document.querySelector(".quanlynhanvien").classList.remove("showpage");
-    document.querySelector(".quanlydocgia").classList.remove("showpage");
-    document.querySelector(".quanlymuonsach").classList.remove("showpage");
-    document.querySelector(".quanlytrasach").classList.remove("showpage");
-    document.querySelector(".quanlyphieunhap").classList.remove("showpage");
-    document.querySelector(".quanlytaikhoan").classList.remove("showpage");
-    document.querySelector(".thongke").classList.add("showpage");
-})
+btn_qlsach.addEventListener("click", () => showPage('.quanlysach'));
+btn_qlnhanvien.addEventListener("click", () => showPage('.quanlynhanvien'));
+btn_qldocgia.addEventListener("click", () => showPage('.quanlydocgia'));
+btn_qlmuonsach.addEventListener("click", () => showPage('.quanlymuonsach'));
+btn_qltrasach.addEventListener("click", () => showPage('.quanlytrasach'));
+btn_qlphieunhap.addEventListener("click", () => showPage('.quanlyphieunhap'));
+btn_qltaikhoan.addEventListener("click", () => showPage('.quanlytaikhoan'));
+btn_thongke.addEventListener("click", () => showPage('.thongke'));
+btn_thongtincanhan.addEventListener("click", () => showPage('.thongtincanhan'));
 
 });

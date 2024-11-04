@@ -6,12 +6,15 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.quanlysach , .quanlynhanvien ,.quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke  {
+.quanlysach , .quanlynhanvien ,.quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke, .thongtincanhan  {
     display: none;
+    opacity: 0; /* Mờ dần */
+    transition: opacity 0.5s ease; /* Hiệu ứng chuyển tiếp */
 }
 
 .showpage {
     display: block;
+    opacity: 1; /* Hiện rõ */
 }
 
 

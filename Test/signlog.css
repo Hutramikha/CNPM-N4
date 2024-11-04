@@ -6,7 +6,7 @@
 }
 
 :root {
-    --primary-color: #cd5012;
+    --primary-color: #1a38bc;   
 }
 
 .user__signup__login , .user_info{
@@ -395,7 +395,6 @@
     visibility: visible;
  	animation: fadeOut 2s;
 }
-
 
 
 

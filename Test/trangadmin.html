@@ -31,7 +31,7 @@
             </li>
             <li class="out-li">
                 <div class="btn-qlsach btn">
-                    <i class='bx bx-book-add'></i>
+                    <i class='bx bx-book-content'></i>
                     <span class="link_name no-select" id="text-visible"> QL Sách</span>
                 </div>
             </li>
@@ -48,24 +48,25 @@
                 </div>
             </li>
             <li class="out-li sub-menu-li">
-                <div class="icon-link">
-                    <div style="cursor: pointer;" class="sub-menu-show btn">
-                        <i class='bx bx-book'></i>
-                        <span class="link_name no-select" id="text-visible"> QL Mượn/Trả</span>
-                        <i class='bx bx-chevron-down toggle-arrow' style="padding-left: 10%; font-size: 30px;" id="text-visible"></i>
-                    </div>
+                <!-- <div class="icon-link"> -->
+                <div style="cursor: pointer;" class="sub-menu-show btn">
+                    <i class='bx bx-book'></i>
+                    <span class="link_name no-select" id="text-visible"> QL Mượn/Trả</span>
+                    <i class='bx bx-chevron-down toggle-arrow' style="padding-left: 10%; font-size: 30px;"
+                        id="text-visible"></i>
                 </div>
+                <!-- </div> -->
                 <!-- <div class="close-sub"> -->
-                    <ul class="sub-menu">
-                        <li style="display: flex;" class="btn-muonsach">
-                            <i class='bx bx-task'  style="cursor: pointer;"></i>
-                            <div class="link_name btn no-select">Mượn sách</div>
-                        </li>
-                        <li style="display: flex;" class="btn-trasach">
-                            <i class='bx bx-task-x' style="cursor: pointer;"></i>
-                            <div class="link_name btn no-select">Trả sách</div>
-                        </li>
-                    </ul>
+                <ul class="sub-menu">
+                    <li style="display: flex;" class="btn-muonsach">
+                        <i class='bx bx-task' style="cursor: pointer;"></i>
+                        <div class="link_name btn no-select">Mượn sách</div>
+                    </li>
+                    <li style="display: flex;" class="btn-trasach">
+                        <i class='bx bx-task-x' style="cursor: pointer;"></i>
+                        <div class="link_name btn no-select">Trả sách</div>
+                    </li>
+                </ul>
                 <!-- </div> -->
             </li>
             <li class="out-li">
@@ -86,29 +87,39 @@
                     <span class="link_name no-select" id="text-visible"> Thống kê</span>
                 </div>
             </li>
-            <li>
-            <div class="profile-details">
-                <div class="profile-content">
-                    <img src="./imgProfile/download.jpg" alt="profile" id="profile-img">
+            <li class="out-li">
+                <div class="btn-thongtincanhan btn">
+                    <i class='bx bx-info-circle' ></i>
+                    <span class="link_name no-select" id="text-visible"> Thông tin cá nhân</span>
                 </div>
+            </li>
+            <li>
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <img src="./imgProfile/download.jpg" alt="profile" id="profile-img">
+                    </div>
                     <div class="name-job">
                         <div class="profile-name no-select">KhangGan</div>
                         <div class="job no-select">Thủ thư</div>
                     </div>
                     <i class='bx bx-log-out no-select btn-logout' style="cursor: pointer;"></i>
-            </div>
+                </div>
             </li>
         </ul>
     </div>
 
+
     <section class="homesection">
         <div class="homecontent">
 
-        <!-- Quản lý sách -->
+            <!-- Quản lý sách -->
             <div class="quanlysach">
-              <div class="admin_title_content">
+                <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ SÁCH</h1>
+                    </div>
+                    <div class="input_contain">
+
                     </div>
                     <div class="button_contain">
 
@@ -116,115 +127,156 @@
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-        <!-- Quản lý nhân viên -->
+            <!-- Quản lý nhân viên -->
             <div class="quanlynhanvien">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ NHÂN VIÊN</h1>
                     </div>
+                    <div class="input_contain">
+
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-        <!-- Quản lý độc giả -->
+            <!-- Quản lý độc giả -->
             <div class="quanlydocgia">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ ĐỘC GIẢ</h1>
                     </div>
+                    <div class="input_contain">
+
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-        <!-- Quản lý mượn sách -->
+            <!-- Quản lý mượn sách -->
             <div class="quanlymuonsach">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ MƯỢN SÁCH</h1>
                     </div>
+                    <div class="input_contain">
+
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
-            
-        <!-- Quản lý trả sách -->
+
+            <!-- Quản lý trả sách -->
             <div class="quanlytrasach">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ TRẢ SÁCH</h1>
                     </div>
+                    <div class="input_contain">
+
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-         <!-- Quản lý phiếu nhập -->
+            <!-- Quản lý phiếu nhập -->
             <div class="quanlyphieunhap">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ PHIẾU NHẬP</h1>
                     </div>
+                    <div class="input_contain">
+
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-         <!-- Quản lý tài khoản -->
+            <!-- Quản lý tài khoản -->
             <div class="quanlytaikhoan">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ TÀI KHOẢN</h1>
                     </div>
+                    <div class="account_info">
+                        <div class="input_contain">
+
+                        </div>
+                        <div class="access_contain">
+
+                        </div>
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-         <!-- Thống kê -->
+            <!-- Thống kê -->
             <div class="thongke">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>THỐNG KÊ</h1>
                     </div>
+                    <div class="input_contain">
+
+                    </div>
                     <div class="button_contain">
-                        
+
                     </div>
                     <div class="table_contain">
 
                     </div>
-              </div>
+                </div>
             </div>
 
-            
+            <!-- Thông tin cá nhân -->
+            <div class="thongtincanhan">
+                <div class="admin_title_content">
+                    <div class="admin_title">
+                        <h1>THÔNG TIN CÁ NHÂN</h1>
+                    </div>
+                    <div class="input_contain">
+
+                    </div>
+                    <div class="button_contain">
+
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </section>
 

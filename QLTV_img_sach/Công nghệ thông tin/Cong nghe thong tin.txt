@@ -1,0 +1,5 @@
+1. Php, Mysql, Javascript & Html5 All-In-One For Dummies	-	Tác giả: Steve Suehring, Janet Valade
+2. Beginning Programming With Java For Dummies – 4Th Edition	-	Tác giả: Barry A. Burd
+3. Linux All-In-One For Dummies – 5Th Edition			-	Tác giả: Emmett Dulaney
+4. Giáo Trình Thuật Toán (Introduction To Algorithms )		-	Tác giả: Thomas H. Cormen - Charles E. Leiserson
+5. Pro ASP.NET MVC 5						-	Tác giả: Adam Freeman

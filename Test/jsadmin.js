@@ -6,16 +6,21 @@ const submenu = document.querySelector(".sub-menu-show");
 
 const profileImage = document.getElementById("profile-img");
 const profileDetails = document.querySelector(".profile-details");
+const arrowicon = toggleMenu.querySelector('.arrow_menu');
 
 if(sidebar.classList.contains("close")) {
     if (profileImage.style.maxHeight === "50px") {
-        profileImage.style.maxHeight = "70px"; // Trở về kích thước ban đầu
-        profileImage.style.maxWidth = "70px";  // Trở về kích thước ban đầu
+        profileImage.style.maxHeight = "60px"; // Trở về kích thước ban đầu
+        profileImage.style.maxWidth = "60px";  // Trở về kích thước ban đầu
         profileDetails.style.background = "#09025e"; // Trở về màu nền ban đầu
+        arrowicon.classList.remove('bxs-right-arrow-square'); 
+        arrowicon.classList.add('bxs-left-arrow-square'); 
     } else {
         profileImage.style.maxHeight = "50px"; // Thay đổi kích thước ảnh
         profileImage.style.maxWidth = "50px";  // Thay đổi kích thước ảnh
         profileDetails.style.background = "#060244"; // Thay đổi màu nền
+        arrowicon.classList.remove('bxs-left-arrow-square'); 
+        arrowicon.classList.add('bxs-right-arrow-square');
     }
 } else {}
 
@@ -24,14 +29,19 @@ toggleMenu.addEventListener("click", () => {
         closeSubMenu();
     } else{}
     sidebar.classList.toggle("close");
+
     if (profileImage.style.maxHeight === "50px") {
-        profileImage.style.maxHeight = "70px"; // Trở về kích thước ban đầu
-        profileImage.style.maxWidth = "70px";  // Trở về kích thước ban đầu
+        profileImage.style.maxHeight = "60px"; // Trở về kích thước ban đầu
+        profileImage.style.maxWidth = "60px";  // Trở về kích thước ban đầu
         profileDetails.style.background = "#09025e"; // Trở về màu nền ban đầu
+        arrowicon.classList.remove('bxs-right-arrow-square'); 
+        arrowicon.classList.add('bxs-left-arrow-square'); 
     } else {
         profileImage.style.maxHeight = "50px"; // Thay đổi kích thước ảnh
         profileImage.style.maxWidth = "50px";  // Thay đổi kích thước ảnh
         profileDetails.style.background = "#060244"; // Thay đổi màu nền
+        arrowicon.classList.remove('bxs-left-arrow-square'); 
+        arrowicon.classList.add('bxs-right-arrow-square'); 
     }
 })
 
@@ -39,13 +49,17 @@ function opensidebar() {
     if(sidebar.classList.contains("close")) {
         sidebar.classList.toggle("close");
         if (profileImage.style.maxHeight === "50px") {
-            profileImage.style.maxHeight = "70px"; // Trở về kích thước ban đầu
-            profileImage.style.maxWidth = "70px";  // Trở về kích thước ban đầu
+            profileImage.style.maxHeight = "60px"; // Trở về kích thước ban đầu
+            profileImage.style.maxWidth = "60px";  // Trở về kích thước ban đầu
             profileDetails.style.background = "#09025e"; // Trở về màu nền ban đầu
+            arrowicon.classList.remove('bxs-right-arrow-square'); 
+            arrowicon.classList.add('bxs-left-arrow-square'); 
         } else {
             profileImage.style.maxHeight = "50px"; // Thay đổi kích thước ảnh
             profileImage.style.maxWidth = "50px";  // Thay đổi kích thước ảnh
             profileDetails.style.background = "#060244"; // Thay đổi màu nền
+            arrowicon.classList.remove('bxs-left-arrow-square'); 
+            arrowicon.classList.add('bxs-right-arrow-square'); 
         }
     } else {
         console.log("oke");

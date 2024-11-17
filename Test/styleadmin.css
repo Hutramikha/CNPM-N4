@@ -37,7 +37,6 @@
 }
 
 
-
 .admin_sidebar .btn {
     cursor: pointer;
 }
@@ -53,6 +52,7 @@
     width: calc(100% - 260px);
     left: 260px;
     transition: all 0.5s ease;
+    overflow: auto;
 }
 
 .admin_sidebar.close ~ .homesection {
@@ -94,17 +94,17 @@
 }
 
 /* Ẩn scrollbar trong Chrome, Safari và Edge */
-.admin_sidebar::-webkit-scrollbar {
+.admin_sidebar::-webkit-scrollbar , .homesection::-webkit-scrollbar {
     display: none;
 }
 
 /* Ẩn scrollbar trong Firefox */
-.admin_sidebar{
+.admin_sidebar , .homesection{
     scrollbar-width: none; /* "auto" hoặc "thin" cũng có thể được sử dụng */
 }
 
 /* Ẩn scrollbar trong Internet Explorer */
-.admin_sidebar{
+.admin_sidebar, .homesection{
     -ms-overflow-style: none; /* Ẩn scrollbar */
 }
 
@@ -241,6 +241,7 @@
     align-items: center;
     justify-content: center;
     height: 6vh;
+    margin-bottom: 0.5%;
 }
 
 .admin_title_content .admin_title {
@@ -251,3 +252,249 @@
     border-radius: 7px;
 }
 
+
+
+/*Các thành phần trong trang*/
+.input_contain {
+    display: flex;
+    align-items: center;
+}
+
+
+.button_contain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_contain_manage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn_action {
+    border: none;
+    color: white;
+    padding: 0.3% 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0.5% 0 0.5% 0.7%;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-add {
+    background-color: #4CAF50; /* Màu xanh lá cây */
+}
+
+.btn-edit {
+    background-color: #2196F3; /* Màu xanh dương */
+}
+
+.btn-delete {
+    background-color: #f44336; /* Màu đỏ */
+}
+
+.btn-save {
+    background-color: rgb(223, 164, 55);
+}
+
+.btn-cancel {
+    background-color: #d54f34; /* Màu đỏ */
+}
+
+.btn-reset {
+    background-color: #1d5bed;
+}
+
+.btn-manage {
+    background-color: #201ded;
+}
+
+.btn_action:hover {
+    transform: scale(1.05); /* Tăng kích thước nhẹ khi hover */
+}
+
+.btn-add:hover {
+    background-color: #45a049; /* Màu xanh lá cây đậm hơn khi hover */
+}
+
+.btn-edit:hover {
+    background-color: #1E88E5; /* Màu xanh dương đậm hơn khi hover */
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
+}
+
+.btn-save:hover {
+    background-color: rgb(206, 141, 21);
+}
+
+.btn-cancel:hover {
+    background-color: #c93517;
+}
+
+.btn-reset:hover {
+    background-color: #1748bc;
+}
+
+.btn-manage:hover {
+    background-color: #2857c5;
+}
+
+.btn_action:focus {
+    outline: none;
+}
+
+
+/*Vô hiệu nút*/
+.btn-save:disabled , .btn-cancel:disabled , .btn-add:disabled , .btn-delete:disabled , .btn-edit:disabled{
+    background-color: #ccc; /* Màu xám khi vô hiệu hóa */
+    cursor: not-allowed; /* Hiển thị con trỏ không cho phép */
+}
+
+.btn-save:disabled:hover , .btn-cancel:disabled:hover , .btn-add:disabled:hover , .btn-delete:disabled:hover , .btn-edit:disabled:hover{
+    background-color: #ccc; /* Ngăn chặn hiệu ứng hover khi vô hiệu hóa */
+}
+
+/*Tìm kiếm*/
+.search-input {
+    border: none;
+    padding: 0 2%;
+    outline: none;
+    font-size: 1rem;
+    border-radius: 25px 0 0 25px;
+    width: 300px; /* Bạn có thể điều chỉnh chiều rộng tùy ý */
+    height: 5vh;
+    margin-left: 0.7%;
+}
+
+.btn-search {
+    background-color: #88c08a;
+    border: none;
+    color: white;
+    padding: 0 1%;
+    cursor: pointer;
+    border-radius: 0 25px 25px 0;
+    transition: background-color 0.3s;
+    height: 5vh;
+    font-size: 1rem;
+}
+
+.btn-search:hover {
+    background-color: #45a049;
+}
+
+.bx-search-alt-2 {
+    color: black;
+    font-weight: 300;
+}
+
+/*---------------------Input---------------------*/
+.input_contain {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(250, 250, 250);
+    padding: 0.5%;
+    margin: 0 0.7%;
+    border-radius: 10px;
+    border: solid 1px black;
+}
+
+.input_contain .input_contain_child {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.input-group {
+    margin-bottom: 3%;
+    display: flex;
+    align-items: center;
+}
+
+.input-label {
+    width: 8vw;
+    font-weight: bold;
+}
+
+.input-control {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.input-control:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+textarea.input-control {
+    resize: vertical;
+    max-height: 10%;
+}
+
+/*---------------------Manage Img---------------------*/
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.image-preview {
+    border: #060244 solid 3px;
+    border-radius: 3px;
+    max-height: 155px;
+}
+
+.image-preview #image_max {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+}
+
+.image-upload_sach {
+    margin: 2% 0 0 45.5%;
+}
+
+
+/*---------------------Table---------------------*/
+.table_contain {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(250, 250, 250);
+    padding: 0.5%;
+    margin: 0 0.7%;
+    border-radius: 10px;
+    border: solid 1px black;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .table_contain-child {
+    margin-bottom: 0.5%;
+  }

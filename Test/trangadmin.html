@@ -96,7 +96,7 @@
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img src="./imgProfile/download.jpg" alt="profile" id="profile-img">
+                        <img src="./imgProfile/hacker2.png" alt="profile" id="profile-img">
                     </div>
                     <div class="name-job">
                         <div class="profile-name no-select">KhangGan</div>
@@ -112,25 +112,87 @@
     <section class="homesection">
         <div class="homecontent">
 
-            <!-- Quản lý sách -->
+            <!-- Quản lý sách ------------------------------------------------------------------->
             <div class="quanlysach">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ SÁCH</h1>
                     </div>
-                    <div class="input_contain">
-
+                </div>
+                <div class="button_contain">
+                    <button class="btn_action btn-add btn-add-sach">Thêm</button>
+                    <button class="btn_action btn-edit btn-delete-sach">Sửa</button>
+                    <button class="btn_action btn-delete btn-edit-sach">Xóa</button>
+                    <button class="btn_action btn-save btn-save-sach" disabled>Lưu</button>
+                    <button class="btn_action btn-cancel btn-cancel-sach" disabled>Hủy</button>
+                    <button class="btn_action btn-reset btn-reset-sach" disabled>Làm mới</button>
+                    <input type="text" class="search-input search-input-sach" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-sach ">
+                        <i class='bx bx-search-alt-2'></i>
+                    </button>
+                </div>
+                <div class="input_contain">
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Tên sách:</label>
+                            <input type="text" class="input-control" placeholder="Nhập tên sách">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Thể loại:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn thể loại</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Tóm tắt:</label>
+                            <textarea class="input-control" id="textarea" rows="3" placeholder="Nhập tóm tắt"></textarea>
+                        </div>
                     </div>
-                    <div class="button_contain">
-
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Nhà xuất bản:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn nhà xuất bản</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Tác giả:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn tác giả</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Phí mượn:</label>
+                            <input type="text" class="input-control" placeholder="Nhập phí mượn">
+                        </div>
                     </div>
-                    <div class="table_contain">
-
+                    <div class="image-container">
+                        <div class="image-preview image-sach"><img id="image_max" src="./imgProfile/noimages.png" alt=""></div>
+                            <input type="file" id="image-upload" class="image-upload_sach" accept="image/*">
                     </div>
                 </div>
+                <div class="button_contain_manage">
+                    <button class="btn_action btn-manage btn-theloai">Thể loại</button>
+                    <button class="btn_action btn-manage btn-nxb">Nhà xuất bản</button>
+                    <button class="btn_action btn-manage btn-tacgia">Tác giả</button>
+                </div>
+                <div class="table_contain">
+                    <div class="table_sach table_contain-child">
+
+                    </div>
+                    <div class="table_sapxep-sach table_contain-child">
+                        
+                    </div>
+                </div>
+                <div style="height: 1vh;"></div>
+                <!-- Form quản lý -->
             </div>
 
-            <!-- Quản lý nhân viên -->
+
+            <!-- Quản lý nhân viên ------------------------------------------------------------------->
             <div class="quanlynhanvien">
                 <div class="admin_title_content">
                     <div class="admin_title">
@@ -148,14 +210,12 @@
                 </div>
             </div>
 
-            <!-- Quản lý độc giả -->
+
+            <!-- Quản lý độc giả ------------------------------------------------------------------->
             <div class="quanlydocgia">
                 <div class="admin_title_content">
                     <div class="admin_title">
                         <h1>QUẢN LÝ ĐỘC GIẢ</h1>
-                    </div>
-                    <div class="input_contain">
-
                     </div>
                     <div class="button_contain">
 
@@ -166,7 +226,8 @@
                 </div>
             </div>
 
-            <!-- Quản lý mượn sách -->
+
+            <!-- Quản lý mượn sách ------------------------------------------------------------------->
             <div class="quanlymuonsach">
                 <div class="admin_title_content">
                     <div class="admin_title">
@@ -184,7 +245,8 @@
                 </div>
             </div>
 
-            <!-- Quản lý trả sách -->
+
+            <!-- Quản lý trả sách ------------------------------------------------------------------->
             <div class="quanlytrasach">
                 <div class="admin_title_content">
                     <div class="admin_title">
@@ -202,7 +264,8 @@
                 </div>
             </div>
 
-            <!-- Quản lý phiếu nhập -->
+
+            <!-- Quản lý phiếu nhập ------------------------------------------------------------------->
             <div class="quanlyphieunhap">
                 <div class="admin_title_content">
                     <div class="admin_title">
@@ -220,7 +283,8 @@
                 </div>
             </div>
 
-            <!-- Quản lý tài khoản -->
+
+            <!-- Quản lý tài khoản ------------------------------------------------------------------->
             <div class="quanlytaikhoan">
                 <div class="admin_title_content">
                     <div class="admin_title">
@@ -246,7 +310,8 @@
                 </div>
             </div>
 
-            <!-- Thống kê -->
+
+            <!-- Thống kê ------------------------------------------------------------------->
             <div class="thongke">
                 <div class="admin_title_content">
                     <div class="admin_title">
@@ -264,7 +329,8 @@
                 </div>
             </div>
 
-            <!-- Thông tin cá nhân -->
+
+            <!-- Thông tin cá nhân ------------------------------------------------------------------->
             <div class="thongtincanhan">
                 <div class="admin_title_content">
                     <div class="admin_title">

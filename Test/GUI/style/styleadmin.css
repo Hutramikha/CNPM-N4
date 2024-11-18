@@ -353,12 +353,12 @@
 
 
 /*Vô hiệu nút*/
-.btn-save:disabled , .btn-cancel:disabled , .btn-add:disabled , .btn-delete:disabled , .btn-edit:disabled{
+.btn-save:disabled , .btn-cancel:disabled , .btn-add:disabled , .btn-delete:disabled , .btn-edit:disabled, .btn-start-ct-pn:disabled{
     background-color: #ccc; /* Màu xám khi vô hiệu hóa */
     cursor: not-allowed; /* Hiển thị con trỏ không cho phép */
 }
 
-.btn-save:disabled:hover , .btn-cancel:disabled:hover , .btn-add:disabled:hover , .btn-delete:disabled:hover , .btn-edit:disabled:hover{
+.btn-save:disabled:hover , .btn-cancel:disabled:hover , .btn-add:disabled:hover , .btn-delete:disabled:hover , .btn-edit:disabled:hover, .btn-start-ct-pn:disabled:hover{
     background-color: #ccc; /* Ngăn chặn hiệu ứng hover khi vô hiệu hóa */
 }
 
@@ -461,7 +461,7 @@ textarea.input-control {
     object-fit: cover;
 }
 
-.image-upload_sach {
+#image-upload {
     margin: 2% 0 0 45.5%;
 }
 

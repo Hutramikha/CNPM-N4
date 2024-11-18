@@ -126,7 +126,7 @@
                     <button class="btn_action btn-delete btn-delete-sach">Xóa</button>
                     <button class="btn_action btn-save btn-save-sach" disabled>Lưu</button>
                     <button class="btn_action btn-cancel btn-cancel-sach" disabled>Hủy</button>
-                    <button class="btn_action btn-reset btn-reset-sach" disabled>Làm mới</button>
+                    <button class="btn_action btn-reset btn-reset-sach">Làm mới</button>
                     <input type="text" class="search-input search-input-sach" placeholder="Tìm kiếm...">
                     <button class="btn-search btn-search-sach ">
                         <i class='bx bx-search-alt-2'></i>
@@ -169,6 +169,10 @@
                             <label class="input-label">Phí mượn:</label>
                             <input type="text" class="input-control" placeholder="Nhập phí mượn">
                         </div>
+                        <div class="input-group">
+                            <label class="input-label">Số lượng:</label>
+                            <input type="text" class="input-control" placeholder="Số lượng">
+                        </div>
                     </div>
                     <div class="image-container">
                         <div class="image-preview image-sach"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
@@ -199,16 +203,62 @@
                     <div class="admin_title">
                         <h1>QUẢN LÝ NHÂN VIÊN</h1>
                     </div>
-                    <div class="input_contain">
-
+                </div>
+                <div class="button_contain">
+                    <button class="btn_action btn-add btn-add-nv">Thêm</button>
+                    <button class="btn_action btn-edit btn-edit-nv">Sửa</button>
+                    <button class="btn_action btn-delete btn-delete-nv">Xóa</button>
+                    <button class="btn_action btn-save btn-save-nv" disabled>Lưu</button>
+                    <button class="btn_action btn-cancel btn-cancel-nv" disabled>Hủy</button>
+                    <button class="btn_action btn-reset btn-reset-nv">Làm mới</button>
+                    <input type="text" class="search-input search-input-nv" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-nv ">
+                        <i class='bx bx-search-alt-2'></i>
+                    </button>
+                </div>
+                <div class="input_contain">
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Tên nhân viên:</label>
+                            <input type="text" class="input-control" placeholder="Nhập tên nhân viên">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Giới tính:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn giới tính</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Ngày sinh</label>
+                            <input type="text" class="input-control" placeholder="Nhập ngày sinh">
+                        </div>
                     </div>
-                    <div class="button_contain">
-
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Địa chỉ email:</label>
+                            <input type="text" class="input-control" placeholder="Nhập email">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Số điện thoại:</label>
+                            <input type="text" class="input-control" placeholder="Nhập số điện thoại">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Địa chỉ:</label>
+                            <input type="text" class="input-control" placeholder="Nhập địa chỉ">
+                        </div>
                     </div>
-                    <div class="table_contain">
-
+                    <div class="image-container">
+                        <div class="image-preview image-nv"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
+                            <input type="file" id="image-upload" class="image-upload_nv" accept="image/*">
                     </div>
                 </div>
+                <div class="button_contain_manage" style="height: 0.5vh;">
+                </div>
+                <div class="table_contain">
+                    
+                </div>
+                <div style="height: 1vh;"></div>
             </div>
 
 
@@ -218,13 +268,71 @@
                     <div class="admin_title">
                         <h1>QUẢN LÝ ĐỘC GIẢ</h1>
                     </div>
-                    <div class="button_contain">
-
+                </div>
+                <div class="button_contain">
+                    <!-- <button class="btn_action btn-add btn-add-dg">Thêm</button> -->
+                    <button class="btn_action btn-edit btn-edit-dg">Sửa</button>
+                    <button class="btn_action btn-delete btn-delete-dg">Xóa</button>
+                    <button class="btn_action btn-save btn-save-dg" disabled>Lưu</button>
+                    <button class="btn_action btn-cancel btn-cancel-dg" disabled>Hủy</button>
+                    <button class="btn_action btn-reset btn-reset-dg">Làm mới</button>
+                    <input type="text" class="search-input search-input-dg" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-dg ">
+                        <i class='bx bx-search-alt-2'></i>
+                    </button>
+                </div>
+                <div class="input_contain">
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Tên độc giả:</label>
+                            <input type="text" class="input-control" placeholder="Họ và tên">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Giới tính:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn giới tính</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Loại độc giả:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn loại độc giả</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Ngày sinh:</label>
+                            <input type="text" class="input-control" placeholder="Ngày sinh">
+                        </div>
                     </div>
-                    <div class="table_contain">
-
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Số điện thoại:</label>
+                            <input type="text" class="input-control" placeholder="Số điện thoại">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Địa chỉ email:</label>
+                            <input type="text" class="input-control" placeholder="Email">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Địa chỉ:</label>
+                            <input type="text" class="input-control" placeholder="Địa chỉ">
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <div class="image-preview image-nv"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
+                            <input type="file" id="image-upload" class="image-upload_dg" accept="image/*">
                     </div>
                 </div>
+                <div class="button_contain_manage">
+                    <button class="btn_action btn-manage btn-loaidg">Loại độc giả</button>
+                </div>
+                <div class="table_contain">
+                    
+                </div>
+                <div style="height: 1vh;"></div>
+                <!-- Form quản lý -->
             </div>
 
 
@@ -272,16 +380,65 @@
                     <div class="admin_title">
                         <h1>QUẢN LÝ PHIẾU NHẬP</h1>
                     </div>
-                    <div class="input_contain">
-
+                </div>
+                <div class="button_contain">
+                    <button class="btn_action btn-manage btn-start-ct-pn">Nhập sản phẩm</button>
+                    <button class="btn_action btn-save btn-add-ct-pn" disabled>Thêm</button>
+                    <button class="btn_action btn-cancel btn-cancel-ct-pn" disabled>Hủy</button>
+                    <button class="btn_action btn-reset btn-reset-pn">Làm mới</button>
+                    <input type="text" class="search-input search-input-pn" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-pn ">
+                        <i class='bx bx-search-alt-2'></i>
+                    </button>
+                </div>
+                <div class="input_contain" style="margin-bottom: 0.3%;">
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Tên sách:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="">Chọn sách</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Số lượng:</label>
+                            <input type="text" class="input-control" placeholder="Số lượng nhập">
+                        </div>
                     </div>
-                    <div class="button_contain">
-
-                    </div>
-                    <div class="table_contain">
-
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Giá nhập:</label>
+                            <input type="text" class="input-control" placeholder="Giá nhập">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Thành tiền:</label>
+                            <input type="text" class="input-control" placeholder="Thành tiền">
+                        </div>
                     </div>
                 </div>
+                <div class="table_contain">
+                    
+                </div>
+                <div class="button_contain_manage" style="padding: 0.1% 0;">
+                    <button class="btn_action btn-manage btn-ncc">Nhà cung cấp</button>
+                    <button class="btn_action btn-add btn-add-pn">Tạo phiếu nhập</button>
+                    <div style="width: 0.5vw;"></div>
+                    <div>
+                        <label class="input-label">Nhà cung cấp:</label>
+                        <select class="input-control" id="publisher">
+                            <option value="">Chọn nhà cung cấp</option>
+                            <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="table_contain">
+                    
+                </div>
+                <div class="ct_phieunhap">
+
+                </div>
+                <div style="height: 1vh;"></div>
+                <!-- Form quản lý -->
             </div>
 
 
@@ -352,6 +509,9 @@
 
     <script src="../Controller/jsadmin.js"></script>
     <script src="../Controller/ql_sach.js"></script>
+    <script src="../Controller/ql_nv.js"></script>
+    <script src="../Controller/ql_dg.js"></script>
+    <script src="../Controller/ql_phieunhap.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="styleadmin.css">
+    <link rel="stylesheet" href="./style/styleadmin.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -96,7 +96,7 @@
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img src="./imgProfile/hacker2.png" alt="profile" id="profile-img">
+                        <img src="../imgProfile/hacker2.png" alt="profile" id="profile-img">
                     </div>
                     <div class="name-job">
                         <div class="profile-name no-select">KhangGan</div>
@@ -107,6 +107,7 @@
             </li>
         </ul>
     </div>
+
 
 
     <section class="homesection">
@@ -121,8 +122,8 @@
                 </div>
                 <div class="button_contain">
                     <button class="btn_action btn-add btn-add-sach">Thêm</button>
-                    <button class="btn_action btn-edit btn-delete-sach">Sửa</button>
-                    <button class="btn_action btn-delete btn-edit-sach">Xóa</button>
+                    <button class="btn_action btn-edit btn-edit-sach">Sửa</button>
+                    <button class="btn_action btn-delete btn-delete-sach">Xóa</button>
                     <button class="btn_action btn-save btn-save-sach" disabled>Lưu</button>
                     <button class="btn_action btn-cancel btn-cancel-sach" disabled>Hủy</button>
                     <button class="btn_action btn-reset btn-reset-sach" disabled>Làm mới</button>
@@ -170,7 +171,7 @@
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview image-sach"><img id="image_max" src="./imgProfile/noimages.png" alt=""></div>
+                        <div class="image-preview image-sach"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
                             <input type="file" id="image-upload" class="image-upload_sach" accept="image/*">
                     </div>
                 </div>
@@ -349,7 +350,8 @@
         </div>
     </section>
 
-    <script src="./jsadmin.js"></script>
+    <script src="../Controller/jsadmin.js"></script>
+    <script src="../Controller/ql_sach.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-require '../../config/db.php';
+require '../database/connect.php';
 
 if (isset($_POST['usernamekk'])) {
     $username = $_POST['usernamekk'];
@@ -8,11 +8,11 @@ if (isset($_POST['usernamekk'])) {
 $ttkhRe = 'noo';
 $recoverRe = 'noo';
 
-$khachhangSql = "SELECT tttk FROM khachhang WHERE matk = '$username'";
+$khachhangSql = "SELECT trangthai FROM taikhoan WHERE tendangnhap = '$username'";
 $khachhangResult = mysqli_query($connect, $khachhangSql);
 
-$accountSql = "SELECT recovery FROM account WHERE username = '$username'";
-$accountResult =  mysqli_query($connect, $accountSql);
+// $accountSql = "SELECT recovery FROM account WHERE username = '$username'";
+// $accountResult =  mysqli_query($connect, $accountSql);
 
     if (mysqli_num_rows($khachhangResult) > 0) {
         $khachhangRow = mysqli_fetch_assoc($khachhangResult);
@@ -25,20 +25,20 @@ $accountResult =  mysqli_query($connect, $accountSql);
         }
     }
 
-    if (mysqli_num_rows($accountResult) > 0) {
-        $accountRow = mysqli_fetch_assoc($accountResult);
-        $recover = $accountRow['recovery'];
+    // if (mysqli_num_rows($accountResult) > 0) {
+    //     $accountRow = mysqli_fetch_assoc($accountResult);
+    //     $recover = $accountRow['recovery'];
 
-        if($recover == 1) {
-            $recoverRe = 'fail';
-        } else {
-        $recoverRe = 'success';
-        }
-    }
+    //     if($recover == 1) {
+    //         $recoverRe = 'fail';
+    //     } else {
+    //     $recoverRe = 'success';
+    //     }
+    // }
 
 
     $reponse = array(
-        'recovery' => $recoverRe,
+        // 'recovery' => $recoverRe,
         'tttk' => $ttkhRe,
     );
 

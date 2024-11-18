@@ -1,4 +1,8 @@
 <?php
+require '../DAO/database/connect.php'; 
+
+session_start();
+
 if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
     $usernameluu = $_COOKIE['user'];
     $passwordluu = $_COOKIE['pass'];
@@ -8,37 +12,20 @@ if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
 }
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
+    <link rel="stylesheet" href="./style/signlog.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <link rel="stylesheet" href="./signlog.css">
+    <title>Document</title>
 </head>
 <body>
-    
+    <button id="btn_form_dn">nhan</button>
 
-                    <?php
-                     if (!isset($_SESSION['mySession'])) {
-                        echo '
-                        <button class="nguoidung" id="btn_form_dn">nhan</button>
-                       ';
-                    }
-                    ?>
-
-
-
-<div class="user__signup__login">
+    <div class="user__signup__login">
 
 <div class="form_cover">
 
@@ -116,16 +103,15 @@ if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
     </div>
 </div>
 </div>
+    
+<div id="signup_alert"></div>
 
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script type="text/javascript"
+        <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
-
-<script src="./signlog.js"></script>
-
-
+        <script src="../Controller/signlog6.js"></script>
+        
 </body>
 </html>

@@ -94,17 +94,17 @@
 }
 
 /* Ẩn scrollbar trong Chrome, Safari và Edge */
-.admin_sidebar::-webkit-scrollbar , .homesection::-webkit-scrollbar {
+.admin_sidebar::-webkit-scrollbar , .homesection::-webkit-scrollbar, .table_limit-3h::-webkit-scrollbar, .table_limit-4h::-webkit-scrollbar, .table_limit-5h::-webkit-scrollbar {
     display: none;
 }
 
 /* Ẩn scrollbar trong Firefox */
-.admin_sidebar , .homesection{
+.admin_sidebar , .homesection , .table_limit-3h, .table_limit-4h, .table_limit-5h{
     scrollbar-width: none; /* "auto" hoặc "thin" cũng có thể được sử dụng */
 }
 
 /* Ẩn scrollbar trong Internet Explorer */
-.admin_sidebar, .homesection{
+.admin_sidebar, .homesection, .table_limit-3h, .table_limit-4h, .table_limit-5h{
     -ms-overflow-style: none; /* Ẩn scrollbar */
 }
 
@@ -353,13 +353,13 @@
 
 
 /*Vô hiệu nút*/
-.btn-save:disabled , .btn-cancel:disabled , .btn-add:disabled , .btn-delete:disabled , .btn-edit:disabled, .btn-start-ct-pn:disabled{
+.btn-save:disabled , .btn-cancel:disabled , .btn-add:disabled , .btn-delete:disabled , .btn-edit:disabled, .btn-start-ct-btn-start-ct-phieu_nhap:disabled{
     background-color: #ccc; /* Màu xám khi vô hiệu hóa */
     cursor: not-allowed; /* Hiển thị con trỏ không cho phép */
 }
 
-.btn-save:disabled:hover , .btn-cancel:disabled:hover , .btn-add:disabled:hover , .btn-delete:disabled:hover , .btn-edit:disabled:hover, .btn-start-ct-pn:disabled:hover{
-    background-color: #ccc; /* Ngăn chặn hiệu ứng hover khi vô hiệu hóa */
+.btn-save:disabled:hover , .btn-cancel:disabled:hover , .btn-add:disabled:hover , .btn-delete:disabled:hover , .btn-edit:disabled:hover, .btn-start-ct-phieu_nhap:disabled:hover{
+    background-color: #ccc; 
 }
 
 /*Tìm kiếm*/
@@ -478,23 +478,63 @@ textarea.input-control {
     border: solid 1px black;
 }
 
-
-
 table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 8px;
+}
+th, td {
+    border: 2px solid #000000;
+    padding: 0.5%;
     text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
+    font-size: 0.9rem;
+}
 
-  .table_contain-child {
-    margin-bottom: 0.5%;
-  }
+td {
+    max-width: 120px; /* Giới hạn chiều rộng tối đa */
+    overflow: hidden; /* Ẩn nội dung thừa */
+    white-space: nowrap; /* Ngăn ngắt dòng */
+    text-overflow: ellipsis; /* Hiện dấu "..." nếu nội dung bị cắt */
+}
+
+.table_stt {
+    max-width: 5vw;
+    width: 3vw;
+    text-align: center;
+}
+
+.text_center {
+    text-align: center;
+}
+
+
+.table-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: lightgray;
+}
+
+.table_limit-3h {
+    max-height: 29.6vh;
+    overflow: auto;
+}
+
+.table_limit-4h {
+    max-height: 35.3vh;
+    overflow: auto;
+}
+
+.table_limit-5h {
+    max-height: 41.1vh;
+    overflow: auto;
+}
+
+
+/*---------------------Table Phiếu Nhập---------------------*/
+.table-ct-phieu_nhap-xem {
+    display: none;
+}
+
+.table-ct-phieu_nhap {
+    display: table;
+}

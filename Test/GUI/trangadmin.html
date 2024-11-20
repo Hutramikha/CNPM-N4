@@ -89,14 +89,14 @@
             </li>
             <li class="out-li">
                 <div class="btn-thongtincanhan btn">
-                    <i class='bx bx-info-circle' ></i>
+                    <i class='bx bx-info-circle'></i>
                     <span class="link_name no-select" id="text-visible"> Thông tin cá nhân</span>
                 </div>
             </li>
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img src="../imgProfile/hacker2.png" alt="profile" id="profile-img">
+                        <img src="../img/hacker2.png" alt="profile" id="profile-img">
                     </div>
                     <div class="name-job">
                         <div class="profile-name no-select">KhangGan</div>
@@ -141,27 +141,28 @@
                         <div class="input-group">
                             <label class="input-label">Thể loại:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn thể loại</option>
+                                <option value="0">Chọn thể loại</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Tóm tắt:</label>
-                            <textarea class="input-control" id="textarea" rows="3" placeholder="Nhập tóm tắt"></textarea>
+                            <textarea class="input-control" id="textarea" rows="3"
+                                placeholder="Nhập tóm tắt"></textarea>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Nhà xuất bản:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn nhà xuất bản</option>
+                                <option value="0">Chọn nhà xuất bản</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Tác giả:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn tác giả</option>
+                                <option value="0">Chọn tác giả</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
@@ -175,8 +176,9 @@
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview image-sach"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
-                            <input type="file" id="image-upload" class="image-upload_sach" accept="image/*">
+                        <div class="image-preview image-sach"><img id="image_max" src="../img/noimages.png" alt="">
+                        </div>
+                        <input type="file" id="image-upload" class="image-upload_sach" accept="image/*">
                     </div>
                 </div>
                 <div class="button_contain_manage">
@@ -185,11 +187,68 @@
                     <button class="btn_action btn-manage btn-tacgia">Tác giả</button>
                 </div>
                 <div class="table_contain">
-                    <div class="table_sach table_contain-child">
-
+                    <div class="table_limit-3h" style="margin-bottom: 2%; max-height: 28.2vh;">
+                        <table class="table-sach">
+                            <thead>
+                                <tr>
+                                    <th colspan="9" class="table-title">Danh Sách Sách</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã sách</th>
+                                    <th>Tên sách</th>
+                                    <th>Tóm tắt</th>
+                                    <th>Thể loại</th>
+                                    <th>Nhà xuất bản</th>
+                                    <th>Tác giả</th>
+                                    <th>Số lượng</th>
+                                    <th>Phí mượn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="table_sapxep-sach table_contain-child">
-                        
+                    <div style="display: flex; justify-content: center;">
+                        <div class="table_limit-3h" style="width: 35%; max-height: 25.4vh;">
+                            <table class="table-sach_sapxep">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" class="table-title">Sắp Xếp Sách</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="table_stt">STT</th>
+                                        <th>Mã sách</th>
+                                        <th class="text_center">Sắp xếp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Hàng sẽ được thêm ở đây -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table_limit-3h" style="width: 65%; margin-left: 1%; max-height: 24.5vh;"> 
+                            <table class="table-ct-sach">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" class="table-title">Chi Tiết Sách</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="table_stt">STT</th>
+                                        <th>Mã sách</th>
+                                        <th>Mã vạch</th>
+                                        <th>Tình trạng</th>
+                                        <th>Vị trí</th>
+                                        <th>Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Hàng sẽ được thêm ở đây -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div style="height: 1vh;"></div>
@@ -219,14 +278,16 @@
                 <div class="input_contain">
                     <div class="input_contain_child">
                         <div class="input-group">
-                            <label class="input-label">Tên nhân viên:</label>
+                            <label class="input-label">Họ và tên:</label>
                             <input type="text" class="input-control" placeholder="Nhập tên nhân viên">
                         </div>
                         <div class="input-group">
                             <label class="input-label">Giới tính:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn giới tính</option>
-                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                                <option value="0">Chọn giới tính</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
                             </select>
                         </div>
                         <div class="input-group">
@@ -249,14 +310,55 @@
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview image-nv"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
-                            <input type="file" id="image-upload" class="image-upload_nv" accept="image/*">
+                        <div class="image-preview image-nv"><img id="image_max" src="../img/noimages.png" alt="">
+                        </div>
+                        <input type="file" id="image-upload" class="image-upload_nv" accept="image/*">
                     </div>
                 </div>
                 <div class="button_contain_manage" style="height: 0.5vh;">
                 </div>
                 <div class="table_contain">
-                    
+                    <div class="table_limit-3h" style="margin-bottom: 2%;  max-height: 29.5vh">
+                        <table class="table-nhanvien">
+                            <thead>
+                                <tr>
+                                    <th colspan="9" class="table-title">Danh Sách Nhân Viên</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Mã tài khoản</th>
+                                    <th>Họ và tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table_limit-3h" style="display: flex; justify-content: center;">
+                        <table class="table-nhanvien_taikhoan" style="max-width: 50%;">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="table-title">Chưa Có Tài Khoản</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã nhân viên</th>
+                                    <th class="text_center">Cấp tài khoản</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div style="height: 1vh;"></div>
             </div>
@@ -284,20 +386,22 @@
                 <div class="input_contain">
                     <div class="input_contain_child">
                         <div class="input-group">
-                            <label class="input-label">Tên độc giả:</label>
-                            <input type="text" class="input-control" placeholder="Họ và tên">
+                            <label class="input-label">Họ và tên:</label>
+                            <input type="text" class="input-control" placeholder="Tên độc giả">
                         </div>
                         <div class="input-group">
                             <label class="input-label">Giới tính:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn giới tính</option>
-                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                                <option value="0">Chọn giới tính</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Loại độc giả:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn loại độc giả</option>
+                                <option value="0">Chọn loại độc giả</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
@@ -308,12 +412,12 @@
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
-                            <label class="input-label">Số điện thoại:</label>
-                            <input type="text" class="input-control" placeholder="Số điện thoại">
-                        </div>
-                        <div class="input-group">
                             <label class="input-label">Địa chỉ email:</label>
                             <input type="text" class="input-control" placeholder="Email">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Số điện thoại:</label>
+                            <input type="text" class="input-control" placeholder="Số điện thoại">
                         </div>
                         <div class="input-group">
                             <label class="input-label">Địa chỉ:</label>
@@ -321,15 +425,39 @@
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview image-nv"><img id="image_max" src="../imgProfile/noimages.png" alt=""></div>
-                            <input type="file" id="image-upload" class="image-upload_dg" accept="image/*">
+                        <div class="image-preview image-nv"><img id="image_max" src="../img/noimages.png" alt="">
+                        </div>
+                        <input type="file" id="image-upload" class="image-upload_dg" accept="image/*">
                     </div>
                 </div>
                 <div class="button_contain_manage">
                     <button class="btn_action btn-manage btn-loaidg">Loại độc giả</button>
                 </div>
                 <div class="table_contain">
-                    
+                    <div class="table_limit-5h">
+                        <table class="table-docgia">
+                            <thead>
+                                <tr>
+                                    <th colspan="10" class="table-title">Danh Sách Độc Giả</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã độc giả</th>
+                                    <th>Mã tài khoản</th>
+                                    <th>Họ và tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Loại độc giả</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div style="height: 1vh;"></div>
                 <!-- Form quản lý -->
@@ -342,16 +470,60 @@
                     <div class="admin_title">
                         <h1>QUẢN LÝ MƯỢN SÁCH</h1>
                     </div>
-                    <div class="button_contain">
-
+                </div>
+                <div class="button_contain">
+                    <button class="btn_action btn-add btn-add-phieu_muon">Tạo phiếu mượn</button>
+                    <button class="btn_action btn-cancel btn-cancel-phieu_muon" disabled>Hủy</button>
+                    <button class="btn_action btn-reset btn-reset-phieu_muon">Làm mới</button>
+                    <input type="text" class="search-input search-input-phieu_muon" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-phieu_muon ">
+                        <i class='bx bx-search-alt-2'></i>
+                    </button>
+                </div>
+                <div class="table_contain">
+                    <div class="table_limit-4h" style="margin-bottom: 2%;">
+                        <table class="table-phieu_muon">
+                            <thead>
+                                <tr>
+                                    <th colspan="8" class="table-title">Danh Sách Phiếu Mượn</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã phiếu</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Hạn trả</th>
+                                    <th>Mã độc giả</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Tổng phí mượn</th>
+                                    <th class="text_center">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="table_contain">
 
-                    </div>
-                    <div class="ct_muonsach">
-
+                    <div class="table_limit-4h">
+                        <table class="table-ct-phieu_muon">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="table-title">Chi Tiết Phiếu Mượn</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã phiếu</th>
+                                    <th>Mã vạch</th>
+                                    <th>Tình trạng mượn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <div style="height: 1vh;"></div>
             </div>
 
 
@@ -382,12 +554,12 @@
                     </div>
                 </div>
                 <div class="button_contain">
-                    <button class="btn_action btn-manage btn-start-ct-pn">Nhập sản phẩm</button>
-                    <button class="btn_action btn-save btn-add-ct-pn" disabled>Thêm</button>
-                    <button class="btn_action btn-cancel btn-cancel-ct-pn" disabled>Hủy</button>
-                    <button class="btn_action btn-reset btn-reset-pn">Làm mới</button>
-                    <input type="text" class="search-input search-input-pn" placeholder="Tìm kiếm...">
-                    <button class="btn-search btn-search-pn ">
+                    <button class="btn_action btn-add btn-start-ct-phieu_nhap">Nhập sản phẩm</button>
+                    <button class="btn_action btn-save btn-add-ct-phieu_nhap" disabled>Thêm</button>
+                    <button class="btn_action btn-cancel btn-cancel-ct-phieu_nhap" disabled>Hủy</button>
+                    <button class="btn_action btn-reset btn-reset-phieu_nhap">Làm mới</button>
+                    <input type="text" class="search-input search-input-phieu_nhap" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-phieu_nhap ">
                         <i class='bx bx-search-alt-2'></i>
                     </button>
                 </div>
@@ -396,7 +568,7 @@
                         <div class="input-group">
                             <label class="input-label">Tên sách:</label>
                             <select class="input-control" id="publisher">
-                                <option value="">Chọn sách</option>
+                                <option value="0">Chọn sách</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
@@ -417,7 +589,43 @@
                     </div>
                 </div>
                 <div class="table_contain">
-                    
+                    <div class="table_limit-3h" style="max-height: 29.5vh;">
+                        <table class="table-ct-phieu_nhap-xem">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" class="table-title">Chi Tiết Phiếu Nhập</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã phiếu nhập</th>
+                                    <th>Mã sách</th>
+                                    <th>Giá nhập</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <table class="table-ct-phieu_nhap">
+                            <thead>
+                                <tr>
+                                    <th colspan="5" class="table-title">Chi Tiết Phiếu Nhập</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã sách</th>
+                                    <th>Giá nhập</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="button_contain_manage" style="padding: 0.1% 0;">
                     <button class="btn_action btn-manage btn-ncc">Nhà cung cấp</button>
@@ -426,16 +634,32 @@
                     <div>
                         <label class="input-label">Nhà cung cấp:</label>
                         <select class="input-control" id="publisher">
-                            <option value="">Chọn nhà cung cấp</option>
+                            <option value="0">Chọn nhà cung cấp</option>
                             <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                         </select>
                     </div>
                 </div>
                 <div class="table_contain">
-                    
-                </div>
-                <div class="ct_phieunhap">
-
+                    <div class="table_limit-3h">
+                        <table class="table-phieu_nhap">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" class="table-title">Danh Sách Phiếu Nhập</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã phiếu nhập</th>
+                                    <th>Mã nhà cung cấp</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div style="height: 1vh;"></div>
                 <!-- Form quản lý -->
@@ -492,15 +716,61 @@
             <div class="thongtincanhan">
                 <div class="admin_title_content">
                     <div class="admin_title">
-                        <h1>THÔNG TIN CÁ NHÂN</h1>
-                    </div>
-                    <div class="input_contain">
-
-                    </div>
-                    <div class="button_contain">
-
+                        <h1>THÔNG TIN TÀI KHOẢN</h1>
                     </div>
                 </div>
+                <div class="button_contain">
+                    <button class="btn_action btn-edit btn-edit-info_admin">Sửa</button>
+                    <button class="btn_action btn-save btn-save-info_admin" disabled>Lưu</button>
+                    <button class="btn_action btn-cancel btn-cancel-info_admin" disabled>Hủy</button>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <div class="input_contain" style="width: 50%; flex-direction: column;">
+                        <div class="input_contain_child">
+                            <div class="input-group">
+                                <label class="input-label">Tên nhân viên:</label>
+                                <input type="text" class="input-control info_admin-ten" placeholder=""
+                                    style="width: 22vw;" disabled>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Giới tính:</label>
+                                <select class="input-control info_admin-gioitinh" id="publisher" disabled>
+                                    <option value="0">Chọn giới tính</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Ngày sinh:</label>
+                                <input type="text" class="input-control info_admin-ngaysinh" placeholder=""
+                                    style="width: 22vw;" disabled>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Email:</label>
+                                <input type="text" class="input-control info_admin-email" placeholder=""
+                                    style="width: 22vw;" disabled>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Số điện thoại:</label>
+                                <input type="text" class="input-control info_admin-sdt" placeholder=""
+                                    style="width: 22vw;" disabled>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Địa chỉ:</label>
+                                <input type="text" class="input-control info_admin-diachi" placeholder=""
+                                    style="width: 22vw;" disabled>
+                            </div>
+                        </div>
+                        <div class="image-container">
+                            <div class="image-preview image-nv"><img id="image_max" src="../img/noimages.png" alt="">
+                            </div>
+                            <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img"
+                                accept="image/*" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div style="height: 1vh;"></div>
             </div>
 
 
@@ -512,6 +782,7 @@
     <script src="../Controller/ql_nv.js"></script>
     <script src="../Controller/ql_dg.js"></script>
     <script src="../Controller/ql_phieunhap.js"></script>
+    <script src="../Controller/info_admin.js"></script>
 </body>
 
 </html>

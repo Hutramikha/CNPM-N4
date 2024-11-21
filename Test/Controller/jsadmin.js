@@ -210,9 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     tableRow.style.textAlign = "center";
                     tableRow.setAttribute('cat-data-id', row.matl); // Set row's data-id for later reference
                     tableRow.innerHTML = `
-                        <td style="">${row.matl}</td>
-                        <td style="">${row.tentl}</td>
-                        <td><button type="button" class="delete-cat-btn" cat-data-id="${row.matl}" style="background-color:red">Xóa</button></td>
+                        <td style="" class="text_center">${row.matl}</td>
+                        <td style="" class="text_center">${row.tentl}</td>
+                        <td><button type="button" class="delete-cat-btn text_center" cat-data-id="${row.matl}" style="background-color:red">Xóa</button></td>
                     `;
                     tableBody.appendChild(tableRow);
                 });
@@ -448,10 +448,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     tableRow.style.textAlign = "center";
                     tableRow.setAttribute('pen-data-id', row.maphat); // Set row's data-id for later reference
                     tableRow.innerHTML = `
-                        <td style="">${row.maphat}</td>
-                        <td style="">${row.lydophat}</td>
-                        <td style="">${row.phiphat}</td>
-                        <td><button type="button" class="delete-pen-btn" pen-data-id="${row.maphat}" style="background-color:red">Xóa</button></td>
+                        <td style="" class="text_center">${row.maphat}</td>
+                        <td style="" class="text_center">${row.lydophat}</td>
+                        <td style="" class="text_center">${row.phiphat}</td>
+                        <td><button type="button" class="delete-pen-btn text_center" pen-data-id="${row.maphat}" style="background-color:red">Xóa</button></td>
                     `;
                     tableBody.appendChild(tableRow);
                 });
@@ -703,9 +703,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     tableRow.style.textAlign = "center";
                     tableRow.setAttribute('stat-data-id', row.matinhtrang); // Set row's data-id for later reference
                     tableRow.innerHTML = `
-                        <td style="">${row.matinhtrang}</td>
-                        <td style="">${row.motatinhtrang}</td>
-                        <td><button type="button" class="delete-stat-btn" stat-data-id="${row.matinhtrang}" style="background-color:red">Xóa</button></td>
+                        <td style="" class="text_center">${row.matinhtrang}</td>
+                        <td style="" class="text_center">${row.motatinhtrang}</td>
+                        <td><button type="button" class="delete-stat-btn text_center" stat-data-id="${row.matinhtrang}" style="background-color:red">Xóa</button></td>
                     `;
                     tableBody.appendChild(tableRow);
                 });
@@ -943,10 +943,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     tableRow.style.textAlign = "center";
                     tableRow.setAttribute('rc-data-id', row.maloaidocgia); // Set row's data-id for later reference
                     tableRow.innerHTML = `
-                        <td style="">${row.maloaidocgia}</td>
-                        <td style="">${row.tenloaidocgia}</td>
-                        <td style="">${row.soluongsachtoida}</td>
-                        <td><button type="button" class="delete-rc-btn" rc-data-id="${row.maloaidocgia}" style="background-color:red">Xóa</button></td>
+                        <td style="" class="text_center">${row.maloaidocgia}</td>
+                        <td style="" class="text_center">${row.tenloaidocgia}</td>
+                        <td style="" class="text_center">${row.soluongsachtoida}</td>
+                        <td><button type="button" class="delete-rc-btn text_center" rc-data-id="${row.maloaidocgia}" style="background-color:red">Xóa</button></td>
                     `;
                     tableBody.appendChild(tableRow);
                 });
@@ -1197,9 +1197,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     tableRow.style.textAlign = "center";
                     tableRow.setAttribute('publish-data-id', row.manxb); // Set row's data-id for later reference
                     tableRow.innerHTML = `
-                        <td style="">${row.manxb}</td>
-                        <td style="">${row.tennxb}</td>
-                        <td><button type="button" class="delete-publish-btn" publish-data-id="${row.manxb}" style="background-color:red">Xóa</button></td>
+                        <td style="" class="text_center">${row.manxb}</td>
+                        <td style="" class="text_center">${row.tennxb}</td>
+                        <td><button type="button" class="delete-publish-btn text_center" publish-data-id="${row.manxb}" style="background-color:red">Xóa</button></td>
                     `;
                     tableBody.appendChild(tableRow);
                 });

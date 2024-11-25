@@ -244,62 +244,6 @@
                         </div>
                     </form>
                 </div>
-                <!-- Tác Giả -->
-                <div class="Author" style="width: 40%; height: 40%;justify-content: center;position: absolute;top: 30%;left: 30%;
-                        z-index:15;background-color: whitesmoke;border: solid black; display: none;
-                        justify-content:center;padding: 10px; border-radius: 15px">
-                    <form action="" class="AuthorForm" style="width: 100%;height: 100%">
-                        <div class="navigate-cat-form"
-                            style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
-                            <button type="button" class="addbtn-author"
-                                style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
-                            <div id="addauthor-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-                            background-color: rgba(0, 0, 0, 0.5); z-index: 20;transition: opacity 0.3s ease;"></div>
-                            
-                            <div class="addauthor-input"
-                                style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 25">
-                                <div class="warning"><span id="author-warning" style="font-size: 12px"></span></div>
-
-                                <label>Tên tác giả:</label>
-                                <input type="text" id="input-tentg" placeholder="Nhập Tên tác giả">
-                                <div>
-                                    <button type="button" class="addauthorsubmit"
-                                        style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
-                                    <button type="button" class="cancelauthorsubmit"
-                                        style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
-                                </div>
-                            </div>
-                            <button type="button" class="updatebtn-author" id="updateAuthor"
-                                style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
-                            <div class="search-author-div"
-                                style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px;display:flex; align-items: center; justify-content: center">
-                                <input class="search-author" type="text" placeholder="Tìm kiếm..."
-                                    style="max-width: 90%;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none" /><i
-                                    class="bx bx-search-alt-2"></i>
-                            </div>
-                            <button type="button" class="bx bx-refresh" id="refresh-author"
-                                style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
-                            <button type="button" class="btn-close-author-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
-                                background-color: red">X</button>
-                        </div>
-                        <div class="df-author"
-                            style="overflow-y: auto; max-height: 84%;border-radius:3px; border: 1px solid; border-left: 0;border-right: 0">
-                            <table id="author-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 20%" class="text_center">Mã tác giả</th>
-                                        <th class="text_center">Tên tác giả</th>
-                                        <th style="width: 20%" class="text_center">Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-body-author">
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-                <!-- ------------------------------------------------ -->
                 <div class="Status" style="width: 50%; height: 50%;justify-content: center;position: absolute;top: 25%;left: 25%;
                      z-index:15;background-color: whitesmoke;border: solid black; display: none;
                      justify-content:center; padding: 10px; border-radius: 15px">

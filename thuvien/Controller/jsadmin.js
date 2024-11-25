@@ -1702,3 +1702,240 @@ function cancelEdit() {
      fetchTableDataNcc(); // Lấy search input value rồi lấy data dựa trên input value đấy
  }
  });
+
+ //-----------------Chức năng Tác Giả
+const openAuthorForm = document.querySelector('.btn-tacgia');
+const closeauthorForm = document.querySelector('.btn-close-author-form');
+const updateauthor = document.querySelector('.updatebtn-author');
+const addauthor = document.querySelector('.addbtn-author');
+const closeauthor = document.querySelector('.cancelauthorsubmit');
+const addsubmitAuthor = document.querySelector('.addauthorsubmit');
+const searchinputAuthor = document.querySelector('.search-author');
+const refreshuuthor = document.getElementById('refresh-author');
+refreshuuthor.addEventListener('click', () => {
+    searchinputAuthor.value = "";
+    cancelAuthorEdit();
+});
+addauthor.addEventListener('click', () => addAuthor());
+closeauthor.addEventListener('click', () => closeAuthor());
+addsubmitAuthor.addEventListener('click', () => submitAuthor());
+updateauthor.addEventListener('click', () => authorEditTable());
+openAuthorForm.addEventListener("click", () => AuthorBTN());
+closeauthorForm.addEventListener("click", () => AuthorFormExit());
+var countswitchauthor = 0;
+// Mở Form Tác Giả
+function AuthorBTN() {
+    document.querySelector('.Author').style.display = "flex";
+    document.getElementById('book-overlay').style.display = "block";
+}
+
+// Thoát Form Tác Giả
+function AuthorFormExit() {
+    searchinputAuthor.value = "";
+    cancelAuthorEdit();
+    document.querySelector('.Author').style.display = "none";
+    document.getElementById('book-overlay').style.display = "none";
+}
+
+// Tải Dữ Liệu Tác Giả
+function fetchTableDataAuthor() {
+    countswitchauthor = 0;
+    updateauthor.style.backgroundColor = 'orange';
+    updateauthor.innerText = 'Sửa';
+
+    // Nếu thanh tìm kiếm có giá trị thì thêm tham số tìm kiếm vào URL
+    let url = '../DAO/fetchdataAuthor.php';
+    if (searchinputAuthor.value.trim()) {
+        url += `?search=${encodeURIComponent(searchinputAuthor.value.trim())}`;
+    }
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Lỗi kết nối mạng');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Debugging
+            const tableBody = document.querySelector('.table-body-author');
+            tableBody.innerHTML = ""; // Xóa các dòng bảng hiện tại
+
+            data.forEach(row => {
+                const tableRow = document.createElement('tr');
+                tableRow.style.textAlign = "center";
+                tableRow.setAttribute('author-data-id', row.matg); // Gán data-id cho dòng để tham chiếu sau
+                tableRow.innerHTML = `
+                    <td style="" class="text_center">${row.matg}</td>
+                    <td style="" class="text_center">${row.tentg}</td>
+                    <td><button type="button" class="delete-author-btn text_center" author-data-id="${row.matg}" style="background-color:red">Xóa</button></td>
+                `;
+                tableBody.appendChild(tableRow);
+            });
+
+            // Thêm sự kiện cho nút xóa ngay sau khi dữ liệu được thêm vào
+            document.querySelectorAll('.delete-author-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const authorId = this.getAttribute('author-data-id');
+                    deleteAuthor(authorId);
+                });
+            });
+        })
+        .catch(error => console.error('Lỗi khi tải dữ liệu:', error));
+}
+window.onload = fetchTableDataAuthor();
+
+// Xóa tác giả
+function deleteAuthor(author_id) {
+    console.log('Đang cố gắng xóa tác giả với ID:', author_id);
+    fetch('../DAO/deleteAuthor.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `matg=${author_id}`
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Phản hồi xóa:', data); // In ra phản hồi (kiểm tra trong console)
+            if (data.success) {
+                // Tìm và xóa dòng mà không cần tải lại trang (sửa trực tiếp trên HTML)
+                const rowToDelete = document.querySelector(`tr[author-data-id="${author_id}"]`);
+                if (rowToDelete) {
+                    rowToDelete.remove();
+                }
+            } else {
+                alert("Lỗi khi xóa tác giả: " + (data.error || "Lỗi không xác định"));
+            }
+        })
+        .catch(error => console.error('Lỗi khi xóa tác giả:', error));
+}
+
+// Thêm Tác giả
+function addAuthor() {
+    document.querySelector('.addauthor-input').style.display = 'flex';
+    document.getElementById('addauthor-overlay').style.display = 'block';
+}
+function closeAuthor() {
+    document.querySelector('.addauthor-input').style.display = 'none';
+    document.getElementById('addauthor-overlay').style.display = 'none';
+    document.getElementById('author-warning').style.color = "none";
+    document.getElementById('author-warning').innerHTML = "";
+}
+function submitAuthor() {
+    // Lấy giá trị từ input
+    var authorName = document.getElementById('input-tentg').value;
+
+    // Kiểm tra tính hợp lệ của input
+    if (authorName) {
+        document.getElementById('author-warning').style.color = "none";
+        document.getElementById('author-warning').innerHTML = "";
+        // Sử dụng AJAX để gửi dữ liệu đến server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "../DAO/addAuthor.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+
+                if (response.success) {
+                    alert(response.message); // "Tác giả được thêm thành công!"
+                    // Xóa các giá trị trong input sau khi thêm
+                    document.getElementById('input-tentg').value = '';
+                    fetchTableDataAuthor();
+                } else {
+                    alert("Đã xảy ra lỗi: " + (response.error || "Lỗi không xác định"));
+                }
+            }
+        };
+
+        xhr.send("&authorName=" + encodeURIComponent(authorName));
+    } else {
+        document.getElementById('author-warning').style.color = "red";
+        document.getElementById('author-warning').innerHTML = "Hãy điền đầy đủ thông tin";
+    }
+}
+
+// Cập nhật tác giả
+function authorEditTable() {
+    console.log(countswitchauthor);
+    if (countswitchauthor === 1) {
+        cancelAuthorEdit();
+        countswitchauthor = 0;
+    } else {
+        document.querySelectorAll('.table-body-author tr').forEach(row => {
+            updateauthor.style.backgroundColor = 'Red';
+            updateauthor.innerText = 'Hủy';
+
+            // Bật chế độ chỉnh sửa cho 'tentl'
+            const nameCell = row.querySelector('td:nth-child(2)'); // Ô tên tác giả
+            nameCell.contentEditable = 'true';
+
+            // Tạo nút lưu
+            const saveButton = document.createElement('button');
+            saveButton.type = "button";
+            saveButton.textContent = 'Lưu'; // Lưu
+            saveButton.classList.add('author-save-btn');
+
+            // Thêm vào mỗi dòng
+            const actionCell = row.querySelector('td:nth-child(3)'); // Ô hành động
+            actionCell.appendChild(saveButton);
+
+            // Thêm sự kiện cho nút Lưu
+            saveButton.addEventListener('click', () => saveAuthorEdit(row));
+            countswitchauthor = 1;
+        });
+    }
+}
+
+// Hàm lưu khi chỉnh sửa
+function saveAuthorEdit(row) {
+    const nameCell = row.querySelector('td:nth-child(2)');
+    const authorId = row.getAttribute('author-data-id');
+    const updatedValue = nameCell.textContent;
+
+    updateAuthorData(authorId, 'tentg', updatedValue);
+}
+
+function cancelAuthorEdit() {
+    const table = document.querySelector('.df-author');
+    const rows = table.querySelectorAll('.table-body-author tr'); // Chỉ chọn các dòng trong bảng
+    rows.forEach(row => {
+        const nameCell = row.querySelector('td:nth-child(2)');
+        nameCell.contentEditable = 'false';
+    });
+    fetchTableDataAuthor();
+    removeAuthorEditButtons();
+}
+
+// Hàm xóa các nút lưu và hỗ trợ chuyển đổi chế độ chỉnh sửa
+function removeAuthorEditButtons() {
+    document.querySelectorAll('.author-save-btn').forEach(button => button.remove());
+    updateauthor.style.backgroundColor = 'orange';
+    updateauthor.innerText = 'Sửa';
+}
+
+// Hàm xử lý cập nhật dữ liệu
+function updateAuthorData(id, column, value) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "../DAO/updateAuthor.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function () {
+        if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+            alert("Cập nhật thành công!");
+        }
+    };
+    xhr.send("id=" + encodeURIComponent(id) + "&column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
+}
+
+// Thay vì tìm hiểu nguyên do vì sao mỗi input khi nhấn enter lại gây lỗi, thì thêm dòng này để khắc phục lỗi 
+document.getElementById('input-tentg').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+searchinputAuthor.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        fetchTableDataAuthor(); // Lấy giá trị từ ô tìm kiếm và lấy dữ liệu dựa trên giá trị đó
+    }
+});

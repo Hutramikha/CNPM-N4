@@ -1374,331 +1374,240 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
- //Chức năng nhà cung cấp
- const openProForm = document.querySelector('.btn_action.btn-manage.btn-ncc');
- const closeProForm = document.querySelector('.btn-close-pro-form');
- const updatepro = document.querySelector('.updatebtn-pro');
- const addprovider = document.querySelector('.addbtn-pro');
- const closeprovider = document.querySelector('.cancelprosubmit');
- const addSubmit = document.querySelector('.addprosubmit');
- const searchinput = document.querySelector('.search-pro');
- const refresh = document.getElementById('refresh');
- refresh.addEventListener('click',()=>{
-     searchinput.value = "";
-     cancelEdit();
- });
- addprovider.addEventListener('click', () => addProvider());
- closeprovider.addEventListener('click', () => closeProvider());
- addSubmit.addEventListener('click', () => submitProvider());
- updatepro.addEventListener('click', () => proEditTable());
- openProForm.addEventListener("click", () => ProviderBTN());
- closeProForm.addEventListener("click", () => ProviderFormExit());
- var countswitch = 0;
-// Mở Form Pro
- function ProviderBTN() {
-     document.querySelector('.Provider').style.display = "flex";
-     document.getElementById('pro-overlay').style.display = "block";
 
- }
-// Thoát Form Pro
- function ProviderFormExit() {
-     searchinput.value = "";
-     cancelEdit();
-     document.querySelector('.Provider').style.display = "none";
-     document.getElementById('pro-overlay').style.display = "none";
- }
+//-----------------Chức năng Tác Giả
+const openAuthorForm = document.querySelector('.btn-tacgia');
+const closeauthorForm = document.querySelector('.btn-close-author-form');
+const updateauthor = document.querySelector('.updatebtn-author');
+const addauthor = document.querySelector('.addbtn-author');
+const closeauthor = document.querySelector('.cancelauthorsubmit');
+const addsubmitAuthor = document.querySelector('.addauthorsubmit');
+const searchinputAuthor = document.querySelector('.search-author');
+const refreshuuthor = document.getElementById('refresh-author');
+refreshuuthor.addEventListener('click', () => {
+    searchinputAuthor.value = "";
+    cancelAuthorEdit();
+});
+addauthor.addEventListener('click', () => addAuthor());
+closeauthor.addEventListener('click', () => closeAuthor());
+addsubmitAuthor.addEventListener('click', () => submitAuthor());
+updateauthor.addEventListener('click', () => authorEditTable());
+openAuthorForm.addEventListener("click", () => AuthorBTN());
+closeauthorForm.addEventListener("click", () => AuthorFormExit());
+var countswitchauthor = 0;
+// Mở Form Tác Giả
+function AuthorBTN() {
+    document.querySelector('.Author').style.display = "flex";
+    document.getElementById('book-overlay').style.display = "block";
+}
 
- // Load DataFrame Nhà cung cấp
- function fetchTableDataNcc() {
-    countswitch = 0;
-    updatepro.style.backgroundColor = 'orange';
-    updatepro.innerText = 'Sửa';
+// Thoát Form Tác Giả
+function AuthorFormExit() {
+    searchinputAuthor.value = "";
+    cancelAuthorEdit();
+    document.querySelector('.Author').style.display = "none";
+    document.getElementById('book-overlay').style.display = "none";
+}
 
-    // Nếu search bar có giá trị fetch.php => fetch?search=$(giá trị mã hóa)
-    let url = '../DAO/fetchdataProvider.php';  // Gửi type là 'provider' để lấy nhà cung cấp
-    if (searchinput.value.trim()) {
-        url += `&search=${encodeURIComponent(searchinput.value.trim())}`;
+// Tải Dữ Liệu Tác Giả
+function fetchTableDataAuthor() {
+    countswitchauthor = 0;
+    updateauthor.style.backgroundColor = 'orange';
+    updateauthor.innerText = 'Sửa';
+
+    // Nếu thanh tìm kiếm có giá trị thì thêm tham số tìm kiếm vào URL
+    let url = '../DAO/fetchdataAuthor.php';
+    if (searchinputAuthor.value.trim()) {
+        url += `?search=${encodeURIComponent(searchinputAuthor.value.trim())}`;
     }
 
     fetch(url)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Lỗi kết nối mạng');
             }
             return response.json();
         })
         .then(data => {
             console.log(data); // Debugging
-            const tableBody = document.querySelector('.table-body');
-            tableBody.innerHTML = ""; // Clear existing table rows
+            const tableBody = document.querySelector('.table-body-author');
+            tableBody.innerHTML = ""; // Xóa các dòng bảng hiện tại
 
             data.forEach(row => {
                 const tableRow = document.createElement('tr');
                 tableRow.style.textAlign = "center";
-                tableRow.setAttribute('data-id', row.mancc); // Set row's data-id for later reference
+                tableRow.setAttribute('author-data-id', row.matg); // Gán data-id cho dòng để tham chiếu sau
                 tableRow.innerHTML = `
-                    <td>${row.mancc}</td>
-                    <td>${row.ten}</td>
-                    <td>${row.sdt}</td>
-                    <td>${row.diachi}</td>
-                    <td><button class="delete-pro-btn" data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
+                    <td style="" class="text_center">${row.matg}</td>
+                    <td style="" class="text_center">${row.tentg}</td>
+                    <td><button type="button" class="delete-author-btn text_center" author-data-id="${row.matg}" style="background-color:red">Xóa</button></td>
                 `;
                 tableBody.appendChild(tableRow);
             });
 
-            // Add event listeners cho nút xóa ngay sau khi data được truyền vào
-            document.querySelectorAll('.delete-pro-btn').forEach(button => {
+            // Thêm sự kiện cho nút xóa ngay sau khi dữ liệu được thêm vào
+            document.querySelectorAll('.delete-author-btn').forEach(button => {
                 button.addEventListener('click', function () {
-                    const providerId = this.getAttribute('data-id');
-                    deleteProvider(providerId);  // Thay đổi hàm deleteCategory thành deleteProvider
+                    const authorId = this.getAttribute('author-data-id');
+                    deleteAuthor(authorId);
                 });
             });
         })
-        .catch(/*error => console.error(error)*/);
+        .catch(error => console.error('Lỗi khi tải dữ liệu:', error));
 }
+window.onload = fetchTableDataAuthor();
 
- window.onload = fetchTableDataNcc();
-
- // Xóa thể loại
- function deleteProvider(category_id) {
-     console.log('Attempting to delete provider with ID:', provider_id);
-     fetch('../DAO/deleteProvider.php', {
-         method: 'POST',
-         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-         body: `matl=${category_id}`
-     })
-             .then(response => response.json())
-             .then(data => {
-                 console.log('Delete response:', data); // Log response (check trong console)
-                 if (data.success) {
-                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                     const rowToDelete = document.querySelector(`tr[data-id="${provider_id}"]`);
-                     if (rowToDelete) {
-                         rowToDelete.remove();
-                     }
-                 } else {
-                     alert("Error deleting provider: " + (data.error || "Unknown error"));
-                 }
-             })
-             .catch(error => console.error('Error deleting provider:', error));
- }
-
-
-// Thêm nhà cung cấp
-function addProvider() {
-    // Hiển thị form thêm nhà cung cấp
-    document.querySelector('.addpro-input').style.display = 'flex';
-    document.getElementById('addpro-overlay').style.display = 'block';
-}
-
-function closeProvider() {
-    // Ẩn form và reset cảnh báo
-    document.querySelector('.addpro-input').style.display = 'none';
-    document.getElementById('addpro-overlay').style.display = 'none';
-    document.getElementById('pro-warning').style.color = "none";
-    document.getElementById('pro-warning').innerHTML = "";
-}
-
-// Hàm kiểm tra độ dài và định dạng của số điện thoại
-function isValidPhoneNumber(phone) {
-    return /^\d{10}$/.test(phone) && phone.startsWith("0");
-}
-
-function submitProvider() {
-    // Lấy giá trị từ các input
-    const providerName = document.getElementById('input-tenncc').value.trim();
-    const providerPhone = document.getElementById('input-sdtncc').value.trim();
-    const providerAddress = document.getElementById('input-dcncc').value.trim();
-
-    // Kiểm tra dữ liệu đầu vào
-    if (!providerName || !providerPhone || !providerAddress) {
-        document.getElementById('pro-warning').style.color = "red";
-        document.getElementById('pro-warning').innerHTML = "Hãy điền đầy đủ thông tin.";
-        return;
-    }
-
-    // Giới hạn độ dài của tên và địa chỉ
-    if (providerName.length > 50 || providerAddress.length > 50) {
-        document.getElementById('pro-warning').style.color = "red";
-        document.getElementById('pro-warning').innerHTML = "Tên và địa chỉ tối đa 50 ký tự.";
-        return;
-    }
-
-    // Kiểm tra định dạng số điện thoại
-    if (!isValidPhoneNumber(providerPhone)) {
-        document.getElementById('pro-warning').style.color = "red";
-        document.getElementById('pro-warning').innerHTML = "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.";
-        return;
-    }
-
-    // Sử dụng AJAX để gửi dữ liệu đến server
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "../DAO/addProvider.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                try {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        alert(response.message); // "Nhà cung cấp được thêm thành công!"
-                        // Xóa dữ liệu input sau khi thêm thành công
-                        document.getElementById('input-tenncc').value = '';
-                        document.getElementById('input-sdtncc').value = '';
-                        document.getElementById('input-dcncc').value = '';
-                        fetchTableDataNcc(); // Cập nhật bảng dữ liệu
-                    } else {
-                        alert("Lỗi: " + (response.error || "Lỗi không xác định"));
-                    }
-                } catch (e) {
-                    console.error("Lỗi phân tích JSON: ", e);
-                    alert("Đã xảy ra lỗi khi xử lý phản hồi từ server.");
+// Xóa tác giả
+function deleteAuthor(author_id) {
+    console.log('Đang cố gắng xóa tác giả với ID:', author_id);
+    fetch('../DAO/deleteAuthor.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `matg=${author_id}`
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Phản hồi xóa:', data); // In ra phản hồi (kiểm tra trong console)
+            if (data.success) {
+                // Tìm và xóa dòng mà không cần tải lại trang (sửa trực tiếp trên HTML)
+                const rowToDelete = document.querySelector(`tr[author-data-id="${author_id}"]`);
+                if (rowToDelete) {
+                    rowToDelete.remove();
                 }
             } else {
-                alert("Đã xảy ra lỗi khi kết nối đến server.");
+                alert("Lỗi khi xóa tác giả: " + (data.error || "Lỗi không xác định"));
             }
-        }
-    };
-
-    // Chuẩn bị dữ liệu để gửi
-    const data = `providerName=${encodeURIComponent(providerName)}&providerPhone=${encodeURIComponent(providerPhone)}&providerAddress=${encodeURIComponent(providerAddress)}`;
-    xhr.send(data);
+        })
+        .catch(error => console.error('Lỗi khi xóa tác giả:', error));
 }
 
- 
- //  Cập nhật thể loại
- function proEditTable(){
-     console.log(countswitch);
-     if (countswitch === 1){
-         cancelEdit();
-         countswitch = 0;
-     }else{
-     document.querySelectorAll('.table-body tr').forEach(row => {
-         updatepro.style.backgroundColor = 'Red';
-         updatepro.innerText = 'Hủy';
-         
-         // Enable editable 'tentl'
-         const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
-         nameCell.contentEditable = 'true';
+// Thêm Thể loại
+function addAuthor() {
+    document.querySelector('.addauthor-input').style.display = 'flex';
+    document.getElementById('addauthor-overlay').style.display = 'block';
+}
+function closeAuthor() {
+    document.querySelector('.addauthor-input').style.display = 'none';
+    document.getElementById('addauthor-overlay').style.display = 'none';
+    document.getElementById('author-warning').style.color = "none";
+    document.getElementById('author-warning').innerHTML = "";
+}
+function submitAuthor() {
+    // Lấy giá trị từ input
+    var authorName = document.getElementById('input-tentg').value;
 
-         // Tạo nút save
-         const saveButton = document.createElement('button');
-         saveButton.textContent = 'Lưu'; // Save
-         saveButton.classList.add('save-btn');
+    // Kiểm tra tính hợp lệ của input
+    if (authorName) {
+        document.getElementById('author-warning').style.color = "none";
+        document.getElementById('author-warning').innerHTML = "";
+        // Sử dụng AJAX để gửi dữ liệu đến server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "../DAO/addAuthor.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-         // Add mỗi row
-         const actionCell = row.querySelector('td:nth-child(3)'); // Action cell
-         actionCell.appendChild(saveButton);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
 
-         // Add event listeners cho Save
-         saveButton.addEventListener('click', () => saveEdit(row));
-         countswitch = 1;
-     });
-     }
- }
+                if (response.success) {
+                    alert(response.message); // "Tác giả được thêm thành công!"
+                    // Xóa các giá trị trong input sau khi thêm
+                    document.getElementById('input-tentg').value = '';
+                    fetchTableDataAuthor();
+                } else {
+                    alert("Đã xảy ra lỗi: " + (response.error || "Lỗi không xác định"));
+                }
+            }
+        };
 
- // Function save the edit
- function saveEdit(row) {
-    // Lấy các ô dữ liệu cần chỉnh sửa
+        xhr.send("&authorName=" + encodeURIComponent(authorName));
+    } else {
+        document.getElementById('author-warning').style.color = "red";
+        document.getElementById('author-warning').innerHTML = "Hãy điền đầy đủ thông tin";
+    }
+}
+
+// Cập nhật thể loại
+function authorEditTable() {
+    console.log(countswitchauthor);
+    if (countswitchauthor === 1) {
+        cancelAuthorEdit();
+        countswitchauthor = 0;
+    } else {
+        document.querySelectorAll('.table-body-author tr').forEach(row => {
+            updateauthor.style.backgroundColor = 'Red';
+            updateauthor.innerText = 'Hủy';
+
+            // Bật chế độ chỉnh sửa cho 'tentl'
+            const nameCell = row.querySelector('td:nth-child(2)'); // Ô tên tác giả
+            nameCell.contentEditable = 'true';
+
+            // Tạo nút lưu
+            const saveButton = document.createElement('button');
+            saveButton.type = "button";
+            saveButton.textContent = 'Lưu'; // Lưu
+            saveButton.classList.add('author-save-btn');
+
+            // Thêm vào mỗi dòng
+            const actionCell = row.querySelector('td:nth-child(3)'); // Ô hành động
+            actionCell.appendChild(saveButton);
+
+            // Thêm sự kiện cho nút Lưu
+            saveButton.addEventListener('click', () => saveAuthorEdit(row));
+            countswitchauthor = 1;
+        });
+    }
+}
+
+// Hàm lưu khi chỉnh sửa
+function saveAuthorEdit(row) {
     const nameCell = row.querySelector('td:nth-child(2)');
-    const addressCell = row.querySelector('td:nth-child(3)');
-    const phoneCell = row.querySelector('td:nth-child(4)');
+    const authorId = row.getAttribute('author-data-id');
+    const updatedValue = nameCell.textContent;
 
-    // Lấy giá trị đã chỉnh sửa
-    const updatedName = nameCell.textContent.trim();
-    const updatedAddress = addressCell.textContent.trim();
-    const updatedPhone = phoneCell.textContent.trim();
-
-    // Lấy `mancc` từ thuộc tính `data-id`
-    const providerId = row.getAttribute('data-id');
-
-    // Kiểm tra dữ liệu đầu vào hợp lệ trước khi lưu
-    if (!updatedName || updatedName.length > 50 || !updatedAddress || updatedAddress.length > 50) {
-        alert("Tên và địa chỉ tối đa 50 ký tự.");
-        return;
-    }
-
-    if (!/^\d{10}$/.test(updatedPhone) || !updatedPhone.startsWith("0")) {
-        alert("Số điện thoại phải có đúng 10 chữ số và bắt đầu bằng số 0.");
-        return;
-    }
-
-    // Gọi hàm cập nhật dữ liệu
-    updateData(providerId, updatedName, updatedAddress, updatedPhone);
-
-    // Disable contentEditable và xóa nút save
-    nameCell.contentEditable = 'false';
-    addressCell.contentEditable = 'false';
-    phoneCell.contentEditable = 'false';
-    row.querySelector('.save-btn').remove();
+    updateAuthorData(authorId, 'tentg', updatedValue);
 }
 
- 
-function cancelEdit() {
-    const table = document.querySelector('.df-cat');
-    const rows = table.querySelectorAll('.table-body tr'); // Chỉ chọn những row trong table
-
+function cancelAuthorEdit() {
+    const table = document.querySelector('.df-author');
+    const rows = table.querySelectorAll('.table-body-author tr'); // Chỉ chọn các dòng trong bảng
     rows.forEach(row => {
-        // Lấy các ô chỉnh sửa
         const nameCell = row.querySelector('td:nth-child(2)');
-        const addressCell = row.querySelector('td:nth-child(3)');
-        const phoneCell = row.querySelector('td:nth-child(4)');
-
-        // Vô hiệu hóa chế độ chỉnh sửa
         nameCell.contentEditable = 'false';
-        addressCell.contentEditable = 'false';
-        phoneCell.contentEditable = 'false';
     });
-
-    // Gọi lại hàm fetchTableDataNcc để tải lại dữ liệu gốc từ server
-    fetchTableDataNcc();
-
-    // Xóa tất cả các nút "Lưu"
-    removeEditButtons();
+    fetchTableDataAuthor();
+    removeAuthorEditButtons();
 }
- 
- // Function remove save và support đổi edit mode
- function removeEditButtons() {
-     document.querySelectorAll('.save-btn').forEach(button=>button.remove());
-     updatepro.style.backgroundColor = 'orange';
-     updatepro.innerText = 'Sửa';
- }
 
- // Function for handling data update
- function updateData(id, column, value) {
+// Hàm xóa các nút lưu và hỗ trợ chuyển đổi chế độ chỉnh sửa
+function removeAuthorEditButtons() {
+    document.querySelectorAll('.author-save-btn').forEach(button => button.remove());
+    updateauthor.style.backgroundColor = 'orange';
+    updateauthor.innerText = 'Sửa';
+}
+
+// Hàm xử lý cập nhật dữ liệu
+function updateAuthorData(id, column, value) {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "../DAO/updateProvider.php", true);
+    xhr.open("POST", "../DAO/updateAuthor.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function () {
         if (xhr.status === 200 && xhr.responseText.trim() === "success") {
-            alert("Update successful!");
-        } else {
-            alert("Failed to update.");
+            alert("Cập nhật thành công!");
         }
     };
     xhr.send("id=" + encodeURIComponent(id) + "&column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
 }
- 
- // Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi =))
- document.getElementById('input-tenncc').addEventListener('keydown', function(event) {
- if (event.key === 'Enter') {
-     event.preventDefault();
- }
- });
- document.getElementById('input-sdtncc').addEventListener('keydown', function(event) {
- if (event.key === 'Enter') {
-     event.preventDefault();
- }
- });
- document.getElementById('input-dcncc').addEventListener('keydown', function(event) {
+
+// Thay vì tìm hiểu nguyên do vì sao mỗi input khi nhấn enter lại gây lỗi, thì thêm dòng này để khắc phục lỗi 
+document.getElementById('input-tentg').addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
     }
-    });
- searchinput.addEventListener('keydown',function(event){
- if(event.key==='Enter'){
-     event.preventDefault();
-     fetchTableDataNcc(); // Lấy search input value rồi lấy data dựa trên input value đấy
- }
- });
+});
+searchinputAuthor.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        fetchTableDataAuthor(); // Lấy giá trị từ ô tìm kiếm và lấy dữ liệu dựa trên giá trị đó
+    }
+});

@@ -927,7 +927,59 @@
                     </div>
                 </div>
                 <div class="button_contain_manage" style="padding: 0.1% 0;">
-                    <button class="btn_action btn-manage btn-ncc">Nhà cung cấp</button>
+                    <button class="btn_action btn-manage btn-ncc" type="button">Nhà cung cấp</button>
+                    <div id="pro-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                             background-color: rgba(0, 0, 0, 0.5); z-index: 1;transition: opacity 0.3s ease;"></div>
+                    <div class="Provider" style="width: 40%; height: 40%;justify-content: center;position: absolute;top: 30%;left: 30%;
+                         z-index:2;background-color: whitesmoke;border: solid black; display: none;
+                         justify-content:center">
+                      <form action="" class="ProviderForm" style="width: 100%;height: 100%">
+                        <div class="navigate-pro-form" style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
+                          <button type="button" class="addbtn-pro" style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
+                          <div id="addpro-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                             background-color: rgba(0, 0, 0, 0.5); z-index: 2;transition: opacity 0.3s ease;"></div>
+                          <div class="addpro-input" style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 4">
+                                <div class="warning"><span id="pro-warning" style="font-size: 12px"></span></div>
+                                <label>Tên nhà cung cấp:</label>
+                                <!--<div class="warning"><span id="matl-warning" style="font-size: 12px"></span></div>-->
+                                <input type="text" id="input-tenncc" placeholder="Nhập tên nhà cung cấp" required style="margin-bottom: 10px;">
+    
+                                <label>Số điện thoại:</label>
+                                <input type="text" id="input-sdtncc" placeholder="Nhập số điện thoại" required>
+
+                                <label>Nhập địa chỉ:</label>
+                                <input type="text" id="input-dcncc" placeholder="Nhập địa chỉ" required>
+
+                                <div>
+                                    <button type="button" class="addprosubmit" style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
+                                    <button type="button" class="cancelprosubmit" style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
+                                </div>
+                          </div>
+                          <button type="button" class="updatebtn-pro" style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
+                          <div class="search-pro-div" style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px">
+                              <input class="search-pro" type="text" placeholder="Tìm kiếm nhà cung cấp" style="width: 130px;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none"/><i class="bx bx-search-alt-2" style="margin: 4px 5px 0 0;"></i>
+                          </div>
+                          <button type="button" class="bx bx-refresh" id="refresh" style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
+                          <button type="button" class="btn-close-pro-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
+                                  background-color: red">X</button>
+                        </div>
+                        <div class="df-pro" style="overflow-y: auto; max-height: 250px;border:black solid 2px">
+                              <table id="cat-table" border="1" style="border:1px solid">
+                                  <thead>
+                                    <tr style="font-size: 15px; align-items: center">
+                                        <th style="width: 200px">Mã nhà cung cấp</th>
+                                        <th style="width: 200px">Tên nhà cung cấp</th>
+                                        <th style="width: 200px">Số điện thoại</th>
+                                        <th style="width: 200px">Địa chỉ</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody class="table-body">
+                                      
+                                  </tbody>
+                              </table>
+                          </div>
+                      </form>
+                    </div>
                     <button class="btn_action btn-add btn-add-pn">Tạo phiếu nhập</button>
                     <div style="width: 0.5vw;"></div>
                     <div>

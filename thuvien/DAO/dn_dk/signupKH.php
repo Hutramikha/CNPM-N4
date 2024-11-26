@@ -8,7 +8,8 @@ if (isset($_POST['username_dk']) && isset($_POST['password_dk']) && isset($_POST
     $password = $_POST['password_dk'];
     $email = $_POST['email'];
     $ngaytao = date('Y-m-d');
-    // $rolename = "khachhang";
+    $maquyen = 2;
+    $maloaidg = 0;
 
     // Kiểm tra tên đăng nhập đã tồn tại
     $sql_check_username = "SELECT * FROM taikhoan WHERE tendangnhap = '$username'";
@@ -20,8 +21,8 @@ if (isset($_POST['username_dk']) && isset($_POST['password_dk']) && isset($_POST
     }
 
     // Thực hiện lưu thông tin đăng ký
-    $sql1 = "INSERT INTO docgia (madg, matk, email) VALUES ('$id', '$username', '$email')";
-    $sql2 = "INSERT INTO taikhoan (tendangnhap, matkhau, trangthai, ngaytao) VALUES ('$username', '$password','$tttk','$ngaytao')";
+    $sql1 = "INSERT INTO docgia (madg, matk, email, maloaidocgia) VALUES ('$id', '$username', '$email', '$maloaidg')";
+    $sql2 = "INSERT INTO taikhoan (tendangnhap, matkhau, maquyen, ngaytao) VALUES ('$username', '$password','$maquyen','$ngaytao')";
     // $sql3 = "INSERT INTO quyen (rolename,username) VALUES ('$rolename','$username')";
 
     $result2 = mysqli_query($connect, $sql2);

@@ -793,13 +793,14 @@
                         <table class="table-ct-phieu_muon">
                             <thead>
                                 <tr>
-                                    <th colspan="4" class="table-title">Chi Tiết Phiếu Mượn</th>
+                                    <th colspan="5" class="table-title">Chi Tiết Phiếu Mượn</th>
                                 </tr>
                                 <tr>
                                     <th class="table_stt">STT</th>
-                                    <th>Mã phiếu</th>
+                                    <th>Mã phiếu mượn</th>
                                     <th>Mã vạch</th>
                                     <th>Tình trạng mượn</th>
+                                    <th>Phí mượn</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -854,6 +855,42 @@
                             <label class="input-label">Vị trí:</label>
                             <input type="text" class="input-control" placeholder="Vị trí sách">
                         </div>
+                    </div>
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Hình thức phạt:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="0">Không có</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Phí phạt:</label>
+                            <input type="text" class="input-control" placeholder="VNĐ">
+                        </div>
+                    </div>
+                </div>
+                <div class="table_contain">
+                    <div class="table_limit-3h" style="max-height: 28.2vh;">
+                        <table class="table-ct-sach_muon">
+                            <thead>
+                                <tr>
+                                    <th colspan="7" class="table-title">Chi Tiết Sách Đã Mượn</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã vạch</th>
+                                    <th>Mã phiếu mượn</th>
+                                    <th>Mã độc giả</th>
+                                    <th>Mã nhân viên</th>
+                                    <th style="width: 25%;">Tình trạng</th>
+                                    <th>Vị trí</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="button_contain_manage">
@@ -930,16 +967,16 @@
                         <table class="table-ct-sach_muon">
                             <thead>
                                 <tr>
-                                    <th colspan="7" class="table-title">Chi Tiết Sách Đã Mượn</th>
+                                    <th colspan="7" class="table-title">Chi Tiết Sách Trả</th>
                                 </tr>
                                 <tr>
                                     <th class="table_stt">STT</th>
                                     <th>Mã vạch</th>
                                     <th>Mã phiếu mượn</th>
-                                    <th>Mã độc giả</th>
-                                    <th>Mã nhân viên</th>
-                                    <th style="width: 35%;">Tình trạng</th>
+                                    <th>Tình trạng sách</th>
                                     <th>Vị trí</th>
+                                    <th style="width: 20%;">Hình thức phạt</th>
+                                    <th>Phí phạt</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -988,12 +1025,6 @@
                                 </tbody>
                             </table>
                     </div>
-                    </div>
-                    <div class="ct_trasach">
-
-                        </div>
-                    <div class="ct_trasach">
-
                     </div>
                 </div>
                 <div style="height: 1vh;"></div>
@@ -1194,6 +1225,9 @@
                 </div>
                 <div class="button_contain">
                     <button class="btn_action btn-delete btn-delete-taikhoan">Xóa</button>
+                    <button class="btn_action btn-edit btn-edit-taikhoan">Sửa</button>
+                    <button class="btn_action btn-save btn-save-taikhoan" disabled>Lưu</button>
+                    <button class="btn_action btn-cancel btn-cancel-taikhoan" disabled>Hủy</button>
                     <button class="btn_action btn-reset btn-reset-taikhoan">Làm mới</button>
                     <input type="text" class="search-input search-input-taikhoan" placeholder="Tìm kiếm...">
                     <button class="btn-search btn-search-taikhoan ">
@@ -1226,73 +1260,10 @@
                     </div>
                 </div>
                 <div class="button_contain_manage">
+                    <button class="btn_action btn-manage btn-chucnang">Chức năng</button>
                     <button class="btn_action btn-manage btn-quyen">Quyền</button>
                 </div>
-                <!-- Bảng Form của các nút từ button_contain_manage -->
-                <!-- <div id="reader-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-                         background-color: rgba(0, 0, 0, 0.5); z-index: 10;transition: opacity 0.3s ease;"></div> -->
-                <!--Overlay chung cho các form-->
-                <!-- <div class="ReaderCategory" style="width: 50%; height: 50%;justify-content: center;position: absolute;top: 25%;left: 25%;
-                     z-index:15;background-color: whitesmoke;border: solid black; display: none;
-                     justify-content:center; padding: 10px; border-radius: 15px">
-                    <form action="" class="RCForm" style="width: 100%;height: 100%">
-                        <div class="navigate-rc-form"
-                            style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
-                            <button type="button" class="addbtn-rc"
-                                style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
-                            <div id="addrc-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-                         background-color: rgba(0, 0, 0, 0.5); z-index: 20;transition: opacity 0.3s ease;"></div>
-                            <div class="addrc-input"
-                                style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 25">
-                                <div class="warning"><span id="rc-warning" style="font-size: 12px"></span></div>
-
-                                <label>Tên loại độc giả:</label>
-                                <div class="warning"><span id="tenldg-warning" style="font-size: 12px"></span></div>
-                                <input type="text" id="input-tenldg" placeholder="Nhập tên"
-                                    style="margin-bottom: 10px;">
-
-                                <label>Số lượng sách tối đa:</label>
-                                <div class="warning"><span id="sl-warning" style="font-size: 12px"></span></div>
-                                <input type="text" id="input-sl" placeholder="Nhập Số lượng">
-                                <div>
-                                    <button type="button" class="addrcsubmit"
-                                        style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
-                                    <button type="button" class="cancelrcsubmit"
-                                        style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
-                                </div>
-                            </div>
-                            <button type="button" class="updatebtn-rc"
-                                style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
-                            <div class="search-rc-div"
-                                style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px; display:flex; align-items: center; justify-content: center">
-                                <input class="search-rc" type="text" placeholder="Tìm kiếm..."
-                                    style="max-width: 90%;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none" /><i
-                                    class="bx bx-search-alt-2"></i>
-                            </div>
-                            <button type="button" class="bx bx-refresh" id="rcrefresh"
-                                style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
-                            <button type="button" class="btn-close-rc-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
-                              background-color: red">X</button>
-                        </div>
-                        <div class="df-rc"
-                            style="overflow-y: auto; max-height: 84%;border-radius:3px; border: 1px solid; border-left: 0;border-right: 0">
-                            <table id="rc-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 20%" class="text_center">Mã loại độc giả</th>
-                                        <th class="text_center">Tên loại độc giả</th>
-                                        <th style="width: 20%" class="text_center">SL sách tối đa</th>
-                                        <th style="width: 20%" class="text_center">Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="rc-table-body">
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div> -->
-                <!-------------------------End Forms--------------------------->
+                
                 <div class="table_contain" style="margin-bottom: 0.5%;">
                     <div class="table_limit-4h" style="max-height: 33.6vh;">
                         <table class="table-taikhoan_docgia">
@@ -1428,6 +1399,9 @@
     <script src="../Controller/ql_nv.js"></script>
     <script src="../Controller/ql_dg.js"></script>
     <script src="../Controller/ql_phieunhap.js"></script>
+    <script src="../Controller/ql_phieumuon.js"></script>
+    <script src="../Controller/ql_phieutra.js"></script>
+    <script src="../Controller/ql_taikhoan.js"></script>
     <script src="../Controller/info_admin.js"></script>
 </body>
 

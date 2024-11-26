@@ -244,7 +244,7 @@
                         </div>
                     </form>
                 </div>
-                
+
                 <div class="Author" style="width: 40%; height: 40%;justify-content: center;position: absolute;top: 30%;left: 30%;
                         z-index:15;background-color: whitesmoke;border: solid black; display: none;
                         justify-content:center;padding: 10px; border-radius: 15px">
@@ -353,6 +353,7 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="Publisher" style="width: 50%; height: 50%;justify-content: center;position: absolute;top: 25%;left: 25%;
                      z-index:15;background-color: whitesmoke;border: solid black; display: none;
                      justify-content:center; padding: 10px; border-radius: 15px">
@@ -450,7 +451,7 @@
                             </table>
                         </div>
 
-                        <div class="table_limit-3h" style="width: 65%; margin-left: 1%; max-height: 24.5vh;">
+                        <div class="table_limit-3h" style="width: 65%; margin-left: 0.7%; max-height: 24.5vh;">
                             <table class="table-ct-sach">
                                 <thead>
                                     <tr>
@@ -756,8 +757,8 @@
                     </div>
                 </div>
                 <div class="button_contain">
-                    <button class="btn_action btn-add btn-add-phieu_muon">Tạo phiếu mượn</button>
-                    <button class="btn_action btn-cancel btn-cancel-phieu_muon" disabled>Hủy</button>
+                    <!-- <button class="btn_action btn-add btn-add-phieu_muon">Tạo phiếu mượn</button>
+                    <button class="btn_action btn-cancel btn-cancel-phieu_muon" disabled>Hủy</button> -->
                     <button class="btn_action btn-reset btn-reset-phieu_muon">Làm mới</button>
                     <input type="text" class="search-input search-input-phieu_muon" placeholder="Tìm kiếm...">
                     <button class="btn-search btn-search-phieu_muon ">
@@ -817,87 +818,185 @@
                     <div class="admin_title">
                         <h1>QUẢN LÝ TRẢ SÁCH</h1>
                     </div>
-
-                    <div class="button_contain">
-
+                </div>
+                <div class="button_contain">
+                    <button class="btn_action btn-add btn-add-ct-phieu_tra">Thêm chi tiết</button>
+                    <!-- <button class="btn_action btn-edit btn-edit-dg">Sửa</button>
+                    <button class="btn_action btn-delete btn-delete-dg">Xóa</button>
+                    <button class="btn_action btn-save btn-save-dg" disabled>Lưu</button>
+                    <button class="btn_action btn-cancel btn-cancel-dg" disabled>Hủy</button> -->
+                    <button class="btn_action btn-reset btn-reset-phieu_tra">Làm mới</button>
+                    <input type="text" class="search-input search-input-phieu_tra" placeholder="Tìm kiếm...">
+                    <button class="btn-search btn-search-phieu_tra ">
+                        <i class='bx bx-search-alt-2'></i>
+                    </button>
+                </div>
+                <div class="input_contain">
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Mã vạch:</label>
+                            <input type="text" class="input-control" placeholder="Mã chi tiết sách">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Mã phiếu mượn:</label>
+                            <input type="text" class="input-control" placeholder="Mã phiếu mượn">
+                        </div>
                     </div>
-                    <div class="input_contain">
-
+                    <div class="input_contain_child">
+                        <div class="input-group">
+                            <label class="input-label">Tình trạng sách:</label>
+                            <select class="input-control" id="publisher">
+                                <option value="0">Bình thường</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Vị trí:</label>
+                            <input type="text" class="input-control" placeholder="Vị trí sách">
+                        </div>
                     </div>
-                    <div class="button_contain_manage">
-                        <button class="btn_action btn-manage btn-hinhthucphat">Hình thức phạt</button>
-                    </div>
-                    <!-- Bảng Form của các nút từ button_contain_manage -->
-                    <div id="return-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                         background-color: rgba(0, 0, 0, 0.5); z-index: 10;transition: opacity 0.3s ease;"></div>
-                    <!--Overlay chung cho các form-->
-                    <div class="Penalty" style="width: 60%; height: 50%;justify-content: center;position: absolute;top: 25%;left: 20%;
+                </div>
+                <div class="button_contain_manage">
+                    <button class="btn_action btn-manage btn-hinhthucphat">Hình thức phạt</button>
+                    <button class="btn_action btn-add btn-add-pn">Tạo phiếu nhập</button>
+                </div>
+                <!-- Bảng Form của các nút từ button_contain_manage -->
+                <div id="return-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); z-index: 10;transition: opacity 0.3s ease;"></div>
+                <!--Overlay chung cho các form-->
+                <div class="Penalty" style="width: 60%; height: 50%;justify-content: center;position: absolute;top: 25%;left: 20%;
                      z-index:15;background-color: whitesmoke;border: solid black; display: none;
                      justify-content:center;padding: 10px; border-radius: 15px">
-                        <form action="" class="PenaltyForm" style="width: 100%;height: 100%">
-                            <div class="navigate-pen-form"
-                                style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
-                                <button type="button" class="addbtn-pen"
-                                    style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
-                                <div id="addpen-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                         background-color: rgba(0, 0, 0, 0.5); z-index: 20;transition: opacity 0.3s ease;"></div>
-                                <div class="addpen-input"
-                                    style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 25">
-                                    <div class="warning"><span id="pen-warning" style="font-size: 12px"></span></div>
+                    <form action="" class="PenaltyForm" style="width: 100%;height: 100%">
+                        <div class="navigate-pen-form"
+                            style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
+                            <button type="button" class="addbtn-pen"
+                                style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
+                            <div id="addpen-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                             background-color: rgba(0, 0, 0, 0.5); z-index: 20;transition: opacity 0.3s ease;"></div>
+                            <div class="addpen-input"
+                                style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 25">
+                                <div class="warning"><span id="pen-warning" style="font-size: 12px"></span></div>
 
-                                    <label>Lí do phạt:</label>
-                                    <div class="warning"><span id="lido-warning" style="font-size: 12px"></span></div>
-                                    <input type="text" id="input-lido" placeholder="Nhập Lí do"
-                                        style="margin-bottom: 10px;">
+                                <label>Lí do phạt:</label>
+                                <div class="warning"><span id="lido-warning" style="font-size: 12px"></span></div>
+                                <input type="text" id="input-lido" placeholder="Nhập Lí do"
+                                    style="margin-bottom: 10px;">
 
-                                    <label>Phí phạt:</label>
-                                    <div class="warning"><span id="phiphat-warning" style="font-size: 12px"></span>
-                                    </div>
-                                    <input type="text" id="input-phiphat" placeholder="Nhập Phí phạt">
-                                    <div>
-                                        <button type="button" class="addpensubmit"
-                                            style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
-                                        <button type="button" class="cancelpensubmit"
-                                            style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
-                                    </div>
+                                <label>Phí phạt:</label>
+                                <div class="warning"><span id="phiphat-warning" style="font-size: 12px"></span>
                                 </div>
-                                <button type="button" class="updatebtn-pen"
-                                    style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
-                                <div class="search-pen-div"
-                                    style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px; display:flex; align-items: center; justify-content: center">
-                                    <input class="search-pen" type="text" placeholder="Tìm kiếm..."
-                                        style="max-width: 90%;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none" /><i
-                                        class="bx bx-search-alt-2"></i>
+                                <input type="text" id="input-phiphat" placeholder="Nhập Phí phạt">
+                                <div>
+                                    <button type="button" class="addpensubmit"
+                                        style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
+                                    <button type="button" class="cancelpensubmit"
+                                        style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
                                 </div>
-                                <button type="button" class="bx bx-refresh" id="penrefresh"
-                                    style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
-                                <button type="button" class="btn-close-pen-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
-                              background-color: red">X</button>
                             </div>
-                            <div class="df-pen" style="overflow-y: auto; max-height: 84%;border-radius:3px">
-                                <table id="pen-table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 20%" class="text_center">Mã phạt</th>
-                                            <th class="text_center">Lí do</th>
-                                            <th style="width: 20%" class="text_center">Phí phạt</th>
-                                            <th style="width: 20%" class="text_center">Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="pen-table-body">
-
-                                    </tbody>
-                                </table>
+                            <button type="button" class="updatebtn-pen"
+                                style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
+                            <div class="search-pen-div"
+                                style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px; display:flex; align-items: center; justify-content: center">
+                                <input class="search-pen" type="text" placeholder="Tìm kiếm..."
+                                    style="max-width: 90%;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none" /><i
+                                    class="bx bx-search-alt-2"></i>
                             </div>
-                        </form>
-                    </div>
-                    <div class="table_contain">
+                            <button type="button" class="bx bx-refresh" id="penrefresh"
+                                style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
+                            <button type="button" class="btn-close-pen-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
+                     background-color: red">X</button>
+                        </div>
+                        <div class="df-pen" style="overflow-y: auto; max-height: 84%;border-radius:3px">
+                            <table id="pen-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%" class="text_center">Mã phạt</th>
+                                        <th class="text_center">Lí do</th>
+                                        <th style="width: 20%" class="text_center">Phí phạt</th>
+                                        <th style="width: 20%" class="text_center">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="pen-table-body">
 
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <!-------------------------End Forms--------------------------->
+                <div class="table_contain">
+                    <div class="table_limit-3h" style="margin-bottom: 2%; max-height: 28.2vh;">
+                        <table class="table-ct-sach_muon">
+                            <thead>
+                                <tr>
+                                    <th colspan="7" class="table-title">Chi Tiết Sách Đã Mượn</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Mã vạch</th>
+                                    <th>Mã phiếu mượn</th>
+                                    <th>Mã độc giả</th>
+                                    <th>Mã nhân viên</th>
+                                    <th style="width: 35%;">Tình trạng</th>
+                                    <th>Vị trí</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
                     </div>
+                    <div style="display: flex; justify-content: center;">
+                        <div class="table_limit-3h" style="width: 60%; max-height: 24.5vh;">
+                            <table class="table-phieu_tra">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" class="table-title">Danh Sách Phiếu Trả</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Mã phiếu trả</th>
+                                        <th>Ngày trả</th>
+                                        <th>Mã phiếu mượn</th>
+                                        <th>Mã độc giả</th>
+                                        <th>Mã nhân viên</th>
+                                        <th>Tổng phí phạt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Hàng sẽ được thêm ở đây -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table_limit-3h" style="width: 40%; margin-left: 0.7%; max-height: 25.4vh;">
+                            <table class="table-ct-phieu_tra">
+                                <thead>
+                                    <tr>
+                                        <th colspan="5" class="table-title">Chi Tiết Phiếu Trả</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="table_stt">STT</th>
+                                        <th>Mã phiếu trả</th>
+                                        <th>Mã vạch</th>
+                                        <th>Mã phạt</th>
+                                        <th>Phí phạt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Hàng sẽ được thêm ở đây -->
+                                </tbody>
+                            </table>
+                    </div>
+                    </div>
+                    <div class="ct_trasach">
+
+                        </div>
                     <div class="ct_trasach">
 
                     </div>
                 </div>
+                <div style="height: 1vh;"></div>
             </div>
 
 
@@ -978,6 +1077,7 @@
                             </thead>
                             <tbody>
                                 <!-- Hàng sẽ được thêm ở đây -->
+
                             </tbody>
                         </table>
                     </div>
@@ -989,52 +1089,63 @@
                     <div class="Provider" style="width: 40%; height: 40%;justify-content: center;position: absolute;top: 30%;left: 30%;
                          z-index:2;background-color: whitesmoke;border: solid black; display: none;
                          justify-content:center">
-                      <form action="" class="ProviderForm" style="width: 100%;height: 100%">
-                        <div class="navigate-pro-form" style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
-                          <button type="button" class="addbtn-pro" style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
-                          <div id="addpro-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                        <form action="" class="ProviderForm" style="width: 100%;height: 100%">
+                            <div class="navigate-pro-form"
+                                style="justify-content: flex-start;margin:5px; display: flex;transition: opacity 0.3s ease;">
+                                <button type="button" class="addbtn-pro"
+                                    style="width: 100px; height: 30px; border-radius: 20px; background-color: greenyellow">Thêm</button>
+                                <div id="addpro-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
                              background-color: rgba(0, 0, 0, 0.5); z-index: 2;transition: opacity 0.3s ease;"></div>
-                          <div class="addpro-input" style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 4">
-                                <div class="warning"><span id="pro-warning" style="font-size: 12px"></span></div>
-                                <label>Tên nhà cung cấp:</label>
-                                <!--<div class="warning"><span id="matl-warning" style="font-size: 12px"></span></div>-->
-                                <input type="text" id="input-tenncc" placeholder="Nhập tên nhà cung cấp" required style="margin-bottom: 10px;">
-    
-                                <label>Số điện thoại:</label>
-                                <input type="text" id="input-sdtncc" placeholder="Nhập số điện thoại" required>
+                                <div class="addpro-input"
+                                    style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 4">
+                                    <div class="warning"><span id="pro-warning" style="font-size: 12px"></span></div>
+                                    <label>Tên nhà cung cấp:</label>
+                                    <!--<div class="warning"><span id="matl-warning" style="font-size: 12px"></span></div>-->
+                                    <input type="text" id="input-tenncc" placeholder="Nhập tên nhà cung cấp" required
+                                        style="margin-bottom: 10px;">
 
-                                <label>Nhập địa chỉ:</label>
-                                <input type="text" id="input-dcncc" placeholder="Nhập địa chỉ" required>
+                                    <label>Số điện thoại:</label>
+                                    <input type="text" id="input-sdtncc" placeholder="Nhập số điện thoại" required>
 
-                                <div>
-                                    <button type="button" class="addprosubmit" style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
-                                    <button type="button" class="cancelprosubmit" style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
+                                    <label>Nhập địa chỉ:</label>
+                                    <input type="text" id="input-dcncc" placeholder="Nhập địa chỉ" required>
+
+                                    <div>
+                                        <button type="button" class="addprosubmit"
+                                            style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
+                                        <button type="button" class="cancelprosubmit"
+                                            style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
+                                    </div>
                                 </div>
-                          </div>
-                          <button type="button" class="updatebtn-pro" style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
-                          <div class="search-pro-div" style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px">
-                              <input class="search-pro" type="text" placeholder="Tìm kiếm nhà cung cấp" style="width: 130px;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none"/><i class="bx bx-search-alt-2" style="margin: 4px 5px 0 0;"></i>
-                          </div>
-                          <button type="button" class="bx bx-refresh" id="refresh" style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
-                          <button type="button" class="btn-close-pro-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
+                                <button type="button" class="updatebtn-pro"
+                                    style="width: 100px; height: 30px;border-radius: 20px; background-color: orange">Sửa</button>
+                                <div class="search-pro-div"
+                                    style="max-width: 32%; height: 30px;background-color: white; border: black solid; border-radius: 20px">
+                                    <input class="search-pro" type="text" placeholder="Tìm kiếm nhà cung cấp"
+                                        style="width: 130px;height: 15px;border-radius: 20px;padding-left: 10px; border: none;outline:none" /><i
+                                        class="bx bx-search-alt-2" style="margin: 4px 5px 0 0;"></i>
+                                </div>
+                                <button type="button" class="bx bx-refresh" id="refresh"
+                                    style="width: 30px;border-radius:50px;background-color:graytext; margin-left: 5px"></button>
+                                <button type="button" class="btn-close-pro-form" style="position: absolute; right:5px;top:5px;width: 30px;height: 30px;border-radius: 50px;
                                   background-color: red">X</button>
-                        </div>
-                        <div class="df-pro" style="overflow-y: auto; max-height: 250px;border:black solid 2px">
-                              <table id="cat-table" border="1" style="border:1px solid">
-                                  <thead>
-                                    <tr style="font-size: 15px; align-items: center">
-                                        <th style="width: 200px">Mã nhà cung cấp</th>
-                                        <th style="width: 200px">Tên nhà cung cấp</th>
-                                        <th style="width: 200px">Số điện thoại</th>
-                                        <th style="width: 200px">Địa chỉ</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody class="table-body">
-                                      
-                                  </tbody>
-                              </table>
-                          </div>
-                      </form>
+                            </div>
+                            <div class="df-pro" style="overflow-y: auto; max-height: 250px;border:black solid 2px">
+                                <table id="cat-table" border="1" style="border:1px solid">
+                                    <thead>
+                                        <tr style="font-size: 15px; align-items: center">
+                                            <th style="width: 200px">Mã nhà cung cấp</th>
+                                            <th style="width: 200px">Tên nhà cung cấp</th>
+                                            <th style="width: 200px">Số điện thoại</th>
+                                            <th style="width: 200px">Địa chỉ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-body">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
                     </div>
                     <button class="btn_action btn-add btn-add-pn">Tạo phiếu nhập</button>
                     <div style="width: 0.5vw;"></div>
@@ -1047,7 +1158,7 @@
                     </div>
                 </div>
                 <div class="table_contain">
-                    <div class="table_limit-3h">
+                    <div class="table_limit-3h" style="max-height: 28.2vh;">
                         <table class="table-phieu_nhap">
                             <thead>
                                 <tr>
@@ -1064,6 +1175,7 @@
                             </thead>
                             <tbody>
                                 <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
                             </tbody>
                         </table>
                     </div>
@@ -1111,27 +1223,6 @@
                             <label class="input-label">Ngày tạo:</label>
                             <input type="text" class="input-control" placeholder="dd/mm/yyyy">
                         </div>
-                    </div>
-                </div>
-                <div class="table_contain">
-                    <div class="table_limit-5h">
-                        <table class="table-taikhoan_docgia">
-                            <thead>
-                                <tr>
-                                    <th colspan="5" class="table-title">Tài Khoản Độc Giả</th>
-                                </tr>
-                                <tr>
-                                    <th class="table_stt">STT</th>
-                                    <th>Tên đăng nhập</th>
-                                    <th>Mật khẩu</th>
-                                    <th>Quyền</th>
-                                    <th>Ngày tạo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Hàng sẽ được thêm ở đây -->
-                            </tbody>
-                        </table>
                     </div>
                 </div>
                 <div class="button_contain_manage">
@@ -1202,8 +1293,29 @@
                     </form>
                 </div> -->
                 <!-------------------------End Forms--------------------------->
+                <div class="table_contain" style="margin-bottom: 0.5%;">
+                    <div class="table_limit-4h" style="max-height: 33.6vh;">
+                        <table class="table-taikhoan_docgia">
+                            <thead>
+                                <tr>
+                                    <th colspan="5" class="table-title">Tài Khoản Độc Giả</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>Tên đăng nhập</th>
+                                    <th>Mật khẩu</th>
+                                    <th>Quyền</th>
+                                    <th>Ngày tạo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hàng sẽ được thêm ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div class="table_contain">
-                    <div class="table_limit-5h">
+                    <div class="table_limit-4h" style="max-height: 33.6vh;">
                         <table class="table-taikhoan_nhanvien">
                             <thead>
                                 <tr>

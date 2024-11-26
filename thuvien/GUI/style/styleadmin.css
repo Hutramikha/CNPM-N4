@@ -532,9 +532,9 @@ td {
 
 /*---------------------Table Phiếu Nhập---------------------*/
 .table-ct-phieu_nhap-xem {
-    display: none;
+    display: table;
 }
 
 .table-ct-phieu_nhap {
-    display: table;
+    display: none;
 }

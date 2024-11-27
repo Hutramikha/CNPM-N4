@@ -456,13 +456,13 @@ textarea.input-control {
 }
 
 .image-preview #image_max {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 165px;
+    max-height: 151px;
     object-fit: cover;
 }
 
 #image-upload {
-    margin: 2% 0 0 45.5%;
+    margin: 2% 0 0 41.1%;
 }
 
 

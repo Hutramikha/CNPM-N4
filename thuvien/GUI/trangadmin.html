@@ -136,49 +136,49 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tên sách:</label>
-                            <input type="text" class="input-control" placeholder="Nhập tên sách">
+                            <input type="text" class="input-control input-ten_sach" placeholder="Nhập tên sách" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Thể loại:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-theloai_sach" id="publisher" disabled>
                                 <option value="0">Chọn thể loại</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Tóm tắt:</label>
-                            <textarea class="input-control" id="textarea" rows="3"
-                                placeholder="Nhập tóm tắt"></textarea>
+                            <textarea class="input-control input-tomtat_sach" id="textarea" rows="3"
+                                placeholder="Nhập tóm tắt" disabled></textarea>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Nhà xuất bản:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-nhaxuatban_sach" id="publisher" disabled>
                                 <option value="0">Chọn nhà xuất bản</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Tác giả:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-tacgia_sach" id="publisher" disabled>
                                 <option value="0">Chọn tác giả</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Phí mượn:</label>
-                            <input type="text" class="input-control" placeholder="Nhập phí mượn">
+                            <input type="text" class="input-control input-phimuon_sach" placeholder="Phí mượn" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
-                            <input type="text" class="input-control" placeholder="Số lượng">
+                            <input type="text" class="input-control input-soluong_sach" placeholder="Số lượng" disabled>
                         </div>
                     </div>
                     <div class="image-container">
                         <div class="image-preview"><img id="image_max" class="image-sach" src="../img/noimages.png" alt="">
                         </div>
-                        <input type="file" id="image-upload" class="image-upload_sach" accept="image/*">
+                        <input type="file" id="image-upload" class="image-upload_sach input-img_sach" accept="image/*" disabled>
                     </div>
                 </div>
                 <div class="button_contain_manage">
@@ -1385,8 +1385,7 @@
                         <div class="image-container">
                             <div class="image-preview image-nv"><img id="image_max" src="../img/noimages.png" alt="">
                             </div>
-                            <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img"
-                                accept="image/*" disabled>
+                            <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img" accept="image/*"  disabled>
                         </div>
                     </div>
                 </div>

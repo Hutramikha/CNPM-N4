@@ -1108,7 +1108,6 @@
                             </thead>
                             <tbody>
                                 <!-- Hàng sẽ được thêm ở đây -->
-
                             </tbody>
                         </table>
                     </div>

@@ -1403,7 +1403,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Thoát Form Pro
  function ProviderFormExit() {
      searchinput.value = "";
-     cancelEdit();
+     cancelProEdit();
      document.querySelector('.Provider').style.display = "none";
      document.getElementById('pro-overlay').style.display = "none";
  }
@@ -1429,19 +1429,19 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(data => {
             console.log(data); // Debugging
-            const tableBody = document.querySelector('.table-body');
+            const tableBody = document.querySelector('.pro-table-body');
             tableBody.innerHTML = ""; // Clear existing table rows
 
             data.forEach(row => {
                 const tableRow = document.createElement('tr');
                 tableRow.style.textAlign = "center";
-                tableRow.setAttribute('data-id', row.mancc); // Set row's data-id for later reference
+                tableRow.setAttribute('pro-data-id', row.mancc); // Set row's data-id for later reference
                 tableRow.innerHTML = `
                     <td>${row.mancc}</td>
                     <td>${row.ten}</td>
                     <td>${row.sdt}</td>
                     <td>${row.diachi}</td>
-                    <td><button class="delete-pro-btn" data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
+                    <td><button class="delete-pro-btn" pro-data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
                 `;
                 tableBody.appendChild(tableRow);
             });
@@ -1449,7 +1449,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Add event listeners cho nút xóa ngay sau khi data được truyền vào
             document.querySelectorAll('.delete-pro-btn').forEach(button => {
                 button.addEventListener('click', function () {
-                    const providerId = this.getAttribute('data-id');
+                    const providerId = this.getAttribute('pro-data-id');
                     deleteProvider(providerId);  // Thay đổi hàm deleteCategory thành deleteProvider
                 });
             });
@@ -1459,20 +1459,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
  window.onload = fetchTableDataNcc();
 
- // Xóa thể loại
- function deleteProvider(category_id) {
+ // Xóa nhà cung cấp
+ function deleteProvider(provider_id) {
      console.log('Attempting to delete provider with ID:', provider_id);
      fetch('../DAO/deleteProvider.php', {
          method: 'POST',
          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-         body: `matl=${category_id}`
+         body: `mancc=${provider_id}`
      })
              .then(response => response.json())
              .then(data => {
                  console.log('Delete response:', data); // Log response (check trong console)
                  if (data.success) {
                      // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                     const rowToDelete = document.querySelector(`tr[data-id="${provider_id}"]`);
+                     const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
                      if (rowToDelete) {
                          rowToDelete.remove();
                      }
@@ -1571,10 +1571,10 @@ function submitProvider() {
  function proEditTable(){
      console.log(countswitch);
      if (countswitch === 1){
-         cancelEdit();
+         cancelProEdit();
          countswitch = 0;
      }else{
-     document.querySelectorAll('.table-body tr').forEach(row => {
+     document.querySelectorAll('.pro-table-body tr').forEach(row => {
          updatepro.style.backgroundColor = 'Red';
          updatepro.innerText = 'Hủy';
          
@@ -1582,91 +1582,79 @@ function submitProvider() {
          const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
          nameCell.contentEditable = 'true';
 
+         const nameCell2 = row.querySelector('td:nth-child(3)'); // Name cell
+         nameCell2.contentEditable = 'true';
+
+         const nameCell3 = row.querySelector('td:nth-child(4)'); // Name cell
+         nameCell3.contentEditable = 'true';
+
          // Tạo nút save
          const saveButton = document.createElement('button');
          saveButton.textContent = 'Lưu'; // Save
-         saveButton.classList.add('save-btn');
+         saveButton.classList.add('pro-save-btn');
 
          // Add mỗi row
-         const actionCell = row.querySelector('td:nth-child(3)'); // Action cell
+         const actionCell = row.querySelector('td:nth-child(5)'); // Action cell
          actionCell.appendChild(saveButton);
 
          // Add event listeners cho Save
-         saveButton.addEventListener('click', () => saveEdit(row));
+         saveButton.addEventListener('click', () => saveProEdit(row));
          countswitch = 1;
      });
      }
  }
 
- // Function save the edit
- function saveEdit(row) {
-    // Lấy các ô dữ liệu cần chỉnh sửa
+ function saveProEdit(row) {
     const nameCell = row.querySelector('td:nth-child(2)');
-    const addressCell = row.querySelector('td:nth-child(3)');
-    const phoneCell = row.querySelector('td:nth-child(4)');
+    const nameCell2 = row.querySelector('td:nth-child(3)');
+    const nameCell3 = row.querySelector('td:nth-child(4)');
+    const providerId = row.getAttribute('pro-data-id');
+    const providerName = nameCell.textContent;
+    const providerPhone = nameCell2.textContent;
+    const providerAddress = nameCell3.textContent;
 
-    // Lấy giá trị đã chỉnh sửa
-    const updatedName = nameCell.textContent.trim();
-    const updatedAddress = addressCell.textContent.trim();
-    const updatedPhone = phoneCell.textContent.trim();
-
-    // Lấy `mancc` từ thuộc tính `data-id`
-    const providerId = row.getAttribute('data-id');
-
-    // Kiểm tra dữ liệu đầu vào hợp lệ trước khi lưu
-    if (!updatedName || updatedName.length > 50 || !updatedAddress || updatedAddress.length > 50) {
+    if (!providerName || providerName.length > 50 || !providerAddress || providerAddress.length > 50) {
         alert("Tên và địa chỉ tối đa 50 ký tự.");
         return;
     }
 
-    if (!/^\d{10}$/.test(updatedPhone) || !updatedPhone.startsWith("0")) {
+    if (!/^\d{10}$/.test(providerPhone) || !providerPhone.startsWith("0")) {
         alert("Số điện thoại phải có đúng 10 chữ số và bắt đầu bằng số 0.");
         return;
     }
 
-    // Gọi hàm cập nhật dữ liệu
-    updateData(providerId, updatedName, updatedAddress, updatedPhone);
+    updateProData(providerId, providerName, providerPhone, providerAddress);
 
-    // Disable contentEditable và xóa nút save
     nameCell.contentEditable = 'false';
-    addressCell.contentEditable = 'false';
-    phoneCell.contentEditable = 'false';
-    row.querySelector('.save-btn').remove();
+    nameCell2.contentEditable = 'false';
+    nameCell3.contentEditable = 'false';
+    row.querySelector('.pro-save-btn').remove();
 }
 
- 
-function cancelEdit() {
-    const table = document.querySelector('.df-cat');
-    const rows = table.querySelectorAll('.table-body tr'); // Chỉ chọn những row trong table
-
+function cancelProEdit() {
+    const table = document.querySelector('.df-pro');
+    const rows = table.querySelectorAll('.pro-table-body tr'); // Chỉ chọn những row trong table
     rows.forEach(row => {
-        // Lấy các ô chỉnh sửa
         const nameCell = row.querySelector('td:nth-child(2)');
-        const addressCell = row.querySelector('td:nth-child(3)');
-        const phoneCell = row.querySelector('td:nth-child(4)');
-
-        // Vô hiệu hóa chế độ chỉnh sửa
         nameCell.contentEditable = 'false';
-        addressCell.contentEditable = 'false';
-        phoneCell.contentEditable = 'false';
+        const nameCell2 = row.querySelector('td:nth-child(3)');
+        nameCell.contentEditable = 'false';
+        const nameCell3 = row.querySelector('td:nth-child(4)');
+        nameCell.contentEditable = 'false';
     });
-
-    // Gọi lại hàm fetchTableDataNcc để tải lại dữ liệu gốc từ server
     fetchTableDataNcc();
-
-    // Xóa tất cả các nút "Lưu"
-    removeEditButtons();
+    removeProEditButtons();
 }
- 
- // Function remove save và support đổi edit mode
- function removeEditButtons() {
-     document.querySelectorAll('.save-btn').forEach(button=>button.remove());
-     updatepro.style.backgroundColor = 'orange';
-     updatepro.innerText = 'Sửa';
- }
 
- // Function for handling data update
- function updateData(id, column, value) {
+// Function remove save và support đổi edit mode
+function removeProEditButtons() {
+    document.querySelectorAll('.pro-save-btn').forEach(button => button.remove());
+    updatepro.style.backgroundColor = 'orange';
+    updatepro.innerText = 'Sửa';
+}
+
+// Function for handling data update
+function updateProData(id, column, value) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "../DAO/updateProvider.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

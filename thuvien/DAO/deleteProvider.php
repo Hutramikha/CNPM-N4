@@ -2,6 +2,7 @@
 
 include './database/connect.php';
 header('Content-Type: application/json');
+$conn = $connect;
 
 $response = ['success' => false];
 

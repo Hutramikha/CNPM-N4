@@ -1131,18 +1131,18 @@
                                     style="display: none; flex-direction: column; padding: 10px;position: fixed; top:30%;left:45%; background-color: white;border: 2px solid; z-index: 4">
                                     <div class="warning"><span id="pro-warning" style="font-size: 12px"></span></div>
                                     <label>Tên nhà cung cấp:</label>
-                                    <!--<div class="warning"><span id="matl-warning" style="font-size: 12px"></span></div>-->
-                                    <input type="text" id="input-tenncc" placeholder="Nhập tên nhà cung cấp" required
+                                    <!--<div class="warning"><span id="mancc-warning" style="font-size: 12px"></span></div>-->
+                                    <input type="text" id="input-tenncc" name="input-tenncc" placeholder="Nhập tên nhà cung cấp" required
                                         style="margin-bottom: 10px;">
 
                                     <label>Số điện thoại:</label>
-                                    <input type="text" id="input-sdtncc" placeholder="Nhập số điện thoại" required>
+                                    <input type="text" id="input-sdtncc" name="input-sdtncc" placeholder="Nhập số điện thoại" required>
 
                                     <label>Nhập địa chỉ:</label>
-                                    <input type="text" id="input-dcncc" placeholder="Nhập địa chỉ" required>
+                                    <input type="text" id="input-dcncc" name="input-dcncc" placeholder="Nhập địa chỉ" required>
 
                                     <div>
-                                        <button type="button" class="addprosubmit"
+                                        <button type="submit" class="addprosubmit"
                                             style="margin: 10px 0 0 30px; width: 50px; border-radius: 5px; background-color: greenyellow">Thêm</button>
                                         <button type="button" class="cancelprosubmit"
                                             style="margin-top: 10px; width: 50px; border-radius: 5px; background-color: red">Hủy</button>
@@ -1162,16 +1162,16 @@
                                   background-color: red">X</button>
                             </div>
                             <div class="df-pro" style="overflow-y: auto; max-height: 250px;border:black solid 2px">
-                                <table id="cat-table" border="1" style="border:1px solid">
+                                <table id="pro-table" border="1" style="border:1px solid">
                                     <thead>
                                         <tr style="font-size: 15px; align-items: center">
-                                            <th style="width: 200px">Mã nhà cung cấp</th>
+                                            <th style="width: 100px">Mã NCC</th>
                                             <th style="width: 200px">Tên nhà cung cấp</th>
                                             <th style="width: 200px">Số điện thoại</th>
                                             <th style="width: 200px">Địa chỉ</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="table-body">
+                                    <tbody class="pro-table-body">
 
                                     </tbody>
                                 </table>

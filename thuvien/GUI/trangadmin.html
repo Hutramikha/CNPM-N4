@@ -176,8 +176,10 @@
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview"><img id="image_max" class="image-sach" src="../img/noimages.png" alt="">
+                        <div class="image-preview">
+                            <img id="image_max" class="image-sach" src="../img/noimages.png" alt="">
                         </div>
+                        <div style="width: 0.3vw;"></div>
                         <input type="file" id="image-upload" class="image-upload_sach input-img_sach" accept="image/*" disabled>
                     </div>
                 </div>
@@ -500,11 +502,11 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Họ và tên:</label>
-                            <input type="text" class="input-control" placeholder="Nhập tên nhân viên">
+                            <input type="text" class="input-control input-ten_nv" placeholder="Nhập tên nhân viên" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Giới tính:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-gioitinh_nv" id="publisher" disabled>
                                 <option value="0">Chọn giới tính</option>
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
@@ -513,27 +515,29 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Ngày sinh</label>
-                            <input type="text" class="input-control" placeholder="Nhập ngày sinh">
+                            <input type="text" class="input-control input-ngaysinh_nv" placeholder="Nhập ngày sinh" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Địa chỉ email:</label>
-                            <input type="text" class="input-control" placeholder="Nhập email">
+                            <input type="text" class="input-control input-email_nv" placeholder="Nhập email" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số điện thoại:</label>
-                            <input type="text" class="input-control" placeholder="Nhập số điện thoại">
+                            <input type="text" class="input-control input-sdt_nv" placeholder="Nhập số điện thoại" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Địa chỉ:</label>
-                            <input type="text" class="input-control" placeholder="Nhập địa chỉ">
+                            <input type="text" class="input-control input-diachi_nv" placeholder="Nhập địa chỉ" disabled>
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview"><img id="image_max" class="image-nv" src="../img/noimages.png" alt="">
+                        <div class="image-preview">
+                            <img id="image_max" class="image-nv" src="../img/noimages.png" alt="">
                         </div>
-                        <input type="file" id="image-upload" class="image-upload_nv" accept="image/*">
+                        <div style="width: 0.3vw;"></div>
+                        <input type="file" id="image-upload" class="image-upload_nv input-img_nv" accept="image/*">
                     </div>
                 </div>
                 <div class="button_contain_manage" style="height: 0.5vh;">
@@ -646,8 +650,10 @@
                         </div>
                     </div>
                     <div class="image-container">
-                        <div class="image-preview"><img id="image_max" class="image-dg" src="../img/noimages.png" alt="">
+                        <div class="image-preview">
+                            <img id="image_max" class="image-dg" src="../img/noimages.png" alt="">
                         </div>
+                        <div style="width: 0.3vw;"></div>
                         <input type="file" id="image-upload" class="image-upload_dg" accept="image/*">
                     </div>
                 </div>
@@ -1381,11 +1387,15 @@
                                 <input type="text" class="input-control info_admin-diachi" placeholder=""
                                     style="width: 22vw;" disabled>
                             </div>
+                            <div class="input-group">
+                                <label class="input-label">Chọn ảnh:</label>
+                                <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img" accept="image/*"  disabled>
+                            </div>
                         </div>
                         <div class="image-container">
-                            <div class="image-preview image-nv"><img id="image_max" src="../img/noimages.png" alt="">
+                            <div class="image-preview image-nv">
+                                <img id="image_max" src="../img/noimages.png" alt="">
                             </div>
-                            <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img" accept="image/*"  disabled>
                         </div>
                     </div>
                 </div>

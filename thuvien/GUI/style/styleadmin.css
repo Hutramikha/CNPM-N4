@@ -446,7 +446,7 @@ textarea.input-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    /* flex-direction: column; */
 }
 
 .image-preview {
@@ -462,7 +462,7 @@ textarea.input-control {
 }
 
 #image-upload {
-    margin: 2% 0 0 41.1%;
+    /* margin-right: -5%; */
 }
 
 

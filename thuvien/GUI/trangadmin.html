@@ -1059,24 +1059,24 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tên sách:</label>
-                            <select class="input-control" id="publisher" disabled>
+                            <select class="input-control select-ten_sach_pn" id="publisher" disabled>
                                 <option value="0">Chọn sách</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
-                            <input type="text" class="input-control" placeholder="Số lượng nhập" disabled>
+                            <input type="text" class="input-control input-soluong_sach_pn" placeholder="Số lượng nhập" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Giá nhập:</label>
-                            <input type="text" class="input-control" placeholder="Giá nhập" disabled>
+                            <input type="text" class="input-control input-gianhap_sach_pn" placeholder="Giá nhập" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Thành tiền:</label>
-                            <input type="text" class="input-control" placeholder="Thành tiền" disabled>
+                            <input type="text" class="input-control input-thanhtien_sach_pn" placeholder="Thành tiền" disabled>
                         </div>
                     </div>
                 </div>
@@ -1103,7 +1103,7 @@
                         <table class="table-ct-phieu_nhap">
                             <thead>
                                 <tr>
-                                    <th colspan="5" class="table-title">Chi Tiết Phiếu Nhập</th>
+                                    <th colspan="6" class="table-title">Chi Tiết Phiếu Nhập</th>
                                 </tr>
                                 <tr>
                                     <th class="table_stt">STT</th>
@@ -1111,6 +1111,7 @@
                                     <th>Giá nhập</th>
                                     <th>Số lượng</th>
                                     <th>Thành tiền</th>
+                                    <th>Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1187,11 +1188,11 @@
                             </div>
                         </form>
                     </div>
-                    <button class="btn_action btn-add btn-add-pn">Tạo phiếu nhập</button>
+                    <button class="btn_action btn-add btn-create-pn" disabled>Tạo phiếu nhập</button>
                     <div style="width: 0.5vw;"></div>
                     <div>
                         <label class="input-label">Nhà cung cấp:</label>
-                        <select class="input-control" id="publisher">
+                        <select class="input-control select-ncc_sach_pn" id="publisher" disabled>
                             <option value="0">Chọn nhà cung cấp</option>
                             <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                         </select>
@@ -1234,8 +1235,8 @@
                     </div>
                 </div>
                 <div class="button_contain">
-                    <button class="btn_action btn-delete btn-delete-taikhoan">Xóa</button>
                     <button class="btn_action btn-edit btn-edit-taikhoan">Sửa</button>
+                    <button class="btn_action btn-delete btn-delete-taikhoan">Xóa</button>
                     <button class="btn_action btn-save btn-save-taikhoan" disabled>Lưu</button>
                     <button class="btn_action btn-cancel btn-cancel-taikhoan" disabled>Hủy</button>
                     <button class="btn_action btn-reset btn-reset-taikhoan">Làm mới</button>
@@ -1248,24 +1249,24 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tên đăng nhập:</label>
-                            <input type="text" class="input-control" placeholder="username">
+                            <input type="text" class="input-control input-username_tk" placeholder="username" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Mật khẩu:</label>
-                            <input type="text" class="input-control" placeholder="password">
+                            <input type="text" class="input-control input-password_tk" placeholder="password" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Quyền:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-quyen_tk" id="publisher" disabled>
                                 <option value="0">Chọn quyền</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Ngày tạo:</label>
-                            <input type="text" class="input-control" placeholder="dd/mm/yyyy">
+                            <input type="text" class="input-control input-ngaytao_tk" placeholder="dd/mm/yyyy" disabled>
                         </div>
                     </div>
                 </div>

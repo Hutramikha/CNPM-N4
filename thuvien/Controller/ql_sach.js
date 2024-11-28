@@ -10,7 +10,7 @@ const btn_reset = document.querySelector('.btn-reset-sach');
 
 const input_search = document.querySelector('.search-input-sach');
 
-const img_div = document.querySelector('.image-sach');
+const img = document.querySelector('.image-sach');
 
 const input_ten_sach = document.querySelector('.input-ten_sach');
 const select_theloai_sach = document.querySelector('.select-theloai_sach');
@@ -27,8 +27,8 @@ function ableInput() {
     input_tomtat_sach.disabled = false;
     select_nhaxuatban_sach.disabled = false;
     select_tacgia_sach.disabled = false;
-    // input_phimuon_sach.disabled = false;
-    input_soluong_sach.disabled = false;
+    input_phimuon_sach.disabled = false;
+    // input_soluong_sach.disabled = false;
     input_img_sach.disabled = false;
 };
 
@@ -38,15 +38,16 @@ function disavailInput() {
     input_tomtat_sach.disabled = true;
     select_nhaxuatban_sach.disabled = true;
     select_tacgia_sach.disabled = true;
-    // input_phimuon_sach.disabled = true;
-    input_soluong_sach.disabled = true;
+    input_phimuon_sach.disabled = true;
+    // input_soluong_sach.disabled = true;
     input_img_sach.disabled = true;
 };
 
 function resetInput() {
     input_ten_sach.value = '';
     input_tomtat_sach.value = '';
-    input_soluong_sach.value = '';
+    input_phimuon_sach.value = '';
+    input_img_sach.value = '';
 
     select_theloai_sach.selectedIndex = 0;
     select_nhaxuatban_sach.selectedIndex = 0;
@@ -74,8 +75,7 @@ btn_delete.addEventListener('click', () => {
 });
 
 btn_cancel.addEventListener('click', () => {
-    resetInput();
-    disavailInput();
+    img.src = '../img/noimages.png';
 
     btn_save.disabled = true;
     btn_cancel.disabled = true;
@@ -83,13 +83,15 @@ btn_cancel.addEventListener('click', () => {
     btn_add.disabled = false;
     btn_edit.disabled = false;
     btn_delete.disabled = false;
+
+    resetInput();
+    disavailInput();
 });
 
 btn_reset.addEventListener('click', () => {
-    resetInput();
-    disavailInput();
-
     input_search.value = '';
+
+    img.src = '../img/noimages.png';
 
     btn_save.disabled = true;
     btn_cancel.disabled = true;
@@ -97,6 +99,9 @@ btn_reset.addEventListener('click', () => {
     btn_add.disabled = false;
     btn_edit.disabled = false;
     btn_delete.disabled = false;
+
+    resetInput();
+    disavailInput();
 });
 
 });

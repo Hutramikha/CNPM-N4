@@ -515,7 +515,7 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Ngày sinh</label>
-                            <input type="text" class="input-control input-ngaysinh_nv" placeholder="Nhập ngày sinh" disabled>
+                            <input type="date" class="input-control input-ngaysinh_nv" placeholder="Nhập ngày sinh" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
@@ -612,49 +612,50 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Họ và tên:</label>
-                            <input type="text" class="input-control" placeholder="Tên độc giả">
+                            <input type="text" class="input-control input-ten_dg" placeholder="Tên độc giả" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Giới tính:</label>
-                            <select class="input-control" id="publisher">
+                            <!-- <select class="input-control select-gioitinh_dg" id="publisher" disabled>
                                 <option value="0">Chọn giới tính</option>
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
                                 <option value="Khác">Khác</option>
-                            </select>
+                            </select> -->
+                            <input type="text" class="input-control input-gioitinh_dg" placeholder="Giới tính" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Loại độc giả:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-loai_dg " id="publisher" disabled>
                                 <option value="0">Chọn loại độc giả</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Ngày sinh:</label>
-                            <input type="text" class="input-control" placeholder="Ngày sinh">
+                            <input type="text" class="input-control input-ngaysinh_dg" placeholder="dd/mm/yyyy" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Địa chỉ email:</label>
-                            <input type="text" class="input-control" placeholder="Email">
+                            <input type="text" class="input-control input-email_dg" placeholder="Email" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số điện thoại:</label>
-                            <input type="text" class="input-control" placeholder="Số điện thoại">
+                            <input type="text" class="input-control input-sdt_dg" placeholder="Số điện thoại" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Địa chỉ:</label>
-                            <input type="text" class="input-control" placeholder="Địa chỉ">
+                            <input type="text" class="input-control input-diachi_dg" placeholder="Địa chỉ" disabled>
                         </div>
                     </div>
                     <div class="image-container">
                         <div class="image-preview">
                             <img id="image_max" class="image-dg" src="../img/noimages.png" alt="">
                         </div>
-                        <div style="width: 0.3vw;"></div>
-                        <input type="file" id="image-upload" class="image-upload_dg" accept="image/*">
+                        <!-- <div style="width: 0.3vw;"></div>
+                        <input type="file" id="image-upload" class="image-upload_dg input-img_dg" accept="image/*"> -->
                     </div>
                 </div>
                 <div class="button_contain_manage">
@@ -1369,7 +1370,7 @@
                             </div>
                             <div class="input-group">
                                 <label class="input-label">Ngày sinh:</label>
-                                <input type="text" class="input-control info_admin-ngaysinh" placeholder=""
+                                <input type="date" class="input-control info_admin-ngaysinh" placeholder=""
                                     style="width: 22vw;" disabled>
                             </div>
                             <div class="input-group">

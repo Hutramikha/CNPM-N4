@@ -44,10 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         ableInput();
     });
-    
-    btn_delete.addEventListener('click', () => {
-        
-    });
 
     btn_cancel.addEventListener('click', () => {
         // btn_add.disabled = true;
@@ -70,6 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
         
         resetInput();
         disableInput();
+    });
+
+    btn_delete.addEventListener('click', () => {
+        
     });
     
     });

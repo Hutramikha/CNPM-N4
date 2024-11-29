@@ -168,7 +168,7 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Phí mượn:</label>
-                            <input type="text" class="input-control input-phimuon_sach" placeholder="Phí mượn" disabled>
+                            <input type="text" class="input-control input-phimuon_sach" placeholder="VNĐ" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
@@ -828,11 +828,9 @@
                     </div>
                 </div>
                 <div class="button_contain">
-                    <button class="btn_action btn-add btn-add-ct-phieu_tra">Thêm chi tiết</button>
-                    <!-- <button class="btn_action btn-edit btn-edit-dg">Sửa</button>
-                    <button class="btn_action btn-delete btn-delete-dg">Xóa</button>
-                    <button class="btn_action btn-save btn-save-dg" disabled>Lưu</button>
-                    <button class="btn_action btn-cancel btn-cancel-dg" disabled>Hủy</button> -->
+                    <button class="btn_action btn-add btn-start-ct-phieu_tra">Thêm chi tiết</button>
+                    <button class="btn_action btn-save btn-add-ct-phieu_tra" disabled>Thêm</button>
+                    <button class="btn_action btn-cancel btn-cancel-ct-phieu_tra" disabled>Hủy</button>
                     <button class="btn_action btn-reset btn-reset-phieu_tra">Làm mới</button>
                     <input type="text" class="search-input search-input-phieu_tra" placeholder="Tìm kiếm...">
                     <button class="btn-search btn-search-phieu_tra ">
@@ -843,37 +841,37 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Mã vạch:</label>
-                            <input type="text" class="input-control" placeholder="Mã chi tiết sách">
+                            <input type="text" class="input-control input-mavach_sach" placeholder="Mã chi tiết sách" disabled>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Mã phiếu mượn:</label>
-                            <input type="text" class="input-control" placeholder="Mã phiếu mượn">
+                            <input type="text" class="input-control input-ma_phieu_muon" placeholder="Mã phiếu mượn" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tình trạng sách:</label>
-                            <select class="input-control" id="publisher">
-                                <option value="0">Bình thường</option>
+                            <select class="input-control select-tinhtrang_sach" id="publisher" disabled>
+                                <option value="0">Chọn tình trạng</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Vị trí:</label>
-                            <input type="text" class="input-control" placeholder="Vị trí sách">
+                            <input type="text" class="input-control input-vitri_sach_pt" placeholder="Vị trí sách" disabled>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Hình thức phạt:</label>
-                            <select class="input-control" id="publisher">
+                            <select class="input-control select-phat_sach" id="publisher" disabled>
                                 <option value="0">Không có</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Phí phạt:</label>
-                            <input type="text" class="input-control" placeholder="VNĐ">
+                            <input type="text" class="input-control input-phiphat_sach" placeholder="VNĐ" disabled>
                         </div>
                     </div>
                 </div>
@@ -902,7 +900,7 @@
                 </div>
                 <div class="button_contain_manage">
                     <button class="btn_action btn-manage btn-hinhthucphat">Hình thức phạt</button>
-                    <button class="btn_action btn-add btn-add-pn">Tạo phiếu nhập</button>
+                    <button class="btn_action btn-add btn-create-pt" disabled>Tạo phiếu trả</button>
                 </div>
                 <!-- Bảng Form của các nút từ button_contain_manage -->
                 <div id="return-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -974,7 +972,7 @@
                         <table class="table-ct-sach_tra">
                             <thead>
                                 <tr>
-                                    <th colspan="7" class="table-title">Chi Tiết Sách Trả</th>
+                                    <th colspan="8" class="table-title">Chi Tiết Sách Trả</th>
                                 </tr>
                                 <tr>
                                     <th class="table_stt">STT</th>
@@ -984,6 +982,7 @@
                                     <th>Vị trí</th>
                                     <th style="width: 20%;">Hình thức phạt</th>
                                     <th>Phí phạt</th>
+                                    <th>Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1046,7 +1045,7 @@
                     </div>
                 </div>
                 <div class="button_contain">
-                    <button class="btn_action btn-add btn-start-ct-phieu_nhap">Nhập sản phẩm</button>
+                    <button class="btn_action btn-add btn-start-ct-phieu_nhap">Nhập sách</button>
                     <button class="btn_action btn-save btn-add-ct-phieu_nhap" disabled>Thêm</button>
                     <button class="btn_action btn-cancel btn-cancel-ct-phieu_nhap" disabled>Hủy</button>
                     <button class="btn_action btn-reset btn-reset-phieu_nhap">Làm mới</button>

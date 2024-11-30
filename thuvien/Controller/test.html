@@ -7,6 +7,48 @@
     <link rel="stylesheet" href="../imgProfile/tick.webp">
 </head>
 <body>
-    
+    <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm và Sửa</title>
+</head>
+<body>
+    <button id="btnAdd">Thêm</button>
+    <button id="btnEdit">Sửa</button>
+    <button id="btnSave">Lưu</button>
+
+    <script>
+        let action = '';
+
+        document.getElementById('btnAdd').addEventListener('click', function() {
+            action = 'add';
+            console.log('Đã chọn Thêm');
+        });
+
+        document.getElementById('btnEdit').addEventListener('click', function() {
+            action = 'edit';
+            console.log('Đã chọn Sửa');
+        });
+
+        document.getElementById('btnSave').addEventListener('click', function() {
+            switch (action) {
+                case 'add':
+                    console.log('Đang thêm mới...');
+                    // Thêm logic cho việc thêm mới ở đây
+                    break;
+                case 'edit':
+                    console.log('Đang sửa...');
+                    // Thêm logic cho việc sửa ở đây
+                    break;
+                default:
+                    console.log('Chưa chọn hành động nào.');
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
 </body>
 </html>

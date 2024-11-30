@@ -1328,25 +1328,44 @@
                     </div>
                 </div>
                 <div class="button_contain">
-                    <label for="" style="font-weight: 500; padding-right: 10px;">Thống kê theo: </label>
-                    <select style="height: 5vh ;border: 1px solid #ccc; border-radius: 5px; padding-left: 30px; width: 14%; font-size: 16px; color: #333; cursor: pointer; outline: none; transition: border-color 0.3s;">
+                    <label for="" style="font-weight: bold; padding-right: 10px;">Thống kê: </label>
+                    <select class="select_thongke" style="height: 5vh ;border: 1px solid #ccc; border-radius: 5px; padding-left: 30px; width: 12%; font-size: 16px; color: #333; cursor: pointer; outline: none; transition: border-color 0.3s;">
                         <option value="0">Mời chọn</option>
+                        <option value="1">Phiếu nhập</option>
+                        <option value="2">Phiếu mượn</option>
+                        <option value="3">Phiếu trả</option>
                         <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                     </select>
-                    <button class="btn_action btn-reset btn-reset-taikhoan">Làm mới</button>
-                    <input type="text" class="search-input search-input-taikhoan" placeholder="Tìm kiếm...">
+                    <button class="btn_action btn-reset btn-reset-thongke">Làm mới</button>
+                    <input type="text" class="search-input search-input-thongke" placeholder="Tìm kiếm...">
                     <button class="btn-search btn-search-taikhoan ">
                         <i class='bx bx-search-alt-2'></i>
                     </button>
                 </div>
-                <div class="table_contain">
+                <div class="table_contain" style="margin-bottom: 0.5%;">
+                    <div>
+                        <label class="input-label" style="font-size: 16px;">Chọn năm:</label>
+                        <input type="text" class="input-control input_thongke_nam" style="height: 5vh; width: 10%; margin-right: 0.5%;" placeholder="Nhập năm">
+                        <label class="input-label" style="font-size: 16px;">Chọn quý:</label>
+                        <select  class="select_thongke-theo_quy" style="height: 5vh ;border: 1px solid #ccc; border-radius: 5px; padding-left: 30px; width: 12%; font-size: 16px; color: #333; cursor: pointer; outline: none; transition: border-color 0.3s;">
+                            <option value="0">Mời chọn</option>
+                            <option value="1">Quý 1</option>
+                            <option value="2">Quý 2</option>
+                            <option value="3">Quý 3</option>
+                            <option value="4">Quý 4</option>
+                            <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                        </select>
+                    </div>
 
                 </div>
                 <div class="table_contain">
-                    
-                </div>
-                <div class="table_contain">
-                    
+                    <div>
+                        <label class="input-label" style="font-size: 16px;">Từ ngày:</label>
+                        <input type="date" class="input-control input_thongke_tu_ngay" style="height: 5vh; width: 12.5%; margin-right: 0.5%;" placeholder="Chọn ngày">
+                        <label class="input-label" style="font-size: 16px;">Đến ngày:</label>
+                        <input type="date" class="input-control input_thongke_den_ngay" style="height: 5vh; width: 12.5%;" placeholder="Chọn ngày">
+                    </div>
+
                 </div>
                 <div style="height: 1vh;"></div>
             </div>
@@ -1429,6 +1448,7 @@
     <script src="../Controller/ql_phieutra.js"></script>
     <script src="../Controller/ql_taikhoan.js"></script>
     <script src="../Controller/info_admin.js"></script>
+    <script src="../Controller/thongke.js"></script>
 </body>
 
 </html>

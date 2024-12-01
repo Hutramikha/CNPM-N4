@@ -897,7 +897,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     addrc.addEventListener('click', () => addRC());
     closerc.addEventListener('click', () => closeRC());
-    addrcSubmit.addEventListener('click', () => submitRC());
+    addrcSubmit.addEventListener('click', () => { 
+        submitRC();
+        $(document).ready(function() {
+            reset_select_loaidocgia();
+        });  
+    });
     updaterc.addEventListener('click', () => rcEditTable());
     openRCForm.addEventListener("click", () => RCBTN());
     closeRCForm.addEventListener("click", () => RCFormExit());
@@ -979,6 +984,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const rowToDelete = document.querySelector(`tr[rc-data-id="${rc_id}"]`);
                     if (rowToDelete) {
                         rowToDelete.remove();
+                        $(document).ready(function() {
+                            reset_select_loaidocgia();
+                        }); 
                     }
                 } else {
                     alert("Error deleting reader-category: " + (data.error || "Unknown error"));
@@ -1112,6 +1120,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
                 alert("Update successful!");
+                $(document).ready(function() {
+                    reset_select_loaidocgia();
+                }); 
             }
         };
         xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1) + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2));

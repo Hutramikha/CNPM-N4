@@ -538,3 +538,22 @@ td {
 .table-ct-phieu_nhap {
     display: none;
 }
+
+/*----------------------Nút cấp tàu khoản---------------------------*/
+#capTaiKhoanBtn {
+    background-color: #4CAF50; /* Màu nền */
+    color: white; /* Màu chữ */
+    padding: 1vh 2vw; /* Cách điệu padding */
+    text-align: center; /* Căn giữa chữ */
+    text-decoration: none; /* Không gạch chân */
+    display: inline-block; /* Hiển thị như inline-block */
+    font-size: 16px; /* Kích thước chữ */
+    cursor: pointer; /* Con trỏ chuột */
+    border: none; /* Không viền */
+    border-radius: 4px; /* Bo tròn */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+#capTaiKhoanBtn:hover {
+    background-color: #45a049; /* Màu nền khi hover */
+}

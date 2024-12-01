@@ -99,6 +99,95 @@ document.addEventListener("DOMContentLoaded", () => {
         
         disableInput();
         resetInput();
+        reset_table_nhanvien();
     });
+
+    // FETCH DATA=========================================
+    $(document).ready(function() {
+        // Fetch dữ liệu từ server
+        $.ajax({
+            url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Hiển thị dữ liệu cho danh sách nhân viên
+                $.each(data.list_nhanvien, function(index, nhanvien) {
+                    $('.table-nhanvien tbody').append(
+                        '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + nhanvien.manv + '</td>' +
+                            '<td>' + nhanvien.matk + '</td>' +
+                            '<td>' + nhanvien.ten + '</td>' +
+                            '<td>' + nhanvien.gioitinh + '</td>' +
+                            '<td>' + nhanvien.ngaysinh + '</td>' +
+                            '<td>' + nhanvien.email + '</td>' +
+                            '<td>' + nhanvien.sdt + '</td>' +
+                            '<td>' + nhanvien.diachi + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+                // Hiển thị dữ liệu cho danh sách nhân viên chưa có tài khoản
+                $.each(data.list_nhanvien_ko_tk, function(index, nhanvien_ko_tk) {
+                    $('.table-nhanvien_taikhoan tbody').append(
+                        '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + nhanvien_ko_tk.manv + '</td>' +
+                            '<td>' + '<button id="capTaiKhoanBtn" class="btn-cap-tai-khoan" onclick="capTaiKhoan('+ nhanvien_ko_tk.manv +')">Cấp Tài Khoản</button>' + '</td>' +
+                        '</tr>'
+                    );
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi:', error);
+            }
+        });
+    });
+
+    function reset_table_nhanvien() {
+        $(document).ready(function() {
+            $('.table-nhanvien tbody').empty();
+            $('.table-nhanvien_taikhoan tbody').empty();
+            // Fetch dữ liệu từ server
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Hiển thị dữ liệu cho danh sách nhân viên
+                    $.each(data.list_nhanvien, function(index, nhanvien) {
+                        $('.table-nhanvien tbody').append(
+                            '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + nhanvien.manv + '</td>' +
+                                '<td>' + nhanvien.matk + '</td>' +
+                                '<td>' + nhanvien.ten + '</td>' +
+                                '<td>' + nhanvien.gioitinh + '</td>' +
+                                '<td>' + nhanvien.ngaysinh + '</td>' +
+                                '<td>' + nhanvien.email + '</td>' +
+                                '<td>' + nhanvien.sdt + '</td>' +
+                                '<td>' + nhanvien.diachi + '</td>' +
+                            '</tr>'
+                        );
+                    });
+    
+                    // Hiển thị dữ liệu cho danh sách nhân viên chưa có tài khoản
+                    $.each(data.list_nhanvien_ko_tk, function(index, nhanvien_ko_tk) {
+                        $('.table-nhanvien_taikhoan tbody').append(
+                            '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + nhanvien_ko_tk.manv + '</td>' +
+                                '<td>' + '<button id="capTaiKhoanBtn" class="btn-cap-tai-khoan" onclick="capTaiKhoan('+ nhanvien_ko_tk.manv +')">Cấp Tài Khoản</button>' + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    }
+
     
 });

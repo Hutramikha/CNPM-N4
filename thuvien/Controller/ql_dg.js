@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_save.disabled = true;
         btn_cancel.disabled = true;  
 
+        resetInput();
         disableInput();
     });
 
@@ -75,7 +76,118 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_save.disabled = true;
         btn_cancel.disabled = true; 
         
+        resetInput();
         disableInput();
+
+        reset_table_docgia();
+        reset_select_loaidocgia();
     });
+
+
+    // FETCH DATA=========================================
+    $(document).ready(function() {
+        // Fetch dữ liệu từ server
+        $.ajax({
+            url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Hiển thị dữ liệu cho danh sách độc giả
+                $.each(data.list_docgia, function(index, docgia) {
+                    $('.table-docgia tbody').append(
+                        '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + docgia.madg + '</td>' +
+                            '<td>' + docgia.matk + '</td>' +
+                            '<td>' + docgia.ten + '</td>' +
+                            '<td>' + docgia.gioitinh + '</td>' +
+                            '<td>' + docgia.maloaidocgia + '-' + docgia.tenloaidocgia + '</td>' +
+                            '<td>' + docgia.ngaysinh + '</td>' +
+                            '<td>' + docgia.email + '</td>' +
+                            '<td>' + docgia.sdt + '</td>' +
+                            '<td>' + docgia.diachi + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+                // Đổ các option loại độc giả
+                $.each(data.list_loaidocgia, function(index, loaidocgia) {
+                    $('.select-loai_dg').append(
+                        '<option value=' + '"' + loaidocgia.maloaidocgia + '"' + '>' +
+                        loaidocgia.tenloaidocgia + '-' + loaidocgia.soluongsachtoida + ' quyển' + '</option>'
+                    );
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi:', error);
+            }
+        });
+    });
+
+    function reset_table_docgia() {
+        $(document).ready(function() {
+            $('.table-docgia tbody').empty();
+            // Fetch dữ liệu từ server
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Hiển thị dữ liệu cho danh sách độc giả
+                    $.each(data.list_docgia, function(index, docgia) {
+                        $('.table-docgia tbody').append(
+                            '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + docgia.madg + '</td>' +
+                                '<td>' + docgia.matk + '</td>' +
+                                '<td>' + docgia.ten + '</td>' +
+                                '<td>' + docgia.gioitinh + '</td>' +
+                                '<td>' + docgia.maloaidocgia + '-' + docgia.tenloaidocgia + '</td>' +
+                                '<td>' + docgia.ngaysinh + '</td>' +
+                                '<td>' + docgia.email + '</td>' +
+                                '<td>' + docgia.sdt + '</td>' +
+                                '<td>' + docgia.diachi + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    }
+
+    function reset_select_loaidocgia() {
+        $(document).ready(function() {
+            var option0 = $('.select-loai_dg option[value="0"]').clone();
+            $('.select-loai_dg').empty();
+            // Fetch dữ liệu từ server
+            $('.select-loai_dg').append(option0);
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Đổ các option loại độc giả
+                    $.each(data.list_loaidocgia, function(index, loaidocgia) {
+                        $('.select-loai_dg').append(
+                            '<option value=' + '"' + loaidocgia.maloaidocgia + '"' + '>' +
+                            loaidocgia.tenloaidocgia + '-' + loaidocgia.soluongsachtoida + ' quyển' + '</option>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    }
+
+
     
+    $(document).ready(function() {
+        window.reset_select_loaidocgia = reset_select_loaidocgia; // Gán hàm vào window
+    });
+
     });

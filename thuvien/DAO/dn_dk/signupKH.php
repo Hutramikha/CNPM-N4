@@ -9,7 +9,7 @@ if (isset($_POST['username_dk']) && isset($_POST['password_dk']) && isset($_POST
     $email = $_POST['email'];
     $ngaytao = date('Y-m-d');
     $maquyen = 2;
-    $maloaidg = 0;
+    $maloaidg = 1;
 
     // Kiểm tra tên đăng nhập đã tồn tại
     $sql_check_username = "SELECT * FROM taikhoan WHERE tendangnhap = '$username'";

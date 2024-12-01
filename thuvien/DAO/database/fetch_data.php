@@ -14,7 +14,9 @@ if ($result_sach->num_rows > 0) {
 }
 
 //  độc giả
-$sql_dg = 'SELECT * FROM docgia';
+$sql_dg = 'SELECT *
+            FROM docgia
+            LEFT JOIN loaidocgia ON docgia.maloaidocgia = loaidocgia.maloaidocgia;';
 $result_dg = $connect->query($sql_dg);
 
 $list_docgia = array();
@@ -195,7 +197,19 @@ if ($result_chucnang->num_rows > 0) {
 
 // ======================================================== Fetch có Điều kiện ====================================================================
 
+//  nhân viên ko tài khoản
+$sql_nv_ko_tk = 'SELECT *
+                FROM nhanvien
+                WHERE matk IS NULL;';
+$result_nv_ko_tk = $connect->query($sql_nv_ko_tk);
 
+$list_nhanvien_ko_tk = array();
+
+if ($result_nv_ko_tk->num_rows > 0) {
+    while ($row = $result_nv_ko_tk->fetch_assoc()) {
+        $list_nhanvien_ko_tk[] = $row;
+    }
+}
 
 // ================================================ echo json encode ============================================================
 
@@ -208,6 +222,7 @@ $response = array(
     'list_docgia' =>  $list_docgia,
     'list_loaidocgia' =>  $list_loaidocgia,
     'list_nhanvien' =>  $list_nhanvien,
+    'list_nhanvien_ko_tk' => $list_nhanvien_ko_tk,
     'list_taikhoan' =>  $list_taikhoan,
     'list_hinhthucphat' =>  $list_hinhthucphat,
     'list_nhacungcap' =>  $list_nhacungcap,

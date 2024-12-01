@@ -146,8 +146,15 @@
                             </select>
                         </div>
                         <div class="input-group">
+                            <label class="input-label">Tình trạng sách:</label>
+                            <select class="input-control select-tinhtrang_sach" id="publisher" disabled>
+                                <option value="-1">Chọn tình trạng</option>
+                                <!-- Tùy chọn sẽ được thêm qua JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group">
                             <label class="input-label">Tóm tắt:</label>
-                            <textarea class="input-control input-tomtat_sach" id="textarea" rows="3"
+                            <textarea class="input-control input-tomtat_sach" id="textarea" rows="2"
                                 placeholder="Nhập tóm tắt" disabled></textarea>
                         </div>
                     </div>
@@ -851,8 +858,8 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tình trạng sách:</label>
-                            <select class="input-control select-tinhtrang_sach" id="publisher" disabled>
-                                <option value="0">Chọn tình trạng</option>
+                            <select class="input-control select-tinhtrang_sach_pt" id="publisher" disabled>
+                                <option value="-1">Chọn tình trạng</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
@@ -888,8 +895,8 @@
                                     <th>Mã phiếu mượn</th>
                                     <th>Mã độc giả</th>
                                     <th>Mã nhân viên</th>
-                                    <th style="width: 25%;">Tình trạng</th>
-                                    <th>Vị trí</th>
+                                    <th>Mã tình trạng</th>
+                                    <th>Khu</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -995,10 +1002,11 @@
                             <table class="table-phieu_tra">
                                 <thead>
                                     <tr>
-                                        <th colspan="6" class="table-title">Danh Sách Phiếu Trả</th>
+                                        <th colspan="7" class="table-title">Danh Sách Phiếu Trả</th>
                                     </tr>
                                     <tr>
-                                        <th>Mã phiếu trả</th>
+                                        <th class="table_stt">STT</th>
+                                        <th>Mã phiếu</th>
                                         <th>Ngày trả</th>
                                         <th>Mã phiếu mượn</th>
                                         <th>Mã độc giả</th>
@@ -1020,7 +1028,7 @@
                                     </tr>
                                     <tr>
                                         <th class="table_stt">STT</th>
-                                        <th>Mã phiếu trả</th>
+                                        <th>Mã phiếu</th>
                                         <th>Mã vạch</th>
                                         <th>Mã phạt</th>
                                         <th>Phí phạt</th>
@@ -1440,8 +1448,8 @@
     </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../Controller/jsadmin.js"></script>
-    <script src="../Controller/ql_sach.js"></script>
+    <script src="../Controller/jsadmin1.js"></script>
+    <script src="../Controller/ql_sach1.js"></script>
     <script src="../Controller/ql_nv.js"></script>
     <script src="../Controller/ql_dg.js"></script>
     <script src="../Controller/ql_phieunhap.js"></script>

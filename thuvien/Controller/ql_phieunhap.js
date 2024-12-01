@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const table_ct_phieu_nhap_xem = document.querySelector('.table-ct-phieu_nhap-xem');
     const table_ct_phieu_nhap = document.querySelector('.table-ct-phieu_nhap');
-    
+
     function ableInput() {
         select_ten_sach_pn.disabled = false;
         input_soluong_sach_pn.disabled = false;
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input_soluong_sach_pn.value = '';
         input_gianhap_sach_pn.value = '';
         input_thanhtien_sach_pn.value = '';
-    
+
         select_ten_sach_pn.selectedIndex = 0;
         select_ncc_sach_pn.selectedIndex = 0;
     }
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         table_ct_phieu_nhap_xem.style.display = 'none';
         table_ct_phieu_nhap.style.display = 'table';
-        
+
         ableInput();
     });
 
@@ -67,9 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         table_ct_phieu_nhap_xem.style.display = 'table';
         table_ct_phieu_nhap.style.display = 'none';
-        
+
         resetInput();
         disableInput();
+        reset_select_nhacc();
+        reset_select_sach_pn();
     });
 
     btn_reset.addEventListener('click', () => {
@@ -83,72 +85,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
         table_ct_phieu_nhap_xem.style.display = 'table';
         table_ct_phieu_nhap.style.display = 'none';
-        
+
         resetInput();
         disableInput();
         reset_table_phieu_nhap();
         reset_select_nhacc();
+        reset_select_sach_pn();
     });
-    
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         // Fetch dữ liệu từ server
         $.ajax({
             url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 // Hiển thị dữ liệu cho danh sách phiếu nhập
-                $.each(data.list_phieunhap, function(index, phieunhap) {
+                $.each(data.list_phieunhap, function (index, phieunhap) {
                     $('.table-phieu_nhap tbody').append(
                         '<tr>' +
-                            '<td>' + (index + 1) + '</td>' +
-                            '<td>' + phieunhap.mapn + '</td>' +
-                            '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
-                            '<td>' + phieunhap.manv + '</td>' +
-                            '<td>' + phieunhap.ngaynhap + '</td>' +
-                            '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + phieunhap.mapn + '</td>' +
+                        '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
+                        '<td>' + phieunhap.manv + '</td>' +
+                        '<td>' + phieunhap.ngaynhap + '</td>' +
+                        '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
                         '</tr>'
                     );
                 });
 
                 // Đổ các option nhà cung cấp
-                $.each(data.list_nhacungcap, function(index, nhacc) {
+                $.each(data.list_nhacungcap, function (index, nhacc) {
                     $('.select-ncc_sach_pn').append(
                         '<option value=' + '"' + nhacc.mancc + '"' + '>' +
                         nhacc.ten + '</option>'
                     );
                 });
+
+                // Đổ các option sách
+                $.each(data.list_sach, function (index, sach) {
+                    $('.select-ten_sach_pn').append(
+                        '<option value=' + '"' + sach.masach + '"' + '>' +
+                        sach.masach + '-' + sach.tensach + '</option>'
+                    );
+                });
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Lỗi:', error);
             }
         });
     });
 
     function reset_table_phieu_nhap() {
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.table-phieu_nhap tbody').empty();
             // Fetch dữ liệu từ server
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
                 method: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     // Hiển thị dữ liệu cho danh sách phiếu nhập
-                    $.each(data.list_phieunhap, function(index, phieunhap) {
+                    $.each(data.list_phieunhap, function (index, phieunhap) {
                         $('.table-phieu_nhap tbody').append(
                             '<tr>' +
-                                '<td>' + (index + 1) + '</td>' +
-                                '<td>' + phieunhap.mapn + '</td>' +
-                                '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
-                                '<td>' + phieunhap.manv + '</td>' +
-                                '<td>' + phieunhap.ngaynhap + '</td>' +
-                                '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + phieunhap.mapn + '</td>' +
+                            '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
+                            '<td>' + phieunhap.manv + '</td>' +
+                            '<td>' + phieunhap.ngaynhap + '</td>' +
+                            '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
                             '</tr>'
                         );
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
                 }
             });
@@ -156,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function reset_select_nhacc() {
-        $(document).ready(function() {
+        $(document).ready(function () {
             var option0 = $('.select-ncc_sach_pn option[value="0"]').clone();
             $('.select-ncc_sach_pn').empty();
             // Fetch dữ liệu từ server
@@ -165,16 +176,42 @@ document.addEventListener("DOMContentLoaded", () => {
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
                 method: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     // Đổ các option nhà cung cấp
-                    $.each(data.list_nhacungcap, function(index, nhacc) {
+                    $.each(data.list_nhacungcap, function (index, nhacc) {
                         $('.select-ncc_sach_pn').append(
                             '<option value=' + '"' + nhacc.mancc + '"' + '>' +
                             nhacc.ten + '</option>'
                         );
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    }
+
+    function reset_select_sach_pn() {
+        $(document).ready(function () {
+            var option0 = $('.select-ten_sach_pn option[value="0"]').clone();
+            $('.select-ten_sach_pn').empty();
+            // Fetch dữ liệu từ server
+            $('.select-ten_sach_pn').append(option0);
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Đổ các option sách
+                    $.each(data.list_sach, function (index, sach) {
+                        $('.select-ten_sach_pn').append(
+                            '<option value=' + '"' + sach.masach + '"' + '>' +
+                            sach.masach + '-' + sach.tensach + '</option>'
+                        );
+                    });
+                },
+                error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
                 }
             });
@@ -182,8 +219,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         window.reset_select_nhacc = reset_select_nhacc; // Gán hàm vào window
     });
 
@@ -192,5 +229,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // $(document).ready(function() {
     //     reset_select_nhacc();
     // });  
-    
-    });
+
+});

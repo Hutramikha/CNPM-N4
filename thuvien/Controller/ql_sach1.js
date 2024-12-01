@@ -20,6 +20,7 @@ const select_tacgia_sach = document.querySelector('.select-tacgia_sach');
 const input_phimuon_sach = document.querySelector('.input-phimuon_sach');
 const input_soluong_sach = document.querySelector('.input-soluong_sach');
 const input_img_sach = document.querySelector('.input-img_sach');
+const select_tinhtrang_sach = document.querySelector('.select-tinhtrang_sach');
 
 function ableInput() {
     input_ten_sach.disabled = false;
@@ -30,6 +31,7 @@ function ableInput() {
     input_phimuon_sach.disabled = false;
     // input_soluong_sach.disabled = false;
     input_img_sach.disabled = false;
+    select_tinhtrang_sach.disabled = false;
 };
 
 function disavailInput() {
@@ -41,6 +43,7 @@ function disavailInput() {
     input_phimuon_sach.disabled = true;
     // input_soluong_sach.disabled = true;
     input_img_sach.disabled = true;
+    select_tinhtrang_sach.disabled = true;
 };
 
 function resetInput() {
@@ -52,6 +55,7 @@ function resetInput() {
     select_theloai_sach.selectedIndex = 0;
     select_nhaxuatban_sach.selectedIndex = 0;
     select_tacgia_sach.selectedIndex = 0;
+    select_tinhtrang_sach.selectedIndex = 0;
 }
 
 btn_add.addEventListener('click', () => {
@@ -103,5 +107,7 @@ btn_reset.addEventListener('click', () => {
     resetInput();
     disavailInput();
 });
+
+    
 
 });

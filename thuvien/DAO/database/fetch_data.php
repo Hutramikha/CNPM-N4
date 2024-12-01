@@ -229,6 +229,22 @@ if ($result_nv_ko_tk->num_rows > 0) {
     }
 }
 
+//  chi tiết sách đã mượn
+$sql_chitiet_sach_da_muon = 'SELECT *
+                            FROM chitietsach cs
+                            JOIN chitietphieumuon cpm ON cs.mavach = cpm.mavach
+                            JOIN phieumuon pm ON cpm.mapm = pm.mapm
+                            WHERE cs.trangthai = 1;';
+$result_chitiet_sach_da_muon = $connect->query($sql_chitiet_sach_da_muon);
+
+$list_chitiet_sach_da_muon = array();
+
+if ($result_chitiet_sach_da_muon->num_rows > 0) {
+    while ($row = $result_chitiet_sach_da_muon->fetch_assoc()) {
+        $list_chitiet_sach_da_muon[] = $row;
+    }
+}
+
 // ================================================ echo json encode ============================================================
 
 $response = array(
@@ -250,6 +266,7 @@ $response = array(
     'list_phieutra' =>  $list_phieutra,
     'list_quyen' =>  $list_quyen,
     'list_chucnang' =>  $list_chucnang,
+    'list_chitiet_sach_da_muon' => $list_chitiet_sach_da_muon,
 );
 
 echo json_encode($response);

@@ -484,6 +484,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const rowToDelete = document.querySelector(`tr[pen-data-id="${penalty_id}"]`);
                     if (rowToDelete) {
                         rowToDelete.remove();
+                        $(document).ready(function() {
+                            reset_select_hinhthucphat();
+                        });  
                     }
                 } else {
                     alert("Error deleting penalty: " + (data.error || "Unknown error"));
@@ -524,11 +527,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
+                        $(document).ready(function() {
+                            reset_select_hinhthucphat();
+                        });
                         alert(response.message); // "Hình thức phạt được thêm thành công!"
                         // Clear the inputs after adding
                         document.getElementById('input-lido').value = '';
                         document.getElementById('input-phiphat').value = '';
-                        fetchTableDataPenalty();
+                        fetchTableDataPenalty();  
                     } else {
                         alert("An error occurred: " + (response.error || "Unknown error"));
                     }
@@ -617,6 +623,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
                 alert("Update successful!");
+                $(document).ready(function() {
+                    reset_select_hinhthucphat();
+                });  
             }
         };
         xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1) + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2));
@@ -737,6 +746,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
                     const rowToDelete = document.querySelector(`tr[stat-data-id="${status_id}"]`);
                     if (rowToDelete) {
+                        $(document).ready(function() {
+                            reset_select_tinhtrang_pt();
+                        });  
                         rowToDelete.remove();
                     }
                 } else {
@@ -779,7 +791,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //                        document.getElementById('matt-warning').style.color = "red";
                     //                        document.getElementById('matt-warning').innerHTML = "Mã đã tồn tại";
                     if (response.success) {
-                        alert(response.message); // "Thể loại được thêm thành công!"
+                        $(document).ready(function() {
+                            reset_select_tinhtrang_pt();
+                        });  
+                        alert(response.message); // "Tình trạng được thêm thành công!"
                         // Clear the inputs after adding
                         //                        document.getElementById('input-matt').value = '';
                         document.getElementById('input-mota').value = '';
@@ -863,6 +878,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+                $(document).ready(function() {
+                    reset_select_tinhtrang_pt();
+                });  
                 alert("Update successful!");
             }
         };
@@ -897,12 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     addrc.addEventListener('click', () => addRC());
     closerc.addEventListener('click', () => closeRC());
-    addrcSubmit.addEventListener('click', () => { 
-        submitRC();
-        $(document).ready(function() {
-            reset_select_loaidocgia();
-        });  
-    });
+    addrcSubmit.addEventListener('click', () => submitRC());
     updaterc.addEventListener('click', () => rcEditTable());
     openRCForm.addEventListener("click", () => RCBTN());
     closeRCForm.addEventListener("click", () => RCFormExit());
@@ -1027,7 +1040,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
-                        alert(response.message); // "loại độc giả được thêm thành công!"
+                        $(document).ready(function() {
+                            reset_select_loaidocgia();
+                        });
+                        alert(response.message); // "loại độc giả được thêm thành công!"  
                         // Clear the inputs after adding
                         document.getElementById('input-tenldg').value = '';
                         document.getElementById('input-sl').value = '';

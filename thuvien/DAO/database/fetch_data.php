@@ -136,7 +136,9 @@ if ($result_ncc->num_rows > 0) {
 }
 
 // Phiếu nhập
-$sql_pn = 'SELECT * FROM phieunhap';
+$sql_pn = 'SELECT *
+            FROM phieunhap pn
+            LEFT JOIN nhacungcap ncc ON pn.mancc = ncc.mancc;';
 $result_pn = $connect->query($sql_pn);
 
 $list_phieunhap = array();

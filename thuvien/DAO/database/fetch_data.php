@@ -39,15 +39,31 @@ if ($result_nv->num_rows > 0) {
     }
 }
 
-// tài khoản
-$sql_tk = 'SELECT * FROM taikhoan';
-$result_tk = $connect->query($sql_tk);
+// tài khoản nhân viên
+$sql_tk_nv = 'SELECT *
+              FROM taikhoan tk
+              JOIN nhanvien nv ON tk.tendangnhap = nv.matk;';
+$result_tk_nv = $connect->query($sql_tk_nv);
 
-$list_taikhoan = array();
+$list_taikhoan_nhanvien = array();
 
-if ($result_tk->num_rows > 0) {
-    while ($row = $result_tk->fetch_assoc()) {
-        $list_taikhoan[] = $row;
+if ($result_tk_nv->num_rows > 0) {
+    while ($row = $result_tk_nv->fetch_assoc()) {
+        $list_taikhoan_nhanvien[] = $row;
+    }
+}
+
+// tài khoản nhân viên
+$sql_tk_dg = 'SELECT *
+              FROM taikhoan tk
+              JOIN docgia dg ON tk.tendangnhap = dg.matk;';
+$result_tk_dg = $connect->query($sql_tk_dg);
+
+$list_taikhoan_docgia = array();
+
+if ($result_tk_dg->num_rows > 0) {
+    while ($row = $result_tk_dg->fetch_assoc()) {
+        $list_taikhoan_docgia[] = $row;
     }
 }
 
@@ -225,7 +241,8 @@ $response = array(
     'list_loaidocgia' =>  $list_loaidocgia,
     'list_nhanvien' =>  $list_nhanvien,
     'list_nhanvien_ko_tk' => $list_nhanvien_ko_tk,
-    'list_taikhoan' =>  $list_taikhoan,
+    'list_taikhoan_nhanvien' =>  $list_taikhoan_nhanvien,
+    'list_taikhoan_docgia' =>  $list_taikhoan_docgia,
     'list_hinhthucphat' =>  $list_hinhthucphat,
     'list_nhacungcap' =>  $list_nhacungcap,
     'list_phieunhap' =>  $list_phieunhap,

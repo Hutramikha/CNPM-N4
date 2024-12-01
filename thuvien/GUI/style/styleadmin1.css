@@ -582,7 +582,7 @@ td {
 .btn-sap-xep {
     background-color: #4CAF50; /* Màu nền xanh */
     color: white; /* Màu chữ trắng */
-    padding: 10px 20px; /* Padding cho nút */
+    padding: 0.4vh 0.8vw; /* Padding cho nút */
     border: none; /* Không viền */
     border-radius: 5px; /* Bo tròn */
     cursor: pointer; /* Con trỏ chuột */

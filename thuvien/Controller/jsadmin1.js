@@ -241,6 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 console.log('Delete response:', data); // Log response (check trong console)
                 if (data.success) {
+                    $(document).ready(function() {
+                        reset_select_theloai();
+                    }); 
                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
                     const rowToDelete = document.querySelector(`tr[cat-data-id="${category_id}"]`);
                     if (rowToDelete) {
@@ -283,6 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
+                        $(document).ready(function() {
+                            reset_select_theloai();
+                        }); 
                         alert(response.message); // "Thể loại được thêm thành công!"
                         // Clear the inputs after adding
                         document.getElementById('input-tentl').value = '';
@@ -366,6 +372,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+                $(document).ready(function() {
+                    reset_select_theloai();
+                }); 
                 alert("Update successful!");
             }
         };
@@ -748,6 +757,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (rowToDelete) {
                         $(document).ready(function() {
                             reset_select_tinhtrang_pt();
+                            reset_select_tinhtrangsach_sach();
                         });  
                         rowToDelete.remove();
                     }
@@ -793,6 +803,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (response.success) {
                         $(document).ready(function() {
                             reset_select_tinhtrang_pt();
+                            reset_select_tinhtrangsach_sach();
                         });  
                         alert(response.message); // "Tình trạng được thêm thành công!"
                         // Clear the inputs after adding
@@ -880,6 +891,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
                 $(document).ready(function() {
                     reset_select_tinhtrang_pt();
+                    reset_select_tinhtrangsach_sach();
                 });  
                 alert("Update successful!");
             }
@@ -1258,6 +1270,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
                     const rowToDelete = document.querySelector(`tr[publish-data-id="${publisher_id}"]`);
                     if (rowToDelete) {
+                        $(document).ready(function() {
+                            reset_select_nhaxuatban();
+                        }); 
                         rowToDelete.remove();
                     }
                 } else {
@@ -1297,6 +1312,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
+                        $(document).ready(function() {
+                            reset_select_nhaxuatban();
+                        }); 
                         alert(response.message); // "NXB được thêm thành công!"
                         // Clear the inputs after adding
                         document.getElementById('input-tennxb').value = '';
@@ -1380,6 +1398,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+                $(document).ready(function() {
+                    reset_select_nhaxuatban();
+                }); 
                 alert("Update successful!");
             }
         };
@@ -1815,6 +1836,9 @@ function deleteAuthor(author_id) {
                 // Tìm và xóa dòng mà không cần tải lại trang (sửa trực tiếp trên HTML)
                 const rowToDelete = document.querySelector(`tr[author-data-id="${author_id}"]`);
                 if (rowToDelete) {
+                    $(document).ready(function() {
+                        reset_select_tacgia();
+                    }); 
                     rowToDelete.remove();
                 }
             } else {
@@ -1853,6 +1877,9 @@ function submitAuthor() {
                 const response = JSON.parse(xhr.responseText);
 
                 if (response.success) {
+                    $(document).ready(function() {
+                        reset_select_tacgia();
+                    }); 
                     alert(response.message); // "Tác giả được thêm thành công!"
                     // Xóa các giá trị trong input sau khi thêm
                     document.getElementById('input-tentg').value = '';
@@ -1936,6 +1963,9 @@ function updateAuthorData(id, column, value) {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function () {
         if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+            $(document).ready(function() {
+                reset_select_tacgia();
+            }); 
             alert("Cập nhật thành công!");
         }
     };

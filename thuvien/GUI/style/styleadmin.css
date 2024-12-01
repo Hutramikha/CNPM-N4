@@ -577,3 +577,18 @@ td {
     color: #f44336; /* Màu đỏ */
     font-weight: bold; /* Chữ đậm */
 }
+
+/*----------------------Nút sắp xếp---------------------------*/
+.btn-sap-xep {
+    background-color: #4CAF50; /* Màu nền xanh */
+    color: white; /* Màu chữ trắng */
+    padding: 10px 20px; /* Padding cho nút */
+    border: none; /* Không viền */
+    border-radius: 5px; /* Bo tròn */
+    cursor: pointer; /* Con trỏ chuột */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.btn-sap-xep:hover {
+    background-color: #45a049; /* Màu nền khi hover */
+}

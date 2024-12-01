@@ -108,6 +108,120 @@ btn_reset.addEventListener('click', () => {
     disavailInput();
 });
 
+$(document).ready(function () {
+    // Fetch dữ liệu từ server
+    $.ajax({
+        url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Hiển thị dữ liệu cho danh sách sách
+            $.each(data.list_sach, function (index, sach) {
+                $('.table-sach tbody').append(
+                    '<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + sach.masach + '</td>' +
+                    '<td>' + sach.tensach + '</td>' +
+                    '<td>' + sach.tomtat + '</td>' +
+                    '<td>' + sach.matl + '</td>' +
+                    '<td>' + sach.manxb + '</td>' +
+                    '<td>' + sach.matg + '</td>' +
+                    '<td>' + sach.soluong + '</td>' +
+                    '<td>' + sach.phimuon + ' VNĐ' + '</td>' +
+                    '</tr>'
+                );
+            });
+
+            // Hiển thị dữ liệu cho danh sách sách cần sắp xếp
+            $.each(data.list_chitiet_sach_chua_sapxep, function (index, chitiet_sach_chua_sapxep) {
+                $('.table-sach_sapxep tbody').append(
+                    '<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + chitiet_sach_chua_sapxep.masach + '</td>' +
+                    '<td>' + chitiet_sach_chua_sapxep.mavach + '</td>' +
+                    '<td>' + '<button class="btn-sap-xep" onclick="sapXep(' + chitiet_sach_chua_sapxep.mavach + ')">Sắp Xếp</button>' + '</td>' +
+                    '</tr>'
+                );
+            });
+
+            // Đổ các option thể loại
+            $.each(data.list_nhacungcap, function (index, nhacc) {
+                $('.select-ncc_sach_pn').append(
+                    '<option value=' + '"' + nhacc.mancc + '"' + '>' +
+                    nhacc.ten + '</option>'
+                );
+            });
+
+            // Đổ các option nhà xuất bản
+            $.each(data.list_sach, function (index, sach) {
+                $('.select-ten_sach_pn').append(
+                    '<option value=' + '"' + sach.masach + '"' + '>' +
+                    sach.masach + '-' + sach.tensach + '</option>'
+                );
+            });
+
+            // Đổ các option tác giả
+            $.each(data.list_sach, function (index, sach) {
+                $('.select-ten_sach_pn').append(
+                    '<option value=' + '"' + sach.masach + '"' + '>' +
+                    sach.masach + '-' + sach.tensach + '</option>'
+                );
+            });
+
+            // Đổ các option tình trạng sách
+            $.each(data.list_sach, function (index, sach) {
+                $('.select-ten_sach_pn').append(
+                    '<option value=' + '"' + sach.masach + '"' + '>' +
+                    sach.masach + '-' + sach.tensach + '</option>'
+                );
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi:', error);
+        }
+    });
+});
+
+function sapXep(mavach) {
+    // Logic xử lý sắp xếp với mavach
+    console.log('Sắp xếp cho mã vạch:', mavach);
+    // Tiến hành các bước xử lý khác như mở modal hay gửi yêu cầu đến server...
+}
+
+function reset_table_sach() {
     
+}
+
+function reset_select_theloai() {
+    
+}
+
+function reset_select_nhaxuatban() {
+    
+}
+
+function reset_select_tacgia() {
+    
+}
+
+function reset_select_tinhtrangsach_sach() {
+    
+}
+
+
+
+$(document).ready(function () {
+    window.reset_table_sach = reset_table_sach;
+    window.reset_select_theloai = reset_select_theloai;
+    window.reset_select_nhaxuatban = reset_select_nhaxuatban;
+    window.reset_select_tacgia = reset_select_tacgia;
+    window.reset_select_tinhtrangsach_sach = reset_select_tinhtrangsach_sach;
+});
+
+// Nhớ thêm hàm reset_select_nhacc() bên nhà cc
+
+// $(document).ready(function() {
+//     reset_select_nhacc();
+// }); 
 
 });

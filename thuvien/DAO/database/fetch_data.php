@@ -245,6 +245,23 @@ if ($result_chitiet_sach_da_muon->num_rows > 0) {
     }
 }
 
+//  chi tiết sách chưa sắp xếp
+$sql_chitiet_sach_chua_sapxep = 'SELECT *
+                                FROM sach s
+                                JOIN chitietsach cs ON s.masach = cs.masach
+                                WHERE cs.khu IS NULL;';
+$result_chitiet_sach_chua_sapxep = $connect->query($sql_chitiet_sach_chua_sapxep);
+
+$list_chitiet_sach_chua_sapxep = array();
+
+if ($result_chitiet_sach_chua_sapxep->num_rows > 0) {
+    while ($row = $result_chitiet_sach_chua_sapxep->fetch_assoc()) {
+        $list_chitiet_sach_chua_sapxep[] = $row;
+    }
+}
+
+
+
 // ================================================ echo json encode ============================================================
 
 $response = array(
@@ -267,6 +284,7 @@ $response = array(
     'list_quyen' =>  $list_quyen,
     'list_chucnang' =>  $list_chucnang,
     'list_chitiet_sach_da_muon' => $list_chitiet_sach_da_muon,
+    'list_chitiet_sach_chua_sapxep' => $list_chitiet_sach_chua_sapxep,
 );
 
 echo json_encode($response);

@@ -557,3 +557,23 @@ td {
 #capTaiKhoanBtn:hover {
     background-color: #45a049; /* Màu nền khi hover */
 }
+
+/*----------------------Nút xử lý---------------------------*/
+.btn-xu-ly {
+    background-color: #4CAF50; /* Màu nền xanh */
+    color: white; /* Màu chữ trắng */
+    padding: 0.7vh 1.3vw; /* Cách điệu padding */
+    border: none; /* Không viền */
+    border-radius: 5px; /* Bo tròn */
+    cursor: pointer; /* Con trỏ chuột */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.btn-xu-ly:hover {
+    background-color: #45a049; /* Màu nền khi hover */
+}
+
+.da-xu-ly {
+    color: #f44336; /* Màu đỏ */
+    font-weight: bold; /* Chữ đậm */
+}

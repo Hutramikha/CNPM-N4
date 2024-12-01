@@ -190,4 +190,4 @@ document.addEventListener("DOMContentLoaded", () => {
         window.reset_select_loaidocgia = reset_select_loaidocgia; // Gán hàm vào window
     });
 
-    });
+});

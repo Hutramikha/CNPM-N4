@@ -608,11 +608,17 @@ td {
 }
 
 /*----------------------Hover table---------------------------*/
-.table-sach tbody tr {
+.table-sach tbody tr , 
+.table-phieu_nhap tbody tr,
+.table-phieu_muon tbody tr,
+.table-phieu_tra tbody tr{
     transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
 }
 
-.table-sach tbody tr:hover {
+.table-sach tbody tr:hover,
+.table-phieu_nhap tbody tr:hover,
+.table-phieu_muon tbody tr:hover,
+.table-phieu_tra tbody tr:hover {
     background-color: #ddd8d8bc; /* Màu nền khi hover */
     cursor: pointer; /* Thay đổi con trỏ chuột thành pointer */
 }

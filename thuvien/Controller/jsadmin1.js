@@ -1428,7 +1428,7 @@ document.addEventListener("DOMContentLoaded", () => {
  const updatepro = document.querySelector('.updatebtn-pro');
  const addprovider = document.querySelector('.addbtn-pro');
  const closeprovider = document.querySelector('.cancelprosubmit');
- const addSubmit = document.querySelector('.addprosubmit');
+ const addproSubmit = document.querySelector('.addprosubmit');
  const searchinput = document.querySelector('.search-pro');
  const refresh = document.getElementById('refresh');
  refresh.addEventListener('click',()=>{
@@ -1437,7 +1437,7 @@ document.addEventListener("DOMContentLoaded", () => {
  });
  addprovider.addEventListener('click', () => addProvider());
  closeprovider.addEventListener('click', () => closeProvider());
- addSubmit.addEventListener('click', () => submitProvider());
+ addproSubmit.addEventListener('click', () => submitProvider());
  updatepro.addEventListener('click', () => proEditTable());
  openProForm.addEventListener("click", () => ProviderBTN());
  closeProForm.addEventListener("click", () => ProviderFormExit());
@@ -1553,6 +1553,7 @@ function isValidPhoneNumber(phone) {
 }
 
 function submitProvider() {
+
     // Lấy giá trị từ các input
     const providerName = document.getElementById('input-tenncc').value.trim();
     const providerPhone = document.getElementById('input-sdtncc').value.trim();

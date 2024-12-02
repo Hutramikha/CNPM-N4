@@ -578,7 +578,7 @@ td {
     font-weight: bold; /* Chữ đậm */
 }
 
-/*----------------------Nút sắp xếp---------------------------*/
+/*----------------------Nút sắp xếp và xóa chi tiết sách---------------------------*/
 .btn-sap-xep {
     background-color: #4CAF50; /* Màu nền xanh */
     color: white; /* Màu chữ trắng */
@@ -591,4 +591,28 @@ td {
 
 .btn-sap-xep:hover {
     background-color: #45a049; /* Màu nền khi hover */
+}
+
+.btn-xoa_chitiet_sach {
+    background-color: #c21a1a;
+    color: white; /* Màu chữ trắng */
+    padding: 0.4vh 0.8vw; /* Padding cho nút */
+    border: none; /* Không viền */
+    border-radius: 5px; /* Bo tròn */
+    cursor: pointer; /* Con trỏ chuột */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.btn-xoa_chitiet_sach:hover {
+    background-color: #9a0d0d; /* Màu nền khi hover */
+}
+
+/*----------------------Hover table---------------------------*/
+.table-sach tbody tr {
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.table-sach tbody tr:hover {
+    background-color: #ddd8d8bc; /* Màu nền khi hover */
+    cursor: pointer; /* Thay đổi con trỏ chuột thành pointer */
 }

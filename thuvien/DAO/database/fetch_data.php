@@ -245,21 +245,23 @@ if ($result_chitiet_sach_da_muon->num_rows > 0) {
     }
 }
 
-//  chi tiết sách chưa sắp xếp
-$sql_chitiet_sach_chua_sapxep = 'SELECT *
-                                FROM sach s
-                                JOIN chitietsach cs ON s.masach = cs.masach
-                                WHERE cs.khu IS NULL;';
-$result_chitiet_sach_chua_sapxep = $connect->query($sql_chitiet_sach_chua_sapxep);
+//  chi tiết sách sách (chưa sắp xếp)
+$list_chitiet_sach_xem = array();
+if(isset($_POST['masach_xemchitiet'])) {
+$masach_xemchitiet = $_POST['masach_xemchitiet'];
 
-$list_chitiet_sach_chua_sapxep = array();
+// Chuẩn bị câu lệnh SQL
+$stmt = $connect->prepare("SELECT * FROM chitietsach WHERE masach = ?");
+$stmt->bind_param("i", $masach_xemchitiet); // 'i' cho kiểu integer
+$stmt->execute();
+$result_masach_xemchitiet = $stmt->get_result();
 
-if ($result_chitiet_sach_chua_sapxep->num_rows > 0) {
-    while ($row = $result_chitiet_sach_chua_sapxep->fetch_assoc()) {
-        $list_chitiet_sach_chua_sapxep[] = $row;
+if ($result_masach_xemchitiet->num_rows > 0) {
+    while ($row = $result_masach_xemchitiet->fetch_assoc()) {
+        $list_chitiet_sach_xem[] = $row;
     }
 }
-
+}
 
 
 // ================================================ echo json encode ============================================================
@@ -284,7 +286,7 @@ $response = array(
     'list_quyen' =>  $list_quyen,
     'list_chucnang' =>  $list_chucnang,
     'list_chitiet_sach_da_muon' => $list_chitiet_sach_da_muon,
-    'list_chitiet_sach_chua_sapxep' => $list_chitiet_sach_chua_sapxep,
+    'list_chitiet_sach_xem' => $list_chitiet_sach_xem,
 );
 
 echo json_encode($response);

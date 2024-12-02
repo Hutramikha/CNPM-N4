@@ -1,8 +1,12 @@
 
-function sapXep(mavach) {
-    // Logic xử lý sắp xếp với mavach
-    console.log('Sắp xếp cho mã vạch:', mavach);
-    // Tiến hành các bước xử lý khác như mở modal hay gửi yêu cầu đến server...
+function xoactSach(mavach) {
+    // Xử lý xóa sách, có thể thực hiện AJAX để xóa khỏi cơ sở dữ liệu
+    console.log("Xóa sách với mã vạch: " + mavach);
+}
+
+function xuLySapXep(mavach) {
+    // Xử lý sắp xếp sách, có thể thực hiện AJAX hoặc xử lý khác
+    console.log("Xử lý sắp xếp cho mã vạch: " + mavach);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -151,18 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
                 });
 
-                // Hiển thị dữ liệu cho danh sách sách cần sắp xếp
-                $.each(data.list_chitiet_sach_chua_sapxep, function (index, chitiet_sach_chua_sapxep) {
-                    $('.table-sach_sapxep tbody').append(
-                        '<tr>' +
-                        '<td>' + (index + 1) + '</td>' +
-                        '<td>' + chitiet_sach_chua_sapxep.masach + '</td>' +
-                        '<td>' + chitiet_sach_chua_sapxep.mavach + '</td>' +
-                        '<td>' + '<button class="btn-sap-xep" onclick="sapXep(' + chitiet_sach_chua_sapxep.mavach + ')">Sắp Xếp</button>' + '</td>' +
-                        '</tr>'
-                    );
-                });
-
                 // Đổ các option thể loại
                 $.each(data.list_theloai, function (index, theloai) {
                     $('.select-theloai_sach').append(
@@ -205,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function reset_table_sach() {
         $(document).ready(function () {
             $('.table-sach tbody').empty();
-            $('.table-sach_sapxep tbody').empty();
+            $('.table-ct-sach tbody').empty();
             // Fetch dữ liệu từ server
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
@@ -228,18 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             '</tr>'
                         );
                     });
-
-                    // Hiển thị dữ liệu cho danh sách sách cần sắp xếp
-                    $.each(data.list_chitiet_sach_chua_sapxep, function (index, chitiet_sach_chua_sapxep) {
-                        $('.table-sach_sapxep tbody').append(
-                            '<tr>' +
-                            '<td>' + (index + 1) + '</td>' +
-                            '<td>' + chitiet_sach_chua_sapxep.masach + '</td>' +
-                            '<td>' + chitiet_sach_chua_sapxep.mavach + '</td>' +
-                            '<td>' + '<button class="btn-sap-xep" onclick="sapXep(' + chitiet_sach_chua_sapxep.mavach + ')">Sắp Xếp</button>' + '</td>' +
-                            '</tr>'
-                        );
-                    });
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
@@ -247,6 +227,45 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // sự kiện click vào bảng sách để xem chi tiết sách
+    $(document).ready(function () {
+        $('.table-sach tbody').on('click', 'tr', function () {
+            var masach = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
+            console.log(masach);
+            // Thực hiện truy vấn AJAX để lấy chitietsach với masach
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
+                method: 'POST',
+                data: { masach_xemchitiet: masach },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data.list_chitiet_sach_xem, function (index, chitietsach_xem) {
+                        $('.table-ct-sach tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + chitietsach_xem.mavach + '</td>' +
+                            '<td>' + chitietsach_xem.masach + '</td>' +
+                            '<td>' + chitietsach_xem.matinhtrang + '</td>' +
+                            '<td>' + chitietsach_xem.trangthai + '</td>' +
+                            '<td>' + (chitietsach_xem.khu === null ? 
+                                '<button class="btn-sap-xep" onclick="xuLySapXep(' + chitietsach_xem.mavach + ')">Sắp xếp</button>' : 
+                                chitietsach_xem.khu) + 
+                            '</td>' +
+                            '<td>' + 
+                                '<button class="btn-xoa_chitiet_sach" onclick="xoactSach(' + chitietsach_xem.mavach + ')">Xóa</button>' + 
+                            '</td>' +
+                            '</tr>'
+                        );
+                        console.log(chitietsach_xem.mavach);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    });
 
     function reset_select_theloai() {
         $(document).ready(function () {

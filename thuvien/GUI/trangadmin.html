@@ -137,18 +137,18 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tên sách:</label>
-                            <input type="text" class="input-control input-ten_sach" placeholder="Nhập tên sách" disabled>
+                            <input type="text" class="input-control input-ten_sach" placeholder="Nhập tên sách" disabled required>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Thể loại:</label>
-                            <select class="input-control select-theloai_sach" id="publisher" disabled>
+                            <select class="input-control select-theloai_sach" id="publisher" disabled required>
                                 <option value="0">Chọn thể loại</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Tình trạng sách:</label>
-                            <select class="input-control select-tinhtrang_sach" id="publisher" disabled>
+                            <select class="input-control select-tinhtrang_sach" id="publisher" disabled required>
                                 <option value="-1">Chọn tình trạng</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
@@ -156,31 +156,31 @@
                         <div class="input-group">
                             <label class="input-label">Tóm tắt:</label>
                             <textarea class="input-control input-tomtat_sach" id="textarea" rows="2"
-                                placeholder="Nhập tóm tắt" disabled></textarea>
+                                placeholder="Nhập tóm tắt" disabled required></textarea>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Nhà xuất bản:</label>
-                            <select class="input-control select-nhaxuatban_sach" id="publisher" disabled>
+                            <select class="input-control select-nhaxuatban_sach" id="publisher" disabled required>
                                 <option value="0">Chọn nhà xuất bản</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Tác giả:</label>
-                            <select class="input-control select-tacgia_sach" id="publisher" disabled>
+                            <select class="input-control select-tacgia_sach" id="publisher" disabled required>
                                 <option value="0">Chọn tác giả</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Phí mượn:</label>
-                            <input type="text" class="input-control input-phimuon_sach" placeholder="VNĐ" disabled>
+                            <input type="text" class="input-control input-phimuon_sach" placeholder="VNĐ" disabled required>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
-                            <input type="text" class="input-control input-soluong_sach" placeholder="Số lượng" disabled>
+                            <input type="text" class="input-control input-soluong_sach" placeholder="Số lượng" disabled required>
                         </div>
                     </div>
                     <div class="image-container">
@@ -512,11 +512,11 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Họ và tên:</label>
-                            <input type="text" class="input-control input-ten_nv" placeholder="Nhập tên nhân viên" disabled>
+                            <input type="text" class="input-control input-ten_nv" placeholder="Nhập tên nhân viên" disabled required>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Giới tính:</label>
-                            <select class="input-control select-gioitinh_nv" id="publisher" disabled>
+                            <select class="input-control select-gioitinh_nv" id="publisher" disabled required>
                                 <option value="0">Chọn giới tính</option>
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
@@ -525,21 +525,21 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Ngày sinh</label>
-                            <input type="date" class="input-control input-ngaysinh_nv" placeholder="Nhập ngày sinh" disabled>
+                            <input type="date" class="input-control input-ngaysinh_nv" placeholder="Nhập ngày sinh" disabled required>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Địa chỉ email:</label>
-                            <input type="text" class="input-control input-email_nv" placeholder="Nhập email" disabled>
+                            <input type="text" class="input-control input-email_nv" placeholder="Nhập email" disabled required> 
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số điện thoại:</label>
-                            <input type="text" class="input-control input-sdt_nv" placeholder="Nhập số điện thoại" disabled>
+                            <input type="text" class="input-control input-sdt_nv" placeholder="Nhập số điện thoại" disabled required>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Địa chỉ:</label>
-                            <input type="text" class="input-control input-diachi_nv" placeholder="Nhập địa chỉ" disabled>
+                            <input type="text" class="input-control input-diachi_nv" placeholder="Nhập địa chỉ" disabled required>
                         </div>
                     </div>
                     <div class="image-container">
@@ -1069,20 +1069,20 @@
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Tên sách:</label>
-                            <select class="input-control select-ten_sach_pn" id="publisher" disabled>
+                            <select class="input-control select-ten_sach_pn" id="publisher" disabled required>
                                 <option value="0">Chọn sách</option>
                                 <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                             </select>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
-                            <input type="text" class="input-control input-soluong_sach_pn" placeholder="Số lượng nhập" disabled>
+                            <input type="text" class="input-control input-soluong_sach_pn" placeholder="Số lượng nhập" disabled required>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
                             <label class="input-label">Giá nhập:</label>
-                            <input type="text" class="input-control input-gianhap_sach_pn" placeholder="Giá nhập" disabled>
+                            <input type="text" class="input-control input-gianhap_sach_pn" placeholder="Giá nhập" disabled required>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Thành tiền:</label>
@@ -1202,7 +1202,7 @@
                     <div style="width: 0.5vw;"></div>
                     <div>
                         <label class="input-label">Nhà cung cấp:</label>
-                        <select class="input-control select-ncc_sach_pn" id="publisher" disabled>
+                        <select class="input-control select-ncc_sach_pn" id="publisher" disabled required>
                             <option value="0">Chọn nhà cung cấp</option>
                             <!-- Tùy chọn sẽ được thêm qua JavaScript -->
                         </select>
@@ -1459,7 +1459,7 @@
     <script src="../Controller/ql_dg.js"></script>
     <script src="../Controller/ql_phieunhap2.js"></script>
     <script src="../Controller/ql_phieumuon1.js"></script>
-    <script src="../Controller/ql_phieutra2.js"></script>
+    <script src="../Controller/ql_phieutra3.js"></script>
     <script src="../Controller/ql_taikhoan3.js"></script>
     <script src="../Controller/info_admin.js"></script>
     <script src="../Controller/thongke.js"></script>

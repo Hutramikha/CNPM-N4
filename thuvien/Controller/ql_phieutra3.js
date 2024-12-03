@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + (index + 1) + '</td>' +
                         '<td>' + chitiet_sach_da_muon.mavach + '</td>' +
                         '<td>' + chitiet_sach_da_muon.mapm + '</td>' +
-                        '<td>' + chitiet_sach_da_muon.madg + '</td>' +
-                        '<td>' + chitiet_sach_da_muon.manv + '</td>' +
+                        '<td>' + chitiet_sach_da_muon.madg + '-' + chitiet_sach_da_muon.ten_docgia + '</td>' +
+                        '<td>' + chitiet_sach_da_muon.manv + '-' + chitiet_sach_da_muon.ten_nhanvien + '</td>' +
                         '<td>' + chitiet_sach_da_muon.matinhtrang + '</td>' +
                         '<td>' + chitiet_sach_da_muon.khu + '</td>' +
                         '</tr>'
@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + phieutra.mapt + '</td>' +
                         '<td>' + phieutra.ngaytra + '</td>' +
                         '<td>' + phieutra.mapm + '</td>' +
-                        '<td>' + phieutra.madg + '</td>' +
-                        '<td>' + phieutra.manv + '</td>' +
+                        '<td>' + phieutra.madg + '-' + phieutra.ten_docgia + '</td>' +
+                        '<td>' + phieutra.manv + '-' + phieutra.ten_nhanvien + '</td>' +
                         '<td>' + phieutra.tongphiphat + ' VNĐ' + '</td>' +
                         '</tr>'
                     );
@@ -189,9 +189,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
                             '<td>' + chitiet_sach_da_muon.mavach + '</td>' +
-                            '<td>' + chitiet_sach_da_muon.mapm + '</td>' +
-                            '<td>' + chitiet_sach_da_muon.madg + '</td>' +
-                            '<td>' + chitiet_sach_da_muon.manv + '</td>' +
+                            '<td>' + chitiet_sach_da_muon.mapm +'</td>' +
+                            '<td>' + chitiet_sach_da_muon.madg + '-' + chitiet_sach_da_muon.ten_docgia + '</td>' +
+                            '<td>' + chitiet_sach_da_muon.manv + '-' + chitiet_sach_da_muon.ten_nhanvien + '</td>' +
                             '<td>' + chitiet_sach_da_muon.matinhtrang + '</td>' +
                             '<td>' + chitiet_sach_da_muon.khu + '</td>' +
                             '</tr>'
@@ -206,8 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + phieutra.mapt + '</td>' +
                             '<td>' + phieutra.ngaytra + '</td>' +
                             '<td>' + phieutra.mapm + '</td>' +
-                            '<td>' + phieutra.madg + '</td>' +
-                            '<td>' + phieutra.manv + '</td>' +
+                            '<td>' + phieutra.madg + '-' + phieutra.ten_docgia + '</td>' +
+                            '<td>' + phieutra.manv + '-' + phieutra.ten_nhanvien + '</td>' +
                             '<td>' + phieutra.tongphiphat + ' VNĐ' + '</td>' +
                             '</tr>'
                         );

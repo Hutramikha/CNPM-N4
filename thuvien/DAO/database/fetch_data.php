@@ -53,7 +53,7 @@ if ($result_tk_nv->num_rows > 0) {
     }
 }
 
-// tài khoản nhân viên
+// tài khoản độc giả
 $sql_tk_dg = 'SELECT *
               FROM taikhoan tk
               JOIN docgia dg ON tk.tendangnhap = dg.matk;';
@@ -400,9 +400,57 @@ if ($result_timkiem_phieunhap->num_rows > 0) {
 }
 // =========================== Tìm kiếm Phiếu mượn ===>
 
+
 // =========================== Tìm kiếm Phiếu trả ===>
 
+
 // =========================== Tìm kiếm tài khoản ===>
+// Tìm TK nhân viên
+$search_tk_nhanvien = isset($_GET['search_tk_nhanvien']) ? $_GET['search_tk_nhanvien'] : '';
+
+$sql_timkiem_tk_nhanvien = "SELECT *
+              FROM taikhoan tk
+              JOIN nhanvien nv ON tk.tendangnhap = nv.matk
+              WHERE tk.tendangnhap LIKE ?";
+
+$stmt = $connect->prepare($sql_timkiem_tk_nhanvien);
+
+$search_tk_nhanvien_param = "%$search_tk_nhanvien%";
+$stmt->bind_param('s', $search_tk_nhanvien_param);
+$stmt->execute();
+$result_timkiem_tk_nhanvien = $stmt->get_result();
+
+$list_timkiem_tk_nhanvien = array();
+
+if ($result_timkiem_tk_nhanvien->num_rows > 0) {
+    while ($row = $result_timkiem_tk_nhanvien->fetch_assoc()) {
+        $list_timkiem_tk_nhanvien[] = $row;
+    }
+}
+
+// Tìm TK độc giả
+$search_tk_docgia = isset($_GET['search_tk_docgia']) ? $_GET['search_tk_docgia'] : '';
+
+$sql_timkiem_tk_docgia = "SELECT *
+              FROM taikhoan tk
+              JOIN docgia dg ON tk.tendangnhap = dg.matk
+              WHERE tk.tendangnhap LIKE ?";
+
+$stmt = $connect->prepare($sql_timkiem_tk_docgia);
+
+$search_tk_docgia_param = "%$search_tk_docgia%";
+$stmt->bind_param('s', $search_tk_docgia_param);
+$stmt->execute();
+$result_timkiem_tk_docgia = $stmt->get_result();
+
+$list_timkiem_tk_docgia = array();
+
+if ($result_timkiem_tk_docgia->num_rows > 0) {
+    while ($row = $result_timkiem_tk_docgia->fetch_assoc()) {
+        $list_timkiem_tk_docgia[] = $row;
+    }
+}
+
 
 // ================================================ echo json encode ============================================================
 
@@ -434,6 +482,8 @@ $response = array(
     'list_timkiem_docgia' => $list_timkiem_docgia,
     'list_timkiem_nhanvien' => $list_timkiem_nhanvien,
     'list_timkiem_phieunhap' => $list_timkiem_phieunhap,
+    'list_timkiem_tk_nhanvien' => $list_timkiem_tk_nhanvien,
+    'list_timkiem_tk_docgia' => $list_timkiem_tk_docgia,
 );
 
 echo json_encode($response);

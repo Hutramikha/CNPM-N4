@@ -1,3 +1,16 @@
+function opentk(tendangnhap) {
+    // Logic to unlock the account with the given id
+    console.log('Unlocking account with ID:', tendangnhap);
+    // Add your unlock logic here
+}
+
+function closetk(tendangnhap) {
+    // Logic to lock the account with the given id
+    console.log('Locking account with ID:', tendangnhap);
+    // Add your lock logic here
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
@@ -84,6 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
             success: function (data) {
                 // Hiển thị dữ liệu cho danh sách tài khoản độc giả
                 $.each(data.list_taikhoan_docgia, function (index, tk_docgia) {
+                    let trangThaiHTMLdg;
+                    // Kiểm tra trạng thái
+                    if (tk_docgia.trangthai == 0) {
+                        trangThaiHTMLdg = '<button class="btn-lock" onclick="closetk(\'' + tk_docgia.tendangnhap + '\')">Khóa</button>';
+                    } else {
+                        trangThaiHTMLdg = '<button class="btn-unlock" onclick="opentk(\'' + tk_docgia.tendangnhap + '\')">Mở khóa</button>';
+                    }
+
                     $('.table-taikhoan_docgia tbody').append(
                         '<tr>' +
                         '<td>' + (index + 1) + '</td>' +
@@ -91,12 +112,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + tk_docgia.matkhau + '</td>' +
                         '<td>' + tk_docgia.maquyen + '</td>' +
                         '<td>' + tk_docgia.ngaytao + '</td>' +
+                        '<td>' + trangThaiHTMLdg + '</td>' +
                         '</tr>'
                     );
+                    console.log(tk_docgia.trangthai);
                 });
 
                 // Hiển thị dữ liệu cho danh sách tài khoản nhân viên
                 $.each(data.list_taikhoan_nhanvien, function (index, tk_nhanvien) {
+                    let trangThaiHTMLnv;
+                    // Kiểm tra trạng thái
+                    if (tk_nhanvien.trangthai == 0) {
+                        trangThaiHTMLnv = '<button class="btn-lock" onclick="closetk(\'' + tk_nhanvien.tendangnhap + '\')">Khóa</button>';
+                    } else {
+                        trangThaiHTMLnv = '<button class="btn-unlock" onclick="opentk(\'' + tk_nhanvien.tendangnhap + '\')">Mở khóa</button>';
+                    }
+
                     $('.table-taikhoan_nhanvien tbody').append(
                         '<tr>' +
                         '<td>' + (index + 1) + '</td>' +
@@ -104,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + tk_nhanvien.matkhau + '</td>' +
                         '<td>' + tk_nhanvien.maquyen + '</td>' +
                         '<td>' + tk_nhanvien.ngaytao + '</td>' +
+                        '<td>' + trangThaiHTMLnv + '</td>' +
                         '</tr>'
                     );
                 });
@@ -134,6 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 success: function (data) {
                     // Hiển thị dữ liệu cho danh sách tài khoản độc giả
                     $.each(data.list_taikhoan_docgia, function (index, tk_docgia) {
+                        let trangThaiHTMLdg;
+                        // Kiểm tra trạng thái
+                        if (tk_docgia.trangthai == 0) {
+                            trangThaiHTMLdg = '<button class="btn-lock" onclick="closetk(\'' + tk_docgia.tendangnhap + '\')">Khóa</button>';
+                        } else {
+                            trangThaiHTMLdg = '<button class="btn-unlock" onclick="opentk(\'' + tk_docgia.tendangnhap + '\')">Mở khóa</button>';
+                        }
+
                         $('.table-taikhoan_docgia tbody').append(
                             '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
@@ -141,12 +181,22 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + tk_docgia.matkhau + '</td>' +
                             '<td>' + tk_docgia.maquyen + '</td>' +
                             '<td>' + tk_docgia.ngaytao + '</td>' +
+                            '<td>' + trangThaiHTMLdg + '</td>' +
                             '</tr>'
                         );
+                        console.log(tk_docgia.trangthai);
                     });
 
                     // Hiển thị dữ liệu cho danh sách tài khoản nhân viên
                     $.each(data.list_taikhoan_nhanvien, function (index, tk_nhanvien) {
+                        let trangThaiHTMLnv;
+                        // Kiểm tra trạng thái
+                        if (tk_nhanvien.trangthai == 0) {
+                            trangThaiHTMLnv = '<button class="btn-lock" onclick="closetk(\'' + tk_nhanvien.tendangnhap + '\')">Khóa</button>';
+                        } else {
+                            trangThaiHTMLnv = '<button class="btn-unlock" onclick="opentk(\'' + tk_nhanvien.tendangnhap + '\')">Mở khóa</button>';
+                        }
+
                         $('.table-taikhoan_nhanvien tbody').append(
                             '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
@@ -154,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + tk_nhanvien.matkhau + '</td>' +
                             '<td>' + tk_nhanvien.maquyen + '</td>' +
                             '<td>' + tk_nhanvien.ngaytao + '</td>' +
+                            '<td>' + trangThaiHTMLnv + '</td>' +
                             '</tr>'
                         );
                     });
@@ -191,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         window.reset_select_quyen = reset_select_quyen; // Gán hàm vào window
     });
 

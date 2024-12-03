@@ -579,7 +579,7 @@ td {
 }
 
 /*----------------------Nút sắp xếp và xóa chi tiết sách---------------------------*/
-.btn-sap-xep {
+.btn-sap-xep , .btn-unlock {
     background-color: #4CAF50; /* Màu nền xanh */
     color: white; /* Màu chữ trắng */
     padding: 0.4vh 0.8vw; /* Padding cho nút */
@@ -593,7 +593,7 @@ td {
     background-color: #45a049; /* Màu nền khi hover */
 }
 
-.btn-xoa_chitiet_sach {
+.btn-xoa_chitiet_sach, .btn-lock {
     background-color: #c21a1a;
     color: white; /* Màu chữ trắng */
     padding: 0.4vh 0.8vw; /* Padding cho nút */

@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.table-phieu_nhap tbody').on('click', 'tr', function () {
             var maphieunhap = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
             console.log(maphieunhap);
-            
+            $('.table-ct-phieu_nhap-xem tbody').empty();
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
                 method: 'POST',

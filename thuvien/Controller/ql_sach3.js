@@ -233,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.table-sach tbody').on('click', 'tr', function () {
             var masach = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
             console.log(masach);
+            $('.table-ct-sach tbody').empty();
             // Thực hiện truy vấn AJAX để lấy chitietsach với masach
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý

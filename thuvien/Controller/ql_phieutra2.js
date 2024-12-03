@@ -137,6 +137,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // sự kiện click vào bảng sách để xem chi tiết phiếu trả
+    $(document).ready(function () {
+        $('.table-phieu_tra tbody').on('click', 'tr', function () {
+            var ma_phieu_tra = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
+            console.log(ma_phieu_tra);
+            $('.table-ct-phieu_tra tbody').empty();
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
+                method: 'POST',
+                data: { ma_phieu_tra: ma_phieu_tra },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data.list_chitiet_phieu_tra_xem, function (index, chitietphieutra_xem) {
+                        $('.table-ct-phieu_tra tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + chitietphieutra_xem.mapt + '</td>' +
+                            '<td>' + chitietphieutra_xem.mavach + '</td>' +
+                            '<td>' + chitietphieutra_xem.maphat + '</td>' +
+                            '<td>' + chitietphieutra_xem.phiphat + '</td>' +
+                            '</tr>'
+                        );
+                        console.log(chitietphieutra_xem.mapt);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    });
+
+
     function reset_table_phieutra() {
         $(document).ready(function () {
             $('.table-ct-sach_da_muon tbody').empty();

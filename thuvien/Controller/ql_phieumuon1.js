@@ -51,8 +51,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // sự kiện click vào bảng sách để xem chi tiết phiêu mượn
+    $(document).ready(function () {
+        $('.table-phieu_muon tbody').on('click', 'tr', function () {
+            var ma_phieu_muon = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
+            console.log(ma_phieu_muon);
+            $('.table-ct-phieu_muon tbody').empty();
+            
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
+                method: 'POST',
+                data: { ma_phieu_muon: ma_phieu_muon },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data.list_chitiet_phieu_muon_xem, function (index, chitietphieumuon_xem) {
+                        $('.table-ct-phieu_muon tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + chitietphieumuon_xem.mapm + '</td>' +
+                            '<td>' + chitietphieumuon_xem.mavach + '</td>' +
+                            '<td>' + chitietphieumuon_xem.tinhtrangmuon + '</td>' +
+                            '<td>' + chitietphieumuon_xem.phimuon + '</td>' +
+                            '</tr>'
+                        );
+                        console.log(chitietphieumuon_xem.mapm);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    });
+
     function reset_table_phieumuon() {
         $(document).ready(function() {
+            $('.table-ct-phieu_muon tbody').empty();
             $('.table-phieu_muon tbody').empty();
             // Fetch dữ liệu từ server
             $.ajax({

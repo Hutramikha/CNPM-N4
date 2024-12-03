@@ -315,7 +315,94 @@ if ($result_ma_phieu_tra->num_rows > 0) {
 
 // ======================================================== Fetch cho tìm kiếm ====================================================================
 
+// =========================== Tìm kiếm Sách ===>
+// Lấy từ khóa tìm kiếm từ URL
+$search_sach = isset($_GET['search_sach']) ? $_GET['search_sach'] : '';
 
+// SQL để tìm kiếm sách theo tên sách và mã sách
+$sql_timkiem_sach = "SELECT * FROM sach WHERE masach LIKE ? OR tensach LIKE ?";
+$stmt = $connect->prepare($sql_timkiem_sach);
+
+// Thêm ký tự % vào cả hai đầu của từ khóa tìm kiếm
+$search_sach_param = "%$search_sach%";
+$stmt->bind_param('is', $search_sach_param, $search_sach_param);
+$stmt->execute();
+$result_timkiem_sach = $stmt->get_result();
+
+$list_timkiem_sach = array();
+
+if ($result_timkiem_sach->num_rows > 0) {
+    while ($row = $result_timkiem_sach->fetch_assoc()) {
+        $list_timkiem_sach[] = $row;
+    }
+}
+
+
+// =========================== Tìm kiếm nhân viên ===>
+$search_nhanvien = isset($_GET['search_nhanvien']) ? $_GET['search_nhanvien'] : '';
+
+$sql_timkiem_nhanvien = "SELECT * FROM nhanvien WHERE manv LIKE ? OR matk LIKE ? OR ten LIKE ?";
+$stmt = $connect->prepare($sql_timkiem_nhanvien);
+
+$search_nhanvien_param = "%$search_nhanvien%";
+$stmt->bind_param('iss', $search_nhanvien_param, $search_nhanvien_param, $search_nhanvien_param);
+$stmt->execute();
+$result_timkiem_nhanvien = $stmt->get_result();
+
+$list_timkiem_nhanvien = array();
+
+if ($result_timkiem_nhanvien->num_rows > 0) {
+    while ($row = $result_timkiem_nhanvien->fetch_assoc()) {
+        $list_timkiem_nhanvien[] = $row;
+    }
+}
+
+// =========================== Tìm kiếm độc giả ===>
+$search_docgia = isset($_GET['search_docgia']) ? $_GET['search_docgia'] : '';
+
+$sql_timkiem_docgia = "SELECT * FROM docgia WHERE madg LIKE ? OR matk LIKE ? OR ten LIKE ?";
+$stmt = $connect->prepare($sql_timkiem_docgia);
+
+$search_docgia_param = "%$search_docgia%";
+$stmt->bind_param('iss', $search_docgia_param, $search_docgia_param, $search_docgia_param);
+$stmt->execute();
+$result_timkiem_docgia = $stmt->get_result();
+
+$list_timkiem_docgia = array();
+
+if ($result_timkiem_docgia->num_rows > 0) {
+    while ($row = $result_timkiem_docgia->fetch_assoc()) {
+        $list_timkiem_docgia[] = $row;
+    }
+}
+
+// =========================== Tìm kiếm Phiếu nhập ===>
+$search_phieunhap = isset($_GET['search_phieunhap']) ? $_GET['search_phieunhap'] : '';
+
+$sql_timkiem_phieunhap = "SELECT *
+                        FROM phieunhap pn
+                        LEFT JOIN nhacungcap ncc ON pn.mancc = ncc.mancc
+                        WHERE pn.mapn LIKE ? OR ncc.mancc LIKE ?";
+
+$stmt = $connect->prepare($sql_timkiem_phieunhap);
+
+$search_phieunhap_param = "%$search_phieunhap%";
+$stmt->bind_param('ii', $search_phieunhap_param, $search_phieunhap_param);
+$stmt->execute();
+$result_timkiem_phieunhap = $stmt->get_result();
+
+$list_timkiem_phieunhap = array();
+
+if ($result_timkiem_phieunhap->num_rows > 0) {
+    while ($row = $result_timkiem_phieunhap->fetch_assoc()) {
+        $list_timkiem_phieunhap[] = $row;
+    }
+}
+// =========================== Tìm kiếm Phiếu mượn ===>
+
+// =========================== Tìm kiếm Phiếu trả ===>
+
+// =========================== Tìm kiếm tài khoản ===>
 
 // ================================================ echo json encode ============================================================
 
@@ -343,8 +430,15 @@ $response = array(
     'list_chitiet_phieu_nhap_xem' => $list_chitiet_phieu_nhap_xem,
     'list_chitiet_phieu_muon_xem' => $list_chitiet_phieu_muon_xem,
     'list_chitiet_phieu_tra_xem' => $list_chitiet_phieu_tra_xem,
+    'list_timkiem_sach' => $list_timkiem_sach,
+    'list_timkiem_docgia' => $list_timkiem_docgia,
+    'list_timkiem_nhanvien' => $list_timkiem_nhanvien,
+    'list_timkiem_phieunhap' => $list_timkiem_phieunhap,
 );
 
 echo json_encode($response);
+
+$stmt->close();
+$connect->close();
 
 ?>

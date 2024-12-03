@@ -136,8 +136,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // sự kiện click vào bảng sách để xem chi tiết phiêu nhập
+    $(document).ready(function () {
+        $('.table-phieu_nhap tbody').on('click', 'tr', function () {
+            var maphieunhap = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
+            console.log(maphieunhap);
+            
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
+                method: 'POST',
+                data: { ma_phieu_nhap: maphieunhap },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data.list_chitiet_phieu_nhap_xem, function (index, chitietphieunhap_xem) {
+                        $('.table-ct-phieu_nhap-xem tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + chitietphieunhap_xem.mapn + '</td>' +
+                            '<td>' + chitietphieunhap_xem.masach + '</td>' +
+                            '<td>' + chitietphieunhap_xem.gianhap + '</td>' +
+                            '<td>' + chitietphieunhap_xem.soluong + '</td>' +
+                            '<td>' + chitietphieunhap_xem.thanhtien + '</td>' +
+                            '</tr>'
+                        );
+                        console.log(chitietphieunhap_xem.mapn);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    });
+
     function reset_table_phieu_nhap() {
         $(document).ready(function () {
+            $('.table-ct-phieu_nhap-xem tbody').empty();
             $('.table-phieu_nhap tbody').empty();
             // Fetch dữ liệu từ server
             $.ajax({

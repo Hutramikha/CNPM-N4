@@ -245,12 +245,11 @@ if ($result_chitiet_sach_da_muon->num_rows > 0) {
     }
 }
 
-//  chi tiết sách sách (chưa sắp xếp)
+//  chi tiết sách (chưa sắp xếp)
 $list_chitiet_sach_xem = array();
 if(isset($_POST['masach_xemchitiet'])) {
 $masach_xemchitiet = $_POST['masach_xemchitiet'];
 
-// Chuẩn bị câu lệnh SQL
 $stmt = $connect->prepare("SELECT * FROM chitietsach WHERE masach = ?");
 $stmt->bind_param("i", $masach_xemchitiet); // 'i' cho kiểu integer
 $stmt->execute();
@@ -259,6 +258,23 @@ $result_masach_xemchitiet = $stmt->get_result();
 if ($result_masach_xemchitiet->num_rows > 0) {
     while ($row = $result_masach_xemchitiet->fetch_assoc()) {
         $list_chitiet_sach_xem[] = $row;
+    }
+}
+}
+
+//  chi tiết phiếu nhập
+$list_chitiet_phieu_nhap_xem = array();
+if(isset($_POST['ma_phieu_nhap'])) {
+$ma_phieu_nhap = $_POST['ma_phieu_nhap'];
+
+$stmt = $connect->prepare("SELECT * FROM chitietphieunhap WHERE mapn = ?");
+$stmt->bind_param("i", $ma_phieu_nhap); // 'i' cho kiểu integer
+$stmt->execute();
+$result_ma_phieu_nhap = $stmt->get_result();
+
+if ($result_ma_phieu_nhap->num_rows > 0) {
+    while ($row = $result_ma_phieu_nhap->fetch_assoc()) {
+        $list_chitiet_phieu_nhap_xem[] = $row;
     }
 }
 }
@@ -287,6 +303,7 @@ $response = array(
     'list_chucnang' =>  $list_chucnang,
     'list_chitiet_sach_da_muon' => $list_chitiet_sach_da_muon,
     'list_chitiet_sach_xem' => $list_chitiet_sach_xem,
+    'list_chitiet_phieu_nhap_xem' => $list_chitiet_phieu_nhap_xem,
 );
 
 echo json_encode($response);

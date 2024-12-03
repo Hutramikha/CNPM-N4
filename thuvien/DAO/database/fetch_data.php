@@ -279,6 +279,40 @@ if ($result_ma_phieu_nhap->num_rows > 0) {
 }
 }
 
+//  chi tiết phiếu mượn
+$list_chitiet_phieu_muon_xem = array();
+if(isset($_POST['ma_phieu_muon'])) {
+$ma_phieu_muon = $_POST['ma_phieu_muon'];
+
+$stmt = $connect->prepare("SELECT * FROM chitietphieumuon WHERE mapm = ?");
+$stmt->bind_param("i", $ma_phieu_muon); // 'i' cho kiểu integer
+$stmt->execute();
+$result_ma_phieu_muon = $stmt->get_result();
+
+if ($result_ma_phieu_muon->num_rows > 0) {
+    while ($row = $result_ma_phieu_muon->fetch_assoc()) {
+        $list_chitiet_phieu_muon_xem[] = $row;
+    }
+}
+}
+
+//  chi tiết phiếu trả
+$list_chitiet_phieu_tra_xem = array();
+if(isset($_POST['ma_phieu_tra'])) {
+$ma_phieu_tra = $_POST['ma_phieu_tra'];
+
+$stmt = $connect->prepare("SELECT * FROM chitietphieutra WHERE mapt = ?");
+$stmt->bind_param("i", $ma_phieu_tra); // 'i' cho kiểu integer
+$stmt->execute();
+$result_ma_phieu_tra = $stmt->get_result();
+
+if ($result_ma_phieu_tra->num_rows > 0) {
+    while ($row = $result_ma_phieu_tra->fetch_assoc()) {
+        $list_chitiet_phieu_tra_xem[] = $row;
+    }
+}
+}
+
 
 // ================================================ echo json encode ============================================================
 
@@ -304,6 +338,8 @@ $response = array(
     'list_chitiet_sach_da_muon' => $list_chitiet_sach_da_muon,
     'list_chitiet_sach_xem' => $list_chitiet_sach_xem,
     'list_chitiet_phieu_nhap_xem' => $list_chitiet_phieu_nhap_xem,
+    'list_chitiet_phieu_muon_xem' => $list_chitiet_phieu_muon_xem,
+    'list_chitiet_phieu_tra_xem' => $list_chitiet_phieu_tra_xem,
 );
 
 echo json_encode($response);

@@ -241,9 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 console.log('Delete response:', data); // Log response (check trong console)
                 if (data.success) {
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         reset_select_theloai();
-                    }); 
+                    });
                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
                     const rowToDelete = document.querySelector(`tr[cat-data-id="${category_id}"]`);
                     if (rowToDelete) {
@@ -286,9 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_theloai();
-                        }); 
+                        });
                         alert(response.message); // "Thể loại được thêm thành công!"
                         // Clear the inputs after adding
                         document.getElementById('input-tentl').value = '';
@@ -372,9 +372,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
-                $(document).ready(function() {
+                $(document).ready(function () {
                     reset_select_theloai();
-                }); 
+                });
                 alert("Update successful!");
             }
         };
@@ -493,9 +493,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const rowToDelete = document.querySelector(`tr[pen-data-id="${penalty_id}"]`);
                     if (rowToDelete) {
                         rowToDelete.remove();
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_hinhthucphat();
-                        });  
+                        });
                     }
                 } else {
                     alert("Error deleting penalty: " + (data.error || "Unknown error"));
@@ -536,14 +536,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_hinhthucphat();
                         });
                         alert(response.message); // "Hình thức phạt được thêm thành công!"
                         // Clear the inputs after adding
                         document.getElementById('input-lido').value = '';
                         document.getElementById('input-phiphat').value = '';
-                        fetchTableDataPenalty();  
+                        fetchTableDataPenalty();
                     } else {
                         alert("An error occurred: " + (response.error || "Unknown error"));
                     }
@@ -632,9 +632,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
                 alert("Update successful!");
-                $(document).ready(function() {
+                $(document).ready(function () {
                     reset_select_hinhthucphat();
-                });  
+                });
             }
         };
         xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1) + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2));
@@ -755,10 +755,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
                     const rowToDelete = document.querySelector(`tr[stat-data-id="${status_id}"]`);
                     if (rowToDelete) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_tinhtrang_pt();
                             reset_select_tinhtrangsach_sach();
-                        });  
+                        });
                         rowToDelete.remove();
                     }
                 } else {
@@ -801,10 +801,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //                        document.getElementById('matt-warning').style.color = "red";
                     //                        document.getElementById('matt-warning').innerHTML = "Mã đã tồn tại";
                     if (response.success) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_tinhtrang_pt();
                             reset_select_tinhtrangsach_sach();
-                        });  
+                        });
                         alert(response.message); // "Tình trạng được thêm thành công!"
                         // Clear the inputs after adding
                         //                        document.getElementById('input-matt').value = '';
@@ -889,10 +889,10 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
-                $(document).ready(function() {
+                $(document).ready(function () {
                     reset_select_tinhtrang_pt();
                     reset_select_tinhtrangsach_sach();
-                });  
+                });
                 alert("Update successful!");
             }
         };
@@ -1009,9 +1009,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const rowToDelete = document.querySelector(`tr[rc-data-id="${rc_id}"]`);
                     if (rowToDelete) {
                         rowToDelete.remove();
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_loaidocgia();
-                        }); 
+                        });
                     }
                 } else {
                     alert("Error deleting reader-category: " + (data.error || "Unknown error"));
@@ -1052,7 +1052,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_loaidocgia();
                         });
                         alert(response.message); // "loại độc giả được thêm thành công!"  
@@ -1148,9 +1148,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
                 alert("Update successful!");
-                $(document).ready(function() {
+                $(document).ready(function () {
                     reset_select_loaidocgia();
-                }); 
+                });
             }
         };
         xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1) + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2));
@@ -1270,9 +1270,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
                     const rowToDelete = document.querySelector(`tr[publish-data-id="${publisher_id}"]`);
                     if (rowToDelete) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_nhaxuatban();
-                        }); 
+                        });
                         rowToDelete.remove();
                     }
                 } else {
@@ -1312,9 +1312,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = JSON.parse(xhr.responseText);
 
                     if (response.success) {
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             reset_select_nhaxuatban();
-                        }); 
+                        });
                         alert(response.message); // "NXB được thêm thành công!"
                         // Clear the inputs after adding
                         document.getElementById('input-tennxb').value = '';
@@ -1398,9 +1398,9 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.responseText.trim() === "success") {
-                $(document).ready(function() {
+                $(document).ready(function () {
                     reset_select_nhaxuatban();
-                }); 
+                });
                 alert("Update successful!");
             }
         };
@@ -1420,44 +1420,70 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+
+    //------ajax đăng xuất-------
+    $(document).ready(function () {
+        // Thêm sự kiện click cho nút đăng xuất
+        $('.btn-logout').on('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+            console.log("đã nhấn");
+            $.ajax({
+                url: '../DAO/dn_dk/logout.php', // Đường dẫn đến file PHP xử lý đăng xuất
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    if (response === 'success') {
+                        // Xử lý khi thành công đăng xuất
+
+                        localStorage.removeItem('username');
+                        console.log("ĐÃ Đăng Xuất");
+                        // window.location.href = 'Form.php';
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+    });
+    //--------kết thúc-----------
+
 });
 
- //Chức năng nhà cung cấp
- const openProForm = document.querySelector('.btn_action.btn-manage.btn-ncc');
- const closeProForm = document.querySelector('.btn-close-pro-form');
- const updatepro = document.querySelector('.updatebtn-pro');
- const addprovider = document.querySelector('.addbtn-pro');
- const closeprovider = document.querySelector('.cancelprosubmit');
- const addproSubmit = document.querySelector('.addprosubmit');
- const searchinput = document.querySelector('.search-pro');
- const refresh = document.getElementById('refresh');
- refresh.addEventListener('click',()=>{
-     searchinput.value = "";
-     cancelEdit();
- });
- addprovider.addEventListener('click', () => addProvider());
- closeprovider.addEventListener('click', () => closeProvider());
- addproSubmit.addEventListener('click', () => submitProvider());
- updatepro.addEventListener('click', () => proEditTable());
- openProForm.addEventListener("click", () => ProviderBTN());
- closeProForm.addEventListener("click", () => ProviderFormExit());
- var countswitch = 0;
+//Chức năng nhà cung cấp
+const openProForm = document.querySelector('.btn_action.btn-manage.btn-ncc');
+const closeProForm = document.querySelector('.btn-close-pro-form');
+const updatepro = document.querySelector('.updatebtn-pro');
+const addprovider = document.querySelector('.addbtn-pro');
+const closeprovider = document.querySelector('.cancelprosubmit');
+const addproSubmit = document.querySelector('.addprosubmit');
+const searchinput = document.querySelector('.search-pro');
+const refresh = document.getElementById('refresh');
+refresh.addEventListener('click', () => {
+    searchinput.value = "";
+    cancelEdit();
+});
+addprovider.addEventListener('click', () => addProvider());
+closeprovider.addEventListener('click', () => closeProvider());
+addproSubmit.addEventListener('click', () => submitProvider());
+updatepro.addEventListener('click', () => proEditTable());
+openProForm.addEventListener("click", () => ProviderBTN());
+closeProForm.addEventListener("click", () => ProviderFormExit());
+var countswitch = 0;
 // Mở Form Pro
- function ProviderBTN() {
-     document.querySelector('.Provider').style.display = "flex";
-     document.getElementById('pro-overlay').style.display = "block";
+function ProviderBTN() {
+    document.querySelector('.Provider').style.display = "flex";
+    document.getElementById('pro-overlay').style.display = "block";
 
- }
+}
 // Thoát Form Pro
- function ProviderFormExit() {
-     searchinput.value = "";
-     cancelProEdit();
-     document.querySelector('.Provider').style.display = "none";
-     document.getElementById('pro-overlay').style.display = "none";
- }
+function ProviderFormExit() {
+    searchinput.value = "";
+    cancelProEdit();
+    document.querySelector('.Provider').style.display = "none";
+    document.getElementById('pro-overlay').style.display = "none";
+}
 
- // Load DataFrame Nhà cung cấp
- function fetchTableDataNcc() {
+// Load DataFrame Nhà cung cấp
+function fetchTableDataNcc() {
     countswitch = 0;
     updatepro.style.backgroundColor = 'orange';
     updatepro.innerText = 'Sửa';
@@ -1505,31 +1531,31 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(/*error => console.error(error)*/);
 }
 
- window.onload = fetchTableDataNcc();
+window.onload = fetchTableDataNcc();
 
- // Xóa nhà cung cấp
- function deleteProvider(provider_id) {
-     console.log('Attempting to delete provider with ID:', provider_id);
-     fetch('../DAO/deleteProvider.php', {
-         method: 'POST',
-         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-         body: `mancc=${provider_id}`
-     })
-             .then(response => response.json())
-             .then(data => {
-                 console.log('Delete response:', data); // Log response (check trong console)
-                 if (data.success) {
-                     // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                     const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
-                     if (rowToDelete) {
-                         rowToDelete.remove();
-                     }
-                 } else {
-                     alert("Error deleting provider: " + (data.error || "Unknown error"));
-                 }
-             })
-             .catch(error => console.error('Error deleting provider:', error));
- }
+// Xóa nhà cung cấp
+function deleteProvider(provider_id) {
+    console.log('Attempting to delete provider with ID:', provider_id);
+    fetch('../DAO/deleteProvider.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `mancc=${provider_id}`
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Delete response:', data); // Log response (check trong console)
+            if (data.success) {
+                // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
+                if (rowToDelete) {
+                    rowToDelete.remove();
+                }
+            } else {
+                alert("Error deleting provider: " + (data.error || "Unknown error"));
+            }
+        })
+        .catch(error => console.error('Error deleting provider:', error));
+}
 
 
 // Thêm nhà cung cấp
@@ -1615,45 +1641,45 @@ function submitProvider() {
     xhr.send(data);
 }
 
- 
- //  Cập nhật thể loại
- function proEditTable(){
-     console.log(countswitch);
-     if (countswitch === 1){
-         cancelProEdit();
-         countswitch = 0;
-     }else{
-     document.querySelectorAll('.pro-table-body tr').forEach(row => {
-         updatepro.style.backgroundColor = 'Red';
-         updatepro.innerText = 'Hủy';
-         
-         // Enable editable 'tentl'
-         const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
-         nameCell.contentEditable = 'true';
 
-         const nameCell2 = row.querySelector('td:nth-child(3)'); // Name cell
-         nameCell2.contentEditable = 'true';
+//  Cập nhật thể loại
+function proEditTable() {
+    console.log(countswitch);
+    if (countswitch === 1) {
+        cancelProEdit();
+        countswitch = 0;
+    } else {
+        document.querySelectorAll('.pro-table-body tr').forEach(row => {
+            updatepro.style.backgroundColor = 'Red';
+            updatepro.innerText = 'Hủy';
 
-         const nameCell3 = row.querySelector('td:nth-child(4)'); // Name cell
-         nameCell3.contentEditable = 'true';
+            // Enable editable 'tentl'
+            const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
+            nameCell.contentEditable = 'true';
 
-         // Tạo nút save
-         const saveButton = document.createElement('button');
-         saveButton.textContent = 'Lưu'; // Save
-         saveButton.classList.add('pro-save-btn');
+            const nameCell2 = row.querySelector('td:nth-child(3)'); // Name cell
+            nameCell2.contentEditable = 'true';
 
-         // Add mỗi row
-         const actionCell = row.querySelector('td:nth-child(5)'); // Action cell
-         actionCell.appendChild(saveButton);
+            const nameCell3 = row.querySelector('td:nth-child(4)'); // Name cell
+            nameCell3.contentEditable = 'true';
 
-         // Add event listeners cho Save
-         saveButton.addEventListener('click', () => saveProEdit(row));
-         countswitch = 1;
-     });
-     }
- }
+            // Tạo nút save
+            const saveButton = document.createElement('button');
+            saveButton.textContent = 'Lưu'; // Save
+            saveButton.classList.add('pro-save-btn');
 
- function saveProEdit(row) {
+            // Add mỗi row
+            const actionCell = row.querySelector('td:nth-child(5)'); // Action cell
+            actionCell.appendChild(saveButton);
+
+            // Add event listeners cho Save
+            saveButton.addEventListener('click', () => saveProEdit(row));
+            countswitch = 1;
+        });
+    }
+}
+
+function saveProEdit(row) {
     const nameCell = row.querySelector('td:nth-child(2)');
     const nameCell2 = row.querySelector('td:nth-child(3)');
     const nameCell3 = row.querySelector('td:nth-child(4)');
@@ -1716,31 +1742,31 @@ function updateProData(id, column, value) {
     };
     xhr.send("id=" + encodeURIComponent(id) + "&column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
 }
- 
- // Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi =))
- document.getElementById('input-tenncc').addEventListener('keydown', function(event) {
- if (event.key === 'Enter') {
-     event.preventDefault();
- }
- });
- document.getElementById('input-sdtncc').addEventListener('keydown', function(event) {
- if (event.key === 'Enter') {
-     event.preventDefault();
- }
- });
- document.getElementById('input-dcncc').addEventListener('keydown', function(event) {
+
+// Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi =))
+document.getElementById('input-tenncc').addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
     }
-    });
- searchinput.addEventListener('keydown',function(event){
- if(event.key==='Enter'){
-     event.preventDefault();
-     fetchTableDataNcc(); // Lấy search input value rồi lấy data dựa trên input value đấy
- }
- });
+});
+document.getElementById('input-sdtncc').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+document.getElementById('input-dcncc').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+searchinput.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        fetchTableDataNcc(); // Lấy search input value rồi lấy data dựa trên input value đấy
+    }
+});
 
- //-----------------Chức năng Tác Giả
+//-----------------Chức năng Tác Giả
 const openAuthorForm = document.querySelector('.btn-tacgia');
 const closeauthorForm = document.querySelector('.btn-close-author-form');
 const updateauthor = document.querySelector('.updatebtn-author');
@@ -1837,9 +1863,9 @@ function deleteAuthor(author_id) {
                 // Tìm và xóa dòng mà không cần tải lại trang (sửa trực tiếp trên HTML)
                 const rowToDelete = document.querySelector(`tr[author-data-id="${author_id}"]`);
                 if (rowToDelete) {
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         reset_select_tacgia();
-                    }); 
+                    });
                     rowToDelete.remove();
                 }
             } else {
@@ -1878,9 +1904,9 @@ function submitAuthor() {
                 const response = JSON.parse(xhr.responseText);
 
                 if (response.success) {
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         reset_select_tacgia();
-                    }); 
+                    });
                     alert(response.message); // "Tác giả được thêm thành công!"
                     // Xóa các giá trị trong input sau khi thêm
                     document.getElementById('input-tentg').value = '';
@@ -1964,9 +1990,9 @@ function updateAuthorData(id, column, value) {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function () {
         if (xhr.status === 200 && xhr.responseText.trim() === "success") {
-            $(document).ready(function() {
+            $(document).ready(function () {
                 reset_select_tacgia();
-            }); 
+            });
             alert("Cập nhật thành công!");
         }
     };

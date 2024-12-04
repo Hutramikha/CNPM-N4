@@ -532,6 +532,36 @@ if ($result_timkiem_tk_docgia->num_rows > 0) {
     }
 }
 
+// ================================================= ADD ==============================================================
+
+// ================================================ UPDATE ============================================================
+
+// Khóa : Mở tài khoản
+if (isset($_POST['tendangnhap']) && isset($_POST['trangthai'])) {
+    $tendangnhap = $_POST['tendangnhap'];
+    $trangthai = $_POST['trangthai'];
+
+    $stmt = $connect->prepare("UPDATE taikhoan SET trangthai = ? WHERE tendangnhap = ?");
+    $stmt->bind_param("is", $trangthai, $tendangnhap);
+
+    $list_open_close_taikhoan = array();
+
+    if ($stmt->execute()) {
+        $list_open_close_taikhoan[] = array(
+            "status" => "success",
+        );
+    } else {
+        $list_open_close_taikhoan[] = array(
+            "status" => "error",
+        );
+    }
+} else {
+    $list_open_close_taikhoan[] = array(
+        "status" => "error",
+    );
+}
+
+// ================================================ DELETE ===========================================================
 
 // ================================================ echo json encode ============================================================
 
@@ -568,6 +598,7 @@ $response = array(
     'list_timkiem_phieumuon' => $list_timkiem_phieumuon,
     'list_timkiem_phieutra' => $list_timkiem_phieutra,
     'list_timkiem_ct_sach_da_muon' => $list_timkiem_ct_sach_da_muon,
+    'list_open_close_taikhoan' => $list_open_close_taikhoan,
 );
 
 echo json_encode($response);

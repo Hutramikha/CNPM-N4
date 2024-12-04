@@ -1,16 +1,3 @@
-function opentk(tendangnhap) {
-    // Logic to unlock the account with the given id
-    console.log('Unlocking account with ID:', tendangnhap);
-    // Add your unlock logic here
-}
-
-function closetk(tendangnhap) {
-    // Logic to lock the account with the given id
-    console.log('Locking account with ID:', tendangnhap);
-    // Add your lock logic here
-}
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
@@ -243,7 +230,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     $(document).ready(function () {
-        window.reset_select_quyen = reset_select_quyen; // Gán hàm vào window
+        window.reset_select_quyen = reset_select_quyen;
+        window.reset_table_taikhoan =  reset_table_taikhoan;; // Gán hàm vào window
     });
 
     // Nhớ thêm hàm reset_select_quyen() bên ql quyền
@@ -253,3 +241,62 @@ document.addEventListener("DOMContentLoaded", () => {
     // });  
 
 });
+
+
+function opentk(tendangnhap) {
+    console.log(tendangnhap);
+    $.ajax({
+        type: "POST",
+        url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP
+        data: {
+            tendangnhap: tendangnhap,
+            trangthai: 0 // Mở khóa
+        },
+        dataType: 'json',
+        success: function (data) {
+            $.each(data.list_open_close_taikhoan, function (index, item) {
+                if (item.status === 'success') {
+                    alert('Mở khóa thành công');
+                    $(document).ready(function() {
+                        reset_table_taikhoan();
+                    });
+                } else {
+                    alert('Mở khóa thất bại');
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: ", status, error); // Ghi log thông tin lỗi
+            alert("Có lỗi xảy ra khi mở khóa tài khoản.");
+        }
+    });
+}
+
+function closetk(tendangnhap) {
+    console.log(tendangnhap);
+    $.ajax({
+        type: "POST",
+        url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP
+        data: {
+            tendangnhap: tendangnhap,
+            trangthai: 1 // Khóa
+        },
+        dataType: 'json',
+        success: function (data) {
+            $.each(data.list_open_close_taikhoan, function (index, item) {
+                if (item.status === 'success') {
+                    alert('Khóa thành công');
+                    $(document).ready(function() {
+                        reset_table_taikhoan();
+                    });
+                } else {
+                    alert('Khóa thất bại');
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: ", status, error); // Ghi log thông tin lỗi
+            alert("Có lỗi xảy ra khi khóa tài khoản.");
+        }
+    });
+}

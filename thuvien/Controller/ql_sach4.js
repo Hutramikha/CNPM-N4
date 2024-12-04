@@ -1,14 +1,3 @@
-
-function xoactSach(mavach) {
-    // Xử lý xóa sách, có thể thực hiện AJAX để xóa khỏi cơ sở dữ liệu
-    console.log("Xóa sách với mã vạch: " + mavach);
-}
-
-function xuLySapXep(mavach) {
-    // Xử lý sắp xếp sách, có thể thực hiện AJAX hoặc xử lý khác
-    console.log("Xử lý sắp xếp cho mã vạch: " + mavach);
-}
-
 document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
@@ -389,3 +378,36 @@ document.addEventListener("DOMContentLoaded", () => {
     // }); 
 
 });
+
+// Hàm xóa chi tiết sách
+function xoactSach(mavach) {
+    // Xử lý xóa sách, có thể thực hiện AJAX để xóa khỏi cơ sở dữ liệu
+    console.log("Xóa sách với mã vạch: " + mavach);
+}
+
+// Hàm sắp xếp chi tiết sách
+function xuLySapXep(mavach) {
+    // Xử lý sắp xếp sách, có thể thực hiện AJAX hoặc xử lý khác
+    console.log("Xử lý sắp xếp cho mã vạch: " + mavach);
+}
+
+// Hàm chọn ảnh
+let imagePathSach;
+function previewImageSach(event) {
+    const input = event.target; // Lấy input file
+    const imagePreview = document.querySelector('.image-sach');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader(); // Tạo đối tượng FileReader
+
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
+        }
+
+        reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
+
+        // Lưu đường dẫn tạm thời (base64) để sử dụng sau này
+        imagePathSach = URL.createObjectURL(input.files[0]);
+        console.log("Đường dẫn hình ảnh:", imagePathSach); // Bạn có thể lưu đường dẫn này vào database sau này
+    }
+}

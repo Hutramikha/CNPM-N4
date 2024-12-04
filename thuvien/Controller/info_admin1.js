@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn_edit = document.querySelector('.btn-edit-info_admin');
     const btn_save = document.querySelector('.btn-save-info_admin');
     const btn_cancel = document.querySelector('.btn-cancel-info_admin');
+
+    const img = document.querySelector('.image-nv-info');
+
+    const input_img_admin_info = document.querySelector('.info_admin-btn_img');
     
     const ten = document.querySelector(".info_admin-ten");
     const gioitinh = document.querySelector(".info_admin-gioitinh");
@@ -44,9 +48,34 @@ document.addEventListener("DOMContentLoaded", () => {
     btn_cancel.addEventListener('click', () => {
         btn_edit.disabled = false; 
         btn_save.disabled = true;
-        btn_cancel.disabled = true;  
+        btn_cancel.disabled = true; 
+
+        input_img_admin_info.value = '';
+        
+        img.src = '../img/noimages.png';
 
         disableInput();
     });
     
 });
+
+// Hàm chọn ảnh
+let imagePathNVinfo;
+function previewImageNVinfo(event) {
+    const input = event.target; // Lấy input file
+    const imagePreview = document.querySelector('.image-nv-info');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader(); // Tạo đối tượng FileReader
+
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
+        }
+
+        reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
+
+        // Lưu đường dẫn tạm thời (base64) để sử dụng sau này
+        imagePathNVinfo = URL.createObjectURL(input.files[0]);
+        console.log("Đường dẫn hình ảnh:", imagePathNVinfo); // Bạn có thể lưu đường dẫn này vào database sau này
+    }
+}

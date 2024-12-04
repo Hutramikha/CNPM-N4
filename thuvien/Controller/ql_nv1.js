@@ -189,5 +189,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    $(document).ready(function () {
+        window.reset_table_nhanvien = reset_table_nhanvien;
+    });
     
 });
+
+// Hàm chọn ảnh
+let imagePathNV;
+function previewImageNV(event) {
+    const input = event.target; // Lấy input file
+    const imagePreview = document.querySelector('.image-nv');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader(); // Tạo đối tượng FileReader
+
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
+        }
+
+        reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
+
+        // Lưu đường dẫn tạm thời (base64) để sử dụng sau này
+        imagePathNV = URL.createObjectURL(input.files[0]);
+        console.log("Đường dẫn hình ảnh:", imagePathNV); // Bạn có thể lưu đường dẫn này vào database sau này
+    }
+}
+
+function capTaiKhoan(manv) {
+    console.log(manv);
+    $.ajax({
+        url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+        type: 'POST',
+        data: { manvtaotk: manv },
+        dataType: 'json',
+        success: function(data) {
+            console.log(data.list_tao_taikhoan_nv);
+            $.each(data.list_tao_taikhoan_nv, function (index, item) {
+                if (item.status === 'success') {
+                    alert(item.message);
+                    $(document).ready(function() {
+                        reset_table_nhanvien();
+                    });
+                } else {
+                    alert(item.message);
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error: ", status, error);
+            alert("Có lỗi xảy ra khi tạo tài khoản.");
+        }
+    });
+}

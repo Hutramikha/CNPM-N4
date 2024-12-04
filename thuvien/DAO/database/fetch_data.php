@@ -1,6 +1,71 @@
 <?php 
  require './connect.php';
 
+
+
+// ================================================ HÀM  ============================================================ 
+
+// Hàm random cho tạo tài khoản
+function random_string($length, $type) {
+    if ($type == 'numbers') {
+        $chars = '0123456789';
+    } elseif ($type == 'lowercase') {
+        $chars = 'abcdefghijklmnopqrstuvwxyz';
+    } elseif ($type == 'uppercase') {
+        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    } elseif ($type == 'special') {
+        $chars = '@#$%&*!';
+    } else {
+        return '';
+    }
+
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+        $result .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    return $result;
+}
+
+// Hàm tạo tài khoản
+function capTaikhoan($manv, $connect, &$list_tao_taikhoan_nv) {
+    // Tạo tên đăng nhập
+    $tendangnhap = 'ttda' . random_string(4, 'numbers');
+
+    // Tạo mật khẩu
+    $matkhau = random_string(5, 'numbers') . random_string(1, 'lowercase') . random_string(1, 'uppercase') . random_string(1, 'special');
+
+    // Maquyen là 1
+    $maquyen = 1;
+
+    // Ngày tạo
+    $ngaytao = date('Y-m-d');
+
+    // Chèn dữ liệu vào bảng taikhoan
+    $stmt = $connect->prepare("INSERT INTO taikhoan (tendangnhap, matkhau, maquyen, ngaytao, trangthai) VALUES (?, ?, ?, ?, ?)");
+    $trangthai = 1; // Giả định trạng thái là 1
+    $stmt->bind_param("ssisi", $tendangnhap, $matkhau, $maquyen, $ngaytao, $trangthai);
+
+    if ($stmt->execute()) {
+        // Cập nhật matk trong bảng nhanvien
+        $stmt2 = $connect->prepare("UPDATE nhanvien SET matk = ? WHERE manv = ?");
+        $stmt2->bind_param("si", $tendangnhap, $manv);
+        $stmt2->execute();
+        $stmt2->close();
+        
+        $list_tao_taikhoan_nv[] = array(
+            "status" => "success",
+            "message" => "Tài khoản đã được tạo thành công: $tendangnhap"
+        );
+    } else {
+        $list_tao_taikhoan_nv[] = array(
+            "status" => "error",
+            "message" => "Lỗi: " . $stmt->error
+        );
+    }
+}
+
+
+// ================================================ Fetch Data ============================================================ 
 // Sách
 $sql_sach = 'SELECT * FROM sach';
 $result_sach = $connect->query($sql_sach);
@@ -534,6 +599,13 @@ if ($result_timkiem_tk_docgia->num_rows > 0) {
 
 // ================================================= ADD ==============================================================
 
+// Gọi hàm capTaikhoan nếu có manv được gửi : Tạo Tài Khoản nhân viên
+$list_tao_taikhoan_nv = array();
+if (isset($_POST['manvtaotk'])) {
+    $manv = $_POST['manvtaotk'];
+    capTaikhoan($manv, $connect, $list_tao_taikhoan_nv);
+} 
+
 // ================================================ UPDATE ============================================================
 
 // Khóa : Mở tài khoản
@@ -599,6 +671,7 @@ $response = array(
     'list_timkiem_phieutra' => $list_timkiem_phieutra,
     'list_timkiem_ct_sach_da_muon' => $list_timkiem_ct_sach_da_muon,
     'list_open_close_taikhoan' => $list_open_close_taikhoan,
+    'list_tao_taikhoan_nv' => $list_tao_taikhoan_nv,
 );
 
 echo json_encode($response);

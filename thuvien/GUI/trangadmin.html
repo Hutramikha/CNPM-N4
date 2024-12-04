@@ -188,7 +188,7 @@
                             <img id="image_max" class="image-sach" src="../img/noimages.png" alt="">
                         </div>
                         <div style="width: 0.3vw;"></div>
-                        <input type="file" id="image-upload" class="image-upload_sach input-img_sach" accept="image/*" disabled>
+                        <input type="file" id="image-upload" class="image-upload_sach input-img_sach" onchange="previewImageSach(event)" accept="image/*" disabled>
                     </div>
                 </div>
                 <div class="button_contain_manage">
@@ -547,7 +547,7 @@
                             <img id="image_max" class="image-nv" src="../img/noimages.png" alt="">
                         </div>
                         <div style="width: 0.3vw;"></div>
-                        <input type="file" id="image-upload" class="image-upload_nv input-img_nv" accept="image/*" disabled>
+                        <input type="file" id="image-upload" class="image-upload_nv input-img_nv" onchange="previewImageNV(event)" accept="image/*" disabled>
                     </div>
                 </div>
                 <div class="button_contain_manage" style="height: 0.5vh;">
@@ -1435,12 +1435,12 @@
                             </div>
                             <div class="input-group">
                                 <label class="input-label">Chọn ảnh:</label>
-                                <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img" accept="image/*"  disabled>
+                                <input type="file" id="image-upload" class="image-upload_dg info_admin-btn_img" onchange="previewImageNVinfo(event)" accept="image/*"  disabled>
                             </div>
                         </div>
                         <div class="image-container">
-                            <div class="image-preview image-nv">
-                                <img id="image_max" src="../img/noimages.png" alt="">
+                            <div class="image-preview">
+                                <img id="image_max" class="image-nv-info" src="../img/noimages.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -1454,14 +1454,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../Controller/jsadmin2.js"></script>
-    <script src="../Controller/ql_sach3.js"></script>
-    <script src="../Controller/ql_nv.js"></script>
+    <script src="../Controller/ql_sach4.js"></script>
+    <script src="../Controller/ql_nv1.js"></script>
     <script src="../Controller/ql_dg.js"></script>
     <script src="../Controller/ql_phieunhap2.js"></script>
     <script src="../Controller/ql_phieumuon1.js"></script>
     <script src="../Controller/ql_phieutra3.js"></script>
     <script src="../Controller/ql_taikhoan3.js"></script>
-    <script src="../Controller/info_admin.js"></script>
+    <script src="../Controller/info_admin1.js"></script>
     <script src="../Controller/thongke.js"></script>
 </body>
 

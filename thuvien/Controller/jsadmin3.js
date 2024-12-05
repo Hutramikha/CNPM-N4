@@ -1702,10 +1702,10 @@ const addprovider = document.querySelector('.addbtn-pro');
 const closeprovider = document.querySelector('.cancelprosubmit');
 const addproSubmit = document.querySelector('.addprosubmit');
 const searchinput = document.querySelector('.search-pro');
-const refresh = document.getElementById('refresh');
-refresh.addEventListener('click', () => {
+const refresh = document.getElementById('penrefresh');
+penrefresh.addEventListener('click', () => {
     searchinput.value = "";
-    cancelEdit();
+    cancelProEdit();
 });
 addprovider.addEventListener('click', () => addProvider());
 closeprovider.addEventListener('click', () => closeProvider());
@@ -1761,7 +1761,7 @@ function fetchTableDataNcc() {
                     <td>${row.ten}</td>
                     <td>${row.sdt}</td>
                     <td>${row.diachi}</td>
-                    <td><button class="delete-pro-btn" pro-data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
+                    <td><button type="button" class="delete-pro-btn" pro-data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
                 `;
                 tableBody.appendChild(tableRow);
             });
@@ -1911,6 +1911,7 @@ function proEditTable() {
 
             // Tạo nút save
             const saveButton = document.createElement('button');
+	    saveButton.type = "button";
             saveButton.textContent = 'Lưu'; // Save
             saveButton.classList.add('pro-save-btn');
 
@@ -1944,12 +1945,7 @@ function saveProEdit(row) {
         return;
     }
 
-    updateProData(providerId, providerName, providerPhone, providerAddress);
-
-    nameCell.contentEditable = 'false';
-    nameCell2.contentEditable = 'false';
-    nameCell3.contentEditable = 'false';
-    row.querySelector('.pro-save-btn').remove();
+    updateProData(providerId, 'ten', providerName, 'sdt', providerPhone, 'diachi', providerAddress);
 }
 
 function cancelProEdit() {
@@ -1983,10 +1979,12 @@ function updateProData(id, column, value) {
         if (xhr.status === 200 && xhr.responseText.trim() === "success") {
             alert("Cập nhật thành công!");
         } else {
-            alert("Failed to update.");
+            console.error(xhr.responseText);
         }
     };
-    xhr.send("id=" + encodeURIComponent(id) + "&column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
+    xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1)
+	 + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2)
+	 + "&column3=" + encodeURIComponent(column3) + "&value3=" + encodeURIComponent(value3));
 }
 
 // Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi =))

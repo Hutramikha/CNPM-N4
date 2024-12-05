@@ -6,9 +6,9 @@ $conn = $connect;
 $response = ['success' => false];
 
 // Lấy dữ liệu từ yêu cầu AJAX
-$providerName = $_POST['providerName'];
-$providerPhone = $_POST['providerPhone'];
-$providerAddress = $_POST['providerAddress'];
+$providerName = isset($_POST['providerName']) ? $_POST['providerName'] : null;
+$providerPhone = isset($_POST['providerPhone']) ? $_POST['providerPhone'] : null;
+$providerAddress = isset($_POST['providerAddress']) ? $_POST['providerAddress'] : null;
 
 // Kiểm tra xem các trường có rỗng hay không
 if (empty($providerName) || empty($providerPhone) || empty($providerAddress)) {
@@ -24,8 +24,30 @@ if (!preg_match('/^0\d{9}$/', $providerPhone)) {
     exit();
 }
 
-// Tạo câu lệnh INSERT (không cần mancc vì nó tự động tăng)
-$stmt = $conn->prepare("INSERT INTO nhacungcap (ten, sdt, diachi) VALUES (?, ?, ?)");
+// Tạo câu lệnh INSERT 
+$stmt = $conn->prepare("INSERT INTO nhacungcap (mancc, ten, sdt, diachi) VALUES (?, ?, ?, ?)");
+
+// AUTO_CREMENT không hoạt động như ý muốn, add id auto qua php 13-31
+$result = $conn->query('select mancc from nhacungcap order by mancc asc');
+    if($result === false){
+        $reponse['error'] = "Failed to fetch ids";
+        echo json_encode($reponse);
+        exit();
+    }
+    
+    $existingId = [];
+    while($row = $result -> fetch_assoc()){
+        $existingId[] = $row['mancc'];
+    }
+    
+    $providerCode = null;
+    for ($i=1;$i<=count($existingId)+1;$i++){
+        if(!in_array($i, $existingId)){
+            $providerCode = $i;
+            break;
+        }
+    }
+
 
 if ($stmt === false) {
     $response['error'] = 'Failed to prepare statement';
@@ -33,7 +55,7 @@ if ($stmt === false) {
     exit();
 }
 
-$stmt->bind_param("sss", $providerName, $providerPhone, $providerAddress);
+$stmt->bind_param("ssss", $providerCode, $providerName, $providerPhone, $providerAddress);
 
 if ($stmt->execute()) {
     $response['success'] = true;

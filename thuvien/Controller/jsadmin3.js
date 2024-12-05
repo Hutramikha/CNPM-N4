@@ -231,29 +231,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa thể loại
     function deleteCategory(category_id) {
-        console.log('Attempting to delete category with ID:', category_id);
-        fetch('../DAO/deleteCategory.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `matl=${category_id}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Delete response:', data); // Log response (check trong console)
-                if (data.success) {
-                    $(document).ready(function () {
-                        reset_select_theloai();
-                    });
-                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                    const rowToDelete = document.querySelector(`tr[cat-data-id="${category_id}"]`);
-                    if (rowToDelete) {
-                        rowToDelete.remove();
-                    }
-                } else {
-                    alert("Error deleting category: " + (data.error || "Unknown error"));
-                }
+        if(confirm(`Xóa thể loại mã: "${category_id}"`)){
+            console.log('Attempting to delete category with ID:', category_id);
+            fetch('../DAO/deleteCategory.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `matl=${category_id}`
             })
-            .catch(error => console.error('Error deleting category:', error));
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Delete response:', data); // Log response (check trong console)
+                    if (data.success) {
+                        $(document).ready(function () {
+                            reset_select_theloai();
+                        });
+                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                        const rowToDelete = document.querySelector(`tr[cat-data-id="${category_id}"]`);
+                        if (rowToDelete) {
+                            rowToDelete.remove();
+                        }
+                    } else {
+                        alert("Error deleting category: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error('Error deleting category:', error));
+        }else{
+            exit();
+        }
     }
 
 
@@ -479,29 +483,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa hình thức phạt
     function deletePenalty(penalty_id) {
-        console.log('Attempting to delete penalty with ID:', penalty_id);
-        fetch('../DAO/deletePenalty.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `maphat=${penalty_id}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Delete response:', data); // Log response (check trong console)
-                if (data.success) {
-                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                    const rowToDelete = document.querySelector(`tr[pen-data-id="${penalty_id}"]`);
-                    if (rowToDelete) {
-                        rowToDelete.remove();
-                        $(document).ready(function () {
-                            reset_select_hinhthucphat();
-                        });
-                    }
-                } else {
-                    alert("Error deleting penalty: " + (data.error || "Unknown error"));
-                }
+        if(confirm(`Xóa hình thức phạt mã: "${penalty_id}"`)){
+            console.log('Attempting to delete penalty with ID:', penalty_id);
+            fetch('../DAO/deletePenalty.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `maphat=${penalty_id}`
             })
-            .catch(error => console.error('Error deleting penalty:', error));
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Delete response:', data); // Log response (check trong console)
+                    if (data.success) {
+                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                        const rowToDelete = document.querySelector(`tr[pen-data-id="${penalty_id}"]`);
+                        if (rowToDelete) {
+                            rowToDelete.remove();
+                            $(document).ready(function () {
+                                reset_select_hinhthucphat();
+                            });
+                        }
+                    } else {
+                        alert("Error deleting penalty: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error('Error deleting penalty:', error));
+        }else{
+            exit();
+        }
     }
 
 
@@ -742,30 +750,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa Tình Trạng
     function deleteStatus(status_id) {
-        console.log('Attempting to delete status with ID:', status_id);
-        fetch('../DAO/deleteStatus.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `matinhtrang=${status_id}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Delete response:', data); // Log response (check trong console)
-                if (data.success) {
-                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                    const rowToDelete = document.querySelector(`tr[stat-data-id="${status_id}"]`);
-                    if (rowToDelete) {
-                        $(document).ready(function () {
-                            reset_select_tinhtrang_pt();
-                            reset_select_tinhtrangsach_sach();
-                        });
-                        rowToDelete.remove();
-                    }
-                } else {
-                    alert("Error deleting status: " + (data.error || "Unknown error"));
-                }
+        if(confirm(`Xóa tình trạng sách mã: "${provider_id}"`)){
+            console.log('Attempting to delete status with ID:', status_id);
+            fetch('../DAO/deleteStatus.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `matinhtrang=${status_id}`
             })
-            .catch(error => console.error('Error deleting status:', error));
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Delete response:', data); // Log response (check trong console)
+                    if (data.success) {
+                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                        const rowToDelete = document.querySelector(`tr[stat-data-id="${status_id}"]`);
+                        if (rowToDelete) {
+                            $(document).ready(function () {
+                                reset_select_tinhtrang_pt();
+                                reset_select_tinhtrangsach_sach();
+                            });
+                            rowToDelete.remove();
+                        }
+                    } else {
+                        alert("Error deleting status: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error('Error deleting status:', error));
+        }else{
+            exit();
+        }
     }
 
 
@@ -995,29 +1007,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa loại độc giả
     function deleteRC(rc_id) {
-        console.log('Attempting to delete reader-category with ID:', rc_id);
-        fetch('../DAO/deleteReaderCategory.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `maloaidocgia=${rc_id}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Delete response:', data); // Log response (check trong console)
-                if (data.success) {
-                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                    const rowToDelete = document.querySelector(`tr[rc-data-id="${rc_id}"]`);
-                    if (rowToDelete) {
-                        rowToDelete.remove();
-                        $(document).ready(function () {
-                            reset_select_loaidocgia();
-                        });
-                    }
-                } else {
-                    alert("Error deleting reader-category: " + (data.error || "Unknown error"));
-                }
+        if(confirm(`Xóa loại độc giả mã: "${rc_id}"`)){
+            console.log('Attempting to delete reader-category with ID:', rc_id);
+            fetch('../DAO/deleteReaderCategory.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `maloaidocgia=${rc_id}`
             })
-            .catch(error => console.error('Error deleting reader-category:', error));
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Delete response:', data); // Log response (check trong console)
+                    if (data.success) {
+                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                        const rowToDelete = document.querySelector(`tr[rc-data-id="${rc_id}"]`);
+                        if (rowToDelete) {
+                            rowToDelete.remove();
+                            $(document).ready(function () {
+                                reset_select_loaidocgia();
+                            });
+                        }
+                    } else {
+                        alert("Error deleting reader-category: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error('Error deleting reader-category:', error));
+        }else{
+            exit();
+        }
     }
 
 
@@ -1257,29 +1273,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa nhà xuất bản
     function deletePublisher(publisher_id) {
-        console.log('Attempting to delete publisher with ID:', publisher_id);
-        fetch('../DAO/deletePublisher.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `manxb=${publisher_id}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Delete response:', data); // Log response (check trong console)
-                if (data.success) {
-                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                    const rowToDelete = document.querySelector(`tr[publish-data-id="${publisher_id}"]`);
-                    if (rowToDelete) {
-                        $(document).ready(function () {
-                            reset_select_nhaxuatban();
-                        });
-                        rowToDelete.remove();
-                    }
-                } else {
-                    alert("Error deleting publisher: " + (data.error || "Unknown error"));
-                }
+        if(confirm(`Xóa nhà sản xuất mã: "${publisher_id}"`)){
+            console.log('Attempting to delete publisher with ID:', publisher_id);
+            fetch('../DAO/deletePublisher.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `manxb=${publisher_id}`
             })
-            .catch(error => console.error('Error deleting publisher:', error));
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Delete response:', data); // Log response (check trong console)
+                    if (data.success) {
+                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                        const rowToDelete = document.querySelector(`tr[publish-data-id="${publisher_id}"]`);
+                        if (rowToDelete) {
+                            $(document).ready(function () {
+                                reset_select_nhaxuatban();
+                            });
+                            rowToDelete.remove();
+                        }
+                    } else {
+                        alert("Error deleting publisher: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error('Error deleting publisher:', error));
+        }else{
+            exit();
+        }
     }
 
 
@@ -1504,29 +1524,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa Chức Năng
     function deleteFunction(function_id) {
-        console.log('Attempting to delete function with ID:', function_id);
-        fetch('../DAO/deleteFunction.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `machucnang=${function_id}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Delete response:', data); // Log response (check trong console)
-                if (data.success) {
-                    $(document).ready(function () {
-                        reset_select_chucnang();
-                    });
-                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                    const rowToDelete = document.querySelector(`tr[func-data-id="${function_id}"]`);
-                    if (rowToDelete) {
-                        rowToDelete.remove();
-                    }
-                } else {
-                    alert("Error deleting function: " + (data.error || "Unknown error"));
-                }
+        if(confirm(`Xóa chức năng mã: "${function_id}"`)){
+            console.log('Attempting to delete function with ID:', function_id);
+            fetch('../DAO/deleteFunction.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `machucnang=${function_id}`
             })
-            .catch(error => console.error('Error deleting function:', error));
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Delete response:', data); // Log response (check trong console)
+                    if (data.success) {
+                        $(document).ready(function () {
+                            reset_select_chucnang();
+                        });
+                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                        const rowToDelete = document.querySelector(`tr[func-data-id="${function_id}"]`);
+                        if (rowToDelete) {
+                            rowToDelete.remove();
+                        }
+                    } else {
+                        alert("Error deleting function: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error('Error deleting function:', error));
+        }else{
+            exit();
+        }
     }
 
 
@@ -1702,7 +1726,7 @@ const addprovider = document.querySelector('.addbtn-pro');
 const closeprovider = document.querySelector('.cancelprosubmit');
 const addproSubmit = document.querySelector('.addprosubmit');
 const searchinput = document.querySelector('.search-pro');
-const refresh = document.getElementById('penrefresh');
+const penrefresh = document.getElementById('penrefresh');
 penrefresh.addEventListener('click', () => {
     searchinput.value = "";
     cancelProEdit();
@@ -1782,25 +1806,29 @@ window.onload = fetchTableDataNcc();
 // Xóa nhà cung cấp
 function deleteProvider(provider_id) {
     console.log('Attempting to delete provider with ID:', provider_id);
-    fetch('../DAO/deleteProvider.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `mancc=${provider_id}`
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Delete response:', data); // Log response (check trong console)
-            if (data.success) {
-                // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
-                if (rowToDelete) {
-                    rowToDelete.remove();
-                }
-            } else {
-                alert("Error deleting provider: " + (data.error || "Unknown error"));
-            }
+    if(confirm(`Xóa nhà cung cấp mã: "${provider_id}"`)){
+        fetch('../DAO/deleteProvider.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `mancc=${provider_id}`
         })
-        .catch(error => console.error('Error deleting provider:', error));
+            .then(response => response.json())
+            .then(data => {
+                console.log('Delete response:', data); // Log response (check trong console)
+                if (data.success) {
+                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                    const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
+                    if (rowToDelete) {
+                        rowToDelete.remove();
+                    }
+                } else {
+                    alert("Error deleting provider: " + (data.error || "Unknown error"));
+                }
+            })
+            .catch(error => console.error('Error deleting provider:', error));
+    }else{
+        exit();
+    }
 }
 
 
@@ -1971,7 +1999,7 @@ function removeProEditButtons() {
 }
 
 // Function for handling data update
-function updateProData(id, column, value) {
+function updateProData(id, column1, value1, column2, value2, column3, value3) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "../DAO/updateProvider.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -2094,29 +2122,33 @@ window.onload = fetchTableDataAuthor();
 
 // Xóa tác giả
 function deleteAuthor(author_id) {
-    console.log('Đang cố gắng xóa tác giả với ID:', author_id);
-    fetch('../DAO/deleteAuthor.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `matg=${author_id}`
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Phản hồi xóa:', data); // In ra phản hồi (kiểm tra trong console)
-            if (data.success) {
-                // Tìm và xóa dòng mà không cần tải lại trang (sửa trực tiếp trên HTML)
-                const rowToDelete = document.querySelector(`tr[author-data-id="${author_id}"]`);
-                if (rowToDelete) {
-                    $(document).ready(function () {
-                        reset_select_tacgia();
-                    });
-                    rowToDelete.remove();
-                }
-            } else {
-                alert("Lỗi khi xóa tác giả: " + (data.error || "Lỗi không xác định"));
-            }
+    if(confirm(`Xóa tác giả mã: "${author_id}"`)){
+        console.log('Đang cố gắng xóa tác giả với ID:', author_id);
+        fetch('../DAO/deleteAuthor.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `matg=${author_id}`
         })
-        .catch(error => console.error('Lỗi khi xóa tác giả:', error));
+            .then(response => response.json())
+            .then(data => {
+                console.log('Phản hồi xóa:', data); // In ra phản hồi (kiểm tra trong console)
+                if (data.success) {
+                    // Tìm và xóa dòng mà không cần tải lại trang (sửa trực tiếp trên HTML)
+                    const rowToDelete = document.querySelector(`tr[author-data-id="${author_id}"]`);
+                    if (rowToDelete) {
+                        $(document).ready(function () {
+                            reset_select_tacgia();
+                        });
+                        rowToDelete.remove();
+                    }
+                } else {
+                    alert("Lỗi khi xóa tác giả: " + (data.error || "Lỗi không xác định"));
+                }
+            })
+            .catch(error => console.error('Lỗi khi xóa tác giả:', error));
+    }else{
+        exit();
+    }
 }
 
 // Thêm Tác giả

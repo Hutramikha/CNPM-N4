@@ -128,3 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 });
+
+function xuLyPhieuMuon(ma) {
+    
+}

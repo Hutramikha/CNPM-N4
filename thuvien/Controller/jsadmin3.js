@@ -1916,7 +1916,7 @@ function submitProvider() {
 }
 
 
-//  Cập nhật thể loại
+//  Cập nhật nhà cung cấp
 function proEditTable() {
     console.log(countswitch);
     if (countswitch === 1) {

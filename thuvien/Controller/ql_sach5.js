@@ -362,6 +362,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+// Thực hiện tăng giảm giá trị bằng nút mũi tên
+    $(document).ready(function() {
+        const incrementValue = 1000;
+    
+        // Cập nhật input hiển thị giá trị
+        function updateInputPhimuon() {
+            $('.input-phimuon_sach').val(currentValue_phimuon + ' VNĐ');
+        }
+    
+        // Sự kiện khi nhấn nút tăng
+        $('#increment').on('click', function() {
+            currentValue_phimuon += incrementValue;
+            updateInputPhimuon();
+        });
+    
+        // Sự kiện khi nhấn nút giảm
+        $('#decrement').on('click', function() {
+            if (currentValue_phimuon > 0) { // Đảm bảo không giảm xuống dưới 0
+                currentValue_phimuon -= incrementValue;
+                updateInputPhimuon();
+            }
+        });
+    });
+
+
 
     $(document).ready(function () {
         window.reset_table_sach = reset_table_sach;
@@ -378,6 +403,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // }); 
 
 });
+
+
+let currentValue_phimuon = 0;
+
 
 // Hàm xóa chi tiết sách
 function xoactSach(mavach) {

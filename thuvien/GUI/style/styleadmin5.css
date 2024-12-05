@@ -626,3 +626,41 @@ td {
     background-color: #ddd8d8bc; /* Màu nền khi hover */
     cursor: pointer; /* Thay đổi con trỏ chuột thành pointer */
 }
+
+
+.input-group {
+    position: relative;
+}
+
+.input-container {
+    position: relative;
+    display: inline-block;
+}
+
+/*---------------------- Nút tăng giảm ---------------------------*/
+.btn-container__arrow {
+    position: absolute;
+    right: 2%; /* Khoảng cách từ bên phải */
+    top: 14%;
+    display: none;
+}
+
+.input-container:hover .btn-container__arrow {
+    display: flex; 
+    flex-direction: column;
+}
+
+.input-control:disabled + .btn-container__arrow  {
+    display: none; /* Ẩn mũi tên khi input bị disable */
+}
+
+.btn-arrow {
+    background-color: #035dbe;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 10px; /* Kích thước chữ */
+    width: 1vw; /* Chiều rộng nút */
+    text-align: center;
+}

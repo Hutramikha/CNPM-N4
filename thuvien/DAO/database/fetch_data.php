@@ -633,6 +633,30 @@ if (isset($_POST['tendangnhap']) && isset($_POST['trangthai'])) {
     );
 }
 
+// Xử lý phiếu mượn (cập nhật trạng thái)
+if (isset($_POST['ma_xuly_pm'])) {
+    $ma_xuly_pm = $_POST['ma_xuly_pm'];
+
+    $stmt = $connect->prepare("UPDATE phieumuon SET trangthai = 1 WHERE mapm = ?");
+    $stmt->bind_param("s", $ma_xuly_pm);
+
+    $list_xuly_phieumuon = array();
+
+    if ($stmt->execute()) {
+        $list_xuly_phieumuon[] = array(
+            "status" => "success",
+        );
+    } else {
+        $list_xuly_phieumuon[] = array(
+            "status" => "error",
+        );
+    }
+} else {
+    $list_xuly_phieumuon[] = array(
+        "status" => "error",
+    );
+}
+
 // ================================================ DELETE ===========================================================
 
 // ================================================ echo json encode ============================================================
@@ -672,6 +696,7 @@ $response = array(
     'list_timkiem_ct_sach_da_muon' => $list_timkiem_ct_sach_da_muon,
     'list_open_close_taikhoan' => $list_open_close_taikhoan,
     'list_tao_taikhoan_nv' => $list_tao_taikhoan_nv,
+    'list_xuly_phieumuon' => $list_xuly_phieumuon,
 );
 
 echo json_encode($response);

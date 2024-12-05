@@ -253,6 +253,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // Thực hiện tăng giảm giá trị bằng nút mũi tên
+    $(document).ready(function() {
+        const incrementValue = 10000;
+        const incrementValue_soluong = 1;
+    
+        // Cập nhật input hiển thị giá trị
+        function updateInputPhinhap() {
+            $('.input-gianhap_sach_pn').val(currentValue_phinhap + ' VNĐ');
+        }
+        function updateInputSoluong() {
+            $('.input-soluong_sach_pn').val(currentValue_soluong);
+        }
+    
+        // Sự kiện khi nhấn nút tăng
+        $('#increment_phinhap').on('click', function() {
+            currentValue_phinhap += incrementValue;
+            updateInputPhinhap();
+        });
+        $('#increment_soluong_phieunhap').on('click', function() {
+            currentValue_soluong += incrementValue_soluong;
+            updateInputSoluong();
+        });
+    
+        // Sự kiện khi nhấn nút giảm
+        $('#decrement_phinhap').on('click', function() {
+            if (currentValue_phinhap > 0) { // Đảm bảo không giảm xuống dưới 0
+                currentValue_phinhap -= incrementValue;
+                updateInputPhinhap();
+            }
+        });
+        $('#decrement_soluong_phieunhap').on('click', function() {
+            if (currentValue_soluong > 0) { // Đảm bảo không giảm xuống dưới 0
+                currentValue_soluong -= incrementValue_soluong;
+                updateInputSoluong();
+            }
+        });
+    });
+
+
 
     $(document).ready(function () {
         window.reset_select_nhacc = reset_select_nhacc; // Gán hàm vào window
@@ -265,3 +304,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // });  
 
 });
+
+let currentValue_phinhap = 0;
+let currentValue_soluong = 0;

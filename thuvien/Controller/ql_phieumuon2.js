@@ -126,9 +126,33 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    $(document).ready(function () {
+        window.reset_table_phieumuon = reset_table_phieumuon; // Gán hàm vào window
+    });
     
 });
 
 function xuLyPhieuMuon(ma) {
-    
+    $.ajax({
+        type: "POST",
+        url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP
+        data: { ma_xuly_pm: ma },
+        dataType: "json",
+        success: function(data) {
+            $.each(data.list_xuly_phieumuon, function (index, phieumuon) {
+            if (phieumuon.status === 'success') {
+                $(document).ready(function() {
+                    reset_table_phieumuon();
+                });
+                alert("Đã xử lý mã phiếu:" + ma);
+            } else {
+                alert("Có lỗi xảy ra khi xử lý phiếu mượn");
+            }
+        });
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi:', error);
+        }
+    });
 }

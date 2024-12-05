@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="./style/styleadmin4.css">
+    <link rel="stylesheet" href="./style/styleadmin5.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -176,7 +176,14 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Phí mượn:</label>
-                            <input type="text" class="input-control input-phimuon_sach" placeholder="VNĐ" disabled required>
+                            <div class="input-container">
+                                <input type="text" class="input-control input-phimuon_sach" placeholder="VNĐ" disabled required>
+                                <div class="btn-container__arrow">
+                                    <button class="btn-arrow" id="increment">▲</button>
+                                    <div style="height: 0.3vh;"></div>
+                                    <button class="btn-arrow" id="decrement">▼</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
@@ -1076,13 +1083,27 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
-                            <input type="text" class="input-control input-soluong_sach_pn" placeholder="Số lượng nhập" disabled required>
+                            <div class="input-container">
+                                <input type="text" class="input-control input-soluong_sach_pn" placeholder="Số lượng nhập" disabled required>
+                                <div class="btn-container__arrow">
+                                    <button class="btn-arrow" id="increment_soluong_phieunhap">▲</button>
+                                    <div style="height: 0.3vh;"></div>
+                                    <button class="btn-arrow" id="decrement_soluong_phieunhap">▼</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
-                            <label class="input-label">Giá nhập:</label>
-                            <input type="text" class="input-control input-gianhap_sach_pn" placeholder="Giá nhập" disabled required>
+                            <label class="input-label">Phí nhập:</label>
+                            <div class="input-container">
+                                <input type="text" class="input-control input-gianhap_sach_pn" placeholder="VNĐ" disabled required>
+                                <div class="btn-container__arrow">
+                                    <button class="btn-arrow" id="increment_phinhap">▲</button>
+                                    <div style="height: 0.3vh;"></div>
+                                    <button class="btn-arrow" id="decrement_phinhap">▼</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Thành tiền:</label>
@@ -1513,11 +1534,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../Controller/jsadmin3.js"></script>
-    <script src="../Controller/ql_sach4.js"></script>
+    <script src="../Controller/ql_sach5.js"></script>
     <script src="../Controller/ql_nv1.js"></script>
     <script src="../Controller/ql_dg.js"></script>
-    <script src="../Controller/ql_phieunhap2.js"></script>
-    <script src="../Controller/ql_phieumuon1.js"></script>
+    <script src="../Controller/ql_phieunhap3.js"></script>
+    <script src="../Controller/ql_phieumuon2.js"></script>
     <script src="../Controller/ql_phieutra3.js"></script>
     <script src="../Controller/ql_taikhoan3.js"></script>
     <script src="../Controller/info_admin1.js"></script>

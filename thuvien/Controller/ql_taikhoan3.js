@@ -229,9 +229,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function reset_select_chucnang() {
+        $(document).ready(function () {
+            var option0 = $('.select-chucnang_tk option[value="-1"]').clone();
+            $('.select-chucnang_tk').empty();
+            // Fetch dữ liệu từ server
+            $('.select-chucnang_tk').append(option0);
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Đổ các option chức năng
+                    $.each(data.list_quyen, function (index, chucnang) {
+                        $('.select-chucnang_tk').append(
+                                '<option value=' + '"' + chucnang.machucnang + '"' + '>' +
+                                chucnang.machucnang + '-' + chucnang.tenchucnang + '</option>'
+                                );
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    }
+
     $(document).ready(function () {
         window.reset_select_quyen = reset_select_quyen;
-        window.reset_table_taikhoan =  reset_table_taikhoan;; // Gán hàm vào window
+	window.reset_select_chucnang = reset_select_chucnang;
+        window.reset_table_taikhoan =  reset_table_taikhoan; // Gán hàm vào window
     });
 
     // Nhớ thêm hàm reset_select_quyen() bên ql quyền

@@ -189,6 +189,65 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
+    //======================================Tìm kiếm sách
+    $(document).ready(function() {
+        // Hàm tìm kiếm nhân viên
+        function searchEmployees() {
+            const searchQuery = $('.search-input-nv').val();
+    
+            if (searchQuery.trim() === '') {
+                $('.table-nhanvien tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                return;
+            }
+    
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
+                method: 'GET',
+                dataType: 'json', // Định dạng dữ liệu trả về là JSON
+                data: { search_nhanvien: searchQuery },
+                success: function(data) {
+                    $('.table-nhanvien tbody').empty(); // Xóa kết quả cũ
+                    if (data.list_timkiem_nhanvien.length > 0) {
+                        $.each(data.list_timkiem_nhanvien, function(index, nhanvien) {
+                            $('.table-nhanvien tbody').append(
+                                '<tr>' +
+                                    '<td>' + (index + 1) + '</td>' +
+                                    '<td>' + nhanvien.manv + '</td>' +
+                                    '<td>' + nhanvien.matk + '</td>' +
+                                    '<td>' + nhanvien.ten + '</td>' +
+                                    '<td>' + nhanvien.gioitinh + '</td>' +
+                                    '<td>' + nhanvien.ngaysinh + '</td>' +
+                                    '<td>' + nhanvien.email + '</td>' +
+                                    '<td>' + nhanvien.sdt + '</td>' +
+                                    '<td>' + nhanvien.diachi + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-nhanvien tbody').append('<tr><td colspan="9">Không tìm thấy nhân viên nào.</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        }
+    
+        // Tìm kiếm khi nhấn nút
+        $('.btn-search-nv').on('click', function() {
+            searchEmployees();
+        });
+    
+        // Tìm kiếm khi nhấn phím Enter
+        $('.search-input-nv').on('keypress', function(e) {
+            if (e.which === 13) { // Kiểm tra phím Enter
+                searchEmployees();
+                return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
+
     $(document).ready(function () {
         window.reset_table_nhanvien = reset_table_nhanvien;
     });

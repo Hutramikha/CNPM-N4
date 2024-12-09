@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    //Tìm kiếm sách
+    //======================================Tìm kiếm sách
     $(document).ready(function() {
         // Hàm tìm kiếm
         function searchBooks() {

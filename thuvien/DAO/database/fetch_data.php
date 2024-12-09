@@ -418,11 +418,19 @@ if ($result_timkiem_sach->num_rows > 0) {
 // =========================== Tìm kiếm nhân viên ===>
 $search_nhanvien = isset($_GET['search_nhanvien']) ? $_GET['search_nhanvien'] : '';
 
-$sql_timkiem_nhanvien = "SELECT * FROM nhanvien WHERE manv LIKE ? OR matk LIKE ? OR ten LIKE ?";
-$stmt = $connect->prepare($sql_timkiem_nhanvien);
+if (is_numeric($search_nhanvien)) {
+    // Nếu là số, tìm kiếm theo manv
+    $sql_timkiem_nhanvien = "SELECT * FROM nhanvien WHERE manv = ?";
+    $stmt = $connect->prepare($sql_timkiem_nhanvien);
+    $stmt->bind_param('i', $search_nhanvien); // 'i' cho integer
+} else {
+    // Nếu không phải là số, tìm kiếm theo matk và ten
+    $sql_timkiem_nhanvien = "SELECT * FROM nhanvien WHERE matk LIKE ? OR ten LIKE ?";
+    $stmt = $connect->prepare($sql_timkiem_nhanvien);
+    $search_nhanvien_param = "%$search_nhanvien%"; // Thêm % cho chuỗi
+    $stmt->bind_param('ss', $search_nhanvien_param, $search_nhanvien_param); // 'ss' cho string
+}
 
-$search_nhanvien_param = "%$search_nhanvien%";
-$stmt->bind_param('iss', $search_nhanvien_param, $search_nhanvien_param, $search_nhanvien_param);
 $stmt->execute();
 $result_timkiem_nhanvien = $stmt->get_result();
 

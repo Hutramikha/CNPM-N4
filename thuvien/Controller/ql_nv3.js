@@ -198,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             if (searchQuery.trim() === '') {
                 $('.table-nhanvien tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                $('.table-nhanvien tbody').append('<tr><td colspan="9">Không tìm thấy nhân viên nào.</td></tr>');
                 return;
             }
     

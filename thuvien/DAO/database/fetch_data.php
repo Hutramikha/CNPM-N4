@@ -478,14 +478,15 @@ if ($result_timkiem_docgia->num_rows > 0) {
 $search_phieunhap = isset($_GET['search_phieunhap']) ? $_GET['search_phieunhap'] : '';
 
 $sql_timkiem_phieunhap = "SELECT *
-                        FROM phieunhap pn
-                        LEFT JOIN nhacungcap ncc ON pn.mancc = ncc.mancc
-                        WHERE pn.mapn LIKE ? OR ncc.mancc LIKE ?";
+                          FROM phieunhap pn
+                          LEFT JOIN nhacungcap ncc ON pn.mancc = ncc.mancc
+                          WHERE pn.mapn LIKE ? OR ncc.mancc LIKE ?";
 
 $stmt = $connect->prepare($sql_timkiem_phieunhap);
 
+// Thay đổi kiểu tham số từ 'ii' thành 'ss' vì chúng ta đang sử dụng chuỗi
 $search_phieunhap_param = "%$search_phieunhap%";
-$stmt->bind_param('ii', $search_phieunhap_param, $search_phieunhap_param);
+$stmt->bind_param('ss', $search_phieunhap_param, $search_phieunhap_param); // 'ss' cho chuỗi
 $stmt->execute();
 $result_timkiem_phieunhap = $stmt->get_result();
 
@@ -496,6 +497,7 @@ if ($result_timkiem_phieunhap->num_rows > 0) {
         $list_timkiem_phieunhap[] = $row;
     }
 }
+
 // =========================== Tìm kiếm Phiếu mượn ===>
 $search_phieumuon = isset($_GET['search_phieumuon']) ? $_GET['search_phieumuon'] : '';
 
@@ -577,7 +579,7 @@ if ($result_timkiem_ct_sach_damuon->num_rows > 0) {
 
 // =========================== Tìm kiếm tài khoản ===>
 // Tìm TK nhân viên
-$search_tk_nhanvien = isset($_GET['search_tk_nhanvien']) ? $_GET['search_tk_nhanvien'] : '';
+$search_tk_nhanvien = isset($_GET['search_tk']) ? $_GET['search_tk'] : '';
 
 $sql_timkiem_tk_nhanvien = "SELECT *
               FROM taikhoan tk
@@ -600,7 +602,7 @@ if ($result_timkiem_tk_nhanvien->num_rows > 0) {
 }
 
 // Tìm TK độc giả
-$search_tk_docgia = isset($_GET['search_tk_docgia']) ? $_GET['search_tk_docgia'] : '';
+$search_tk_docgia = isset($_GET['search_tk']) ? $_GET['search_tk'] : '';
 
 $sql_timkiem_tk_docgia = "SELECT *
               FROM taikhoan tk

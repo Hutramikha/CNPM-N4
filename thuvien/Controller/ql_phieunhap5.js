@@ -254,10 +254,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // Thực hiện tăng giảm giá trị bằng nút mũi tên
-    $(document).ready(function() {
+    $(document).ready(function () {
         const incrementValue = 10000;
         const incrementValue_soluong = 1;
-    
+
         // Cập nhật input hiển thị giá trị
         function updateInputPhinhap() {
             $('.input-gianhap_sach_pn').val(currentValue_phinhap + ' VNĐ');
@@ -265,25 +265,25 @@ document.addEventListener("DOMContentLoaded", () => {
         function updateInputSoluong() {
             $('.input-soluong_sach_pn').val(currentValue_soluong);
         }
-    
+
         // Sự kiện khi nhấn nút tăng
-        $('#increment_phinhap').on('click', function() {
+        $('#increment_phinhap').on('click', function () {
             currentValue_phinhap += incrementValue;
             updateInputPhinhap();
         });
-        $('#increment_soluong_phieunhap').on('click', function() {
+        $('#increment_soluong_phieunhap').on('click', function () {
             currentValue_soluong += incrementValue_soluong;
             updateInputSoluong();
         });
-    
+
         // Sự kiện khi nhấn nút giảm
-        $('#decrement_phinhap').on('click', function() {
+        $('#decrement_phinhap').on('click', function () {
             if (currentValue_phinhap > 0) { // Đảm bảo không giảm xuống dưới 0
                 currentValue_phinhap -= incrementValue;
                 updateInputPhinhap();
             }
         });
-        $('#decrement_soluong_phieunhap').on('click', function() {
+        $('#decrement_soluong_phieunhap').on('click', function () {
             if (currentValue_soluong > 0) { // Đảm bảo không giảm xuống dưới 0
                 currentValue_soluong -= incrementValue_soluong;
                 updateInputSoluong();
@@ -291,6 +291,63 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+
+    //====================== Tìm kiếm phiếu nhập
+    $(document).ready(function () {
+        // Hàm tìm kiếm phiếu nhập
+        function searchPhieuNhap() {
+            const searchQuery = $('.search-input-phieu_nhap').val(); // Lấy giá trị từ ô input tìm kiếm
+
+            if (searchQuery.trim() === '') {
+                $('.table-phieu_nhap tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                $('.table-phieu_nhap tbody').append('<tr><td colspan="6">Không tìm thấy phiếu nhập nào.</td></tr>');
+                return;
+            }
+
+            // Gửi yêu cầu AJAX
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Thay thế bằng đường dẫn đến tệp PHP xử lý
+                method: 'GET',
+                dataType: 'json', // Định dạng dữ liệu trả về là JSON
+                data: { search_phieunhap: searchQuery },
+                success: function (data) {
+                    $('.table-phieu_nhap tbody').empty(); // Xóa kết quả cũ
+                    if (data.list_timkiem_phieunhap.length > 0) {
+                        $.each(data.list_timkiem_phieunhap, function (index, phieunhap) {
+                            $('.table-phieu_nhap tbody').append(
+                                '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + phieunhap.mapn + '</td>' +
+                                '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
+                                '<td>' + phieunhap.manv + '</td>' +
+                                '<td>' + phieunhap.ngaynhap + '</td>' +
+                                '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-phieu_nhap tbody').append('<tr><td colspan="6">Không tìm thấy phiếu nhập nào.</td></tr>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        }
+
+        // Tìm kiếm khi nhấn nút
+        $('.btn-search-phieu_nhap').on('click', function () {
+            searchPhieuNhap();
+        });
+
+        // Tìm kiếm khi nhấn phím Enter
+        $('.search-input-phieu_nhap').on('keypress', function (e) {
+            if (e.which === 13) { // Kiểm tra phím Enter
+                searchPhieuNhap();
+                return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
 
 
     $(document).ready(function () {
@@ -302,6 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // $(document).ready(function() {
     //     reset_select_nhacc();
     // });  
+
+
 
 });
 

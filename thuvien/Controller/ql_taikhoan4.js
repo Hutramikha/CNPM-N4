@@ -229,6 +229,97 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
+    //=========================== Tìm kiếm tài khoản
+    $(document).ready(function() {
+        // Hàm tìm kiếm tài khoản
+        function searchTaiKhoan() {
+            const searchQuery = $('.search-input-taikhoan').val(); // Lấy giá trị từ ô input tìm kiếm
+            
+            if (searchQuery.trim() === '') {
+                $('.table-taikhoan_docgia tbody').empty();
+                $('.table-taikhoan_nhanvien tbody').empty();
+                $('.table-taikhoan_docgia tbody').append('<tr><td colspan="6">Không tìm thấy tài khoản độc giả nào.</td></tr>');
+                $('.table-taikhoan_nhanvien tbody').append('<tr><td colspan="6">Không tìm thấy tài khoản nhân viên nào.</td></tr>');
+                return;
+            }
+
+            // Gửi yêu cầu AJAX
+            $.ajax({
+                url: '../DAO/database/fetch_data.php',
+                method: 'GET',
+                dataType: 'json',
+                data: { search_tk: searchQuery },
+                success: function(data) {
+                    // Xóa kết quả cũ trong bảng
+                    $('.table-taikhoan_docgia tbody').empty();
+                    $('.table-taikhoan_nhanvien tbody').empty();
+                
+                    // Kiểm tra và hiển thị dữ liệu cho danh sách tài khoản độc giả
+                    if (data.list_timkiem_tk_docgia.length > 0) {
+                        $.each(data.list_timkiem_tk_docgia, function(index, tk_docgia) {
+                            let trangThaiHTMLdg = tk_docgia.trangthai == 0
+                                ? '<button class="btn-lock" onclick="closetk(\'' + tk_docgia.tendangnhap + '\')">Khóa</button>'
+                                : '<button class="btn-unlock" onclick="opentk(\'' + tk_docgia.tendangnhap + '\')">Mở khóa</button>';
+                
+                            $('.table-taikhoan_docgia tbody').append(
+                                '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + tk_docgia.tendangnhap + '</td>' +
+                                '<td>' + tk_docgia.matkhau + '</td>' +
+                                '<td>' + tk_docgia.maquyen + '</td>' +
+                                '<td>' + tk_docgia.ngaytao + '</td>' +
+                                '<td>' + trangThaiHTMLdg + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-taikhoan_docgia tbody').append('<tr><td colspan="6">Không tìm thấy tài khoản độc giả nào.</td></tr>');
+                    }
+                
+                    // Kiểm tra và hiển thị dữ liệu cho danh sách tài khoản nhân viên
+                    if (data.list_timkiem_tk_nhanvien.length > 0) {
+                        $.each(data.list_timkiem_tk_nhanvien, function(index, tk_nhanvien) {
+                            let trangThaiHTMLnv = tk_nhanvien.trangthai == 0
+                                ? '<button class="btn-lock" onclick="closetk(\'' + tk_nhanvien.tendangnhap + '\')">Khóa</button>'
+                                : '<button class="btn-unlock" onclick="opentk(\'' + tk_nhanvien.tendangnhap + '\')">Mở khóa</button>';
+                
+                            $('.table-taikhoan_nhanvien tbody').append(
+                                '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + tk_nhanvien.tendangnhap + '</td>' +
+                                '<td>' + tk_nhanvien.matkhau + '</td>' +
+                                '<td>' + tk_nhanvien.maquyen + '</td>' +
+                                '<td>' + tk_nhanvien.ngaytao + '</td>' +
+                                '<td>' + trangThaiHTMLnv + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-taikhoan_nhanvien tbody').append('<tr><td colspan="6">Không tìm thấy tài khoản nhân viên nào.</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        }
+    
+        // Tìm kiếm khi nhấn nút
+        $('.btn-search-taikhoan').on('click', function() {
+            searchTaiKhoan();
+        });
+    
+        // Tìm kiếm khi nhấn phím Enter
+        $('.search-input-taikhoan').on('keypress', function(e) {
+            if (e.which === 13) { // Kiểm tra phím Enter
+                searchTaiKhoan();
+                return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
+
+
     // function reset_select_chucnang() {
     //     $(document).ready(function () {
     //         var option0 = $('.select-chucnang_tk option[value="-1"]').clone();
@@ -258,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $(document).ready(function () {
         window.reset_select_quyen = reset_select_quyen;
 	    // window.reset_select_chucnang = reset_select_chucnang;
-        window.reset_table_taikhoan =  reset_table_taikhoan; // Gán hàm vào window
+        window.reset_table_taikhoan =  reset_table_taikhoan;
     });
 
     // Nhớ thêm hàm reset_select_quyen() bên ql quyền

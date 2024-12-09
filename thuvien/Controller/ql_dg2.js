@@ -192,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             if (searchQuery.trim() === '') {
                 $('.table-docgia tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                $('.table-docgia tbody').append('<tr><td colspan="10">Không tìm thấy độc giả nào.</td></tr>');
                 return;
             }
     

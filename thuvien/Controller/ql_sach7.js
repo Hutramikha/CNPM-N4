@@ -395,6 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             if (searchQuery.trim() === '') {
                 $('.table-sach tbody').empty();
+                $('.table-sach tbody').append('<tr><td colspan="9">Không tìm thấy sách nào.</td></tr>');
                 return;
             }
             

@@ -389,16 +389,20 @@ if ($result_ma_phieu_tra->num_rows > 0) {
 // ======================================================== Fetch cho tìm kiếm ====================================================================
 
 // =========================== Tìm kiếm Sách ===>
-// Lấy từ khóa tìm kiếm từ URL
 $search_sach = isset($_GET['search_sach']) ? $_GET['search_sach'] : '';
 
-// SQL để tìm kiếm sách theo tên sách và mã sách
-$sql_timkiem_sach = "SELECT * FROM sach WHERE masach LIKE ? OR tensach LIKE ?";
-$stmt = $connect->prepare($sql_timkiem_sach);
-
-// Thêm ký tự % vào cả hai đầu của từ khóa tìm kiếm
-$search_sach_param = "%$search_sach%";
-$stmt->bind_param('is', $search_sach_param, $search_sach_param);
+if (is_numeric($search_sach)) {
+    // Nếu là số, sử dụng truy vấn tìm kiếm chính xác
+    $sql_timkiem_sach = "SELECT * FROM sach WHERE masach = ?"; // So sánh chính xác
+    $stmt = $connect->prepare($sql_timkiem_sach);
+    $stmt->bind_param('i', $search_sach); // 'i' cho kiểu integer
+} else {
+    // Nếu không phải là số, sử dụng LIKE cho chuỗi
+    $sql_timkiem_sach = "SELECT * FROM sach WHERE tensach LIKE ?"; // Tìm kiếm theo tên sách
+    $stmt = $connect->prepare($sql_timkiem_sach);
+    $search_sach_param = "%$search_sach%";
+    $stmt->bind_param('s', $search_sach_param); // 's' cho kiểu string
+}
 $stmt->execute();
 $result_timkiem_sach = $stmt->get_result();
 

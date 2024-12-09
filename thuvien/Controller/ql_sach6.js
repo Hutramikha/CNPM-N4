@@ -387,6 +387,67 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    //Tìm kiếm sách
+    $(document).ready(function() {
+        // Hàm tìm kiếm
+        function searchBooks() {
+            const searchQuery = $('.search-input-sach').val();
+    
+            if (searchQuery.trim() === '') {
+                $('.table-sach tbody').empty();
+                return;
+            }
+            
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
+                method: 'GET',
+                dataType: 'json', // Định dạng dữ liệu trả về là JSON
+                data: { search_sach: searchQuery },
+                success: function(data) {
+                    $('.table-sach tbody').empty(); // Xóa kết quả cũ
+                    if (data.list_timkiem_sach.length > 0) {
+                        $.each(data.list_timkiem_sach, function(index, sach) {
+                            $('.table-sach tbody').append(
+                                '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + sach.masach + '</td>' +
+                                '<td>' + sach.tensach + '</td>' +
+                                '<td>' + sach.tomtat + '</td>' +
+                                '<td>' + sach.matl + '</td>' +
+                                '<td>' + sach.manxb + '</td>' +
+                                '<td>' + sach.matg + '</td>' +
+                                '<td>' + sach.soluong + '</td>' +
+                                '<td>' + sach.phimuon + ' VNĐ' + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-sach tbody').append('<tr><td colspan="9">Không tìm thấy sách nào.</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        }
+    
+        // Tìm kiếm khi nhấn nút
+        $('.btn-search-sach').on('click', function() {
+            console.log("btn");
+            searchBooks();
+        });
+    
+        // Tìm kiếm khi nhấn phím Enter
+        $('.search-input-sach').on('keypress', function(e) {
+            if (e.which === 13) { // Kiểm tra phím Enter
+                console.log("enter");
+                searchBooks();
+                return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
+
+
 
     $(document).ready(function () {
         window.reset_table_sach = reset_table_sach;

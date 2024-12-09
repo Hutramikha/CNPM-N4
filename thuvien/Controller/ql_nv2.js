@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    //======================================Tìm kiếm sách
+    //======================================Tìm kiếm nhân viên
     $(document).ready(function() {
         // Hàm tìm kiếm nhân viên
         function searchEmployees() {

@@ -2,7 +2,6 @@
  require './connect.php';
 
 
-
 // ================================================ HÀM  ============================================================ 
 
 // Hàm random cho tạo tài khoản
@@ -445,11 +444,25 @@ if ($result_timkiem_nhanvien->num_rows > 0) {
 // =========================== Tìm kiếm độc giả ===>
 $search_docgia = isset($_GET['search_docgia']) ? $_GET['search_docgia'] : '';
 
-$sql_timkiem_docgia = "SELECT * FROM docgia WHERE madg LIKE ? OR matk LIKE ? OR ten LIKE ?";
-$stmt = $connect->prepare($sql_timkiem_docgia);
+if (is_numeric($search_docgia)) {
+    // Nếu là số, tìm kiếm theo madg
+    $sql_timkiem_docgia = "SELECT docgia.*, loaidocgia.tenloaidocgia 
+                            FROM docgia 
+                            LEFT JOIN loaidocgia ON docgia.maloaidocgia = loaidocgia.maloaidocgia 
+                            WHERE docgia.madg = ?";
+    $stmt = $connect->prepare($sql_timkiem_docgia);
+    $stmt->bind_param('i', $search_docgia); // 'i' cho integer
+} else {
+    // Nếu không phải là số, tìm kiếm theo matk và ten
+    $sql_timkiem_docgia = "SELECT docgia.*, loaidocgia.tenloaidocgia 
+                            FROM docgia 
+                            LEFT JOIN loaidocgia ON docgia.maloaidocgia = loaidocgia.maloaidocgia 
+                            WHERE docgia.matk LIKE ? OR docgia.ten LIKE ?";
+    $stmt = $connect->prepare($sql_timkiem_docgia);
+    $search_docgia_param = "%$search_docgia%"; // Thêm % cho chuỗi
+    $stmt->bind_param('ss', $search_docgia_param, $search_docgia_param); // 'ss' cho string
+}
 
-$search_docgia_param = "%$search_docgia%";
-$stmt->bind_param('iss', $search_docgia_param, $search_docgia_param, $search_docgia_param);
 $stmt->execute();
 $result_timkiem_docgia = $stmt->get_result();
 

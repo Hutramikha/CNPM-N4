@@ -184,6 +184,65 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+     //======================================Tìm kiếm độc giả
+    $(document).ready(function() {
+        // Hàm tìm kiếm độc giả
+        function searchReaders() {
+            const searchQuery = $('.search-input-dg').val();
+    
+            if (searchQuery.trim() === '') {
+                $('.table-docgia tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                return;
+            }
+    
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
+                method: 'GET',
+                dataType: 'json', // Định dạng dữ liệu trả về là JSON
+                data: { search_docgia: searchQuery },
+                success: function(data) {
+                    $('.table-docgia tbody').empty(); // Xóa kết quả cũ
+                    if (data.list_timkiem_docgia.length > 0) {
+                        $.each(data.list_timkiem_docgia, function(index, docgia) {
+                            $('.table-docgia tbody').append(
+                                '<tr>' +
+                                    '<td>' + (index + 1) + '</td>' +
+                                    '<td>' + docgia.madg + '</td>' +
+                                    '<td>' + docgia.matk + '</td>' +
+                                    '<td>' + docgia.ten + '</td>' +
+                                    '<td>' + docgia.gioitinh + '</td>' +
+                                    '<td>' + docgia.maloaidocgia + '-' + docgia.tenloaidocgia + '</td>' +
+                                    '<td>' + docgia.ngaysinh + '</td>' +
+                                    '<td>' + docgia.email + '</td>' +
+                                    '<td>' + docgia.sdt + '</td>' +
+                                    '<td>' + docgia.diachi + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-docgia tbody').append('<tr><td colspan="10">Không tìm thấy độc giả nào.</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        }
+    
+        // Tìm kiếm khi nhấn nút
+        $('.btn-search-dg').on('click', function() {
+            searchReaders();
+        });
+    
+        // Tìm kiếm khi nhấn phím Enter
+        $('.search-input-dg').on('keypress', function(e) {
+            if (e.which === 13) { // Kiểm tra phím Enter
+                searchReaders();
+                return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
+
 
     
     $(document).ready(function() {

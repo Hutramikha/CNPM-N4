@@ -272,6 +272,88 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    //=============================== Tìm kiếm phiếu trả
+    $(document).ready(function () {
+        // Hàm để tải dữ liệu
+        function SearchPhieuTra() {
+            const searchQuery = $('.search-input-phieu_tra').val(); // Lấy giá trị từ ô tìm kiếm
+
+            if (searchQuery.trim() === '') {
+                $('.table-ct-sach_da_muon tbody').empty();
+                $('.table-phieu_tra tbody').empty();
+                $('.table-ct-sach_da_muon tbody').append('<tr><td colspan="7">Không có dữ liệu.</td></tr>');
+                $('.table-phieu_tra tbody').append('<tr><td colspan="7">Không có dữ liệu.</td></tr>');
+                return;
+            }
+
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                data: { search_phieutra: searchQuery }, // Truyền tham số tìm kiếm
+                dataType: 'json',
+                success: function (data) {
+                    // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
+                    $('.table-ct-sach_da_muon tbody').empty();
+                    $('.table-phieu_tra tbody').empty();
+    
+                    // Kiểm tra và hiển thị dữ liệu cho danh sách chi tiết sách đã mượn
+                    if (data.list_timkiem_ct_sach_da_muon.length > 0) {
+                        $.each(data.list_timkiem_ct_sach_da_muon, function (index, chitiet_sach_da_muon) {
+                            $('.table-ct-sach_da_muon tbody').append(
+                                '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + chitiet_sach_da_muon.mavach + '</td>' +
+                                '<td>' + chitiet_sach_da_muon.mapm + '</td>' +
+                                '<td>' + chitiet_sach_da_muon.madg + '-' + chitiet_sach_da_muon.ten_docgia + '</td>' +
+                                '<td>' + chitiet_sach_da_muon.manv + '-' + chitiet_sach_da_muon.ten_nhanvien + '</td>' +
+                                '<td>' + chitiet_sach_da_muon.matinhtrang + '</td>' +
+                                '<td>' + chitiet_sach_da_muon.khu + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-ct-sach_da_muon tbody').append('<tr><td colspan="7">Không có dữ liệu.</td></tr>');
+                    }
+    
+                    // Kiểm tra và hiển thị dữ liệu cho danh sách phiếu trả
+                    if (data.list_timkiem_phieutra.length > 0) {
+                        $.each(data.list_timkiem_phieutra, function (index, phieutra) {
+                            $('.table-phieu_tra tbody').append(
+                                '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + phieutra.mapt + '</td>' +
+                                '<td>' + phieutra.ngaytra + '</td>' +
+                                '<td>' + phieutra.mapm + '</td>' +
+                                '<td>' + phieutra.madg + '-' + phieutra.ten_docgia + '</td>' +
+                                '<td>' + phieutra.manv + '-' + phieutra.ten_nhanvien + '</td>' +
+                                '<td>' + phieutra.tongphiphat + ' VNĐ' + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('.table-phieu_tra tbody').append('<tr><td colspan="7">Không có dữ liệu.</td></tr>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        }
+    
+        // Sự kiện nhấn nút tìm kiếm
+        $('.btn-search-phieu_tra').click(function () {
+            SearchPhieuTra();
+        });
+    
+        // Sự kiện nhấn phím Enter trong ô nhập liệu
+        $('.search-input-phieu_tra').keypress(function (e) {
+            if (e.which === 13) { // phím Enter
+                SearchPhieuTra();
+                return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
+
 
 
     $(document).ready(function () {

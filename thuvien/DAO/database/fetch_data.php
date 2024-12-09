@@ -535,17 +535,29 @@ if ($result_timkiem_phieumuon->num_rows > 0) {
 // Tìm kiếm phiếu trả
 $search_phieutra = isset($_GET['search_phieutra']) ? $_GET['search_phieutra'] : '';
 
-$sql_timkiem_pt = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
-                   FROM phieutra pt
-                   LEFT JOIN docgia dg ON pt.madg = dg.madg
-                   LEFT JOIN nhanvien nv ON pt.manv = nv.manv
-                   WHERE pt.mapt LIKE ? OR pt.madg LIKE ? OR pt.manv LIKE ? 
-                   OR dg.ten LIKE ? OR nv.ten LIKE ?";
+if (is_numeric($search_phieutra)) {
+    // Tìm kiếm theo mã phiếu trả, mã độc giả, hoặc mã nhân viên
+    $sql_timkiem_pt = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+                       FROM phieutra pt
+                       LEFT JOIN docgia dg ON pt.madg = dg.madg
+                       LEFT JOIN nhanvien nv ON pt.manv = nv.manv
+                       WHERE pt.mapt = ? OR pt.madg = ? OR pt.manv = ?";
+    
+    $stmt = $connect->prepare($sql_timkiem_pt);
+    $stmt->bind_param('iii', $search_phieutra, $search_phieutra, $search_phieutra);
+} else {
+    // Tìm kiếm theo tên độc giả hoặc tên nhân viên
+    $sql_timkiem_pt = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+                       FROM phieutra pt
+                       LEFT JOIN docgia dg ON pt.madg = dg.madg
+                       LEFT JOIN nhanvien nv ON pt.manv = nv.manv
+                       WHERE dg.ten LIKE ? OR nv.ten LIKE ?";
+    
+    $stmt = $connect->prepare($sql_timkiem_pt);
+    $search_phieutra_param = "%$search_phieutra%";
+    $stmt->bind_param('ss', $search_phieutra_param, $search_phieutra_param);
+}
 
-$stmt = $connect->prepare($sql_timkiem_pt);
-
-$search_phieutra_param = "%$search_phieutra%";
-$stmt->bind_param('iiiss', $search_phieutra_param, $search_phieutra_param, $search_phieutra_param, $search_phieutra_param, $search_phieutra_param);
 $stmt->execute();
 $result_timkiem_phieutra = $stmt->get_result();
 
@@ -557,23 +569,38 @@ if ($result_timkiem_phieutra->num_rows > 0) {
     }
 }
 
-// Tìm kiếm chi tiết sách đã mượn
-$search_ct_sach_damuon = isset($_GET['search_ct_sach_damuon']) ? $_GET['search_ct_sach_damuon'] : '';
+//========================= Tìm kiếm chi tiết sách đã mượn ========>
+$search_ct_sach_damuon = isset($_GET['search_phieutra']) ? $_GET['search_phieutra'] : '';
 
-$sql_timkiem_chitiet_sach_da_muon = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
-                                    FROM chitietsach cs
-                                    JOIN chitietphieumuon cpm ON cs.mavach = cpm.mavach
-                                    JOIN phieumuon pm ON cpm.mapm = pm.mapm
-                                    JOIN docgia dg ON pm.madg = dg.madg
-                                    JOIN nhanvien nv ON pm.manv = nv.manv
-                                    WHERE cs.trangthai = 1 
-                                        AND (cs.mavach LIKE ? OR pm.mapm LIKE ? OR pm.madg LIKE ? 
-                                            OR pm.manv LIKE ? OR dg.ten LIKE ? OR nv.ten LIKE ?)";
+if (is_numeric($search_ct_sach_damuon)) {
+    // Tìm kiếm theo mã vạch, mã phiếu mượn hoặc mã độc giả
+    $sql_timkiem_chitiet_sach_da_muon = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+                                          FROM chitietsach cs
+                                          JOIN chitietphieumuon cpm ON cs.mavach = cpm.mavach
+                                          JOIN phieumuon pm ON cpm.mapm = pm.mapm
+                                          JOIN docgia dg ON pm.madg = dg.madg
+                                          JOIN nhanvien nv ON pm.manv = nv.manv
+                                          WHERE cs.trangthai = 1 
+                                          AND (cs.mavach = ? OR pm.mapm = ? OR pm.madg = ? OR pm.manv = ?)";
+    
+    $stmt = $connect->prepare($sql_timkiem_chitiet_sach_da_muon);
+    $stmt->bind_param('iiii', $search_ct_sach_damuon, $search_ct_sach_damuon, $search_ct_sach_damuon, $search_ct_sach_damuon);
+} else {
+    // Tìm kiếm theo tên độc giả hoặc tên nhân viên
+    $sql_timkiem_chitiet_sach_da_muon = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+                                          FROM chitietsach cs
+                                          JOIN chitietphieumuon cpm ON cs.mavach = cpm.mavach
+                                          JOIN phieumuon pm ON cpm.mapm = pm.mapm
+                                          JOIN docgia dg ON pm.madg = dg.madg
+                                          JOIN nhanvien nv ON pm.manv = nv.manv
+                                          WHERE cs.trangthai = 1 
+                                          AND (dg.ten LIKE ? OR nv.ten LIKE ?)";
+    
+    $stmt = $connect->prepare($sql_timkiem_chitiet_sach_da_muon);
+    $search_ct_sach_damuon_param = "%$search_ct_sach_damuon%"; // Thêm % cho chuỗi
+    $stmt->bind_param('ss', $search_ct_sach_damuon_param, $search_ct_sach_damuon_param);
+}
 
-$stmt = $connect->prepare($sql_timkiem_chitiet_sach_da_muon);
-
-$search_ct_sach_damuon_param = "%$search_ct_sach_damuon%";
-$stmt->bind_param('iiiiss', $search_ct_sach_damuon_param, $search_ct_sach_damuon_param, $search_ct_sach_damuon_param, $search_ct_sach_damuon_param, $search_ct_sach_damuon_param, $search_ct_sach_damuon_param);
 $stmt->execute();
 $result_timkiem_ct_sach_damuon = $stmt->get_result();
 

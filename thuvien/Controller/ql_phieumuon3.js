@@ -127,6 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
+    // ========================== Tìm kiếm phiếu mượn
     $(document).ready(function () {
         // Hàm tìm kiếm phiếu mượn
         function searchPhieuMuon() {

@@ -501,17 +501,25 @@ if ($result_timkiem_phieunhap->num_rows > 0) {
 // =========================== Tìm kiếm Phiếu mượn ===>
 $search_phieumuon = isset($_GET['search_phieumuon']) ? $_GET['search_phieumuon'] : '';
 
-$sql_timkiem_pm = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
-                   FROM phieumuon pm
-                   LEFT JOIN docgia dg ON pm.madg = dg.madg
-                   LEFT JOIN nhanvien nv ON pm.manv = nv.manv
-                   WHERE pm.mapm LIKE ? OR pm.madg LIKE ? OR pm.manv LIKE ? 
-                   OR dg.ten LIKE ? OR nv.ten LIKE ?";
+if (is_numeric($search_phieumuon)) {
+    $sql_timkiem_pm = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+                       FROM phieumuon pm
+                       LEFT JOIN docgia dg ON pm.madg = dg.madg
+                       LEFT JOIN nhanvien nv ON pm.manv = nv.manv
+                      WHERE pm.mapm = ? OR dg.madg = ? OR nv.manv = ?";
+    $stmt = $connect->prepare($sql_timkiem_pm);
+    $stmt->bind_param('iii',$search_phieumuon,$search_phieumuon,$search_phieumuon);
+} else {
+    $sql_timkiem_pm = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+                       FROM phieumuon pm
+                       LEFT JOIN docgia dg ON pm.madg = dg.madg
+                       LEFT JOIN nhanvien nv ON pm.manv = nv.manv
+                       WHERE dg.ten LIKE ? OR nv.ten LIKE ?";
+    $stmt = $connect->prepare($sql_timkiem_pm);
+    $search_phieumuon_param = "%$search_phieumuon%";
+    $stmt->bind_param('ss',$search_phieumuon_param,$search_phieumuon_param);
+}
 
-$stmt = $connect->prepare($sql_timkiem_pm);
-
-$search_phieumuon_param = "%$search_phieumuon%";
-$stmt->bind_param('iiiss', $search_phieumuon_param, $search_phieumuon_param, $search_phieumuon_param, $search_phieumuon_param, $search_phieumuon_param);
 $stmt->execute();
 $result_timkiem_phieumuon = $stmt->get_result();
 

@@ -2,9 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
     const btn_start_add_ct = document.querySelector('.btn-start-ct-phieu_nhap');
-    const btn_add_ct = document.querySelector('.btn-add-ct-phieu_nhap');
+    const btn_save_ct = document.querySelector('.btn-save-ct-phieu_nhap');
     const btn_cancel = document.querySelector('.btn-cancel-ct-phieu_nhap');
     const btn_reset = document.querySelector('.btn-reset-phieu_nhap');
+    const btn_edit_ct = document.querySelector('.btn-edit-ct-phieu_nhap');
 
     const btn_add_pn = document.querySelector('.btn-create-pn');
 
@@ -45,10 +46,23 @@ document.addEventListener("DOMContentLoaded", () => {
         select_ncc_sach_pn.selectedIndex = 0;
     }
 
-    btn_start_add_ct.addEventListener('click', () => {
+    btn_edit_ct.addEventListener('click', () => {
         btn_start_add_ct.disabled = true;
-        btn_add_ct.disabled = false;
+        btn_save_ct.disabled = false;
         btn_cancel.disabled = false;
+
+        btn_add_pn.disabled = false;
+
+        table_ct_phieu_nhap_xem.style.display = 'none';
+        table_ct_phieu_nhap.style.display = 'table';
+
+        ableInput();
+    });
+
+    btn_start_add_ct.addEventListener('click', () => {
+        btn_save_ct.disabled = false;
+        btn_cancel.disabled = false;
+        btn_edit_ct.disabled = true;
 
         btn_add_pn.disabled = false;
 
@@ -60,8 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn_cancel.addEventListener('click', () => {
         btn_start_add_ct.disabled = false;
-        btn_add_ct.disabled = true;
+        btn_save_ct.disabled = true;
         btn_cancel.disabled = true;
+        btn_edit_ct.disabled = false;
 
         btn_add_pn.disabled = true;
 
@@ -76,8 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn_reset.addEventListener('click', () => {
         btn_start_add_ct.disabled = false;
-        btn_add_ct.disabled = true;
+        btn_save_ct.disabled = true;
         btn_cancel.disabled = true;
+        btn_edit_ct.disabled = false;
 
         btn_add_pn.disabled = true;
 

@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input_phimuon_sach.disabled = false;
         // input_soluong_sach.disabled = false;
         input_img_sach.disabled = false;
-        select_tinhtrang_sach.disabled = false;
+        // select_tinhtrang_sach.disabled = false;
     };
 
     function disavailInput() {
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input_phimuon_sach.disabled = true;
         // input_soluong_sach.disabled = true;
         input_img_sach.disabled = true;
-        select_tinhtrang_sach.disabled = true;
+        // select_tinhtrang_sach.disabled = true;
     };
 
     function resetInput() {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         select_theloai_sach.selectedIndex = 0;
         select_nhaxuatban_sach.selectedIndex = 0;
         select_tacgia_sach.selectedIndex = 0;
-        select_tinhtrang_sach.selectedIndex = 0;
+        // select_tinhtrang_sach.selectedIndex = 0;
     }
 
     btn_add.addEventListener('click', () => {
@@ -217,9 +217,29 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // sự kiện click vào bảng sách để xem chi tiết sách
+    // sự kiện click vào bảng sách để xem chi tiết sách và đổ dữ liệu
     $(document).ready(function () {
         $('.table-sach tbody').on('click', 'tr', function () {
+            const cells = $(this).children('td');
+
+            const masach_for_input = $(cells[1]).text(); // Cột Mã sách
+
+            const tensach_for_input = $(cells[2]).text(); // Cột Tên sách
+            const tomtat_for_input = $(cells[3]).text(); // Cột Tóm tắt
+            const matl_for_select = $(cells[4]).text(); // Cột Mã TL
+            const manxb_for_select = $(cells[5]).text(); // Cột Mã NXB
+            const matg_for_select = $(cells[6]).text(); // Cột Mã TG
+            const soluong_for_input = $(cells[7]).text(); // Cột Số lượng
+            const phimuon_for_input = $(cells[8]).text().replace(' VNĐ', ''); // Cột Phí mượn
+
+            $('.input-ten_sach').val(tensach_for_input);
+            $('.input-tomtat_sach').val(tomtat_for_input);
+            $('.select-theloai_sach').val(matl_for_select);
+            $('.select-nhaxuatban_sach').val(manxb_for_select);
+            $('.select-tacgia_sach').val(matg_for_select);
+            $('.input-soluong_sach').val(soluong_for_input);
+            $('.input-phimuon_sach').val(phimuon_for_input);
+
             var masach = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
             console.log(masach);
             $('.table-ct-sach tbody').empty();

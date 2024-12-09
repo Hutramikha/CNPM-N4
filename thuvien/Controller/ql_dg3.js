@@ -31,25 +31,25 @@ document.addEventListener("DOMContentLoaded", () => {
     function resetInput() {
         select_loai_dg.selectedIndex = 0;
     }
-    
+
     // btn_add.addEventListener('click', () => {
     //     btn_delete.disabled = true;
     //     btn_edit.disabled = true;
     //     btn_save.disabled = false;
     //     btn_cancel.disabled = false;  
     // });
-    
+
     btn_edit.addEventListener('click', () => {
         // btn_add.disabled = true;
-        btn_delete.disabled = true; 
+        btn_delete.disabled = true;
         btn_save.disabled = false;
-        btn_cancel.disabled = false;  
+        btn_cancel.disabled = false;
 
         ableInput();
     });
-    
+
     btn_delete.addEventListener('click', () => {
-        
+
     });
 
     btn_cancel.addEventListener('click', () => {
@@ -57,9 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // btn_add.disabled = true;
         btn_delete.disabled = false;
-        btn_edit.disabled = false;  
+        btn_edit.disabled = false;
         btn_save.disabled = true;
-        btn_cancel.disabled = true;  
+        btn_cancel.disabled = true;
 
         resetInput();
         disableInput();
@@ -72,10 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // btn_add.disabled = true;
         btn_delete.disabled = false;
-        btn_edit.disabled = false; 
+        btn_edit.disabled = false;
         btn_save.disabled = true;
-        btn_cancel.disabled = true; 
-        
+        btn_cancel.disabled = true;
+
         resetInput();
         disableInput();
 
@@ -85,17 +85,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // FETCH DATA=========================================
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Fetch dữ liệu từ server
         $.ajax({
             url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 // Hiển thị dữ liệu cho danh sách độc giả
-                $.each(data.list_docgia, function(index, docgia) {
+                $.each(data.list_docgia, function (index, docgia) {
                     $('.table-docgia tbody').append(
                         '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + docgia.madg + '</td>' +
+                        '<td>' + docgia.matk + '</td>' +
+                        '<td>' + docgia.ten + '</td>' +
+                        '<td>' + docgia.gioitinh + '</td>' +
+                        '<td>' + docgia.maloaidocgia + '-' + docgia.tenloaidocgia + '</td>' +
+                        '<td>' + docgia.ngaysinh + '</td>' +
+                        '<td>' + docgia.email + '</td>' +
+                        '<td>' + docgia.sdt + '</td>' +
+                        '<td>' + docgia.diachi + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+                // Đổ các option loại độc giả
+                $.each(data.list_loaidocgia, function (index, loaidocgia) {
+                    $('.select-loai_dg').append(
+                        '<option value=' + '"' + loaidocgia.maloaidocgia + '"' + '>' +
+                        loaidocgia.tenloaidocgia + '-' + loaidocgia.soluongsachtoida + ' quyển' + '</option>'
+                    );
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi:', error);
+            }
+        });
+    });
+
+    function reset_table_docgia() {
+        $(document).ready(function () {
+            $('.table-docgia tbody').empty();
+            // Fetch dữ liệu từ server
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Hiển thị dữ liệu cho danh sách độc giả
+                    $.each(data.list_docgia, function (index, docgia) {
+                        $('.table-docgia tbody').append(
+                            '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
                             '<td>' + docgia.madg + '</td>' +
                             '<td>' + docgia.matk + '</td>' +
@@ -106,37 +147,66 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + docgia.email + '</td>' +
                             '<td>' + docgia.sdt + '</td>' +
                             '<td>' + docgia.diachi + '</td>' +
-                        '</tr>'
-                    );
-                });
-
-                // Đổ các option loại độc giả
-                $.each(data.list_loaidocgia, function(index, loaidocgia) {
-                    $('.select-loai_dg').append(
-                        '<option value=' + '"' + loaidocgia.maloaidocgia + '"' + '>' +
-                        loaidocgia.tenloaidocgia + '-' + loaidocgia.soluongsachtoida + ' quyển' + '</option>'
-                    );
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Lỗi:', error);
-            }
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
         });
-    });
+    }
 
-    function reset_table_docgia() {
-        $(document).ready(function() {
-            $('.table-docgia tbody').empty();
+    function reset_select_loaidocgia() {
+        $(document).ready(function () {
+            var option0 = $('.select-loai_dg option[value="0"]').clone();
+            $('.select-loai_dg').empty();
             // Fetch dữ liệu từ server
+            $('.select-loai_dg').append(option0);
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
                 method: 'GET',
                 dataType: 'json',
-                success: function(data) {
-                    // Hiển thị dữ liệu cho danh sách độc giả
-                    $.each(data.list_docgia, function(index, docgia) {
-                        $('.table-docgia tbody').append(
-                            '<tr>' +
+                success: function (data) {
+                    // Đổ các option loại độc giả
+                    $.each(data.list_loaidocgia, function (index, loaidocgia) {
+                        $('.select-loai_dg').append(
+                            '<option value=' + '"' + loaidocgia.maloaidocgia + '"' + '>' +
+                            loaidocgia.tenloaidocgia + '-' + loaidocgia.soluongsachtoida + ' quyển' + '</option>'
+                        );
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+        });
+    }
+
+    //======================================Tìm kiếm độc giả
+    $(document).ready(function () {
+        // Hàm tìm kiếm độc giả
+        function searchReaders() {
+            const searchQuery = $('.search-input-dg').val();
+
+            if (searchQuery.trim() === '') {
+                $('.table-docgia tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                $('.table-docgia tbody').append('<tr><td colspan="10">Không tìm thấy độc giả nào.</td></tr>');
+                return;
+            }
+
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
+                method: 'GET',
+                dataType: 'json', // Định dạng dữ liệu trả về là JSON
+                data: { search_docgia: searchQuery },
+                success: function (data) {
+                    $('.table-docgia tbody').empty(); // Xóa kết quả cũ
+                    if (data.list_timkiem_docgia.length > 0) {
+                        $.each(data.list_timkiem_docgia, function (index, docgia) {
+                            $('.table-docgia tbody').append(
+                                '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
                                 '<td>' + docgia.madg + '</td>' +
                                 '<td>' + docgia.matk + '</td>' +
@@ -147,76 +217,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + docgia.email + '</td>' +
                                 '<td>' + docgia.sdt + '</td>' +
                                 '<td>' + docgia.diachi + '</td>' +
-                            '</tr>'
-                        );
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Lỗi:', error);
-                }
-            });
-        });
-    }
-
-    function reset_select_loaidocgia() {
-        $(document).ready(function() {
-            var option0 = $('.select-loai_dg option[value="0"]').clone();
-            $('.select-loai_dg').empty();
-            // Fetch dữ liệu từ server
-            $('.select-loai_dg').append(option0);
-            $.ajax({
-                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Đổ các option loại độc giả
-                    $.each(data.list_loaidocgia, function(index, loaidocgia) {
-                        $('.select-loai_dg').append(
-                            '<option value=' + '"' + loaidocgia.maloaidocgia + '"' + '>' +
-                            loaidocgia.tenloaidocgia + '-' + loaidocgia.soluongsachtoida + ' quyển' + '</option>'
-                        );
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Lỗi:', error);
-                }
-            });
-        });
-    }
-
-     //======================================Tìm kiếm độc giả
-    $(document).ready(function() {
-        // Hàm tìm kiếm độc giả
-        function searchReaders() {
-            const searchQuery = $('.search-input-dg').val();
-    
-            if (searchQuery.trim() === '') {
-                $('.table-docgia tbody').empty(); // Nếu không có từ khóa, xóa kết quả
-                $('.table-docgia tbody').append('<tr><td colspan="10">Không tìm thấy độc giả nào.</td></tr>');
-                return;
-            }
-    
-            $.ajax({
-                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
-                method: 'GET',
-                dataType: 'json', // Định dạng dữ liệu trả về là JSON
-                data: { search_docgia: searchQuery },
-                success: function(data) {
-                    $('.table-docgia tbody').empty(); // Xóa kết quả cũ
-                    if (data.list_timkiem_docgia.length > 0) {
-                        $.each(data.list_timkiem_docgia, function(index, docgia) {
-                            $('.table-docgia tbody').append(
-                                '<tr>' +
-                                    '<td>' + (index + 1) + '</td>' +
-                                    '<td>' + docgia.madg + '</td>' +
-                                    '<td>' + docgia.matk + '</td>' +
-                                    '<td>' + docgia.ten + '</td>' +
-                                    '<td>' + docgia.gioitinh + '</td>' +
-                                    '<td>' + docgia.maloaidocgia + '-' + docgia.tenloaidocgia + '</td>' +
-                                    '<td>' + docgia.ngaysinh + '</td>' +
-                                    '<td>' + docgia.email + '</td>' +
-                                    '<td>' + docgia.sdt + '</td>' +
-                                    '<td>' + docgia.diachi + '</td>' +
                                 '</tr>'
                             );
                         });
@@ -224,19 +224,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         $('.table-docgia tbody').append('<tr><td colspan="10">Không tìm thấy độc giả nào.</td></tr>');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
                 }
             });
         }
-    
+
         // Tìm kiếm khi nhấn nút
-        $('.btn-search-dg').on('click', function() {
+        $('.btn-search-dg').on('click', function () {
             searchReaders();
         });
-    
+
         // Tìm kiếm khi nhấn phím Enter
-        $('.search-input-dg').on('keypress', function(e) {
+        $('.search-input-dg').on('keypress', function (e) {
             if (e.which === 13) { // Kiểm tra phím Enter
                 searchReaders();
                 return false; // Ngăn chặn hành vi mặc định của Enter
@@ -245,8 +245,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    
-    $(document).ready(function() {
+    $(document).ready(function () {
+        // Gán sự kiện click cho từng dòng
+        $('.table-docgia tbody').on('click', 'tr', function () {
+            // Lấy dữ liệu từ các cột
+            const cells = $(this).children('td');
+
+            const madg_for_input = $(cells[1]).text(); // Cột Mã ĐG
+            const matk_for_input = $(cells[2]).text(); // Cột Mã TK
+
+            const ten_for_input = $(cells[3]).text(); // Cột Tên
+            const gioitinh_for_select = $(cells[4]).text(); // Cột Giới tính
+            const loaidocgia_for_select = $(cells[5]).text().split('-')[0]; // Cột Loại ĐG
+            const ngaysinh_for_input = $(cells[6]).text(); // Cột Ngày sinh
+            const email_for_input = $(cells[7]).text(); // Cột Email
+            const sdt_for_input = $(cells[8]).text(); // Cột SĐT
+            const diachi_for_input = $(cells[9]).text(); // Cột Địa chỉ
+
+            // Chuyển đổi định dạng ngày nếu cần
+            const formattedDate = formatDate(ngaysinh_for_input);
+
+            // Đổ dữ liệu vào các input và select
+            $('.input-ten_dg').val(ten_for_input);
+            $('.select-gioitinh_dg').val(gioitinh_for_select);
+            $('.select-loai_dg').val(loaidocgia_for_select); // Chọn loại độc giả
+            $('.input-ngaysinh_dg').val(formattedDate);
+            $('.input-email_dg').val(email_for_input);
+            $('.input-sdt_dg').val(sdt_for_input);
+            $('.input-diachi_dg').val(diachi_for_input);
+        });
+
+        // Hàm để chuyển đổi định dạng ngày
+        function formatDate(dateString) {
+            const dateParts = dateString.split('/');
+            if (dateParts.length === 3) {
+                // Giả sử định dạng ban đầu là DD/MM/YYYY
+                return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Chuyển sang YYYY-MM-DD
+            }
+            return dateString; // Trả về giá trị gốc nếu không đúng định dạng
+        }
+    });
+
+
+    $(document).ready(function () {
         window.reset_select_loaidocgia = reset_select_loaidocgia; // Gán hàm vào window
     });
 

@@ -623,7 +623,9 @@ td {
 .table-phieu_tra tbody tr:hover,
 .table-taikhoan_nhanvien tbody tr:hover,
 .table-taikhoan_docgia tbody tr:hover, 
-.table-ct-sach_da_muon tbody tr:hover{
+.table-ct-sach_da_muon tbody tr:hover,
+.table-nhanvien tbody tr:hover,
+.table-docgia tbody tr:hover{
     background-color: #ddd8d8bc; /* Màu nền khi hover */
     cursor: pointer; /* Thay đổi con trỏ chuột thành pointer */
 }

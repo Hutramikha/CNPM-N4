@@ -47,30 +47,30 @@ document.addEventListener("DOMContentLoaded", () => {
         input_sdt_nv.value = '';
         input_diachi_nv.value = '';
         input_img_nv.value = '';
-    
+
         select_gioitinh_nv.selectedIndex = 0;
     }
-    
+
     btn_add.addEventListener('click', () => {
         btn_delete.disabled = true;
         btn_edit.disabled = true;
         btn_save.disabled = false;
         btn_cancel.disabled = false;
-        
+
         ableInput();
     });
-    
+
     btn_edit.addEventListener('click', () => {
         btn_add.disabled = true;
-        btn_delete.disabled = true; 
+        btn_delete.disabled = true;
         btn_save.disabled = false;
         btn_cancel.disabled = false;
-        
+
         ableInput();
     });
-    
+
     btn_delete.addEventListener('click', () => {
-        
+
     });
 
     btn_cancel.addEventListener('click', () => {
@@ -78,10 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         btn_add.disabled = false;
         btn_edit.disabled = false;
-        btn_delete.disabled = false; 
+        btn_delete.disabled = false;
         btn_save.disabled = true;
         btn_cancel.disabled = true;
-        
+
         disableInput();
         resetInput();
     });
@@ -93,27 +93,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
         btn_add.disabled = false;
         btn_edit.disabled = false;
-        btn_delete.disabled = false; 
+        btn_delete.disabled = false;
         btn_save.disabled = true;
         btn_cancel.disabled = true;
-        
+
         disableInput();
         resetInput();
         reset_table_nhanvien();
     });
 
     // FETCH DATA=========================================
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Fetch dữ liệu từ server
         $.ajax({
             url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 // Hiển thị dữ liệu cho danh sách nhân viên
-                $.each(data.list_nhanvien, function(index, nhanvien) {
+                $.each(data.list_nhanvien, function (index, nhanvien) {
                     $('.table-nhanvien tbody').append(
                         '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + nhanvien.manv + '</td>' +
+                        '<td>' + nhanvien.matk + '</td>' +
+                        '<td>' + nhanvien.ten + '</td>' +
+                        '<td>' + nhanvien.gioitinh + '</td>' +
+                        '<td>' + nhanvien.ngaysinh + '</td>' +
+                        '<td>' + nhanvien.email + '</td>' +
+                        '<td>' + nhanvien.sdt + '</td>' +
+                        '<td>' + nhanvien.diachi + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+                // Hiển thị dữ liệu cho danh sách nhân viên chưa có tài khoản
+                $.each(data.list_nhanvien_ko_tk, function (index, nhanvien_ko_tk) {
+                    $('.table-nhanvien_taikhoan tbody').append(
+                        '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + nhanvien_ko_tk.manv + '</td>' +
+                        '<td>' + '<button id="capTaiKhoanBtn" class="btn-cap-tai-khoan" onclick="capTaiKhoan(' + nhanvien_ko_tk.manv + ')">Cấp Tài Khoản</button>' + '</td>' +
+                        '</tr>'
+                    );
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi:', error);
+            }
+        });
+    });
+
+    function reset_table_nhanvien() {
+        $(document).ready(function () {
+            $('.table-nhanvien tbody').empty();
+            $('.table-nhanvien_taikhoan tbody').empty();
+            // Fetch dữ liệu từ server
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Hiển thị dữ liệu cho danh sách nhân viên
+                    $.each(data.list_nhanvien, function (index, nhanvien) {
+                        $('.table-nhanvien tbody').append(
+                            '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
                             '<td>' + nhanvien.manv + '</td>' +
                             '<td>' + nhanvien.matk + '</td>' +
@@ -123,41 +167,52 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + nhanvien.email + '</td>' +
                             '<td>' + nhanvien.sdt + '</td>' +
                             '<td>' + nhanvien.diachi + '</td>' +
-                        '</tr>'
-                    );
-                });
+                            '</tr>'
+                        );
+                    });
 
-                // Hiển thị dữ liệu cho danh sách nhân viên chưa có tài khoản
-                $.each(data.list_nhanvien_ko_tk, function(index, nhanvien_ko_tk) {
-                    $('.table-nhanvien_taikhoan tbody').append(
-                        '<tr>' +
+                    // Hiển thị dữ liệu cho danh sách nhân viên chưa có tài khoản
+                    $.each(data.list_nhanvien_ko_tk, function (index, nhanvien_ko_tk) {
+                        $('.table-nhanvien_taikhoan tbody').append(
+                            '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
                             '<td>' + nhanvien_ko_tk.manv + '</td>' +
-                            '<td>' + '<button id="capTaiKhoanBtn" class="btn-cap-tai-khoan" onclick="capTaiKhoan('+ nhanvien_ko_tk.manv +')">Cấp Tài Khoản</button>' + '</td>' +
-                        '</tr>'
-                    );
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Lỗi:', error);
-            }
+                            '<td>' + '<button id="capTaiKhoanBtn" class="btn-cap-tai-khoan" onclick="capTaiKhoan(' + nhanvien_ko_tk.manv + ')">Cấp Tài Khoản</button>' + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
         });
-    });
+    }
 
-    function reset_table_nhanvien() {
-        $(document).ready(function() {
-            $('.table-nhanvien tbody').empty();
-            $('.table-nhanvien_taikhoan tbody').empty();
-            // Fetch dữ liệu từ server
+
+    //======================================Tìm kiếm nhân viên
+    $(document).ready(function () {
+        // Hàm tìm kiếm nhân viên
+        function searchEmployees() {
+            const searchQuery = $('.search-input-nv').val();
+
+            if (searchQuery.trim() === '') {
+                $('.table-nhanvien tbody').empty(); // Nếu không có từ khóa, xóa kết quả
+                $('.table-nhanvien tbody').append('<tr><td colspan="9">Không tìm thấy nhân viên nào.</td></tr>');
+                return;
+            }
+
             $.ajax({
-                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
                 method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Hiển thị dữ liệu cho danh sách nhân viên
-                    $.each(data.list_nhanvien, function(index, nhanvien) {
-                        $('.table-nhanvien tbody').append(
-                            '<tr>' +
+                dataType: 'json', // Định dạng dữ liệu trả về là JSON
+                data: { search_nhanvien: searchQuery },
+                success: function (data) {
+                    $('.table-nhanvien tbody').empty(); // Xóa kết quả cũ
+                    if (data.list_timkiem_nhanvien.length > 0) {
+                        $.each(data.list_timkiem_nhanvien, function (index, nhanvien) {
+                            $('.table-nhanvien tbody').append(
+                                '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
                                 '<td>' + nhanvien.manv + '</td>' +
                                 '<td>' + nhanvien.matk + '</td>' +
@@ -167,61 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + nhanvien.email + '</td>' +
                                 '<td>' + nhanvien.sdt + '</td>' +
                                 '<td>' + nhanvien.diachi + '</td>' +
-                            '</tr>'
-                        );
-                    });
-    
-                    // Hiển thị dữ liệu cho danh sách nhân viên chưa có tài khoản
-                    $.each(data.list_nhanvien_ko_tk, function(index, nhanvien_ko_tk) {
-                        $('.table-nhanvien_taikhoan tbody').append(
-                            '<tr>' +
-                                '<td>' + (index + 1) + '</td>' +
-                                '<td>' + nhanvien_ko_tk.manv + '</td>' +
-                                '<td>' + '<button id="capTaiKhoanBtn" class="btn-cap-tai-khoan" onclick="capTaiKhoan('+ nhanvien_ko_tk.manv +')">Cấp Tài Khoản</button>' + '</td>' +
-                            '</tr>'
-                        );
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Lỗi:', error);
-                }
-            });
-        });
-    }
-
-
-    //======================================Tìm kiếm nhân viên
-    $(document).ready(function() {
-        // Hàm tìm kiếm nhân viên
-        function searchEmployees() {
-            const searchQuery = $('.search-input-nv').val();
-    
-            if (searchQuery.trim() === '') {
-                $('.table-nhanvien tbody').empty(); // Nếu không có từ khóa, xóa kết quả
-                $('.table-nhanvien tbody').append('<tr><td colspan="9">Không tìm thấy nhân viên nào.</td></tr>');
-                return;
-            }
-    
-            $.ajax({
-                url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
-                method: 'GET',
-                dataType: 'json', // Định dạng dữ liệu trả về là JSON
-                data: { search_nhanvien: searchQuery },
-                success: function(data) {
-                    $('.table-nhanvien tbody').empty(); // Xóa kết quả cũ
-                    if (data.list_timkiem_nhanvien.length > 0) {
-                        $.each(data.list_timkiem_nhanvien, function(index, nhanvien) {
-                            $('.table-nhanvien tbody').append(
-                                '<tr>' +
-                                    '<td>' + (index + 1) + '</td>' +
-                                    '<td>' + nhanvien.manv + '</td>' +
-                                    '<td>' + nhanvien.matk + '</td>' +
-                                    '<td>' + nhanvien.ten + '</td>' +
-                                    '<td>' + nhanvien.gioitinh + '</td>' +
-                                    '<td>' + nhanvien.ngaysinh + '</td>' +
-                                    '<td>' + nhanvien.email + '</td>' +
-                                    '<td>' + nhanvien.sdt + '</td>' +
-                                    '<td>' + nhanvien.diachi + '</td>' +
                                 '</tr>'
                             );
                         });
@@ -229,19 +229,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         $('.table-nhanvien tbody').append('<tr><td colspan="9">Không tìm thấy nhân viên nào.</td></tr>');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
                 }
             });
         }
-    
+
         // Tìm kiếm khi nhấn nút
-        $('.btn-search-nv').on('click', function() {
+        $('.btn-search-nv').on('click', function () {
             searchEmployees();
         });
-    
+
         // Tìm kiếm khi nhấn phím Enter
-        $('.search-input-nv').on('keypress', function(e) {
+        $('.search-input-nv').on('keypress', function (e) {
             if (e.which === 13) { // Kiểm tra phím Enter
                 searchEmployees();
                 return false; // Ngăn chặn hành vi mặc định của Enter
@@ -249,10 +249,50 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Sự kiện click đổ dữ liệu
+    $(document).ready(function () {
+        // Gán sự kiện click cho các dòng của bảng với delegation
+        $('.table-nhanvien tbody').on('click', 'tr', function () {
+            // Lấy dữ liệu từ các cột
+            const cells = $(this).children('td');
+    
+            const manv_for_input = $(cells[1]).text(); // Cột Mã NV
+            const matk_for_input = $(cells[2]).text(); // Cột Mã TK
+            
+            const ten_for_input = $(cells[3]).text(); // Cột Tên
+            const gioitinh_for_select = $(cells[4]).text(); // Cột Giới tính
+            const ngaysinh_for_input = $(cells[5]).text(); // Cột Ngày sinh
+            const email_for_input = $(cells[6]).text(); // Cột Email
+            const sdt_for_input = $(cells[7]).text(); // Cột SĐT
+            const diachi_for_input = $(cells[8]).text(); // Cột Địa chỉ
+    
+            // Chuyển đổi định dạng ngày nếu cần
+            const formattedDate = formatDate(ngaysinh_for_input);
+    
+            // Đổ dữ liệu vào các input và select
+            $('.input-ten_nv').val(ten_for_input);
+            $('.select-gioitinh_nv').val(gioitinh_for_select);
+            $('.input-ngaysinh_nv').val(formattedDate); // Gán giá trị đã định dạng
+            $('.input-email_nv').val(email_for_input);
+            $('.input-sdt_nv').val(sdt_for_input);
+            $('.input-diachi_nv').val(diachi_for_input);
+        });
+    
+        // Hàm để chuyển đổi định dạng ngày
+        function formatDate(dateString) {
+            const dateParts = dateString.split('/');
+            if (dateParts.length === 3) {
+                // Giả sử định dạng ban đầu là DD/MM/YYYY
+                return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Chuyển sang YYYY-MM-DD
+            }
+            return dateString; // Trả về giá trị gốc nếu không đúng định dạng
+        }
+    });
+
     $(document).ready(function () {
         window.reset_table_nhanvien = reset_table_nhanvien;
     });
-    
+
 });
 
 // Hàm chọn ảnh
@@ -264,7 +304,7 @@ function previewImageNV(event) {
     if (input.files && input.files[0]) {
         const reader = new FileReader(); // Tạo đối tượng FileReader
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
         }
 
@@ -283,12 +323,12 @@ function capTaiKhoan(manv) {
         type: 'POST',
         data: { manvtaotk: manv },
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             console.log(data.list_tao_taikhoan_nv);
             $.each(data.list_tao_taikhoan_nv, function (index, item) {
                 if (item.status === 'success') {
                     alert(item.message);
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         reset_table_nhanvien();
                     });
                 } else {
@@ -296,7 +336,7 @@ function capTaiKhoan(manv) {
                 }
             });
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("AJAX Error: ", status, error);
             alert("Có lỗi xảy ra khi tạo tài khoản.");
         }

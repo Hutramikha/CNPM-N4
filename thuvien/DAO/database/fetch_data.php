@@ -721,6 +721,201 @@ if (isset($_POST['ma_xuly_pm'])) {
 
 // ================================================ DELETE ===========================================================
 
+//=== Xử lý XÓA sách ===>
+if (isset($_POST['masach_xoa'])) {
+    $masach = $_POST['masach_xoa']; // Lấy giá trị masach từ input
+
+    // Chuẩn bị câu lệnh xóa
+    $sql = "DELETE FROM sach WHERE masach = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $masach); // Dùng "s" nếu masach là chuỗi
+
+    $list_xoa_sach = array();
+
+    if ($stmt->execute()) {
+        $list_xoa_sach[] = array(
+            "status" => "success",
+            "message" => "Xóa sách thành công"
+        );
+    } else {
+        $list_xoa_sach[] = array(
+            "status" => "error",
+            "message" => "Lỗi: " . $stmt->error
+        );
+    }
+} else {
+    $list_xoa_sach[] = array(
+        "status" => "error",
+        "message" => "Mã sách không hợp lệ"
+    );
+}
+
+
+//=== Xử lý XÓA nhân viên ===>
+if (isset($_POST['manv_xoa'])) {
+    $manv = $_POST['manv_xoa']; // Lấy giá trị manv từ input
+
+    // Lấy tên đăng nhập (tendangnhap) của nhân viên để xóa tài khoản
+    $sql_get_account = "SELECT tendangnhap FROM taikhoan WHERE tendangnhap = (SELECT matk FROM nhanvien WHERE manv = ?)";
+    $stmt_get_account = $connect->prepare($sql_get_account);
+    $stmt_get_account->bind_param("i", $manv);
+    $stmt_get_account->execute();
+    $result = $stmt_get_account->get_result();
+    $tendangnhap = null;
+
+    if ($row = $result->fetch_assoc()) {
+        $tendangnhap = $row['tendangnhap'];
+    }
+    // Đóng câu lệnh lấy tên đăng nhập
+    $stmt_get_account->close();
+
+    $sql_delete_nhanvien = "DELETE FROM nhanvien WHERE manv = ?";
+    $stmt_delete_nhanvien = $connect->prepare($sql_delete_nhanvien);
+    $stmt_delete_nhanvien->bind_param("i", $manv);
+
+    $list_xoa_nhanvien = array();
+
+    if ($stmt_delete_nhanvien->execute()) {
+        // Nếu xóa nhân viên thành công, xóa tài khoản
+        if ($tendangnhap) {
+            $sql_delete_account = "DELETE FROM taikhoan WHERE tendangnhap = ?";
+            $stmt_delete_account = $connect->prepare($sql_delete_account);
+            $stmt_delete_account->bind_param("s", $tendangnhap);
+            $stmt_delete_account->execute();
+            $stmt_delete_account->close();
+        }
+
+        $list_xoa_nhanvien[] = array(
+            "status" => "success",
+            "message" => "Xóa nhân viên và tài khoản thành công"
+        );
+    } else {
+        $list_xoa_nhanvien[] = array(
+            "status" => "error",
+            "message" => "Lỗi khi xóa nhân viên: " . $stmt_delete_nhanvien->error
+        );
+    }
+
+    // Đóng câu lệnh xóa nhân viên
+    $stmt_delete_nhanvien->close();
+} else {
+    $list_xoa_nhanvien[] = array(
+        "status" => "error",
+        "message" => "Mã nhân viên không hợp lệ"
+    );
+}
+
+
+//=== Xử lý XÓA độc giả ===>
+if (isset($_POST['madg_xoa'])) {
+    $madg = $_POST['madg_xoa'];
+
+    // Lấy tên đăng nhập (tendangnhap) của độc giả để xóa tài khoản
+    $sql_get_account = "SELECT tendangnhap FROM taikhoan WHERE tendangnhap = (SELECT matk FROM docgia WHERE madg = ?)";
+    $stmt_get_account = $connect->prepare($sql_get_account);
+    $stmt_get_account->bind_param("i", $madg);
+    $stmt_get_account->execute();
+    $result = $stmt_get_account->get_result();
+    $tendangnhap = null;
+
+    if ($row = $result->fetch_assoc()) {
+        $tendangnhap = $row['tendangnhap'];
+    }
+
+    // Đóng câu lệnh lấy tên đăng nhập
+    $stmt_get_account->close();
+
+    // Chuẩn bị câu lệnh xóa độc giả
+    $sql_delete_docgia = "DELETE FROM docgia WHERE madg = ?";
+    $stmt_delete_docgia = $connect->prepare($sql_delete_docgia);
+    $stmt_delete_docgia->bind_param("i", $madg);
+
+    $list_xoa_docgia = array();
+
+    // Thực thi câu lệnh xóa độc giả
+    if ($stmt_delete_docgia->execute()) {
+        // Nếu xóa độc giả thành công, xóa tài khoản
+        if ($tendangnhap) {
+            $sql_delete_account = "DELETE FROM taikhoan WHERE tendangnhap = ?";
+            $stmt_delete_account = $connect->prepare($sql_delete_account);
+            $stmt_delete_account->bind_param("s", $tendangnhap);
+            $stmt_delete_account->execute();
+            $stmt_delete_account->close();
+        }
+
+        $list_xoa_docgia[] = array(
+            "status" => "success",
+            "message" => "Xóa độc giả và tài khoản thành công"
+        );
+    } else {
+        $list_xoa_docgia[] = array(
+            "status" => "error",
+            "message" => "Lỗi khi xóa độc giả: " . $stmt_delete_docgia->error
+        );
+    }
+
+    // Đóng câu lệnh xóa độc giả
+    $stmt_delete_docgia->close();
+} else {
+    $list_xoa_docgia[] = array(
+        "status" => "error",
+        "message" => "Mã độc giả không hợp lệ"
+    );
+}
+
+
+//=== Xử lý XÓA tài khoản ===>
+if (isset($_POST['tendangnhap_xoa'])) {
+    $tendangnhap = $_POST['tendangnhap_xoa']; // Lấy giá trị tendangnhap từ input
+
+    // Kiểm tra tài khoản là của độc giả hay nhân viên
+    $sql_check_account = "SELECT * FROM docgia WHERE matk = ?";
+
+    $stmt_check = $connect->prepare($sql_check_account);
+    $stmt_check->bind_param("s", $tendangnhap);
+    $stmt_check->execute();
+    $result = $stmt_check->get_result();
+
+    $list_xoa_taikhoan = array();
+
+    if ($result->num_rows > 0) {
+        // Nếu tài khoản là của độc giả, không xóa
+        $list_xoa_taikhoan[] = array(
+            "status" => "error",
+            "message" => "Không thể xóa tài khoản độc giả."
+        );
+    } else {
+        // Tài khoản không phải độc giả, có thể xóa
+        $sql_delete_account = "DELETE FROM taikhoan WHERE tendangnhap = ?";
+        $stmt_delete_account = $connect->prepare($sql_delete_account);
+        $stmt_delete_account->bind_param("s", $tendangnhap);
+
+        if ($stmt_delete_account->execute()) {
+            $list_xoa_taikhoan[] = array(
+                "status" => "success",
+                "message" => "Xóa tài khoản thành công."
+            );
+        } else {
+            $list_xoa_taikhoan[] = array(
+                "status" => "error",
+                "message" => "Lỗi khi xóa tài khoản: " . $stmt_delete_account->error
+            );
+        }
+
+        // Đóng câu lệnh xóa tài khoản
+        $stmt_delete_account->close();
+    }
+
+    // Đóng câu lệnh kiểm tra
+    $stmt_check->close();
+} else {
+    $list_xoa_taikhoan[] = array(
+        "status" => "error",
+        "message" => "Tên đăng nhập không hợp lệ."
+    );
+}
+
+
 // ================================================ echo json encode ============================================================
 
 $response = array(
@@ -759,6 +954,9 @@ $response = array(
     'list_open_close_taikhoan' => $list_open_close_taikhoan,
     'list_tao_taikhoan_nv' => $list_tao_taikhoan_nv,
     'list_xuly_phieumuon' => $list_xuly_phieumuon,
+    'list_xoa_sach' => $list_xoa_sach,
+    'list_xoa_nhanvien' => $list_xoa_nhanvien,
+    'list_xoa_docgia' => $list_xoa_docgia,
 );
 
 echo json_encode($response);

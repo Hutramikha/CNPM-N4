@@ -74,10 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ableInput();
     });
 
-    btn_delete.addEventListener('click', () => {
-
-    });
-
     btn_cancel.addEventListener('click', () => {
         img.src = '../img/noimages.png';
 

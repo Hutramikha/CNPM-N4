@@ -728,7 +728,7 @@ if (isset($_POST['masach_xoa'])) {
     // Chuẩn bị câu lệnh xóa
     $sql = "DELETE FROM sach WHERE masach = ?";
     $stmt = $connect->prepare($sql);
-    $stmt->bind_param("s", $masach); // Dùng "s" nếu masach là chuỗi
+    $stmt->bind_param("i", $masach);
 
     $list_xoa_sach = array();
 

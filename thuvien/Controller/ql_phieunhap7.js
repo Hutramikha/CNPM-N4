@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         select_ten_sach_pn.disabled = false;
         input_soluong_sach_pn.disabled = false;
         input_gianhap_sach_pn.disabled = false;
-        input_thanhtien_sach_pn.disabled = false;
+        // input_thanhtien_sach_pn.disabled = false;
         select_ncc_sach_pn.disabled = false;
     }
 
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         select_ten_sach_pn.disabled = true;
         input_soluong_sach_pn.disabled = true;
         input_gianhap_sach_pn.disabled = true;
-        input_thanhtien_sach_pn.disabled = true;
+        // input_thanhtien_sach_pn.disabled = true;
         select_ncc_sach_pn.disabled = true;
     }
 
@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         table_ct_phieu_nhap.style.display = 'table';
 
         ableInput();
+        select_ten_sach_pn.disabled = true;
     });
 
     btn_start_add_ct.addEventListener('click', () => {

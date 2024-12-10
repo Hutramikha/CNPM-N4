@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reset_select_nhaxuatban();
         reset_select_tacgia();
         reset_select_tinhtrangsach_sach();
-        
+
     });
 
     $(document).ready(function () {
@@ -264,12 +264,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + chitietsach_xem.masach + '</td>' +
                             '<td>' + chitietsach_xem.matinhtrang + '</td>' +
                             '<td>' + chitietsach_xem.trangthai + '</td>' +
-                            '<td>' + (chitietsach_xem.khu === null ? 
-                                '<button class="btn-sap-xep" onclick="xuLySapXep(' + chitietsach_xem.mavach + ')">Sắp xếp</button>' : 
-                                chitietsach_xem.khu) + 
+                            '<td>' + (chitietsach_xem.khu === null ?
+                                '<button class="btn-sap-xep" onclick="xuLySapXep(' + chitietsach_xem.mavach + ')">Sắp xếp</button>' :
+                                chitietsach_xem.khu) +
                             '</td>' +
-                            '<td>' + 
-                                '<button class="btn-xoa_chitiet_sach" onclick="xoactSach(' + chitietsach_xem.mavach + ')">Xóa</button>' + 
+                            '<td>' +
+                            '<button class="btn-xoa_chitiet_sach" onclick="xoactSach(' + chitietsach_xem.mavach + ')">Xóa</button>' +
                             '</td>' +
                             '</tr>'
                         );
@@ -280,6 +280,36 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error('Lỗi:', error);
                 }
             });
+        });
+    });
+
+    $(document).ready(function () {
+        $('.btn-delete-sach').on('click', function () {
+            if (ma_sach_toancuc) {
+                // Gửi yêu cầu xóa đến server
+                $.ajax({
+                    url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
+                    method: 'POST',
+                    data: { masach_xoa: ma_sach_toancuc }, // Gửi masach
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data.list_xoa_sach, function (index, masach) {
+                            if (masach.status === "success") {
+                                alert(masach.message);
+                                reset_table_sach();
+                            } else {
+                                alert(masach.message);
+                            }
+                        })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn để xóa.');
+            }
         });
     });
 
@@ -388,11 +418,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-// Thực hiện tăng giảm giá trị bằng nút mũi tên
-    $(document).ready(function() {
+    // Thực hiện tăng giảm giá trị bằng nút mũi tên
+    $(document).ready(function () {
         const incrementValue = 1000;
         const incrementValue_gianhap = 10000;
-    
+
         // Cập nhật input hiển thị giá trị
         function updateInputPhimuon() {
             $('.input-phimuon_sach').val(currentValue_phimuon + ' VNĐ');
@@ -400,26 +430,26 @@ document.addEventListener("DOMContentLoaded", () => {
         function updateInputGianhap() {
             $('.input-gianhap_sach').val(currentValue_gianhap + ' VNĐ');
         }
-    
+
         // Sự kiện khi nhấn nút tăng
-        $('#increment').on('click', function() {
+        $('#increment').on('click', function () {
             currentValue_phimuon += incrementValue;
             updateInputPhimuon();
         });
-        $('#incrementGianhap').on('click', function() {
+        $('#incrementGianhap').on('click', function () {
             currentValue_gianhap += incrementValue_gianhap;
             console.log("oke");
             updateInputGianhap();
         });
-    
+
         // Sự kiện khi nhấn nút giảm
-        $('#decrement').on('click', function() {
+        $('#decrement').on('click', function () {
             if (currentValue_phimuon > 0) { // Đảm bảo không giảm xuống dưới 0
                 currentValue_phimuon -= incrementValue;
                 updateInputPhimuon();
             }
         });
-        $('#decrementGianhap').on('click', function() {
+        $('#decrementGianhap').on('click', function () {
             if (currentValue_gianhap > 0) { // Đảm bảo không giảm xuống dưới 0
                 currentValue_gianhap -= incrementValue_gianhap;
                 updateInputGianhap();
@@ -428,26 +458,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //======================================Tìm kiếm sách
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Hàm tìm kiếm
         function searchBooks() {
             const searchQuery = $('.search-input-sach').val();
-    
+
             if (searchQuery.trim() === '') {
                 $('.table-sach tbody').empty();
                 $('.table-sach tbody').append('<tr><td colspan="10">Không tìm thấy sách nào.</td></tr>');
                 return;
             }
-            
+
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Tập tin PHP xử lý tìm kiếm
                 method: 'GET',
                 dataType: 'json', // Định dạng dữ liệu trả về là JSON
                 data: { search_sach: searchQuery },
-                success: function(data) {
+                success: function (data) {
                     $('.table-sach tbody').empty(); // Xóa kết quả cũ
                     if (data.list_timkiem_sach.length > 0) {
-                        $.each(data.list_timkiem_sach, function(index, sach) {
+                        $.each(data.list_timkiem_sach, function (index, sach) {
                             $('.table-sach tbody').append(
                                 '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
@@ -467,20 +497,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         $('.table-sach tbody').append('<tr><td colspan="10">Không tìm thấy sách nào.</td></tr>');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
                 }
             });
         }
-    
+
         // Tìm kiếm khi nhấn nút
-        $('.btn-search-sach').on('click', function() {
+        $('.btn-search-sach').on('click', function () {
             console.log("btn");
             searchBooks();
         });
-    
+
         // Tìm kiếm khi nhấn phím Enter
-        $('.search-input-sach').on('keypress', function(e) {
+        $('.search-input-sach').on('keypress', function (e) {
             if (e.which === 13) { // Kiểm tra phím Enter
                 console.log("enter");
                 searchBooks();
@@ -513,7 +543,7 @@ let currentValue_gianhap = 0;
 
 let ma_sach_toancuc = null;
 
-function reset_table_ct_sach(ma_sach_toancuc,event) {
+function reset_table_ct_sach(ma_sach_toancuc, event) {
     $('.table-ct-sach tbody').empty();
     $.ajax({
         url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
@@ -529,12 +559,12 @@ function reset_table_ct_sach(ma_sach_toancuc,event) {
                     '<td>' + chitietsach_xem.masach + '</td>' +
                     '<td>' + chitietsach_xem.matinhtrang + '</td>' +
                     '<td>' + chitietsach_xem.trangthai + '</td>' +
-                    '<td>' + (chitietsach_xem.khu === null ? 
-                        '<button class="btn-sap-xep" onclick="xuLySapXep(' + chitietsach_xem.mavach + ')">Sắp xếp</button>' : 
-                        chitietsach_xem.khu) + 
+                    '<td>' + (chitietsach_xem.khu === null ?
+                        '<button class="btn-sap-xep" onclick="xuLySapXep(' + chitietsach_xem.mavach + ')">Sắp xếp</button>' :
+                        chitietsach_xem.khu) +
                     '</td>' +
-                    '<td>' + 
-                        '<button class="btn-xoa_chitiet_sach" onclick="xoactSach(' + chitietsach_xem.mavach + ')">Xóa</button>' + 
+                    '<td>' +
+                    '<button class="btn-xoa_chitiet_sach" onclick="xoactSach(' + chitietsach_xem.mavach + ')">Xóa</button>' +
                     '</td>' +
                     '</tr>'
                 );
@@ -549,22 +579,22 @@ function reset_table_ct_sach(ma_sach_toancuc,event) {
 
 // Hàm xóa chi tiết sách
 function xoactSach(mavach) {
-     // Gửi yêu cầu xóa chi tiết sách đến server
-     $.ajax({
+    // Gửi yêu cầu xóa chi tiết sách đến server
+    $.ajax({
         url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
         method: 'POST',
         data: { mavach_xoa: mavach },
         dataType: 'json', // Thiết lập loại dữ liệu trả về
         success: function (data) {
-            $.each(data.list_xoa_ct_sach, function(index, ctSach) {
-                if(ctSach.status === "success") {
+            $.each(data.list_xoa_ct_sach, function (index, ctSach) {
+                if (ctSach.status === "success") {
                     alert(ctSach.message);
                     reset_table_ct_sach(ma_sach_toancuc);
                 }
                 else {
                     alert(ctSach.message);
                 }
-            });    
+            });
         },
         error: function (xhr, status, error) {
             console.error('Lỗi:', error);
@@ -588,7 +618,7 @@ function previewImageSach(event) {
     if (input.files && input.files[0]) {
         const reader = new FileReader(); // Tạo đối tượng FileReader
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
         }
 

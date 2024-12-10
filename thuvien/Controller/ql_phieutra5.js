@@ -2,15 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
     const btn_start_ct_pt = document.querySelector('.btn-start-ct-phieu_tra');
-    const btn_add_ct_pt = document.querySelector('.btn-add-ct-phieu_tra');
+    const btn_save_ct_pt = document.querySelector('.btn-save-ct-phieu_tra');
     const btn_create_pt = document.querySelector('.btn-create-pt');
     const btn_cancel = document.querySelector('.btn-cancel-ct-phieu_tra');
     const btn_reset = document.querySelector('.btn-reset-phieu_tra');
 
+    const btn_edit_ct_pt = document.querySelector('.btn-edit-ct-phieu_tra');
+
     const input_search = document.querySelector('.search-input-phieu_tra');
 
-    const input_mavach_sach = document.querySelector('.input-mavach_sach');
-    const input_ma_phieu_muon = document.querySelector('.input-ma_phieu_muon');
+    const input_mavach_sach = document.querySelector('.input-mavach_sach_pt');
+    const input_ma_phieu_muon = document.querySelector('.input-ma_phieu_muon_pt');
     const select_tinhtrang_sach_pt = document.querySelector('.select-tinhtrang_sach_pt');
     const input_vitri_sach_pt = document.querySelector('.input-vitri_sach_pt');
     const select_phat_sach = document.querySelector('.select-phat_sach');
@@ -32,13 +34,22 @@ document.addEventListener("DOMContentLoaded", () => {
         input_vitri_sach_pt.value = '';
         input_phiphat_sach.value = '';
 
-        select_tinhtrang_sach_pt.selectedIndex = 0;
+        select_tinhtrang_sach_pt.selectedIndex = -1;
         select_phat_sach.selectedIndex = 0;
     }
 
     btn_start_ct_pt.addEventListener('click', () => {
+        btn_edit_ct_pt.disabled = true;
+        btn_save_ct_pt.disabled = false;
+        btn_create_pt.disabled = false;
+        btn_cancel.disabled = false;
+
+        ableInput();
+    });
+
+    btn_edit_ct_pt.addEventListener('click', () => {
         btn_start_ct_pt.disabled = true;
-        btn_add_ct_pt.disabled = false;
+        btn_save_ct_pt.disabled = false;
         btn_create_pt.disabled = false;
         btn_cancel.disabled = false;
 
@@ -47,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn_cancel.addEventListener('click', () => {
         btn_start_ct_pt.disabled = false;
-        btn_add_ct_pt.disabled = true;
+        btn_edit_ct_pt.disabled = false;
+        btn_save_ct_pt.disabled = true;
         btn_create_pt.disabled = true;
         btn_cancel.disabled = true;
 
@@ -62,9 +74,18 @@ document.addEventListener("DOMContentLoaded", () => {
         input_search.value = '';
 
         btn_start_ct_pt.disabled = false;
-        btn_add_ct_pt.disabled = true;
+        btn_edit_ct_pt.disabled = false;
+        btn_save_ct_pt.disabled = true;
         btn_create_pt.disabled = true;
         btn_cancel.disabled = true;
+
+        document.querySelector('.input-mavach_sach_pt').value = '';
+        document.querySelector('.input-ma_phieu_muon_pt').value = '';
+        document.querySelector('.input-vitri_sach_pt').value = '';
+        document.querySelector('.input-phiphat_sach').value = '';
+
+        document.querySelector('.select-tinhtrang_sach_pt').selectedIndex = -1;
+        document.querySelector('.select-phat_sach').selectedIndex = 0;
 
         resetInput();
         disableInput();
@@ -73,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reset_select_tinhtrang_pt();
     });
 
-    btn_add_ct_pt.addEventListener('click', () => {
+    btn_save_ct_pt.addEventListener('click', () => {
 
     });
 
@@ -169,6 +190,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    //===================== Sự kiện click đổ dữ liệu
+    $(document).ready(function () {
+        // Gán sự kiện click cho từng dòng
+        $('.table-ct-sach_da_muon tbody').on('click', 'tr', function () {
+            // Lấy dữ liệu từ các cột
+            const cells = $(this).children('td');
+
+            const mavach_for_input = $(cells[1]).text(); // Cột Mã vạch
+            const mapm_for_input = $(cells[2]).text(); // Cột Mã PM
+
+            const madg_for_input = $(cells[3]).text().split('-')[0]; // Cột Mã ĐG
+            const manv_for_input = $(cells[4]).text().split('-')[0]; // Cột Mã NV
+
+            const matinhtrang_for_select = $(cells[5]).text(); // Cột Mã Tình Trạng
+            const khu_for_input = $(cells[6]).text(); // Cột Khu
+
+            // Đổ dữ liệu vào các input
+            $('.input-mavach_sach_pt').val(mavach_for_input);
+            $('.input-ma_phieu_muon_pt').val(mapm_for_input);
+            
+            $('.select-tinhtrang_sach_pt').val(matinhtrang_for_select);
+            $('.input-vitri_sach_pt').val(khu_for_input);
+        });
+    });
+
 
     function reset_table_phieutra() {
         $(document).ready(function () {
@@ -189,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<tr>' +
                             '<td>' + (index + 1) + '</td>' +
                             '<td>' + chitiet_sach_da_muon.mavach + '</td>' +
-                            '<td>' + chitiet_sach_da_muon.mapm +'</td>' +
+                            '<td>' + chitiet_sach_da_muon.mapm + '</td>' +
                             '<td>' + chitiet_sach_da_muon.madg + '-' + chitiet_sach_da_muon.ten_docgia + '</td>' +
                             '<td>' + chitiet_sach_da_muon.manv + '-' + chitiet_sach_da_muon.ten_nhanvien + '</td>' +
                             '<td>' + chitiet_sach_da_muon.matinhtrang + '</td>' +
@@ -295,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
                     $('.table-ct-sach_da_muon tbody').empty();
                     $('.table-phieu_tra tbody').empty();
-    
+
                     // Kiểm tra và hiển thị dữ liệu cho danh sách chi tiết sách đã mượn
                     if (data.list_timkiem_ct_sach_da_muon.length > 0) {
                         $.each(data.list_timkiem_ct_sach_da_muon, function (index, chitiet_sach_da_muon) {
@@ -314,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else {
                         $('.table-ct-sach_da_muon tbody').append('<tr><td colspan="7">Không có dữ liệu.</td></tr>');
                     }
-    
+
                     // Kiểm tra và hiển thị dữ liệu cho danh sách phiếu trả
                     if (data.list_timkiem_phieutra.length > 0) {
                         $.each(data.list_timkiem_phieutra, function (index, phieutra) {
@@ -339,12 +385,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
-    
+
         // Sự kiện nhấn nút tìm kiếm
         $('.btn-search-phieu_tra').click(function () {
             SearchPhieuTra();
         });
-    
+
         // Sự kiện nhấn phím Enter trong ô nhập liệu
         $('.search-input-phieu_tra').keypress(function (e) {
             if (e.which === 13) { // phím Enter

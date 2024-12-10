@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function ableInput() {
         select_ten_sach_pn.disabled = false;
         input_soluong_sach_pn.disabled = false;
-        input_gianhap_sach_pn.disabled = false;
+        // input_gianhap_sach_pn.disabled = false;
         // input_thanhtien_sach_pn.disabled = false;
         select_ncc_sach_pn.disabled = false;
     }
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function disableInput() {
         select_ten_sach_pn.disabled = true;
         input_soluong_sach_pn.disabled = true;
-        input_gianhap_sach_pn.disabled = true;
+        // input_gianhap_sach_pn.disabled = true;
         // input_thanhtien_sach_pn.disabled = true;
         select_ncc_sach_pn.disabled = true;
     }
@@ -276,32 +276,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const incrementValue_soluong = 1;
 
         // Cập nhật input hiển thị giá trị
-        function updateInputPhinhap() {
-            $('.input-gianhap_sach_pn').val(currentValue_phinhap + ' VNĐ');
-        }
         function updateInputSoluong() {
             $('.input-soluong_sach_pn').val(currentValue_soluong);
         }
 
         // Sự kiện khi nhấn nút tăng
-        $('#increment_phinhap').on('click', function () {
-            currentValue_phinhap += incrementValue;
-            updateInputPhinhap();
-        });
         $('#increment_soluong_phieunhap').on('click', function () {
             currentValue_soluong += incrementValue_soluong;
             updateInputSoluong();
         });
 
         // Sự kiện khi nhấn nút giảm
-        $('#decrement_phinhap').on('click', function () {
-            if (currentValue_phinhap > 0) { // Đảm bảo không giảm xuống dưới 0
-                currentValue_phinhap -= incrementValue;
-                updateInputPhinhap();
-            }
-        });
         $('#decrement_soluong_phieunhap').on('click', function () {
-            if (currentValue_soluong > 0) { // Đảm bảo không giảm xuống dưới 0
+            if (currentValue_soluong > 1) { // Đảm bảo không giảm xuống dưới 0
                 currentValue_soluong -= incrementValue_soluong;
                 updateInputSoluong();
             }
@@ -381,5 +368,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-let currentValue_phinhap = 0;
 let currentValue_soluong = 0;

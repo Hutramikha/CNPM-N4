@@ -154,8 +154,19 @@
                             </select>
                         </div> -->
                         <div class="input-group">
+                            <label class="input-label">Giá nhập:</label>
+                            <div class="input-container">
+                                <input type="text" class="input-control input-gianhap_sach" placeholder="VNĐ" disabled required>
+                                <div class="btn-container__arrow">
+                                    <button class="btn-arrow" id="incrementGianhap">▲</button>
+                                    <div style="height: 0.3vh;"></div>
+                                    <button class="btn-arrow" id="decrementGianhap">▼</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
                             <label class="input-label">Tóm tắt:</label>
-                            <textarea class="input-control input-tomtat_sach" id="textarea" rows="4"
+                            <textarea class="input-control input-tomtat_sach" id="textarea" rows="2"
                                 placeholder="Nhập tóm tắt" disabled required></textarea>
                         </div>
                     </div>
@@ -430,7 +441,7 @@
                         <table class="table-sach">
                             <thead>
                                 <tr>
-                                    <th colspan="9" class="table-title">Danh Sách Sách</th>
+                                    <th colspan="10" class="table-title">Danh Sách Sách</th>
                                 </tr>
                                 <tr>
                                     <th class="table_stt">STT</th>
@@ -442,6 +453,7 @@
                                     <th>Tác giả</th>
                                     <th>Số lượng</th>
                                     <th>Phí mượn</th>
+                                    <th>Giá nhập</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1097,15 +1109,8 @@
                     </div>
                     <div class="input_contain_child">
                         <div class="input-group">
-                            <label class="input-label">Phí nhập:</label>
-                            <div class="input-container">
-                                <input type="text" class="input-control input-gianhap_sach_pn" placeholder="VNĐ" disabled required>
-                                <div class="btn-container__arrow">
-                                    <button class="btn-arrow" id="increment_phinhap">▲</button>
-                                    <div style="height: 0.3vh;"></div>
-                                    <button class="btn-arrow" id="decrement_phinhap">▼</button>
-                                </div>
-                            </div>
+                            <label class="input-label">Giá nhập:</label>
+                            <input type="text" class="input-control input-gianhap_sach_pn" placeholder="VNĐ" disabled required>
                         </div>
                         <div class="input-group">
                             <label class="input-label">Thành tiền:</label>
@@ -1536,10 +1541,10 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../Controller/jsadmin3.js"></script>
-    <script src="../Controller/ql_sach7.js"></script>
+    <script src="../Controller/ql_sach8.js"></script>
     <script src="../Controller/ql_nv5.js"></script>
     <script src="../Controller/ql_dg3.js"></script>
-    <script src="../Controller/ql_phieunhap7.js"></script>
+    <script src="../Controller/ql_phieunhap8.js"></script>
     <script src="../Controller/ql_phieumuon3.js"></script>
     <script src="../Controller/ql_phieutra5.js"></script>
     <script src="../Controller/ql_taikhoan4.js"></script>

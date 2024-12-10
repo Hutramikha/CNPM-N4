@@ -915,6 +915,36 @@ if (isset($_POST['tendangnhap_xoa'])) {
     );
 }
 
+//=== Xử lý XÓA chi tiết sách ===>
+if (isset($_POST['mavach_xoa'])) {
+    $mavach = $_POST['mavach_xoa']; // Lấy giá trị mavach từ input
+
+    // Chuẩn bị câu lệnh xóa chi tiết sách
+    $sql_delete = "DELETE FROM chitietsach WHERE mavach = ?";
+    $stmt = $connect->prepare($sql_delete);
+    $stmt->bind_param("i", $mavach); // Sử dụng "i" vì mavach là số nguyên
+
+    $list_xoa_ct_sach = array(); // Mảng để chứa kết quả
+
+    if ($stmt->execute()) {
+        $list_xoa_ct_sach[] = array(
+            "status" => "success",
+            "message" => "Xóa chi tiết sách thành công."
+        );
+    } else {
+        $list_xoa_ct_sach[] = array(
+            "status" => "error",
+            "message" => "Lỗi khi xóa chi tiết sách: " . $stmt->error
+        );
+    }
+} else {
+    $list_xoa_ct_sach[] = array(
+        "status" => "error",
+        "message" => "Mã vạch không hợp lệ."
+    );
+}
+
+
 
 // ================================================ echo json encode ============================================================
 
@@ -957,6 +987,7 @@ $response = array(
     'list_xoa_sach' => $list_xoa_sach,
     'list_xoa_nhanvien' => $list_xoa_nhanvien,
     'list_xoa_docgia' => $list_xoa_docgia,
+    'list_xoa_ct_sach' => $list_xoa_ct_sach,
 );
 
 echo json_encode($response);

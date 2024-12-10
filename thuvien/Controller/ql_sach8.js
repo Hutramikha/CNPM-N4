@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const select_nhaxuatban_sach = document.querySelector('.select-nhaxuatban_sach');
     const select_tacgia_sach = document.querySelector('.select-tacgia_sach');
     const input_phimuon_sach = document.querySelector('.input-phimuon_sach');
+    const input_gianhap_sach = document.querySelector('.input-gianhap_sach');
     const input_soluong_sach = document.querySelector('.input-soluong_sach');
     const input_img_sach = document.querySelector('.input-img_sach');
     const select_tinhtrang_sach = document.querySelector('.select-tinhtrang_sach');
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         select_nhaxuatban_sach.disabled = false;
         select_tacgia_sach.disabled = false;
         input_phimuon_sach.disabled = false;
+        input_gianhap_sach.disabled = false;
         // input_soluong_sach.disabled = false;
         input_img_sach.disabled = false;
         // select_tinhtrang_sach.disabled = false;
@@ -41,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         select_nhaxuatban_sach.disabled = true;
         select_tacgia_sach.disabled = true;
         input_phimuon_sach.disabled = true;
+        input_gianhap_sach.disabled = false;
         // input_soluong_sach.disabled = true;
         input_img_sach.disabled = true;
         // select_tinhtrang_sach.disabled = true;
@@ -51,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input_tomtat_sach.value = '';
         input_phimuon_sach.value = '';
         input_img_sach.value = '';
+        input_gianhap_sach.value = '';
 
         select_theloai_sach.selectedIndex = 0;
         select_nhaxuatban_sach.selectedIndex = 0;
@@ -136,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + sach.matg + '</td>' +
                         '<td>' + sach.soluong + '</td>' +
                         '<td>' + sach.phimuon + ' VNĐ' + '</td>' +
+                        '<td>' + sach.gianhap + ' VNĐ' + '</td>' +
                         '</tr>'
                     );
                 });
@@ -202,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + sach.matg + '</td>' +
                             '<td>' + sach.soluong + '</td>' +
                             '<td>' + sach.phimuon + ' VNĐ' + '</td>' +
+                            '<td>' + sach.gianhap + ' VNĐ' + '</td>' +
                             '</tr>'
                         );
                     });
@@ -227,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const matg_for_select = $(cells[6]).text(); // Cột Mã TG
             const soluong_for_input = $(cells[7]).text(); // Cột Số lượng
             const phimuon_for_input = $(cells[8]).text().replace(' VNĐ', ''); // Cột Phí mượn
+            const gianhap_for_input = $(cells[9]).text().replace(' VNĐ', ''); // Cột Giá nhập
 
             $('.input-ten_sach').val(tensach_for_input);
             $('.input-tomtat_sach').val(tomtat_for_input);
@@ -235,9 +242,12 @@ document.addEventListener("DOMContentLoaded", () => {
             $('.select-tacgia_sach').val(matg_for_select);
             $('.input-soluong_sach').val(soluong_for_input);
             $('.input-phimuon_sach').val(phimuon_for_input);
+            $('.input-gianhap_sach').val(gianhap_for_input);
 
             var masach = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
+            ma_sach_toancuc = masach;
             console.log(masach);
+            console.log(ma_sach_toancuc);
             $('.table-ct-sach tbody').empty();
             // Thực hiện truy vấn AJAX để lấy chitietsach với masach
             $.ajax({
@@ -381,16 +391,25 @@ document.addEventListener("DOMContentLoaded", () => {
 // Thực hiện tăng giảm giá trị bằng nút mũi tên
     $(document).ready(function() {
         const incrementValue = 1000;
+        const incrementValue_gianhap = 10000;
     
         // Cập nhật input hiển thị giá trị
         function updateInputPhimuon() {
             $('.input-phimuon_sach').val(currentValue_phimuon + ' VNĐ');
+        }
+        function updateInputGianhap() {
+            $('.input-gianhap_sach').val(currentValue_gianhap + ' VNĐ');
         }
     
         // Sự kiện khi nhấn nút tăng
         $('#increment').on('click', function() {
             currentValue_phimuon += incrementValue;
             updateInputPhimuon();
+        });
+        $('#incrementGianhap').on('click', function() {
+            currentValue_gianhap += incrementValue_gianhap;
+            console.log("oke");
+            updateInputGianhap();
         });
     
         // Sự kiện khi nhấn nút giảm
@@ -400,8 +419,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateInputPhimuon();
             }
         });
+        $('#decrementGianhap').on('click', function() {
+            if (currentValue_gianhap > 0) { // Đảm bảo không giảm xuống dưới 0
+                currentValue_gianhap -= incrementValue_gianhap;
+                updateInputGianhap();
+            }
+        });
     });
-
 
     //======================================Tìm kiếm sách
     $(document).ready(function() {
@@ -411,7 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             if (searchQuery.trim() === '') {
                 $('.table-sach tbody').empty();
-                $('.table-sach tbody').append('<tr><td colspan="9">Không tìm thấy sách nào.</td></tr>');
+                $('.table-sach tbody').append('<tr><td colspan="10">Không tìm thấy sách nào.</td></tr>');
                 return;
             }
             
@@ -435,11 +459,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + sach.matg + '</td>' +
                                 '<td>' + sach.soluong + '</td>' +
                                 '<td>' + sach.phimuon + ' VNĐ' + '</td>' +
+                                '<td>' + sach.gianhap + ' VNĐ' + '</td>' +
                                 '</tr>'
                             );
                         });
                     } else {
-                        $('.table-sach tbody').append('<tr><td colspan="9">Không tìm thấy sách nào.</td></tr>');
+                        $('.table-sach tbody').append('<tr><td colspan="10">Không tìm thấy sách nào.</td></tr>');
                     }
                 },
                 error: function(xhr, status, error) {
@@ -484,12 +509,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 let currentValue_phimuon = 0;
+let currentValue_gianhap = 0;
 
+let ma_sach_toancuc = null;
+
+function reset_table_ct_sach(ma_sach_toancuc,event) {
+    $('.table-ct-sach tbody').empty();
+    $.ajax({
+        url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
+        method: 'POST',
+        data: { masach_xemchitiet: ma_sach_toancuc },
+        dataType: 'json',
+        success: function (data) {
+            $.each(data.list_chitiet_sach_xem, function (index, chitietsach_xem) {
+                $('.table-ct-sach tbody').append(
+                    '<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + chitietsach_xem.mavach + '</td>' +
+                    '<td>' + chitietsach_xem.masach + '</td>' +
+                    '<td>' + chitietsach_xem.matinhtrang + '</td>' +
+                    '<td>' + chitietsach_xem.trangthai + '</td>' +
+                    '<td>' + (chitietsach_xem.khu === null ? 
+                        '<button class="btn-sap-xep" onclick="xuLySapXep(' + chitietsach_xem.mavach + ')">Sắp xếp</button>' : 
+                        chitietsach_xem.khu) + 
+                    '</td>' +
+                    '<td>' + 
+                        '<button class="btn-xoa_chitiet_sach" onclick="xoactSach(' + chitietsach_xem.mavach + ')">Xóa</button>' + 
+                    '</td>' +
+                    '</tr>'
+                );
+                console.log(chitietsach_xem.mavach);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi:', error);
+        }
+    });
+}
 
 // Hàm xóa chi tiết sách
 function xoactSach(mavach) {
-    // Xử lý xóa sách, có thể thực hiện AJAX để xóa khỏi cơ sở dữ liệu
-    console.log("Xóa sách với mã vạch: " + mavach);
+     // Gửi yêu cầu xóa chi tiết sách đến server
+     $.ajax({
+        url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+        method: 'POST',
+        data: { mavach_xoa: mavach },
+        dataType: 'json', // Thiết lập loại dữ liệu trả về
+        success: function (data) {
+            $.each(data.list_xoa_ct_sach, function(index, ctSach) {
+                if(ctSach.status === "success") {
+                    alert(ctSach.message);
+                    reset_table_ct_sach(ma_sach_toancuc);
+                }
+                else {
+                    alert(ctSach.message);
+                }
+            });    
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi:', error);
+            alert('Có lỗi xảy ra. Vui lòng thử lại.');
+        }
+    });
 }
 
 // Hàm sắp xếp chi tiết sách

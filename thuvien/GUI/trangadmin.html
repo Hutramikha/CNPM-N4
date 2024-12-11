@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="./style/styleadmin7.css">
+    <link rel="stylesheet" href="./style/styleadmin8.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -83,6 +83,12 @@
                 </div>
             </li>
             <li class="out-li">
+                <div class="btn-qlphanquyen btn">
+                    <i class='bx bx-accessibility' ></i>
+                    <span class="link_name no-select" id="text-visible"> QL Phân quyền</span>
+                </div>
+            </li>
+            <li class="out-li">
                 <div class="btn-thongke btn">
                     <i class='bx bx-bar-chart-alt-2'></i>
                     <span class="link_name no-select" id="text-visible"> Thống kê</span>
@@ -93,6 +99,9 @@
                     <i class='bx bx-info-circle'></i>
                     <span class="link_name no-select" id="text-visible"> Thông tin cá nhân</span>
                 </div>
+            </li>
+            <li>
+                <div style="height: 10vh;"></div>
             </li>
             <li>
                 <div class="profile-details">
@@ -198,7 +207,7 @@
                         </div>
                         <div class="input-group">
                             <label class="input-label">Số lượng:</label>
-                            <input type="text" class="input-control input-soluong_sach" placeholder="Số lượng" disabled required>
+                            <input type="text" class="input-control input-soluong_sach" placeholder="0" disabled required>
                         </div>
                     </div>
                     <div class="image-container">
@@ -1308,15 +1317,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="button_contain_manage">
+                <!-- <div class="button_contain_manage">
                     <button class="btn_action btn-manage btn-chucnang">Chức năng</button>
                     <button class="btn_action btn-manage btn-quyen">Quyền</button>
-                </div>
+                </div> -->
                 
 		<!-- Bảng Form của các nút từ button_contain_manage -->
-                <div id="account-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                <!-- <div id="account-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
                          background-color: rgba(0, 0, 0, 0.5); z-index: 10;transition: opacity 0.3s ease;"></div>
-                <!--Overlay chung cho các form-->
+                
                 <div class="Function" style="width: 40%; height: 40%;justify-content: center;position: absolute;top: 30%;left: 30%;
                      z-index:15;background-color: whitesmoke;border: solid black; display: none;
                      justify-content:center;padding: 10px; border-radius: 15px">
@@ -1369,7 +1378,7 @@
                             </table>
                         </div>
                     </form>
-                </div>
+                </div> -->
 
 
                 <div class="table_contain" style="margin-bottom: 0.5%;">
@@ -1471,6 +1480,17 @@
             </div>
 
 
+            <!-- Quản lý phân quyền ------------------------------------------------------------------->
+            <div class="quanlyphanquyen">
+                <div class="admin_title_content">
+                    <div class="admin_title">
+                        <h1>QUẢN LÝ PHÂN QUYỀN</h1>
+                    </div>
+                </div>
+                
+            </div>
+
+
             <!-- Thông tin cá nhân ------------------------------------------------------------------->
             <div class="thongtincanhan">
                 <div class="admin_title_content">
@@ -1540,8 +1560,8 @@
     </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../Controller/jsadmin3.js"></script>
-    <script src="../Controller/ql_sach10.js"></script>
+    <script src="../Controller/jsadmin4.js"></script>
+    <script src="../Controller/ql_sach13.js"></script>
     <script src="../Controller/ql_nv5.js"></script>
     <script src="../Controller/ql_dg4.js"></script>
     <script src="../Controller/ql_phieunhap8.js"></script>

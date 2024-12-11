@@ -666,9 +666,62 @@ $list_tao_taikhoan_nv = array();
 if (isset($_POST['manvtaotk'])) {
     $manv = $_POST['manvtaotk'];
     capTaikhoan($manv, $connect, $list_tao_taikhoan_nv);
-} 
+}
+
+//==== Thêm sách ====>
+$list_them_sach = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'addSach') {
+        // Lấy dữ liệu từ form
+        $tensach = $_POST['tensach'];
+        $matl = $_POST['matl'];
+        $gianhap = $_POST['gianhap'];
+        $tomtat = $_POST['tomtat'];
+        $manxb = $_POST['manxb'];
+        $matg = $_POST['matg'];
+        $phimuon = $_POST['phimuon'];
+        $soluong = 0;
+
+        // Xử lý hình ảnh
+        if (isset($_FILES['img'])) {
+            $image = $_FILES['img']['name'];
+            $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
+            $uploadFile = $uploadDir . $hinhanhpath;
+
+            move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);  
+        }
+         
+        // Chuẩn bị câu lệnh thêm sách
+        $sql = "INSERT INTO sach (tensach, matl, gianhap, tomtat, manxb, matg, phimuon, soluong, img) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $connect->prepare($sql);
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        $stmt->bind_param("sissiisis", $tensach, $matl, $gianhap, $tomtat, $manxb, $matg, $phimuon, $soluong, $image);
+
+        if ($stmt->execute()) {
+            $list_them_sach[] = array(
+                "status" => "success",
+                "message" => "Thêm sách thành công!",
+            );
+        } else {
+            $list_them_sach[] = array(
+                "status" => "fail",
+                "message" => "Lỗi: " . $stmt->error,
+            );
+        }
+    }
+}
 
 // ================================================ UPDATE ============================================================
+
+//==== Sửa sách ====>
 
 // Khóa : Mở tài khoản
 if (isset($_POST['tendangnhap']) && isset($_POST['trangthai'])) {
@@ -944,7 +997,43 @@ if (isset($_POST['mavach_xoa'])) {
     );
 }
 
+// ================================================ Tìm ảnh ===========================================================
 
+// ===== Tìm ảnh sách ====>
+$list_tim_anh = array();
+if (isset($_POST['masach_timAnh'])) {
+    $masach = $_POST['masach_timAnh'];
+
+    // Chuẩn bị câu lệnh truy vấn để lấy đường dẫn hình ảnh
+    $sql = "SELECT img FROM sach WHERE masach = ?";
+    $stmt = $connect->prepare($sql);
+    if ($stmt === false) {
+        die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+    }
+
+    $stmt->bind_param("s", $masach);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $img_path = $row['img'];
+        $list_tim_anh[] = array(
+            "status" => "success",
+            "img" => $img_path
+        );
+    } else {
+        $list_tim_anh[] = array(
+            "status" => "fail",
+            "message" => "Không tìm thấy hình ảnh cho mã sách: $masach"
+        );
+    }
+} else {
+    $list_tim_anh[] = array(
+        "status" => "fail",
+        "message" => "Mã sách không được cung cấp."
+    );
+}
 
 // ================================================ echo json encode ============================================================
 
@@ -989,6 +1078,8 @@ $response = array(
     'list_xoa_docgia' => $list_xoa_docgia,
     'list_xoa_ct_sach' => $list_xoa_ct_sach,
     'list_xoa_taikhoan' => $list_xoa_taikhoan,
+    'list_them_sach' => $list_them_sach,
+    'list_tim_anh' => $list_tim_anh,
 );
 
 echo json_encode($response);

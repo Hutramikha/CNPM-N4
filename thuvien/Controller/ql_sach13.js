@@ -49,6 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // select_tinhtrang_sach.disabled = true;
     };
 
+    function resetIMG() {
+        img.src = '../img/noimages.png';
+    };
+
     function resetInput() {
         input_ten_sach.value = '';
         input_tomtat_sach.value = '';
@@ -67,7 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_edit.disabled = true;
         btn_save.disabled = false;
         btn_cancel.disabled = false;
+        resetInput();
         ableInput();
+
+        resetIMG();
+
+        save_for = 1;
     });
 
     btn_edit.addEventListener('click', () => {
@@ -76,6 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_save.disabled = false;
         btn_cancel.disabled = false;
         ableInput();
+
+        save_for = 2;
     });
 
     btn_cancel.addEventListener('click', () => {
@@ -232,8 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const manxb_for_select = $(cells[5]).text(); // Cột Mã NXB
             const matg_for_select = $(cells[6]).text(); // Cột Mã TG
             const soluong_for_input = $(cells[7]).text(); // Cột Số lượng
-            const phimuon_for_input = $(cells[8]).text().replace(' VNĐ', ''); // Cột Phí mượn
-            const gianhap_for_input = $(cells[9]).text().replace(' VNĐ', ''); // Cột Giá nhập
+            const phimuon_for_input = $(cells[8]).text(); // Cột Phí mượn
+            const gianhap_for_input = $(cells[9]).text(); // Cột Giá nhập
 
             $('.input-ten_sach').val(tensach_for_input);
             $('.input-tomtat_sach').val(tomtat_for_input);
@@ -243,6 +254,30 @@ document.addEventListener("DOMContentLoaded", () => {
             $('.input-soluong_sach').val(soluong_for_input);
             $('.input-phimuon_sach').val(phimuon_for_input);
             $('.input-gianhap_sach').val(gianhap_for_input);
+
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                type: 'POST',
+                data: { masach_timAnh: masach_for_input }, // Gửi mã sách
+                dataType: 'json',
+                success: function (data) {
+                    if (data.list_tim_anh.length > 0) {
+                        // Lấy giá trị từ phần tử đầu tiên trong danh sách
+                        const img = data.list_tim_anh[0];
+                        if (img.status === 'success') {
+                            // Cập nhật thẻ img với đường dẫn hình ảnh
+                            $('.image-sach').attr('src', '../img/' + img.img);
+                        } else {
+                            alert("Không có ảnh"); // Thông báo lỗi nếu không tìm thấy hình ảnh
+                        }
+                    } else {
+                        alert("Không có ảnh"); // Thông báo lỗi nếu không có dữ liệu
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
 
             var masach = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
             ma_sach_toancuc = masach;
@@ -278,12 +313,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
+                    alert("Có lỗi xảy ra khi tải chi tiết sách.");
                 }
             });
         });
     });
 
-//===== Xóa sách ======>
+    //===== Xóa sách ======>
     $(document).ready(function () {
         $('.btn-delete-sach').on('click', function () {
             if (ma_sach_toancuc) {
@@ -298,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (masach.status === "success") {
                                 alert(masach.message);
                                 resetInput();
+                                resetIMG();
                                 reset_table_sach();
                             } else {
                                 alert(masach.message);
@@ -427,10 +464,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Cập nhật input hiển thị giá trị
         function updateInputPhimuon() {
-            $('.input-phimuon_sach').val(currentValue_phimuon + ' VNĐ');
+            $('.input-phimuon_sach').val(currentValue_phimuon);
         }
         function updateInputGianhap() {
-            $('.input-gianhap_sach').val(currentValue_gianhap + ' VNĐ');
+            $('.input-gianhap_sach').val(currentValue_gianhap);
         }
 
         // Sự kiện khi nhấn nút tăng
@@ -522,6 +559,123 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+// Chức năng thêm và sửa
+    $(document).ready(function () {
+        $('.btn-save-sach').click(function () {
+
+            switch (save_for) {
+                case 1:
+                    console.log("Bạn đã chọn trường hợp 1.");
+                    $(document).ready(function () {
+
+                        // Kiểm tra các ô input cụ thể
+                        const tenSach = $('.input-ten_sach').val();
+                        const theLoai = $('.select-theloai_sach').val();
+                        const giaNhap = $('.input-gianhap_sach').val();
+                        const tomTat = $('.input-tomtat_sach').val();
+                        const nhaXuatBan = $('.select-nhaxuatban_sach').val();
+                        const tacGia = $('.select-tacgia_sach').val();
+                        const phiMuon = $('.input-phimuon_sach').val();
+                        const imageFile = $('.input-img_sach')[0].files[0]; // Lấy tệp hình ảnh
+                        let imageName = null;
+                        if (imageFile) {
+                            imageName = imageFile.name; // Lấy tên tệp hình ảnh
+                            console.log(imageName); // In ra tên tệp hình ảnh
+                        } else {
+                            console.log("Không có tệp hình ảnh nào được chọn.");
+                        }
+
+                        let isValid = true;
+
+                        // Kiểm tra nếu các ô input không rỗng
+                        if (!tenSach) {
+                            alert('Vui lòng nhập tên sách.');
+                            isValid = false;
+                        } else if (parseInt(theLoai) <= 0) { // Kiểm tra thể loại
+                            alert('Vui lòng chọn thể loại hợp lệ.');
+                            isValid = false;
+                        } else if (!giaNhap || isNaN(giaNhap)) { // Kiểm tra giá nhập
+                            alert('Giá nhập phải là một số hợp lệ.');
+                            isValid = false;
+                        } else if (!tomTat) {
+                            alert('Vui lòng nhập tóm tắt.');
+                            isValid = false;
+                        } else if (parseInt(nhaXuatBan) <= 0) { // Kiểm tra nhà xuất bản
+                            alert('Vui lòng chọn nhà xuất bản hợp lệ.');
+                            isValid = false;
+                        } else if (parseInt(tacGia) <= 0) { // Kiểm tra tác giả
+                            alert('Vui lòng chọn tác giả hợp lệ.');
+                            isValid = false;
+                        } else if (!phiMuon || isNaN(phiMuon)) { // Kiểm tra phí mượn
+                            alert('Phí mượn phải là một số hợp lệ.');
+                            isValid = false;
+                        } else if (!imageFile) { // Kiểm tra file hình ảnh
+                            alert('Vui lòng chọn hình ảnh.');
+                            isValid = false;
+                        }
+
+                        if (!isValid) {
+                            return; // Dừng lại nếu không hợp lệ
+                        }
+
+                        // Tạo FormData để gửi dữ liệu
+                        const formData = new FormData();
+                        formData.append('action', 'addSach');
+                        formData.append('tensach', $('.input-ten_sach').val());
+                        formData.append('matl', $('.select-theloai_sach').val());
+                        formData.append('gianhap', $('.input-gianhap_sach').val());
+                        formData.append('tomtat', $('.input-tomtat_sach').val());
+                        formData.append('manxb', $('.select-nhaxuatban_sach').val());
+                        formData.append('matg', $('.select-tacgia_sach').val());
+                        formData.append('phimuon', $('.input-phimuon_sach').val());
+                        formData.append('img', imageFile); // Thêm tệp hình ảnh vào FormData
+
+                        // Gửi dữ liệu đến máy chủ
+                        $.ajax({
+                            url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                            type: 'POST',
+                            data: formData,
+                            processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                            contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                            dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                            success: function (data) {
+                                if (data.list_them_sach && data.list_them_sach.length > 0) {
+                                    $.each(data.list_them_sach, function (index, sach) {
+                                        if (sach.status === "success") {
+                                            alert(sach.message);
+                                            resetIMG();
+                                            resetInput();
+                                            reset_table_sach();
+                                        } else {
+                                            alert(sach.message);
+                                        }
+                                    });
+                                } else {
+                                    alert("Có lỗi hoặc không có sách nào được thêm.");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi:', error);
+                                console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                            }
+                        });
+                    });
+                    break;
+
+                case 2:
+                    // Xử lý cho trường hợp 2
+                    alert("Bạn đã chọn trường hợp 2.");
+                    // Thực hiện các hành động cần thiết cho trường hợp 2
+                    break;
+
+                default:
+                    alert("Trường hợp không hợp lệ. Vui lòng chọn 1 hoặc 2.");
+                    break;
+            }
+        });
+    });
+
+
 
     $(document).ready(function () {
         window.reset_table_sach = reset_table_sach;
@@ -539,6 +693,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+let save_for = 0;
 
 let currentValue_phimuon = 0;
 let currentValue_gianhap = 0;
@@ -613,21 +769,16 @@ function xuLySapXep(mavach) {
 
 // Hàm chọn ảnh
 let imagePathSach;
+
 function previewImageSach(event) {
-    const input = event.target; // Lấy input file
+    const input = event.target;
     const imagePreview = document.querySelector('.image-sach');
 
     if (input.files && input.files[0]) {
-        const reader = new FileReader(); // Tạo đối tượng FileReader
-
+        const reader = new FileReader();
         reader.onload = function (e) {
             imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
         }
-
         reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
-
-        // Lưu đường dẫn tạm thời (base64) để sử dụng sau này
-        imagePathSach = URL.createObjectURL(input.files[0]);
-        console.log("Đường dẫn hình ảnh:", imagePathSach); // Bạn có thể lưu đường dẫn này vào database sau này
     }
 }

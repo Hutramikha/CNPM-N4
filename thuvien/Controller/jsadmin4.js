@@ -113,10 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn_qltaikhoan = document.querySelector(".btn-qltaikhoan");
     const btn_thongke = document.querySelector(".btn-thongke");
     const btn_thongtincanhan = document.querySelector(".btn-thongtincanhan");
+    const btn_qlphanquyen = document.querySelector(".btn-qlphanquyen");
 
     // Hàm để ẩn tất cả các trang
     function hideAllPages() {
-        const pages = document.querySelectorAll('.quanlysach, .quanlynhanvien, .quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke, .thongtincanhan');
+        const pages = document.querySelectorAll('.quanlysach, .quanlynhanvien, .quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke, .thongtincanhan,.quanlyphanquyen');
         pages.forEach(page => {
             if (page.classList.contains('showpage')) {
                 page.style.opacity = '0'; // Mờ đi
@@ -146,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn_qltaikhoan.addEventListener("click", () => showPage('.quanlytaikhoan'));
     btn_thongke.addEventListener("click", () => showPage('.thongke'));
     btn_thongtincanhan.addEventListener("click", () => showPage('.thongtincanhan'));
+    btn_qlphanquyen.addEventListener("click", () => showPage('.quanlyphanquyen'));
 
     //-----------------Chức năng thể loại
     const openCatForm = document.querySelector('.btn-theloai');

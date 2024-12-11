@@ -6,7 +6,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.quanlysach , .quanlynhanvien ,.quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke, .thongtincanhan  {
+.quanlysach , .quanlynhanvien ,.quanlydocgia, .quanlymuonsach, .quanlytrasach, .quanlyphieunhap, .quanlytaikhoan, .thongke, .thongtincanhan,.quanlyphanquyen  {
     display: none;
     opacity: 0; /* Mờ dần */
     transition: opacity 0.5s ease; /* Hiệu ứng chuyển tiếp */

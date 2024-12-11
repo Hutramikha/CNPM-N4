@@ -2289,3 +2289,314 @@ searchinputAuthor.addEventListener('keydown', function (event) {
         fetchTableDataAuthor(); // Lấy giá trị từ ô tìm kiếm và lấy dữ liệu dựa trên giá trị đó
     }
 });
+
+// Chức năng phân quyền
+const openCtqForm = document.querySelector('.btn_action.btn-manage.btn-ctq');
+const closeCtqForm = document.querySelector('.btn-close-ctq-form');
+const searchinputctq = document.querySelector('.search-ctq');
+penrefresh.addEventListener('click', () => {
+    searchinputctq.value = "";
+    cancelProEdit();
+});
+openProForm.addEventListener("click", () => ProviderBTN());
+closeProForm.addEventListener("click", () => ProviderFormExit());
+var countswitch = 0;
+// Mở Form Pro
+function ProviderBTN() {
+    document.querySelector('.Provider').style.display = "flex";
+    document.getElementById('ctq-overlay').style.display = "block";
+
+}
+// Thoát Form Pro
+function ProviderFormExit() {
+    searchinputctq.value = "";
+    cancelProEdit();
+    document.querySelector('.Phanquyen').style.display = "none";
+    document.getElementById('pro-overlay').style.display = "none";
+}
+
+// Load DataFrame Nhà cung cấp
+function fetchTableDataNcc() {
+    countswitch = 0;
+    updatepro.style.backgroundColor = 'orange';
+    updatepro.innerText = 'Sửa';
+
+    // Nếu search bar có giá trị fetch.php => fetch?search=$(giá trị mã hóa)
+    let url = '../DAO/fetchdataProvider.php';  // Gửi type là 'provider' để lấy nhà cung cấp
+    if (searchinput.value.trim()) {
+        url += `&search=${encodeURIComponent(searchinput.value.trim())}`;
+    }
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Debugging
+            const tableBody = document.querySelector('.pro-table-body');
+            tableBody.innerHTML = ""; // Clear existing table rows
+
+            data.forEach(row => {
+                const tableRow = document.createElement('tr');
+                tableRow.style.textAlign = "center";
+                tableRow.setAttribute('pro-data-id', row.mancc); // Set row's data-id for later reference
+                tableRow.innerHTML = `
+                    <td>${row.mancc}</td>
+                    <td>${row.ten}</td>
+                    <td>${row.sdt}</td>
+                    <td>${row.diachi}</td>
+                    <td><button type="button" class="delete-pro-btn" pro-data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
+                `;
+                tableBody.appendChild(tableRow);
+            });
+
+            // Add event listeners cho nút xóa ngay sau khi data được truyền vào
+            document.querySelectorAll('.delete-pro-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const providerId = this.getAttribute('pro-data-id');
+                    deleteProvider(providerId);  // Thay đổi hàm deleteCategory thành deleteProvider
+                });
+            });
+        })
+        .catch(/*error => console.error(error)*/);
+}
+
+window.onload = fetchTableDataNcc();
+
+// Xóa nhà cung cấp
+function deleteProvider(provider_id) {
+    console.log('Attempting to delete provider with ID:', provider_id);
+    if(confirm(`Xóa nhà cung cấp mã: "${provider_id}"`)){
+        fetch('../DAO/deleteProvider.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `mancc=${provider_id}`
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Delete response:', data); // Log response (check trong console)
+                if (data.success) {
+                    // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+                    const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
+                    if (rowToDelete) {
+                        rowToDelete.remove();
+                    }
+                } else {
+                    alert("Error deleting provider: " + (data.error || "Unknown error"));
+                }
+            })
+            .catch(error => console.error('Error deleting provider:', error));
+    }else{
+        exit();
+    }
+}
+
+
+// Thêm nhà cung cấp
+function addProvider() {
+    // Hiển thị form thêm nhà cung cấp
+    document.querySelector('.addpro-input').style.display = 'flex';
+    document.getElementById('addpro-overlay').style.display = 'block';
+}
+
+function closeProvider() {
+    // Ẩn form và reset cảnh báo
+    document.querySelector('.addpro-input').style.display = 'none';
+    document.getElementById('addpro-overlay').style.display = 'none';
+    document.getElementById('pro-warning').style.color = "none";
+    document.getElementById('pro-warning').innerHTML = "";
+}
+
+// Hàm kiểm tra độ dài và định dạng của số điện thoại
+function isValidPhoneNumber(phone) {
+    return /^\d{10}$/.test(phone) && phone.startsWith("0");
+}
+
+function submitProvider() {
+
+    // Lấy giá trị từ các input
+    const providerName = document.getElementById('input-tenncc').value.trim();
+    const providerPhone = document.getElementById('input-sdtncc').value.trim();
+    const providerAddress = document.getElementById('input-dcncc').value.trim();
+
+    // Kiểm tra dữ liệu đầu vào
+    if (!providerName || !providerPhone || !providerAddress) {
+        document.getElementById('pro-warning').style.color = "red";
+        document.getElementById('pro-warning').innerHTML = "Hãy điền đầy đủ thông tin.";
+        return;
+    }
+
+    // Giới hạn độ dài của tên và địa chỉ
+    if (providerName.length > 50 || providerAddress.length > 50) {
+        document.getElementById('pro-warning').style.color = "red";
+        document.getElementById('pro-warning').innerHTML = "Tên và địa chỉ tối đa 50 ký tự.";
+        return;
+    }
+
+    // Kiểm tra định dạng số điện thoại
+    if (!isValidPhoneNumber(providerPhone)) {
+        document.getElementById('pro-warning').style.color = "red";
+        document.getElementById('pro-warning').innerHTML = "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.";
+        return;
+    }
+
+    // Sử dụng AJAX để gửi dữ liệu đến server
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../DAO/addProvider.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert(response.message); // "Nhà cung cấp được thêm thành công!"
+                        // Xóa dữ liệu input sau khi thêm thành công
+                        document.getElementById('input-tenncc').value = '';
+                        document.getElementById('input-sdtncc').value = '';
+                        document.getElementById('input-dcncc').value = '';
+                        fetchTableDataNcc(); // Cập nhật bảng dữ liệu
+                    } else {
+                        alert("Lỗi: " + (response.error || "Lỗi không xác định"));
+                    }
+                } catch (e) {
+                    console.error("Lỗi phân tích JSON: ", e);
+                    alert("Đã xảy ra lỗi khi xử lý phản hồi từ server.");
+                }
+            } else {
+                alert("Đã xảy ra lỗi khi kết nối đến server.");
+            }
+        }
+    };
+
+    // Chuẩn bị dữ liệu để gửi
+    const data = `providerName=${encodeURIComponent(providerName)}&providerPhone=${encodeURIComponent(providerPhone)}&providerAddress=${encodeURIComponent(providerAddress)}`;
+    xhr.send(data);
+}
+
+
+//  Cập nhật nhà cung cấp
+function proEditTable() {
+    console.log(countswitch);
+    if (countswitch === 1) {
+        cancelProEdit();
+        countswitch = 0;
+    } else {
+        document.querySelectorAll('.pro-table-body tr').forEach(row => {
+            updatepro.style.backgroundColor = 'Red';
+            updatepro.innerText = 'Hủy';
+
+            // Enable editable 'tentl'
+            const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
+            nameCell.contentEditable = 'true';
+
+            const nameCell2 = row.querySelector('td:nth-child(3)'); // Name cell
+            nameCell2.contentEditable = 'true';
+
+            const nameCell3 = row.querySelector('td:nth-child(4)'); // Name cell
+            nameCell3.contentEditable = 'true';
+
+            // Tạo nút save
+            const saveButton = document.createElement('button');
+	    saveButton.type = "button";
+            saveButton.textContent = 'Lưu'; // Save
+            saveButton.classList.add('pro-save-btn');
+
+            // Add mỗi row
+            const actionCell = row.querySelector('td:nth-child(5)'); // Action cell
+            actionCell.appendChild(saveButton);
+
+            // Add event listeners cho Save
+            saveButton.addEventListener('click', () => saveProEdit(row));
+            countswitch = 1;
+        });
+    }
+}
+
+function saveProEdit(row) {
+    const nameCell = row.querySelector('td:nth-child(2)');
+    const nameCell2 = row.querySelector('td:nth-child(3)');
+    const nameCell3 = row.querySelector('td:nth-child(4)');
+    const providerId = row.getAttribute('pro-data-id');
+    const providerName = nameCell.textContent;
+    const providerPhone = nameCell2.textContent;
+    const providerAddress = nameCell3.textContent;
+
+    if (!providerName || providerName.length > 50 || !providerAddress || providerAddress.length > 50) {
+        alert("Tên và địa chỉ tối đa 50 ký tự.");
+        return;
+    }
+
+    if (!/^\d{10}$/.test(providerPhone) || !providerPhone.startsWith("0")) {
+        alert("Số điện thoại phải có đúng 10 chữ số và bắt đầu bằng số 0.");
+        return;
+    }
+
+    updateProData(providerId, 'ten', providerName, 'sdt', providerPhone, 'diachi', providerAddress);
+}
+
+function cancelProEdit() {
+    const table = document.querySelector('.df-pro');
+    const rows = table.querySelectorAll('.pro-table-body tr'); // Chỉ chọn những row trong table
+    rows.forEach(row => {
+        const nameCell = row.querySelector('td:nth-child(2)');
+        nameCell.contentEditable = 'false';
+        const nameCell2 = row.querySelector('td:nth-child(3)');
+        nameCell.contentEditable = 'false';
+        const nameCell3 = row.querySelector('td:nth-child(4)');
+        nameCell.contentEditable = 'false';
+    });
+    fetchTableDataNcc();
+    removeProEditButtons();
+}
+
+// Function remove save và support đổi edit mode
+function removeProEditButtons() {
+    document.querySelectorAll('.pro-save-btn').forEach(button => button.remove());
+    updatepro.style.backgroundColor = 'orange';
+    updatepro.innerText = 'Sửa';
+}
+
+// Function for handling data update
+function updateProData(id, column1, value1, column2, value2, column3, value3) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "../DAO/updateProvider.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function () {
+        if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+            alert("Cập nhật thành công!");
+        } else {
+            console.error(xhr.responseText);
+        }
+    };
+    xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1)
+	 + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2)
+	 + "&column3=" + encodeURIComponent(column3) + "&value3=" + encodeURIComponent(value3));
+}
+
+// Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi =))
+document.getElementById('input-tenncc').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+document.getElementById('input-sdtncc').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+document.getElementById('input-dcncc').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+searchinput.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        fetchTableDataNcc(); // Lấy search input value rồi lấy data dựa trên input value đấy
+    }
+});

@@ -259,6 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const manv_for_input = $(cells[1]).text(); // Cột Mã NV
             const matk_for_input = $(cells[2]).text(); // Cột Mã TK
             
+            ma_nv_toancuc = manv_for_input;
+
             const ten_for_input = $(cells[3]).text(); // Cột Tên
             const gioitinh_for_select = $(cells[4]).text(); // Cột Giới tính
             const ngaysinh_for_input = $(cells[5]).text(); // Cột Ngày sinh
@@ -289,14 +291,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+
+    $(document).ready(function () {
+        $('.btn-delete-nv').on('click', function () {
+            if (ma_nv_toancuc) {
+                // Gửi yêu cầu xóa đến server
+                $.ajax({
+                    url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
+                    method: 'POST',
+                    data: { manv_xoa: ma_nv_toancuc }, // Gửi masach
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data.list_xoa_nhanvien, function (index, manv) {
+                            if (manv.status === "success") {
+                                alert(manv.message);
+                                resetInput();
+                                reset_table_nhanvien();
+                            } else {
+                                alert(manv.message);
+                            }
+                        })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn để xóa.');
+            }
+        });
+    });
+
+
     $(document).ready(function () {
         window.reset_table_nhanvien = reset_table_nhanvien;
     });
 
 });
 
+let ma_nv_toancuc = null;
+
 // Hàm chọn ảnh
 let imagePathNV;
+
 function previewImageNV(event) {
     const input = event.target; // Lấy input file
     const imagePreview = document.querySelector('.image-nv');

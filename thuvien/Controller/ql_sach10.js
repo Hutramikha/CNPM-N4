@@ -296,6 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         $.each(data.list_xoa_sach, function (index, masach) {
                             if (masach.status === "success") {
                                 alert(masach.message);
+                                resetInput();
                                 reset_table_sach();
                             } else {
                                 alert(masach.message);

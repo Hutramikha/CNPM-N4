@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + phieutra.mapm + '</td>' +
                         '<td>' + phieutra.madg + '-' + phieutra.ten_docgia + '</td>' +
                         '<td>' + phieutra.manv + '-' + phieutra.ten_nhanvien + '</td>' +
-                        '<td>' + phieutra.tongphiphat + ' VNĐ' + '</td>' +
+                        '<td>' + phieutra.tongphiphat + '</td>' +
                         '</tr>'
                     );
                 });
@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + phieutra.mapm + '</td>' +
                             '<td>' + phieutra.madg + '-' + phieutra.ten_docgia + '</td>' +
                             '<td>' + phieutra.manv + '-' + phieutra.ten_nhanvien + '</td>' +
-                            '<td>' + phieutra.tongphiphat + ' VNĐ' + '</td>' +
+                            '<td>' + phieutra.tongphiphat + '</td>' +
                             '</tr>'
                         );
                     });
@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + phieutra.mapm + '</td>' +
                                 '<td>' + phieutra.madg + '-' + phieutra.ten_docgia + '</td>' +
                                 '<td>' + phieutra.manv + '-' + phieutra.ten_nhanvien + '</td>' +
-                                '<td>' + phieutra.tongphiphat + ' VNĐ' + '</td>' +
+                                '<td>' + phieutra.tongphiphat + '</td>' +
                                 '</tr>'
                             );
                         });

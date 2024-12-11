@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + phieumuon.hantra + '</td>' +
                         '<td>' + phieumuon.madg + '-' + phieumuon.ten_docgia + '</td>' +
                         '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
-                        '<td>' + phieumuon.tongphimuon + ' VNĐ' +'</td>' +
+                        '<td>' + phieumuon.tongphimuon +'</td>' +
                         '<td>' + trangThaiHTML + '</td>' +
                         '</tr>'
                     );
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + phieumuon.hantra + '</td>' +
                             '<td>' + phieumuon.madg + '-' + phieumuon.ten_docgia + '</td>' +
                             '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
-                            '<td>' + phieumuon.tongphimuon + ' VNĐ' +'</td>' +
+                            '<td>' + phieumuon.tongphimuon +'</td>' +
                             '<td>' + trangThaiHTML + '</td>' +
                             '</tr>'
                         );
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + phieumuon.hantra + '</td>' +
                                 '<td>' + phieumuon.madg + '-' + phieumuon.ten_docgia + '</td>' +
                                 '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
-                                '<td>' + phieumuon.tongphimuon + ' VNĐ' +'</td>' +
+                                '<td>' + phieumuon.tongphimuon +'</td>' +
                                 '<td>' + trangThaiHTML + '</td>' +
                                 '</tr>'
                             );

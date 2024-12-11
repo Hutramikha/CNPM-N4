@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
                         '<td>' + phieunhap.manv + '</td>' +
                         '<td>' + phieunhap.ngaynhap + '</td>' +
-                        '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
+                        '<td>' + phieunhap.tongtien + '</td>' +
                         '</tr>'
                     );
                 });
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
                             '<td>' + phieunhap.manv + '</td>' +
                             '<td>' + phieunhap.ngaynhap + '</td>' +
-                            '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
+                            '<td>' + phieunhap.tongtien + '</td>' +
                             '</tr>'
                         );
                     });
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + phieunhap.mancc + '-' + phieunhap.ten + '</td>' +
                                 '<td>' + phieunhap.manv + '</td>' +
                                 '<td>' + phieunhap.ngaynhap + '</td>' +
-                                '<td>' + phieunhap.tongtien + ' VNĐ' + '</td>' +
+                                '<td>' + phieunhap.tongtien + '</td>' +
                                 '</tr>'
                             );
                         });

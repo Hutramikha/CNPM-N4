@@ -685,7 +685,7 @@ if (isset($_POST['action'])) {
         $soluong = 0;
 
         // Xử lý hình ảnh
-        if (isset($_FILES['img'])) {
+        if (isset($_FILES['img']['name'])) {
             $image = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
             $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
@@ -722,6 +722,71 @@ if (isset($_POST['action'])) {
 // ================================================ UPDATE ============================================================
 
 //==== Sửa sách ====>
+$list_sua_sach = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'updateSach') {
+        // Lấy dữ liệu từ form
+        $masach = $_POST['masach']; // Mã sách cần cập nhật
+        $tensach = $_POST['tensach'];
+        $matl = $_POST['matl'];
+        $gianhap = $_POST['gianhap'];
+        $tomtat = $_POST['tomtat'];
+        $manxb = $_POST['manxb'];
+        $matg = $_POST['matg'];
+        $phimuon = $_POST['phimuon'];
+        $soluong = $_POST['soluong'];
+
+        // Xử lý hình ảnh
+        $imageFile = null;
+        if (isset($_FILES['img']['name']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
+            $imageFile = $_FILES['img']['name'];
+            $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
+            $image = $uploadDir . $hinhanhpath;
+
+            // Di chuyển tệp hình ảnh
+            if (!move_uploaded_file($_FILES['img']['tmp_name'], $image)) {
+                $image = null; // Không cập nhật nếu không di chuyển được
+            }
+        }
+
+        // Chuẩn bị câu lệnh cập nhật sách
+        if ($imageFile != null) {
+            $sql = "UPDATE sach SET tensach=?, matl=?, gianhap=?, tomtat=?, manxb=?, matg=?, phimuon=?, soluong=?, img=? WHERE masach=?";
+        } else {
+            $sql = "UPDATE sach SET tensach=?, matl=?, gianhap=?, tomtat=?, manxb=?, matg=?, phimuon=?, soluong=? WHERE masach=?";
+        }
+
+        $stmt = $connect->prepare($sql);
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        // Bind các tham số
+        if ($imageFile != null) {
+            $stmt->bind_param("sissiisisi", $tensach, $matl, $gianhap, $tomtat, $manxb, $matg, $phimuon, $soluong, $imageFile, $masach);
+        } else {
+            // Nếu không có hình ảnh mới, không cập nhật trường img
+            $stmt->bind_param("sissiisii", $tensach, $matl, $gianhap, $tomtat, $manxb, $matg, $phimuon, $soluong, $masach);
+        }
+
+        if ($stmt->execute()) {
+            $list_sua_sach[] = array(
+                "status" => "success",
+                "message" => "Cập nhật sách thành công!",
+            );
+        } else {
+            $list_sua_sach[] = array(
+                "status" => "fail",
+                "message" => "Lỗi: " . $stmt->error,
+            );
+        }
+    }
+}
+
+
 
 // Khóa : Mở tài khoản
 if (isset($_POST['tendangnhap']) && isset($_POST['trangthai'])) {
@@ -1000,7 +1065,7 @@ if (isset($_POST['mavach_xoa'])) {
 // ================================================ Tìm ảnh ===========================================================
 
 // ===== Tìm ảnh sách ====>
-$list_tim_anh = array();
+$list_tim_anh_sach = array();
 if (isset($_POST['masach_timAnh'])) {
     $masach = $_POST['masach_timAnh'];
 
@@ -1018,18 +1083,18 @@ if (isset($_POST['masach_timAnh'])) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $img_path = $row['img'];
-        $list_tim_anh[] = array(
+        $list_tim_anh_sach[] = array(
             "status" => "success",
             "img" => $img_path
         );
     } else {
-        $list_tim_anh[] = array(
+        $list_tim_anh_sach[] = array(
             "status" => "fail",
             "message" => "Không tìm thấy hình ảnh cho mã sách: $masach"
         );
     }
 } else {
-    $list_tim_anh[] = array(
+    $list_tim_anh_sach[] = array(
         "status" => "fail",
         "message" => "Mã sách không được cung cấp."
     );
@@ -1079,7 +1144,8 @@ $response = array(
     'list_xoa_ct_sach' => $list_xoa_ct_sach,
     'list_xoa_taikhoan' => $list_xoa_taikhoan,
     'list_them_sach' => $list_them_sach,
-    'list_tim_anh' => $list_tim_anh,
+    'list_tim_anh_sach' => $list_tim_anh_sach,
+    'list_sua_sach' => $list_sua_sach,
 );
 
 echo json_encode($response);

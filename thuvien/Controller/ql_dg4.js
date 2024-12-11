@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const img = document.querySelector('.image-dg');
 
     const input_ten_dg = document.querySelector('.input-ten_dg');
-    const input_gioitinh_dg = document.querySelector('.input-gioitinh_dg');
+    const select_gioitinh_dg = document.querySelector('.select-gioitinh_dg');
     const select_loai_dg = document.querySelector('.select-loai_dg');
     const input_ngaysinh_dg = document.querySelector('.input-ngaysinh_dg');
     const input_email_dg = document.querySelector('.input-email_dg');
@@ -29,6 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function resetInput() {
+        input_ten_dg.value = '';
+        input_ngaysinh_dg.value = '';
+        input_email_dg.value = '';
+        input_sdt_dg.value = '';
+        input_diachi_dg.value = '';
+
+        select_gioitinh_dg.selectedIndex = 0;
         select_loai_dg.selectedIndex = 0;
     }
 
@@ -265,6 +272,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Chuyển đổi định dạng ngày nếu cần
             const formattedDate = formatDate(ngaysinh_for_input);
 
+            ma_dg_toancuc = madg_for_input;
+
             // Đổ dữ liệu vào các input và select
             $('.input-ten_dg').val(ten_for_input);
             $('.select-gioitinh_dg').val(gioitinh_for_select);
@@ -287,8 +296,43 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+//===== Xóa độc giả ======>
+    $(document).ready(function () {
+        $('.btn-delete-dg').on('click', function () {
+            if (ma_dg_toancuc) {
+                // Gửi yêu cầu xóa đến server
+                $.ajax({
+                    url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
+                    method: 'POST',
+                    data: { madg_xoa: ma_dg_toancuc }, // Gửi masach
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data.list_xoa_docgia, function (index, madg) {
+                            if (madg.status === "success") {
+                                alert(madg.message);
+                                resetInput();
+                                reset_table_docgia();
+                            } else {
+                                alert(madg.message);
+                            }
+                        })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn để xóa.');
+            }
+        });
+    });
+
+
     $(document).ready(function () {
         window.reset_select_loaidocgia = reset_select_loaidocgia; // Gán hàm vào window
     });
 
 });
+
+let ma_dg_toancuc = null;

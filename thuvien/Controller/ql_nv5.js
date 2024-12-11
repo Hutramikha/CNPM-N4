@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
+//===== Xóa nhân viên ======>
     $(document).ready(function () {
         $('.btn-delete-nv').on('click', function () {
             if (ma_nv_toancuc) {

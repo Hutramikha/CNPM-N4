@@ -283,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+//===== Xóa sách ======>
     $(document).ready(function () {
         $('.btn-delete-sach').on('click', function () {
             if (ma_sach_toancuc) {

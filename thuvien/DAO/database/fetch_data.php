@@ -41,7 +41,7 @@ function capTaikhoan($manv, $connect, &$list_tao_taikhoan_nv) {
 
     // Chèn dữ liệu vào bảng taikhoan
     $stmt = $connect->prepare("INSERT INTO taikhoan (tendangnhap, matkhau, maquyen, ngaytao, trangthai) VALUES (?, ?, ?, ?, ?)");
-    $trangthai = 1; // Giả định trạng thái là 1
+    $trangthai = 0;
     $stmt->bind_param("ssisi", $tendangnhap, $matkhau, $maquyen, $ngaytao, $trangthai);
 
     if ($stmt->execute()) {
@@ -988,6 +988,7 @@ $response = array(
     'list_xoa_nhanvien' => $list_xoa_nhanvien,
     'list_xoa_docgia' => $list_xoa_docgia,
     'list_xoa_ct_sach' => $list_xoa_ct_sach,
+    'list_xoa_taikhoan' => $list_xoa_taikhoan,
 );
 
 echo json_encode($response);

@@ -231,11 +231,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     //=========================== Tìm kiếm tài khoản
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Hàm tìm kiếm tài khoản
         function searchTaiKhoan() {
             const searchQuery = $('.search-input-taikhoan').val(); // Lấy giá trị từ ô input tìm kiếm
-            
+
             if (searchQuery.trim() === '') {
                 $('.table-taikhoan_docgia tbody').empty();
                 $('.table-taikhoan_nhanvien tbody').empty();
@@ -250,18 +250,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: 'GET',
                 dataType: 'json',
                 data: { search_tk: searchQuery },
-                success: function(data) {
+                success: function (data) {
                     // Xóa kết quả cũ trong bảng
                     $('.table-taikhoan_docgia tbody').empty();
                     $('.table-taikhoan_nhanvien tbody').empty();
-                
+
                     // Kiểm tra và hiển thị dữ liệu cho danh sách tài khoản độc giả
                     if (data.list_timkiem_tk_docgia.length > 0) {
-                        $.each(data.list_timkiem_tk_docgia, function(index, tk_docgia) {
+                        $.each(data.list_timkiem_tk_docgia, function (index, tk_docgia) {
                             let trangThaiHTMLdg = tk_docgia.trangthai == 0
                                 ? '<button class="btn-lock" onclick="closetk(\'' + tk_docgia.tendangnhap + '\')">Khóa</button>'
                                 : '<button class="btn-unlock" onclick="opentk(\'' + tk_docgia.tendangnhap + '\')">Mở khóa</button>';
-                
+
                             $('.table-taikhoan_docgia tbody').append(
                                 '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
@@ -276,14 +276,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else {
                         $('.table-taikhoan_docgia tbody').append('<tr><td colspan="6">Không tìm thấy tài khoản độc giả nào.</td></tr>');
                     }
-                
+
                     // Kiểm tra và hiển thị dữ liệu cho danh sách tài khoản nhân viên
                     if (data.list_timkiem_tk_nhanvien.length > 0) {
-                        $.each(data.list_timkiem_tk_nhanvien, function(index, tk_nhanvien) {
+                        $.each(data.list_timkiem_tk_nhanvien, function (index, tk_nhanvien) {
                             let trangThaiHTMLnv = tk_nhanvien.trangthai == 0
                                 ? '<button class="btn-lock" onclick="closetk(\'' + tk_nhanvien.tendangnhap + '\')">Khóa</button>'
                                 : '<button class="btn-unlock" onclick="opentk(\'' + tk_nhanvien.tendangnhap + '\')">Mở khóa</button>';
-                
+
                             $('.table-taikhoan_nhanvien tbody').append(
                                 '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
@@ -299,22 +299,113 @@ document.addEventListener("DOMContentLoaded", () => {
                         $('.table-taikhoan_nhanvien tbody').append('<tr><td colspan="6">Không tìm thấy tài khoản nhân viên nào.</td></tr>');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Lỗi:', error);
                 }
             });
         }
-    
+
         // Tìm kiếm khi nhấn nút
-        $('.btn-search-taikhoan').on('click', function() {
+        $('.btn-search-taikhoan').on('click', function () {
             searchTaiKhoan();
         });
-    
+
         // Tìm kiếm khi nhấn phím Enter
-        $('.search-input-taikhoan').on('keypress', function(e) {
+        $('.search-input-taikhoan').on('keypress', function (e) {
             if (e.which === 13) { // Kiểm tra phím Enter
                 searchTaiKhoan();
                 return false; // Ngăn chặn hành vi mặc định của Enter
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        // Gán sự kiện click cho các dòng của bảng với delegation
+        $('.table-taikhoan_docgia tbody').on('click', 'tr', function () {
+            // Lấy dữ liệu từ các cột
+            const cells = $(this).children('td');
+
+            const tendangnhap_for_input = $(cells[1]).text();
+            const matkhau_for_input = $(cells[2]).text();
+
+            tendangnhap_toancuc = tendangnhap_for_input;
+
+            const quyen_for_select = $(cells[3]).text();
+            const ngaytao_for_input = $(cells[4]).text();
+
+            // Chuyển đổi định dạng ngày nếu cần
+            const formattedDate = formatDate(ngaytao_for_input);
+
+            // Đổ dữ liệu vào các input và select
+            $('.input-username_tk').val(tendangnhap_for_input);
+            $('.input-password_tk').val(matkhau_for_input);
+            $('.select-quyen_tk').val(quyen_for_select);
+            $('.input-ngaytao_tk').val(formattedDate);
+        });
+
+        $('.table-taikhoan_nhanvien tbody').on('click', 'tr', function () {
+            // Lấy dữ liệu từ các cột
+            const cells = $(this).children('td');
+
+            const tendangnhap_for_input = $(cells[1]).text();
+            const matkhau_for_input = $(cells[2]).text();
+
+            tendangnhap_toancuc = tendangnhap_for_input;
+
+            const quyen_for_select = $(cells[3]).text(); // Cột Tên
+            const ngaytao_for_input = $(cells[4]).text(); // Cột Giới tính
+
+            // Chuyển đổi định dạng ngày nếu cần
+            const formattedDate = formatDate(ngaytao_for_input);
+
+            // Đổ dữ liệu vào các input và select
+            $('.input-username_tk').val(tendangnhap_for_input);
+            $('.input-password_tk').val(matkhau_for_input);
+            $('.select-quyen_tk').val(quyen_for_select);
+            $('.input-ngaytao_tk').val(formattedDate);
+        });
+
+        // Hàm để chuyển đổi định dạng ngày
+        function formatDate(dateString) {
+            const dateParts = dateString.split('/');
+            if (dateParts.length === 3) {
+                // Giả sử định dạng ban đầu là DD/MM/YYYY
+                return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Chuyển sang YYYY-MM-DD
+            }
+            return dateString; // Trả về giá trị gốc nếu không đúng định dạng
+        }
+
+    });
+
+    //===== Xóa tài khoản ======>
+    $(document).ready(function () {
+        $('.btn-delete-taikhoan').on('click', function () {
+            if (tendangnhap_toancuc) {
+                // Gửi yêu cầu xóa đến server
+                $.ajax({
+                    url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
+                    method: 'POST',
+                    data: { tendangnhap_xoa: tendangnhap_toancuc }, // Gửi masach
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data.list_xoa_taikhoan, function (index, taikhoan) {
+                            if (taikhoan.status === "success") {
+                                alert(taikhoan.message);
+                                resetInput();
+                                reset_table_taikhoan();
+                            } else {
+                                alert(taikhoan.message);
+                            }
+                        })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn để xóa.');
             }
         });
     });
@@ -348,8 +439,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $(document).ready(function () {
         window.reset_select_quyen = reset_select_quyen;
-	    // window.reset_select_chucnang = reset_select_chucnang;
-        window.reset_table_taikhoan =  reset_table_taikhoan;
+        // window.reset_select_chucnang = reset_select_chucnang;
+        window.reset_table_taikhoan = reset_table_taikhoan;
     });
 
     // Nhớ thêm hàm reset_select_quyen() bên ql quyền
@@ -359,6 +450,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // });  
 
 });
+
+let tendangnhap_toancuc = null;
 
 
 function opentk(tendangnhap) {
@@ -375,7 +468,7 @@ function opentk(tendangnhap) {
             $.each(data.list_open_close_taikhoan, function (index, item) {
                 if (item.status === 'success') {
                     alert('Mở khóa thành công');
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         reset_table_taikhoan();
                     });
                 } else {
@@ -404,7 +497,7 @@ function closetk(tendangnhap) {
             $.each(data.list_open_close_taikhoan, function (index, item) {
                 if (item.status === 'success') {
                     alert('Khóa thành công');
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         reset_table_taikhoan();
                     });
                 } else {

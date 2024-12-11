@@ -667,3 +667,12 @@ td {
     width: 1vw; /* Chiều rộng nút */
     text-align: center;
 }
+
+/*css phan quyen*/
+.tab-content .tab-pane {
+    display: none;
+}
+
+.tab-content .tab-pane.active {
+    display: block;
+}   

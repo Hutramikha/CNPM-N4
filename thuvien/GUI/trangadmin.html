@@ -1487,8 +1487,124 @@
                         <h1>QUẢN LÝ PHÂN QUYỀN</h1>
                     </div>
                 </div>
-                
-            </div>
+
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="phanquyen">Phân quyền</button>
+                    <button class="tab-button" data-tab="chucnang">Chức năng</button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="phanquyen" class="tab-pane active">
+                        <div class="button_contain">
+                            <button class="btn_action btn-add btn-add-pq">Thêm</button>
+                            <button class="btn_action btn-edit btn-edit-pq">Sửa</button>
+                            <button class="btn_action btn-delete btn-delete-pq">Xóa</button>
+                            <button class="btn_action btn-save btn-save-pq" disabled>Lưu</button>
+                            <button class="btn_action btn-cancel btn-cancel-pq" disabled>Hủy</button>
+                            <button class="btn_action btn-reset btn-reset-pq">Làm mới</button>
+                            <input type="text" class="search-input search-input-pq" placeholder="Tìm kiếm...">
+                            <button class="btn-search btn-search-pq ">
+                                <i class='bx bx-search-alt-2'></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="chucnang" class="tab-pane">
+                        <table class="table-phanquyen_chucnang">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="table-title">Chức Năng Quản Lý</th>
+                                </tr>
+                                <tr>
+                                    <th class="table_stt">STT</th>
+                                    <th>ID Chức Năng</th>
+                                    <th>Tên chức năng</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td id="cn01">CN01</td>
+                                    <td>Quản lý sách</td>
+                                    <td>Quản lý sách</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td id="cn02">CN02</td>
+                                    <td>Quản lý nhân viên</td>
+                                    <td>Quản lý nhân viên</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td id="cn03">CN03</td>
+                                    <td>Quản lý độc giả</td>
+                                    <td>Quản lý độc giả</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td id="cn04">CN04</td>
+                                    <td>Quản lý mượn sách</td>
+                                    <td>Quản lý mượn sách</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td id="cn05">CN05</td>
+                                    <td>Quản lý trả sách</td>
+                                    <td>Quản lý trả sách</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td id="cn06">CN06</td>
+                                    <td>Phiếu nhập</td>
+                                    <td>Quản lý phiếu nhập kho</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td id="cn07">CN07</td>
+                                    <td>Quản lý tài khoản</td>
+                                    <td>Quản lý tài khoản</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td id="cn08">CN08</td>
+                                    <td>Quản lý phân quyền</td>
+                                    <td>Quản lý phân quyền</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td id="cn09">CN09</td>
+                                    <td>Thống kê</td>
+                                    <td>Thống kê</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div> 
+            <script>
+                // JavaScript xử lý chuyển tab
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Lấy tất cả các tab buttons và nội dung
+                    const tabButtons = document.querySelectorAll('.tab-button');
+                    const tabPanes = document.querySelectorAll('.tab-pane');
+
+                    // Gán sự kiện click cho từng tab button
+                    tabButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            // Xóa class active khỏi tất cả các tab buttons và tab panes
+                            tabButtons.forEach(btn => btn.classList.remove('active'));
+                            tabPanes.forEach(pane => pane.classList.remove('active'));
+
+                            // Thêm class active cho tab được chọn
+                            this.classList.add('active');
+                            const targetTab = this.getAttribute('data-tab');
+                            document.getElementById(targetTab).classList.add('active');
+                        });
+                    });
+                });
+            </script>
 
 
             <!-- Thông tin cá nhân ------------------------------------------------------------------->

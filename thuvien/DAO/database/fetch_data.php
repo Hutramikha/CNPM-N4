@@ -1304,7 +1304,7 @@ if (isset($_POST['masach_timAnh'])) {
     } else {
         $list_tim_anh_sach[] = array(
             "status" => "fail",
-            "message" => "Không tìm thấy hình ảnh cho mã sách: $masach"
+            "message" => "Không tìm thấy hình ảnh cho mã sách"
         );
     }
 } else {
@@ -1340,7 +1340,7 @@ if (isset($_POST['manv_timAnh_nv'])) {
     } else {
         $list_tim_anh_nv[] = array(
             "status" => "fail",
-            "message" => "Không tìm thấy hình ảnh cho mã nhân viên: $masach"
+            "message" => "Không tìm thấy hình ảnh cho mã nhân viên"
         );
     }
 } else {

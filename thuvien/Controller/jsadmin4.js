@@ -2294,10 +2294,7 @@ searchinputAuthor.addEventListener('keydown', function (event) {
 const openCtqForm = document.querySelector('.btn_action.btn-manage.btn-ctq');
 const closeCtqForm = document.querySelector('.btn-close-ctq-form');
 const searchinputctq = document.querySelector('.search-ctq');
-penrefresh.addEventListener('click', () => {
-    searchinputctq.value = "";
-    cancelProEdit();
-});
+
 openCtqForm.addEventListener("click", () => PhanquyenBTN());
 closeCtqForm.addEventListener("click", () => PhanquyenFormExit());
 var countswitch = 0;
@@ -2305,13 +2302,12 @@ var countswitch = 0;
 function PhanquyenBTN() {
     document.querySelector('.Phanquyen').style.display = "flex";
     document.getElementById('ctq-overlay').style.display = "block";
-
 }
 // Thoát Form Ctq
 function PhanquyenFormExit() {
     searchinputctq.value = "";
     document.querySelector('.Phanquyen').style.display = "none";
-    document.getElementById('pro-overlay').style.display = "none";
+    document.getElementById('ctq-overlay').style.display = "none";
 }
 
 // Load DataFrame Phân quyền
@@ -2341,24 +2337,16 @@ function fetchTableDataCtq() {
             data.forEach(row => {
                 const tableRow = document.createElement('tr');
                 tableRow.style.textAlign = "center";
-                tableRow.setAttribute('ctq-data-id', row.mancc); // Set row's data-id for later reference
+                tableRow.setAttribute('ctq-data-id', row.maquyen); // Set row's data-id for later reference
                 tableRow.innerHTML = `
-                    <td>${row.mancc}</td>
-                    <td>${row.ten}</td>
-                    <td>${row.sdt}</td>
-                    <td>${row.diachi}</td>
-                    <td><button type="button" class="delete-ctq-btn" pro-data-id="${row.mancc}" style="background-color:red">Xóa</button></td>
+                    <td>${row.maquyen}</td>
+                    <td>${row.tenchucnang}</td>
+                    <td>${row.hanhdong}</td>
+                    <td><input type="checkbox" ${row.hoatdong ? 'checked' : ''}></td>
                 `;
                 tableBody.appendChild(tableRow);
             });
 
-            // Add event listeners cho nút xóa ngay sau khi data được truyền vào
-            document.querySelectorAll('.delete-ctq-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const providerId = this.getAttribute('ctq-data-id');
-                    deleteProvider(providerId);  // Thay đổi hàm deleteCategory thành deleteProvider
-                });
-            });
         })
         .catch(/*error => console.error(error)*/);
 }
@@ -2388,3 +2376,27 @@ searchinput.addEventListener('keydown', function (event) {
         fetchTableDataCtq(); // Lấy search input value rồi lấy data dựa trên input value đấy
     }
 });
+
+// Lắng nghe sự kiện khi chọn một dòng trong bảng
+$(document).on('click', '#table-quyen tbody tr', function () {
+    // Lấy giá trị của mã quyền từ cột đầu tiên (ID Nhóm Quyền)
+    let maquyen = $(this).find('td:first').text().trim();
+
+    // Gọi API lấy dữ liệu chi tiết quyền
+    fetchChiTietQuyen(maquyen);
+});
+
+function fetchChiTietQuyen(maquyen) {
+    $.ajax({
+        url: 'fetchdataPhanquyen.php', // Đường dẫn tới file PHP xử lý
+        method: 'GET',
+        data: { maquyen: maquyen }, // Gửi mã quyền
+        success: function (response) {
+            // Hiển thị dữ liệu chi tiết quyền
+            renderChiTietQuyen(response);
+        },
+        error: function (err) {
+            console.error('Error fetching data:', err);
+        }
+    });
+}

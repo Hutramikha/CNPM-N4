@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.table-quyen tbody').on('click', 'tr', function () {
             // Lấy dữ liệu từ các cột
             const cells = $(this).children('td');
-    
+            
             const mapq_for_input = $(cells[0]).text(); // Cột Mã NV
             const ten_for_input = $(cells[1]).text(); // Cột Mã TK
             const mota_for_input = $(cells[2]).text();
@@ -199,8 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
             $('.input-ten_pq').val(ten_for_input);
             $('.input-mota_pq').val(mota_for_input);
 
-            ma_pq_toancuc = mapq_for_input;
-
+            fetchChiTietQuyen(mapq_for_input)
         });
     });
 

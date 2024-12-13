@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa thể loại
     function deleteCategory(category_id) {
-        if(confirm(`Xóa thể loại mã: "${category_id}"`)){
+        if (confirm(`Xóa thể loại mã: "${category_id}"`)) {
             console.log('Attempting to delete category with ID:', category_id);
             fetch('../DAO/deleteCategory.php', {
                 method: 'POST',
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
                 .catch(error => console.error('Error deleting category:', error));
-        }else{
+        } else {
             exit();
         }
     }
@@ -485,7 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa hình thức phạt
     function deletePenalty(penalty_id) {
-        if(confirm(`Xóa hình thức phạt mã: "${penalty_id}"`)){
+        if (confirm(`Xóa hình thức phạt mã: "${penalty_id}"`)) {
             console.log('Attempting to delete penalty with ID:', penalty_id);
             fetch('../DAO/deletePenalty.php', {
                 method: 'POST',
@@ -509,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
                 .catch(error => console.error('Error deleting penalty:', error));
-        }else{
+        } else {
             exit();
         }
     }
@@ -752,7 +752,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa Tình Trạng
     function deleteStatus(status_id) {
-        if(confirm(`Xóa tình trạng sách mã: "${provider_id}"`)){
+        if (confirm(`Xóa tình trạng sách mã: "${provider_id}"`)) {
             console.log('Attempting to delete status with ID:', status_id);
             fetch('../DAO/deleteStatus.php', {
                 method: 'POST',
@@ -777,7 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
                 .catch(error => console.error('Error deleting status:', error));
-        }else{
+        } else {
             exit();
         }
     }
@@ -1009,7 +1009,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa loại độc giả
     function deleteRC(rc_id) {
-        if(confirm(`Xóa loại độc giả mã: "${rc_id}"`)){
+        if (confirm(`Xóa loại độc giả mã: "${rc_id}"`)) {
             console.log('Attempting to delete reader-category with ID:', rc_id);
             fetch('../DAO/deleteReaderCategory.php', {
                 method: 'POST',
@@ -1033,7 +1033,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
                 .catch(error => console.error('Error deleting reader-category:', error));
-        }else{
+        } else {
             exit();
         }
     }
@@ -1275,7 +1275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa nhà xuất bản
     function deletePublisher(publisher_id) {
-        if(confirm(`Xóa nhà sản xuất mã: "${publisher_id}"`)){
+        if (confirm(`Xóa nhà sản xuất mã: "${publisher_id}"`)) {
             console.log('Attempting to delete publisher with ID:', publisher_id);
             fetch('../DAO/deletePublisher.php', {
                 method: 'POST',
@@ -1299,7 +1299,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
                 .catch(error => console.error('Error deleting publisher:', error));
-        }else{
+        } else {
             exit();
         }
     }
@@ -1526,7 +1526,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa Chức Năng
     function deleteFunction(function_id) {
-        if(confirm(`Xóa chức năng mã: "${function_id}"`)){
+        if (confirm(`Xóa chức năng mã: "${function_id}"`)) {
             console.log('Attempting to delete function with ID:', function_id);
             fetch('../DAO/deleteFunction.php', {
                 method: 'POST',
@@ -1550,7 +1550,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
                 .catch(error => console.error('Error deleting function:', error));
-        }else{
+        } else {
             exit();
         }
     }
@@ -1808,7 +1808,7 @@ window.onload = fetchTableDataNcc();
 // Xóa nhà cung cấp
 function deleteProvider(provider_id) {
     console.log('Attempting to delete provider with ID:', provider_id);
-    if(confirm(`Xóa nhà cung cấp mã: "${provider_id}"`)){
+    if (confirm(`Xóa nhà cung cấp mã: "${provider_id}"`)) {
         fetch('../DAO/deleteProvider.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -1828,7 +1828,7 @@ function deleteProvider(provider_id) {
                 }
             })
             .catch(error => console.error('Error deleting provider:', error));
-    }else{
+    } else {
         exit();
     }
 }
@@ -1941,7 +1941,7 @@ function proEditTable() {
 
             // Tạo nút save
             const saveButton = document.createElement('button');
-	    saveButton.type = "button";
+            saveButton.type = "button";
             saveButton.textContent = 'Lưu'; // Save
             saveButton.classList.add('pro-save-btn');
 
@@ -2013,8 +2013,8 @@ function updateProData(id, column1, value1, column2, value2, column3, value3) {
         }
     };
     xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1)
-	 + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2)
-	 + "&column3=" + encodeURIComponent(column3) + "&value3=" + encodeURIComponent(value3));
+        + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2)
+        + "&column3=" + encodeURIComponent(column3) + "&value3=" + encodeURIComponent(value3));
 }
 
 // Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi =))
@@ -2124,7 +2124,7 @@ window.onload = fetchTableDataAuthor();
 
 // Xóa tác giả
 function deleteAuthor(author_id) {
-    if(confirm(`Xóa tác giả mã: "${author_id}"`)){
+    if (confirm(`Xóa tác giả mã: "${author_id}"`)) {
         console.log('Đang cố gắng xóa tác giả với ID:', author_id);
         fetch('../DAO/deleteAuthor.php', {
             method: 'POST',
@@ -2148,7 +2148,7 @@ function deleteAuthor(author_id) {
                 }
             })
             .catch(error => console.error('Lỗi khi xóa tác giả:', error));
-    }else{
+    } else {
         exit();
     }
 }
@@ -2311,47 +2311,6 @@ function PhanquyenFormExit() {
 }
 
 // Load DataFrame Phân quyền
-function fetchTableDataCtq() {
-    countswitch = 0;
-    updatepro.style.backgroundColor = 'orange';
-    updatepro.innerText = 'Sửa';
-
-    // Nếu search bar có giá trị fetch.php => fetch?search=$(giá trị mã hóa)
-    let url = '../DAO/fetchdataPhanquyen.php';  // Gửi type là 'provider' để lấy nhà cung cấp
-    if (searchinput.value.trim()) {
-        url += `&search=${encodeURIComponent(searchinput.value.trim())}`;
-    }
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data); // Debugging
-            const tableBody = document.querySelector('.ctq-table-body');
-            tableBody.innerHTML = ""; // Clear existing table rows
-
-            data.forEach(row => {
-                const tableRow = document.createElement('tr');
-                tableRow.style.textAlign = "center";
-                tableRow.setAttribute('ctq-data-id', row.maquyen); // Set row's data-id for later reference
-                tableRow.innerHTML = `
-                    <td>${row.maquyen}</td>
-                    <td>${row.tenchucnang}</td>
-                    <td>${row.hanhdong}</td>
-                    <td><input type="checkbox" ${row.hoatdong ? 'checked' : ''}></td>
-                `;
-                tableBody.appendChild(tableRow);
-            });
-
-        })
-        .catch(/*error => console.error(error)*/);
-}
-
-window.onload = fetchTableDataCtq();
 
 // Function for handling data update
 function updateCtqData(id, column1, value1, column2, value2, column3, value3) {
@@ -2366,8 +2325,8 @@ function updateCtqData(id, column1, value1, column2, value2, column3, value3) {
         }
     };
     xhr.send("id=" + encodeURIComponent(id) + "&column1=" + encodeURIComponent(column1) + "&value1=" + encodeURIComponent(value1)
-	 + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2)
-	 + "&column3=" + encodeURIComponent(column3) + "&value3=" + encodeURIComponent(value3));
+        + "&column2=" + encodeURIComponent(column2) + "&value2=" + encodeURIComponent(value2)
+        + "&column3=" + encodeURIComponent(column3) + "&value3=" + encodeURIComponent(value3));
 }
 
 searchinput.addEventListener('keydown', function (event) {
@@ -2377,26 +2336,62 @@ searchinput.addEventListener('keydown', function (event) {
     }
 });
 
-// Lắng nghe sự kiện khi chọn một dòng trong bảng
-$(document).on('click', '#table-quyen tbody tr', function () {
-    // Lấy giá trị của mã quyền từ cột đầu tiên (ID Nhóm Quyền)
-    let maquyen = $(this).find('td:first').text().trim();
-
-    // Gọi API lấy dữ liệu chi tiết quyền
-    fetchChiTietQuyen(maquyen);
-});
 
 function fetchChiTietQuyen(maquyen) {
+    countswitch = 0;
+    updatepro.style.backgroundColor = 'orange';
+    updatepro.innerText = 'Sửa';
+
+    // Nếu search bar có giá trị fetch.php => fetch?search=$(giá trị mã hóa)
+    let url = '../DAO/fetchdataPhanquyen.php';  // Đường dẫn tới file PHP xử lý
+    if (searchinput.value.trim()) {
+        url += `&search=${encodeURIComponent(searchinput.value.trim())}`;
+    }
+
+    // Gửi yêu cầu AJAX để lấy dữ liệu
     $.ajax({
-        url: 'fetchdataPhanquyen.php', // Đường dẫn tới file PHP xử lý
+        url: url, // Đường dẫn tới file PHP xử lý
         method: 'GET',
         data: { maquyen: maquyen }, // Gửi mã quyền
         success: function (response) {
-            // Hiển thị dữ liệu chi tiết quyền
-            renderChiTietQuyen(response);
+            console.log(response);  // In ra dữ liệu response để kiểm tra
+
+            // Kiểm tra xem dữ liệu đã là đối tượng hay chưa, nếu chưa thì parse JSON
+            if (typeof response === 'string') {
+                try {
+                    response = JSON.parse(response);
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                    return;
+                }
+            }
+
+            const tableBody = document.querySelector('.ctq-table-body');
+            tableBody.innerHTML = ""; // Clear existing table rows
+
+            let stt = 1;
+            response.forEach(row => {
+                const tableRow = document.createElement('tr');
+                tableRow.style.textAlign = "center";
+                tableRow.setAttribute('ctq-data-id', row.maquyen); // Set row's data-id for later reference
+                tableRow.innerHTML = `
+                    <td>${stt++}</td>
+                    <td>${row.maquyen}</td>
+                    <td>${row.tenchucnang}</td>
+                    <td>${row.hanhdong}</td>
+                    <td><input type="checkbox" ${row.hoatdong ? 'checked' : ''}></td>
+                `;
+                tableBody.appendChild(tableRow);
+            });
         },
         error: function (err) {
             console.error('Error fetching data:', err);
         }
     });
 }
+
+// Gọi hàm khi trang được tải
+window.onload = function() {
+    // Chẳng hạn truyền giá trị maquyen là 1 để kiểm tra
+    fetchChiTietQuyen(1);
+};

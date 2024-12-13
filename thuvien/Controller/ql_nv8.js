@@ -273,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const matk_for_input = $(cells[2]).text(); // Cột Mã TK
 
             manv_check = manv_for_input;
+            ma_nv_toancuc = manv_for_input;
 
             const ten_for_input = $(cells[3]).text(); // Cột Tên
             const gioitinh_for_select = $(cells[4]).text(); // Cột Giới tính
@@ -343,6 +344,11 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.btn-delete-nv').on('click', function () {
             if (ma_nv_toancuc) {
                 // Gửi yêu cầu xóa đến server
+                // Xác nhận trước khi gửi dữ liệu
+                const confirmMessage = `Bạn có chắc chắn muốn xóa nhân viên ?`;
+                if (!confirm(confirmMessage)) {
+                    return; // Nếu người dùng không xác nhận, dừng lại
+                }
                 $.ajax({
                     url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
                     method: 'POST',
@@ -353,6 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (manv.status === "success") {
                                 alert(manv.message);
                                 resetInput();
+                                resetIMG();
                                 reset_table_nhanvien();
                             } else {
                                 alert(manv.message);
@@ -422,6 +429,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Nếu không hợp lệ, dừng lại
                         if (!isValid_nv) {
                             return; // Dừng lại nếu không hợp lệ
+                        }
+
+                        // Xác nhận trước khi gửi dữ liệu
+                        const confirmMessage = `Bạn có chắc chắn muốn thêm nhân viên ?`;
+                        if (!confirm(confirmMessage)) {
+                            return; // Nếu người dùng không xác nhận, dừng lại
                         }
 
                         // Tạo FormData để gửi dữ liệu
@@ -518,6 +531,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             return; // Dừng lại nếu ô địa chỉ rỗng
                         }
 
+                        // Xác nhận trước khi gửi dữ liệu
+                        const confirmMessage = `Bạn có chắc chắn muốn sửa nhân viên ?`;
+                        if (!confirm(confirmMessage)) {
+                            return; // Nếu người dùng không xác nhận, dừng lại
+                        }
+
                         // Tạo FormData để gửi dữ liệu
                         const formData = new FormData();
                         formData.append('action', 'updateNhanVien');
@@ -545,6 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             alert(nhanvien.message);
                                             resetInput(); // Gọi hàm reset input nếu có
                                             resetIMG(); // Gọi hàm reset hình ảnh nếu có
+                                            reset_table_nhanvien();
                                         } else {
                                             alert(nhanvien.message);
                                         }

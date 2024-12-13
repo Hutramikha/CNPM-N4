@@ -902,6 +902,104 @@ if (isset($_POST['action'])) {
     }
 }
 
+//==== Sửa độc giả ====>
+$list_sua_dg = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'updateDocGia') {
+        // Lấy dữ liệu từ form
+        $madg = $_POST['madg']; // Mã độc giả cần cập nhật
+        $ten = $_POST['ten'];
+        $gioitinh = $_POST['gioitinh'];
+        $ngaysinh = $_POST['ngaysinh'];
+        $sdt = $_POST['sdt'];
+        $diachi = $_POST['diachi'];
+        $email = $_POST['email'];
+
+        // Xử lý hình ảnh
+        $imageFile = null;
+        if (isset($_FILES['img']['name']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
+            $imageFile = $_FILES['img']['name'];
+            $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            $hinhanhpath = basename($_FILES['img']['name']);
+            $image = $uploadDir . $hinhanhpath;
+
+            // Di chuyển tệp hình ảnh
+            if (!move_uploaded_file($_FILES['img']['tmp_name'], $image)) {
+                $image = null; // Không cập nhật nếu không di chuyển được
+            }
+        }
+
+        // Chuẩn bị câu lệnh cập nhật độc giả
+        if ($imageFile != null) {
+            $sql = "UPDATE docgia SET ten=?, gioitinh=?, ngaysinh=?, email=?, sdt=?, diachi=?, img=? WHERE madg=?";
+        } else {
+            $sql = "UPDATE docgia SET ten=?, gioitinh=?, ngaysinh=?, email=?, sdt=?, diachi=? WHERE madg=?";
+        }
+
+        $stmt = $connect->prepare($sql);
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        // Bind các tham số
+        if ($imageFile != null) {
+            $stmt->bind_param("sssssssi", $ten, $gioitinh, $ngaysinh, $email, $sdt, $diachi, $imageFile, $madg);
+        } else {
+            // Nếu không có hình ảnh mới, không cập nhật trường img
+            $stmt->bind_param("ssssssi", $ten, $gioitinh, $ngaysinh, $email, $sdt, $diachi, $madg);
+        }
+
+        if ($stmt->execute()) {
+            $list_sua_dg[] = array(
+                "status" => "success",
+                "message" => "Cập nhật độc giả thành công!",
+            );
+        } else {
+            $list_sua_dg[] = array(
+                "status" => "fail",
+                "message" => "Lỗi: " . $stmt->error,
+            );
+        }
+    }
+}
+
+
+
+$list_sua_loaidocgia = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'updateLoaiDocGia') {
+        // Lấy dữ liệu từ form
+        $madg = $_POST['madg']; // Mã độc giả cần cập nhật
+        $maloaidocgia = $_POST['maloaidocgia']; // Mã loại độc giả mới
+
+        // Chuẩn bị câu lệnh cập nhật loại độc giả
+        $sql = "UPDATE docgia SET maloaidocgia=? WHERE madg=?";
+
+        $stmt = $connect->prepare($sql);
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        // Bind các tham số
+        $stmt->bind_param("ii", $maloaidocgia, $madg);
+
+        if ($stmt->execute()) {
+            $list_sua_loaidocgia[] = array(
+                "status" => "success",
+                "message" => "Cập nhật loại độc giả thành công!",
+            );
+        } else {
+            $list_sua_loaidocgia[] = array(
+                "status" => "fail",
+                "message" => "Lỗi: " . $stmt->error,
+            );
+        }
+    }
+}
 
 
 // Khóa : Mở tài khoản
@@ -1301,6 +1399,8 @@ $response = array(
     'list_them_nhanvien' => $list_them_nhanvien,
     'list_tim_anh_nv' => $list_tim_anh_nv,
     'list_sua_nv' => $list_sua_nv,
+    'list_sua_dg' => $list_sua_dg,
+    'list_sua_loaidocgia' => $list_sua_loaidocgia,
 );
 
 echo json_encode($response);

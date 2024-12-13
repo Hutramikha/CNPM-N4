@@ -339,6 +339,10 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.btn-delete-sach').on('click', function () {
             if (ma_sach_toancuc) {
                 // Gửi yêu cầu xóa đến server
+                const confirmMessage = `Bạn có chắc chắn muốn xóa sách này ?`;
+                if (!confirm(confirmMessage)) {
+                    return; // Nếu người dùng không xác nhận, dừng lại
+                }
                 $.ajax({
                     url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
                     method: 'POST',
@@ -592,7 +596,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const tacGia = $('.select-tacgia_sach').val();
                         const phiMuon = $('.input-phimuon_sach').val();
                         const imageFile = $('.input-img_sach')[0].files[0]; // Lấy tệp hình ảnh
-                        
+
                         let imageName = null;
                         if (imageFile) {
                             imageName = imageFile.name; // Lấy tên tệp hình ảnh
@@ -632,6 +636,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         if (!isValid) {
                             return; // Dừng lại nếu không hợp lệ
+                        }
+
+                        const confirmMessage = `Bạn có chắc chắn muốn thêm sách ?`;
+                        if (!confirm(confirmMessage)) {
+                            return; // Nếu người dùng không xác nhận, dừng lại
                         }
 
                         // Tạo FormData để gửi dữ liệu
@@ -681,8 +690,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 case 2:
                     console.log("Bạn đã chọn trường hợp 2.");
                     $(document).ready(function () {
-                        console.log("Bạn đã chọn trường hợp 2.");
-                    
+
                         // Lấy dữ liệu từ form
                         const tensach = $('.input-ten_sach').val();
                         const theLoai = $('.select-theloai_sach').val();
@@ -692,9 +700,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         const tacGia = $('.select-tacgia_sach').val();
                         const phiMuon = $('.input-phimuon_sach').val();
                         const imageFile = $('.input-img_sach')[0].files[0]; // Lấy tệp hình ảnh
-                    
+
                         let isChanged = false;
-                    
+
                         // Kiểm tra xem có thay đổi hay không
                         if (tensach !== tensach_check) isChanged = true;
                         if (theLoai !== matl_check) isChanged = true;
@@ -704,12 +712,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (tacGia !== matg_check) isChanged = true;
                         if (phiMuon !== phimuon_check) isChanged = true;
                         if (imageFile && imageFile.name !== imageFile_check) isChanged = true;
-                    
+
                         if (!isChanged) {
                             alert("Không có thay đổi nào để cập nhật.");
                             return; // Dừng lại nếu không có thay đổi
                         }
-                        
+
                         // Kiểm tra các ô input không được rỗng
                         if (!tensach) {
                             alert('Vui lòng nhập tên sách.');
@@ -733,7 +741,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             alert('Phí mượn phải là một số hợp lệ.');
                             return; // Dừng lại nếu phí mượn không hợp lệ
                         }
-                    
+
+                        const confirmMessage = `Bạn có chắc chắn muốn sửa sách ?`;
+                        if (!confirm(confirmMessage)) {
+                            return; // Nếu người dùng không xác nhận, dừng lại
+                        }
+
                         // Tạo FormData để gửi dữ liệu
                         const formData = new FormData();
                         formData.append('action', 'updateSach');
@@ -747,7 +760,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         formData.append('phimuon', phiMuon);
                         formData.append('soluong', soluong_check); // Giữ nguyên số lượng cũ, nếu không cần sửa
                         formData.append('img', imageFile); // Thêm tệp hình ảnh vào FormData
-                    
+
                         // Gửi dữ liệu đến máy chủ
                         $.ajax({
                             url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý

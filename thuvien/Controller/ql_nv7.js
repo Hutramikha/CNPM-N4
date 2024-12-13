@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
-    const btn_add = document.querySelector('.btn-add-nv');
-    const btn_delete = document.querySelector('.btn-delete-nv');
-    const btn_edit = document.querySelector('.btn-edit-nv');
-    const btn_save = document.querySelector('.btn-save-nv');
-    const btn_cancel = document.querySelector('.btn-cancel-nv');
-    const btn_reset = document.querySelector('.btn-reset-nv');
+    const btn_add_nv = document.querySelector('.btn-add-nv');
+    const btn_delete_nv = document.querySelector('.btn-delete-nv');
+    const btn_edit_nv = document.querySelector('.btn-edit-nv');
+    const btn_save_nv = document.querySelector('.btn-save-nv');
+    const btn_cancel_nv = document.querySelector('.btn-cancel-nv');
+    const btn_reset_nv = document.querySelector('.btn-reset-nv');
 
     const input_search = document.querySelector('.search-input-nv');
 
@@ -51,51 +51,64 @@ document.addEventListener("DOMContentLoaded", () => {
         select_gioitinh_nv.selectedIndex = 0;
     }
 
-    btn_add.addEventListener('click', () => {
-        btn_delete.disabled = true;
-        btn_edit.disabled = true;
-        btn_save.disabled = false;
-        btn_cancel.disabled = false;
+    function resetIMG() {
+        img.src = '../img/noimages.png';
+    };
+
+    btn_add_nv.addEventListener('click', () => {
+        btn_delete_nv.disabled = true;
+        btn_edit_nv.disabled = true;
+        btn_save_nv.disabled = false;
+        btn_cancel_nv.disabled = false;
+
+        resetInput();
+        ableInput();
+
+        resetIMG();
+
+        save_for_nv = 1;
+    });
+
+    btn_edit_nv.addEventListener('click', () => {
+        btn_add_nv.disabled = true;
+        btn_delete_nv.disabled = true;
+        btn_save_nv.disabled = false;
+        btn_cancel_nv.disabled = false;
+
+        save_for_nv = 2;
 
         ableInput();
     });
 
-    btn_edit.addEventListener('click', () => {
-        btn_add.disabled = true;
-        btn_delete.disabled = true;
-        btn_save.disabled = false;
-        btn_cancel.disabled = false;
-
-        ableInput();
-    });
-
-    btn_delete.addEventListener('click', () => {
+    btn_delete_nv.addEventListener('click', () => {
 
     });
 
-    btn_cancel.addEventListener('click', () => {
+    btn_cancel_nv.addEventListener('click', () => {
         img.src = '../img/noimages.png';
 
-        btn_add.disabled = false;
-        btn_edit.disabled = false;
-        btn_delete.disabled = false;
-        btn_save.disabled = true;
-        btn_cancel.disabled = true;
+        btn_add_nv.disabled = false;
+        btn_edit_nv.disabled = false;
+        btn_delete_nv.disabled = false;
+        btn_save_nv.disabled = true;
+        btn_cancel_nv.disabled = true;
 
         disableInput();
         resetInput();
     });
 
-    btn_reset.addEventListener('click', () => {
+    btn_reset_nv.addEventListener('click', () => {
         input_search.value = '';
 
         img.src = '../img/noimages.png';
 
-        btn_add.disabled = false;
-        btn_edit.disabled = false;
-        btn_delete.disabled = false;
-        btn_save.disabled = true;
-        btn_cancel.disabled = true;
+        btn_add_nv.disabled = false;
+        btn_edit_nv.disabled = false;
+        btn_delete_nv.disabled = false;
+        btn_save_nv.disabled = true;
+        btn_cancel_nv.disabled = true;
+
+        save_for_nv = 0
 
         disableInput();
         resetInput();
@@ -323,6 +336,117 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Chức năng thêm và sửa
+    $(document).ready(function () {
+        $('.btn-save-nv').click(function () {
+
+            switch (save_for_nv) {
+                case 1:
+                    console.log("Bạn đã chọn trường hợp 1.");
+                    $(document).ready(function () {
+                            // Đặt lại biến isValid_nv mỗi lần nhấn nút
+                            let isValid_nv = true;
+                    
+                            // Kiểm tra các ô input cụ thể
+                            const ten = $('.input-ten_nv').val();
+                            const gioitinh = $('.select-gioitinh_nv').val();
+                            const ngaysinh = $('.input-ngaysinh_nv').val();
+                            const email = $('.input-email_nv').val();
+                            const sdt = $('.input-sdt_nv').val();
+                            const diachi = $('.input-diachi_nv').val();
+                            const imageFile = $('.input-img_nv')[0].files[0]; // Lấy tệp hình ảnh
+                    
+                            let imageName_nv = null;
+                            if (imageFile) {
+                                imageName_nv = imageFile.name; // Lấy tên tệp hình ảnh
+                                console.log(imageName_nv); // In ra tên tệp hình ảnh
+                            } else {
+                                console.log("Không có tệp hình ảnh nào được chọn.");
+                            }
+                    
+                            // Kiểm tra nếu các ô input không rỗng
+                            if (!ten) {
+                                alert('Vui lòng nhập tên nhân viên.');
+                                isValid_nv = false;
+                            } else if (!ngaysinh) { // Kiểm tra ngày sinh
+                                alert('Vui lòng nhập ngày sinh.');
+                                isValid_nv = false;
+                            } else if (!email || !validateEmail(email)) { // Kiểm tra email
+                                alert('Vui lòng nhập email hợp lệ (có chứa @ và .com).');
+                                isValid_nv = false;
+                            } else if (!sdt || !validatePhone(sdt)) { // Kiểm tra số điện thoại
+                                alert('Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.');
+                                isValid_nv = false;
+                            } else if (!diachi) { // Kiểm tra địa chỉ
+                                alert('Vui lòng nhập địa chỉ.');
+                                isValid_nv = false;
+                            } else if (!imageFile) { // Kiểm tra file hình ảnh
+                                alert('Vui lòng chọn hình ảnh.');
+                                isValid_nv = false;
+                            }
+                    
+                            // Nếu không hợp lệ, dừng lại
+                            if (!isValid_nv) {
+                                return; // Dừng lại nếu không hợp lệ
+                            }
+                    
+                            // Tạo FormData để gửi dữ liệu
+                            const formData = new FormData();
+                            formData.append('action', 'addNhanVien');
+                            formData.append('ten', ten);
+                            formData.append('gioitinh', gioitinh);
+                            formData.append('ngaysinh', ngaysinh);
+                            formData.append('email', email);
+                            formData.append('sdt', sdt);
+                            formData.append('diachi', diachi);
+                            formData.append('img', imageFile); // Thêm tệp hình ảnh vào FormData
+                    
+                            // Gửi dữ liệu đến máy chủ
+                            $.ajax({
+                                url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                                type: 'POST',
+                                data: formData,
+                                processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                                contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                                dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                                success: function (data) {
+                                    if (data.list_them_nhanvien && data.list_them_nhanvien.length > 0) {
+                                        $.each(data.list_them_nhanvien, function (index, nhanvien) {
+                                            if (nhanvien.status === "success") {
+                                                alert(nhanvien.message);
+                                                resetIMG();
+                                                resetInput();
+                                                reset_table_nhanvien();
+                                            } else {
+                                                alert(nhanvien.message);
+                                            }
+                                        });
+                                    } else {
+                                        alert("Có lỗi hoặc không có nhân viên nào được thêm.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Lỗi:', error);
+                                    console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                                }
+                            });
+                    });
+                    break;
+
+                case 2:
+                    console.log("Bạn đã chọn trường hợp 2.");
+                    
+                    break;
+
+                default:
+                    alert("Trường hợp không hợp lệ. Vui lòng chọn 1 hoặc 2.");
+                    break;
+            }
+        });
+    });
+
+
+
 
     $(document).ready(function () {
         window.reset_table_nhanvien = reset_table_nhanvien;
@@ -330,27 +454,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+let save_for_nv = 0;
+
 let ma_nv_toancuc = null;
 
 // Hàm chọn ảnh
-let imagePathNV;
+let imagePathnv;
 
 function previewImageNV(event) {
-    const input = event.target; // Lấy input file
+    const input = event.target;
     const imagePreview = document.querySelector('.image-nv');
 
     if (input.files && input.files[0]) {
-        const reader = new FileReader(); // Tạo đối tượng FileReader
-
+        const reader = new FileReader();
         reader.onload = function (e) {
             imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
         }
-
         reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
-
-        // Lưu đường dẫn tạm thời (base64) để sử dụng sau này
-        imagePathNV = URL.createObjectURL(input.files[0]);
-        console.log("Đường dẫn hình ảnh:", imagePathNV); // Bạn có thể lưu đường dẫn này vào database sau này
     }
 }
 
@@ -379,4 +500,16 @@ function capTaiKhoan(manv) {
             alert("Có lỗi xảy ra khi tạo tài khoản.");
         }
     });
+}
+
+// Hàm kiểm tra email hợp lệ
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Biểu thức chính quy cho email
+    return regex.test(email);
+}
+
+// Hàm kiểm tra số điện thoại hợp lệ
+function validatePhone(sdt) {
+    const regex = /^0[0-9]{9}$/; // Biểu thức chính quy cho số điện thoại (10 chữ số, bắt đầu bằng 0)
+    return regex.test(sdt);
 }

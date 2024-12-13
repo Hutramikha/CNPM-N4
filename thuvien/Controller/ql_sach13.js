@@ -592,6 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const tacGia = $('.select-tacgia_sach').val();
                         const phiMuon = $('.input-phimuon_sach').val();
                         const imageFile = $('.input-img_sach')[0].files[0]; // Lấy tệp hình ảnh
+                        
                         let imageName = null;
                         if (imageFile) {
                             imageName = imageFile.name; // Lấy tên tệp hình ảnh

@@ -685,6 +685,7 @@ if (isset($_POST['action'])) {
         $soluong = 0;
 
         // Xử lý hình ảnh
+        $image = null; // Khởi tạo biến hình ảnh
         if (isset($_FILES['img']['name'])) {
             $image = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
@@ -712,6 +713,57 @@ if (isset($_POST['action'])) {
             );
         } else {
             $list_them_sach[] = array(
+                "status" => "fail",
+                "message" => "Lỗi: " . $stmt->error,
+            );
+        }
+    }
+}
+
+
+//==== Thêm nhân viên ====>
+$list_them_nhanvien = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'addNhanVien') {
+        // Lấy dữ liệu từ form
+        $ten = $_POST['ten'];
+        $gioitinh = $_POST['gioitinh'];
+        $ngaysinh = $_POST['ngaysinh'];
+        $email = $_POST['email'];
+        $sdt = $_POST['sdt'];
+        $diachi = $_POST['diachi'];
+        
+        // Xử lý hình ảnh
+        $image = null; // Khởi tạo biến hình ảnh
+        if (isset($_FILES['img']['name']) && $_FILES['img']['name'] != '') {
+            $image = $_FILES['img']['name'];
+            $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
+            $uploadFile = $uploadDir . $hinhanhpath;
+
+            move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);  
+        }
+
+        // Chuẩn bị câu lệnh thêm nhân viên
+        $sql = "INSERT INTO nhanvien (matk, ten, gioitinh, ngaysinh, email, sdt, diachi, img) 
+                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $connect->prepare($sql);
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        $stmt->bind_param("sssssss", $ten, $gioitinh, $ngaysinh, $email, $sdt, $diachi, $image);
+
+        if ($stmt->execute()) {
+            $list_them_nhanvien[] = array(
+                "status" => "success",
+                "message" => "Thêm nhân viên thành công!",
+            );
+        } else {
+            $list_them_nhanvien[] = array(
                 "status" => "fail",
                 "message" => "Lỗi: " . $stmt->error,
             );
@@ -1146,6 +1198,7 @@ $response = array(
     'list_them_sach' => $list_them_sach,
     'list_tim_anh_sach' => $list_tim_anh_sach,
     'list_sua_sach' => $list_sua_sach,
+    'list_them_nhanvien' => $list_them_nhanvien,
 );
 
 echo json_encode($response);

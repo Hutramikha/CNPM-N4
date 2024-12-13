@@ -693,6 +693,23 @@ document.addEventListener("DOMContentLoaded", () => {
                         const phiMuon = $('.input-phimuon_sach').val();
                         const imageFile = $('.input-img_sach')[0].files[0]; // Lấy tệp hình ảnh
                     
+                        let isChanged = false;
+                    
+                        // Kiểm tra xem có thay đổi hay không
+                        if (tensach !== tensach_check) isChanged = true;
+                        if (theLoai !== matl_check) isChanged = true;
+                        if (giaNhap !== gianhap_check) isChanged = true;
+                        if (tomTat !== tomtat_check) isChanged = true;
+                        if (nhaXuatBan !== manxb_check) isChanged = true;
+                        if (tacGia !== matg_check) isChanged = true;
+                        if (phiMuon !== phimuon_check) isChanged = true;
+                        if (imageFile && imageFile.name !== imageFile_check) isChanged = true;
+                    
+                        if (!isChanged) {
+                            alert("Không có thay đổi nào để cập nhật.");
+                            return; // Dừng lại nếu không có thay đổi
+                        }
+                        
                         // Kiểm tra các ô input không được rỗng
                         if (!tensach) {
                             alert('Vui lòng nhập tên sách.');
@@ -715,23 +732,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         } else if (!phiMuon || isNaN(phiMuon)) {
                             alert('Phí mượn phải là một số hợp lệ.');
                             return; // Dừng lại nếu phí mượn không hợp lệ
-                        }
-                    
-                        let isChanged = false;
-                    
-                        // Kiểm tra xem có thay đổi hay không
-                        if (tensach !== tensach_check) isChanged = true;
-                        if (theLoai !== matl_check) isChanged = true;
-                        if (giaNhap !== gianhap_check) isChanged = true;
-                        if (tomTat !== tomtat_check) isChanged = true;
-                        if (nhaXuatBan !== manxb_check) isChanged = true;
-                        if (tacGia !== matg_check) isChanged = true;
-                        if (phiMuon !== phimuon_check) isChanged = true;
-                        if (imageFile && imageFile.name !== imageFile_check) isChanged = true;
-                    
-                        if (!isChanged) {
-                            alert("Không có thay đổi nào để cập nhật.");
-                            return; // Dừng lại nếu không có thay đổi
                         }
                     
                         // Tạo FormData để gửi dữ liệu

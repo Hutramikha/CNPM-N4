@@ -268,11 +268,11 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.table-nhanvien tbody').on('click', 'tr', function () {
             // Lấy dữ liệu từ các cột
             const cells = $(this).children('td');
-    
+
             const manv_for_input = $(cells[1]).text(); // Cột Mã NV
             const matk_for_input = $(cells[2]).text(); // Cột Mã TK
-            
-            ma_nv_toancuc = manv_for_input;
+
+            manv_check = manv_for_input;
 
             const ten_for_input = $(cells[3]).text(); // Cột Tên
             const gioitinh_for_select = $(cells[4]).text(); // Cột Giới tính
@@ -280,10 +280,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const email_for_input = $(cells[6]).text(); // Cột Email
             const sdt_for_input = $(cells[7]).text(); // Cột SĐT
             const diachi_for_input = $(cells[8]).text(); // Cột Địa chỉ
-    
+
+            tennv_check = $(cells[3]).text();
+            gioitinhnv_check = $(cells[4]).text();
+            ngaysinhnv_check = $(cells[5]).text();
+            emailnv_check = $(cells[6]).text();
+            sdtnv_check = $(cells[7]).text();
+            diachinv_check = $(cells[8]).text();
+
             // Chuyển đổi định dạng ngày nếu cần
             const formattedDate = formatDate(ngaysinh_for_input);
-    
+
             // Đổ dữ liệu vào các input và select
             $('.input-ten_nv').val(ten_for_input);
             $('.select-gioitinh_nv').val(gioitinh_for_select);
@@ -291,8 +298,35 @@ document.addEventListener("DOMContentLoaded", () => {
             $('.input-email_nv').val(email_for_input);
             $('.input-sdt_nv').val(sdt_for_input);
             $('.input-diachi_nv').val(diachi_for_input);
+
+
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                type: 'POST',
+                data: { manv_timAnh_nv: manv_for_input }, // Gửi mã sách
+                dataType: 'json',
+                success: function (data) {
+                    if (data.list_tim_anh_nv.length > 0) {
+                        // Lấy giá trị từ phần tử đầu tiên trong danh sách
+                        const img = data.list_tim_anh_nv[0];
+                        if (img.status === 'success') {
+                            // Cập nhật thẻ img với đường dẫn hình ảnh
+                            $('.image-nv').attr('src', '../img/' + img.img);
+                            imageFile_check_nv = img.img;
+                        } else {
+                            alert("Không có ảnh"); // Thông báo lỗi nếu không tìm thấy hình ảnh
+                        }
+                    } else {
+                        alert("Không có ảnh"); // Thông báo lỗi nếu không có dữ liệu
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                }
+            });
+
         });
-    
+
         // Hàm để chuyển đổi định dạng ngày
         function formatDate(dateString) {
             const dateParts = dateString.split('/');
@@ -304,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-//===== Xóa nhân viên ======>
+    //===== Xóa nhân viên ======>
     $(document).ready(function () {
         $('.btn-delete-nv').on('click', function () {
             if (ma_nv_toancuc) {
@@ -344,98 +378,187 @@ document.addEventListener("DOMContentLoaded", () => {
                 case 1:
                     console.log("Bạn đã chọn trường hợp 1.");
                     $(document).ready(function () {
-                            // Đặt lại biến isValid_nv mỗi lần nhấn nút
-                            let isValid_nv = true;
-                    
-                            // Kiểm tra các ô input cụ thể
-                            const ten = $('.input-ten_nv').val();
-                            const gioitinh = $('.select-gioitinh_nv').val();
-                            const ngaysinh = $('.input-ngaysinh_nv').val();
-                            const email = $('.input-email_nv').val();
-                            const sdt = $('.input-sdt_nv').val();
-                            const diachi = $('.input-diachi_nv').val();
-                            const imageFile = $('.input-img_nv')[0].files[0]; // Lấy tệp hình ảnh
-                    
-                            let imageName_nv = null;
-                            if (imageFile) {
-                                imageName_nv = imageFile.name; // Lấy tên tệp hình ảnh
-                                console.log(imageName_nv); // In ra tên tệp hình ảnh
-                            } else {
-                                console.log("Không có tệp hình ảnh nào được chọn.");
-                            }
-                    
-                            // Kiểm tra nếu các ô input không rỗng
-                            if (!ten) {
-                                alert('Vui lòng nhập tên nhân viên.');
-                                isValid_nv = false;
-                            } else if (!ngaysinh) { // Kiểm tra ngày sinh
-                                alert('Vui lòng nhập ngày sinh.');
-                                isValid_nv = false;
-                            } else if (!email || !validateEmail(email)) { // Kiểm tra email
-                                alert('Vui lòng nhập email hợp lệ (có chứa @ và .com).');
-                                isValid_nv = false;
-                            } else if (!sdt || !validatePhone(sdt)) { // Kiểm tra số điện thoại
-                                alert('Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.');
-                                isValid_nv = false;
-                            } else if (!diachi) { // Kiểm tra địa chỉ
-                                alert('Vui lòng nhập địa chỉ.');
-                                isValid_nv = false;
-                            } else if (!imageFile) { // Kiểm tra file hình ảnh
-                                alert('Vui lòng chọn hình ảnh.');
-                                isValid_nv = false;
-                            }
-                    
-                            // Nếu không hợp lệ, dừng lại
-                            if (!isValid_nv) {
-                                return; // Dừng lại nếu không hợp lệ
-                            }
-                    
-                            // Tạo FormData để gửi dữ liệu
-                            const formData = new FormData();
-                            formData.append('action', 'addNhanVien');
-                            formData.append('ten', ten);
-                            formData.append('gioitinh', gioitinh);
-                            formData.append('ngaysinh', ngaysinh);
-                            formData.append('email', email);
-                            formData.append('sdt', sdt);
-                            formData.append('diachi', diachi);
-                            formData.append('img', imageFile); // Thêm tệp hình ảnh vào FormData
-                    
-                            // Gửi dữ liệu đến máy chủ
-                            $.ajax({
-                                url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
-                                type: 'POST',
-                                data: formData,
-                                processData: false, // Đặt false để jQuery không xử lý dữ liệu
-                                contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
-                                dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
-                                success: function (data) {
-                                    if (data.list_them_nhanvien && data.list_them_nhanvien.length > 0) {
-                                        $.each(data.list_them_nhanvien, function (index, nhanvien) {
-                                            if (nhanvien.status === "success") {
-                                                alert(nhanvien.message);
-                                                resetIMG();
-                                                resetInput();
-                                                reset_table_nhanvien();
-                                            } else {
-                                                alert(nhanvien.message);
-                                            }
-                                        });
-                                    } else {
-                                        alert("Có lỗi hoặc không có nhân viên nào được thêm.");
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Lỗi:', error);
-                                    console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                        // Đặt lại biến isValid_nv mỗi lần nhấn nút
+                        let isValid_nv = true;
+
+                        // Kiểm tra các ô input cụ thể
+                        const ten = $('.input-ten_nv').val();
+                        const gioitinh = $('.select-gioitinh_nv').val();
+                        const ngaysinh = $('.input-ngaysinh_nv').val();
+                        const email = $('.input-email_nv').val();
+                        const sdt = $('.input-sdt_nv').val();
+                        const diachi = $('.input-diachi_nv').val();
+                        const imageFile = $('.input-img_nv')[0].files[0]; // Lấy tệp hình ảnh
+
+                        let imageName_nv = null;
+                        if (imageFile) {
+                            imageName_nv = imageFile.name; // Lấy tên tệp hình ảnh
+                            console.log(imageName_nv); // In ra tên tệp hình ảnh
+                        } else {
+                            console.log("Không có tệp hình ảnh nào được chọn.");
+                        }
+
+                        // Kiểm tra nếu các ô input không rỗng
+                        if (!ten) {
+                            alert('Vui lòng nhập tên nhân viên.');
+                            isValid_nv = false;
+                        } else if (!ngaysinh) { // Kiểm tra ngày sinh
+                            alert('Vui lòng nhập ngày sinh.');
+                            isValid_nv = false;
+                        } else if (!email || !validateEmail(email)) { // Kiểm tra email
+                            alert('Vui lòng nhập email hợp lệ (có chứa @ và .com).');
+                            isValid_nv = false;
+                        } else if (!sdt || !validatePhone(sdt)) { // Kiểm tra số điện thoại
+                            alert('Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.');
+                            isValid_nv = false;
+                        } else if (!diachi) { // Kiểm tra địa chỉ
+                            alert('Vui lòng nhập địa chỉ.');
+                            isValid_nv = false;
+                        } else if (!imageFile) { // Kiểm tra file hình ảnh
+                            alert('Vui lòng chọn hình ảnh.');
+                            isValid_nv = false;
+                        }
+
+                        // Nếu không hợp lệ, dừng lại
+                        if (!isValid_nv) {
+                            return; // Dừng lại nếu không hợp lệ
+                        }
+
+                        // Tạo FormData để gửi dữ liệu
+                        const formData = new FormData();
+                        formData.append('action', 'addNhanVien');
+                        formData.append('ten', ten);
+                        formData.append('gioitinh', gioitinh);
+                        formData.append('ngaysinh', ngaysinh);
+                        formData.append('email', email);
+                        formData.append('sdt', sdt);
+                        formData.append('diachi', diachi);
+                        formData.append('img', imageFile); // Thêm tệp hình ảnh vào FormData
+
+                        // Gửi dữ liệu đến máy chủ
+                        $.ajax({
+                            url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                            type: 'POST',
+                            data: formData,
+                            processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                            contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                            dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                            success: function (data) {
+                                if (data.list_them_nhanvien && data.list_them_nhanvien.length > 0) {
+                                    $.each(data.list_them_nhanvien, function (index, nhanvien) {
+                                        if (nhanvien.status === "success") {
+                                            alert(nhanvien.message);
+                                            resetIMG();
+                                            resetInput();
+                                            reset_table_nhanvien();
+                                        } else {
+                                            alert(nhanvien.message);
+                                        }
+                                    });
+                                } else {
+                                    alert("Có lỗi hoặc không có nhân viên nào được thêm.");
                                 }
-                            });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi:', error);
+                                console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                            }
+                        });
                     });
                     break;
 
                 case 2:
                     console.log("Bạn đã chọn trường hợp 2.");
-                    
+                    $(document).ready(function () {
+                        console.log("Bạn đã chọn sửa nhân viên.");
+
+                        // Lấy dữ liệu từ form
+                        const tennv = $('.input-ten_nv').val();
+                        const gioitinh = $('.select-gioitinh_nv').val();
+                        const ngaysinh = $('.input-ngaysinh_nv').val();
+                        const email = $('.input-email_nv').val();
+                        const sdt = $('.input-sdt_nv').val();
+                        const diachi = $('.input-diachi_nv').val();
+                        const imageFile = $('.input-img_nv')[0].files[0]; // Lấy tệp hình ảnh
+
+                        let isChangednv = false;
+
+                        // Kiểm tra xem có thay đổi hay không
+                        if (tennv !== tennv_check) isChangednv = true;
+                        if (gioitinh !== gioitinhnv_check) isChangednv = true;
+                        if (ngaysinh !== ngaysinhnv_check) isChangednv = true;
+                        if (email !== emailnv_check) isChangednv = true;
+                        if (sdt !== sdtnv_check) isChangednv = true;
+                        if (diachi !== diachinv_check) isChangednv = true;
+                        if (imageFile && imageFile.name !== imageFile_check) isChangednv = true;
+
+                        if (!isChangednv) {
+                            alert("Không có thay đổi nào để cập nhật.");
+                            return; // Dừng lại nếu không có thay đổi
+                        }
+
+                        // Kiểm tra các ô input không được rỗng
+                        if (!tennv) {
+                            alert('Vui lòng nhập tên nhân viên.');
+                            return; // Dừng lại nếu ô tên nhân viên rỗng
+                        } else if (!gioitinh) {
+                            alert('Vui lòng chọn giới tính.');
+                            return; // Dừng lại nếu giới tính không hợp lệ
+                        } else if (!ngaysinh) {
+                            alert('Vui lòng nhập ngày sinh.');
+                            return; // Dừng lại nếu ô ngày sinh rỗng
+                        } else if (!email || !validateEmail(email)) {
+                            alert('Vui lòng nhập email hợp lệ.');
+                            return; // Dừng lại nếu email không hợp lệ
+                        } else if (!sdt || !validatePhone(sdt)) {
+                            alert('Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.');
+                            return; // Dừng lại nếu số điện thoại không hợp lệ
+                        } else if (!diachi) {
+                            alert('Vui lòng nhập địa chỉ.');
+                            return; // Dừng lại nếu ô địa chỉ rỗng
+                        }
+
+                        // Tạo FormData để gửi dữ liệu
+                        const formData = new FormData();
+                        formData.append('action', 'updateNhanVien');
+                        formData.append('manv', manv_check); // Mã nhân viên cần sửa
+                        formData.append('ten', tennv);
+                        formData.append('gioitinh', gioitinh);
+                        formData.append('ngaysinh', ngaysinh);
+                        formData.append('email', email);
+                        formData.append('sdt', sdt);
+                        formData.append('diachi', diachi);
+                        formData.append('img', imageFile); // Thêm tệp hình ảnh vào FormData
+
+                        // Gửi dữ liệu đến máy chủ
+                        $.ajax({
+                            url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                            type: 'POST',
+                            data: formData,
+                            processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                            contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                            dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                            success: function (data) {
+                                if (data.list_sua_nv && data.list_sua_nv.length > 0) {
+                                    $.each(data.list_sua_nv, function (index, nhanvien) {
+                                        if (nhanvien.status === "success") {
+                                            alert(nhanvien.message);
+                                            resetInput(); // Gọi hàm reset input nếu có
+                                            resetIMG(); // Gọi hàm reset hình ảnh nếu có
+                                        } else {
+                                            alert(nhanvien.message);
+                                        }
+                                    });
+                                } else {
+                                    alert("Có lỗi hoặc không có nhân viên nào được cập nhật.");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi:', error);
+                                console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                            }
+                        });
+                    });
                     break;
 
                 default:
@@ -458,6 +581,16 @@ document.addEventListener("DOMContentLoaded", () => {
 let save_for_nv = 0;
 
 let ma_nv_toancuc = null;
+
+let manv_check;
+
+let imageFile_check_nv;
+let tennv_check;
+let gioitinhnv_check;
+let ngaysinhnv_check;
+let emailnv_check;
+let sdtnv_check;
+let diachinv_check;
 
 // Hàm chọn ảnh
 let imagePathnv;

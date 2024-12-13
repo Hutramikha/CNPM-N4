@@ -689,7 +689,7 @@ if (isset($_POST['action'])) {
         if (isset($_FILES['img']['name'])) {
             $image = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
-            $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
+            $hinhanhpath = basename($_FILES['img']['name']);
             $uploadFile = $uploadDir . $hinhanhpath;
 
             move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);  
@@ -740,7 +740,7 @@ if (isset($_POST['action'])) {
         if (isset($_FILES['img']['name']) && $_FILES['img']['name'] != '') {
             $image = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
-            $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
+            $hinhanhpath = basename($_FILES['img']['name']);
             $uploadFile = $uploadDir . $hinhanhpath;
 
             move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);  
@@ -795,7 +795,7 @@ if (isset($_POST['action'])) {
         if (isset($_FILES['img']['name']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
             $imageFile = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
-            $hinhanhpath = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', basename($_FILES['img']['name']));
+            $hinhanhpath = basename($_FILES['img']['name']);
             $image = $uploadDir . $hinhanhpath;
 
             // Di chuyển tệp hình ảnh
@@ -831,6 +831,70 @@ if (isset($_POST['action'])) {
             );
         } else {
             $list_sua_sach[] = array(
+                "status" => "fail",
+                "message" => "Lỗi: " . $stmt->error,
+            );
+        }
+    }
+}
+
+
+//==== Sửa nhân viên ====>
+$list_sua_nv = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'updateNhanVien') {
+        // Lấy dữ liệu từ form
+        $manv = $_POST['manv']; // Mã nhân viên cần cập nhật
+        $ten = $_POST['ten'];
+        $gioitinh = $_POST['gioitinh'];
+        $ngaysinh = $_POST['ngaysinh'];
+        $email = $_POST['email'];
+        $sdt = $_POST['sdt'];
+        $diachi = $_POST['diachi'];
+
+        // Xử lý hình ảnh
+        $imageFile = null;
+        if (isset($_FILES['img']['name']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
+            $imageFile = $_FILES['img']['name'];
+            $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            $hinhanhpath = basename($_FILES['img']['name']);
+            $image = $uploadDir . $hinhanhpath;
+
+            // Di chuyển tệp hình ảnh
+            if (!move_uploaded_file($_FILES['img']['tmp_name'], $image)) {
+                $image = null; // Không cập nhật nếu không di chuyển được
+            }
+        }
+
+        // Chuẩn bị câu lệnh cập nhật nhân viên
+        if ($imageFile != null) {
+            $sql = "UPDATE nhanvien SET ten=?, gioitinh=?, ngaysinh=?, email=?, sdt=?, diachi=?, img=? WHERE manv=?";
+        } else {
+            $sql = "UPDATE nhanvien SET ten=?, gioitinh=?, ngaysinh=?, email=?, sdt=?, diachi=? WHERE manv=?";
+        }
+
+        $stmt = $connect->prepare($sql);
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        // Bind các tham số
+        if ($imageFile != null) {
+            $stmt->bind_param("sssssssi", $ten, $gioitinh, $ngaysinh, $email, $sdt, $diachi, $imageFile, $manv);
+        } else {
+            // Nếu không có hình ảnh mới, không cập nhật trường img
+            $stmt->bind_param("ssssssi", $ten, $gioitinh, $ngaysinh, $email, $sdt, $diachi, $manv);
+        }
+
+        if ($stmt->execute()) {
+            $list_sua_nv[] = array(
+                "status" => "success",
+                "message" => "Cập nhật nhân viên thành công!",
+            );
+        } else {
+            $list_sua_nv[] = array(
                 "status" => "fail",
                 "message" => "Lỗi: " . $stmt->error,
             );
@@ -1152,6 +1216,42 @@ if (isset($_POST['masach_timAnh'])) {
     );
 }
 
+// ===== Tìm ảnh nhân viên ====>
+$list_tim_anh_nv = array();
+if (isset($_POST['manv_timAnh_nv'])) {
+    $masach = $_POST['manv_timAnh_nv'];
+
+    // Chuẩn bị câu lệnh truy vấn để lấy đường dẫn hình ảnh
+    $sql = "SELECT img FROM nhanvien WHERE manv = ?";
+    $stmt = $connect->prepare($sql);
+    if ($stmt === false) {
+        die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+    }
+
+    $stmt->bind_param("s", $masach);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $img_path = $row['img'];
+        $list_tim_anh_nv[] = array(
+            "status" => "success",
+            "img" => $img_path
+        );
+    } else {
+        $list_tim_anh_nv[] = array(
+            "status" => "fail",
+            "message" => "Không tìm thấy hình ảnh cho mã nhân viên: $masach"
+        );
+    }
+} else {
+    $list_tim_anh_nv[] = array(
+        "status" => "fail",
+        "message" => "Mã nhân viên không được cung cấp."
+    );
+}
+
 // ================================================ echo json encode ============================================================
 
 $response = array(
@@ -1199,6 +1299,8 @@ $response = array(
     'list_tim_anh_sach' => $list_tim_anh_sach,
     'list_sua_sach' => $list_sua_sach,
     'list_them_nhanvien' => $list_them_nhanvien,
+    'list_tim_anh_nv' => $list_tim_anh_nv,
+    'list_sua_nv' => $list_sua_nv,
 );
 
 echo json_encode($response);

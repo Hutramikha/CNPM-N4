@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // Gọi hàm với mã tài khoản cụ thể
-    getUserInfo('ttda0864');
+    // getUserInfo('ttda0864');
 
 
 

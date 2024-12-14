@@ -882,6 +882,10 @@ function reset_table_ct_sach(ma_sach_toancuc, event) {
 // Hàm xóa chi tiết sách
 function xoactSach(mavach) {
     // Gửi yêu cầu xóa chi tiết sách đến server
+    const confirmMessage = `Bạn có chắc chắn muốn xóa chi tiết sách ?`;
+    if (!confirm(confirmMessage)) {
+        return; // Nếu người dùng không xác nhận, dừng lại
+    }
     $.ajax({
         url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
         method: 'POST',
@@ -901,6 +905,7 @@ function xoactSach(mavach) {
         error: function (xhr, status, error) {
             console.error('Lỗi:', error);
             alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            console.log(xhr);
         }
     });
 }

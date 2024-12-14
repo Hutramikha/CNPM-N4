@@ -279,11 +279,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Lấy giá trị từ phần tử đầu tiên trong danh sách
                         const img = data.list_tim_anh_sach[0];
                         if (img.status === 'success') {
-                            // Cập nhật thẻ img với đường dẫn hình ảnh
-                            $('.image-sach').attr('src', '../img/' + img.img);
-                            imageFile_check = img.img;
-                        } else {
-                            alert("Không có ảnh"); // Thông báo lỗi nếu không tìm thấy hình ảnh
+                            if (img.img !== null) {
+                                // Nếu có hình ảnh, cập nhật thẻ img với đường dẫn hình ảnh
+                                $('.image-sach').attr('src', '../img/' + img.img);
+                                imageFile_check = img.img;
+                            } else {
+                                // Nếu không có hình ảnh, hiển thị hình ảnh mặc định
+                                $('.image-sach').attr('src', '../img/noimages.png'); // Đường dẫn đến hình ảnh mặc định
+                                imageFile_check = img.img; // Hoặc có thể không cần lưu giá trị này
+                            }
                         }
                     } else {
                         alert("Không có ảnh"); // Thông báo lỗi nếu không có dữ liệu
@@ -878,6 +882,10 @@ function reset_table_ct_sach(ma_sach_toancuc, event) {
 // Hàm xóa chi tiết sách
 function xoactSach(mavach) {
     // Gửi yêu cầu xóa chi tiết sách đến server
+    const confirmMessage = `Bạn có chắc chắn muốn xóa chi tiết sách ?`;
+    if (!confirm(confirmMessage)) {
+        return; // Nếu người dùng không xác nhận, dừng lại
+    }
     $.ajax({
         url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
         method: 'POST',
@@ -897,6 +905,7 @@ function xoactSach(mavach) {
         error: function (xhr, status, error) {
             console.error('Lỗi:', error);
             alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            console.log(xhr);
         }
     });
 }

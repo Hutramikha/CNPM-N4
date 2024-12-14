@@ -28,6 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
         select_loai_dg.disabled = true;
     }
 
+    function resetIMG() {
+        img.src = '../img/noimages.png';
+    };
+
     function resetInput() {
         input_ten_dg.value = '';
         input_ngaysinh_dg.value = '';
@@ -296,11 +300,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-//===== Xóa độc giả ======>
+    //===== Xóa độc giả ======>
     $(document).ready(function () {
         $('.btn-delete-dg').on('click', function () {
             if (ma_dg_toancuc) {
                 // Gửi yêu cầu xóa đến server
+                const confirmMessage = `Bạn có chắc chắn muốn xóa độc giả ?`;
+                if (!confirm(confirmMessage)) {
+                    return; // Nếu người dùng không xác nhận, dừng lại
+                }
                 $.ajax({
                     url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
                     method: 'POST',
@@ -311,6 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (madg.status === "success") {
                                 alert(madg.message);
                                 resetInput();
+                                resetIMG();
                                 reset_table_docgia();
                             } else {
                                 alert(madg.message);
@@ -325,6 +334,64 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 alert('Vui lòng chọn để xóa.');
             }
+        });
+    });
+
+
+    //===== Sửa loại độc giả ======>
+    $(document).ready(function () {
+        $('.btn-save-dg').on('click', function () {
+            console.log("Bạn đã chọn sửa loại độc giả.");
+
+            // Lấy dữ liệu từ form
+            const madg = ma_dg_toancuc;
+            const maloaidocgia = $('.select-loai_dg').val(); // Mã loại độc giả mới
+
+            if (maloaidocgia == 0) {
+                alert('Vui lòng chọn loại độc giả.');
+                return; // Dừng lại nếu loại độc giả không hợp lệ
+            }
+
+            const confirmMessage = `Bạn có chắc chắn muốn sửa loại độc giả ?`;
+            if (!confirm(confirmMessage)) {
+                return; // Nếu người dùng không xác nhận, dừng lại
+            }
+
+            // Tạo FormData để gửi dữ liệu
+            const formData = new FormData();
+            formData.append('action', 'updateLoaiDocGia');
+            formData.append('madg', madg); // Mã độc giả cần sửa
+            formData.append('maloaidocgia', maloaidocgia); // Mã loại độc giả mới
+
+            // Gửi dữ liệu đến máy chủ
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                type: 'POST',
+                data: formData,
+                processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                success: function (data) {
+                    if (data.list_sua_loaidocgia && data.list_sua_loaidocgia.length > 0) {
+                        $.each(data.list_sua_loaidocgia, function (index, result) {
+                            if (result.status === "success") {
+                                alert(result.message);
+                                resetInput();
+                                resetIMG();
+                                reset_table_docgia();
+                            } else {
+                                alert(result.message);
+                            }
+                        });
+                    } else {
+                        alert("Có lỗi hoặc không có loại độc giả nào được cập nhật.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                    console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                }
+            });
         });
     });
 

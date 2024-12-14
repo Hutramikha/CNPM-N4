@@ -324,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Gán sự kiện click cho các dòng của bảng với delegation
         $('.table-taikhoan_docgia tbody').on('click', 'tr', function () {
             // Lấy dữ liệu từ các cột
+
             const cells = $(this).children('td');
 
             const tendangnhap_for_input = $(cells[1]).text();
@@ -333,6 +334,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const quyen_for_select = $(cells[3]).text();
             const ngaytao_for_input = $(cells[4]).text();
+
+            maquyen_tk_toancuc = quyen_for_select;
 
             // Chuyển đổi định dạng ngày nếu cần
             const formattedDate = formatDate(ngaytao_for_input);
@@ -356,6 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const quyen_for_select = $(cells[3]).text(); // Cột Tên
             const ngaytao_for_input = $(cells[4]).text(); // Cột Giới tính
 
+            maquyen_tk_toancuc = quyen_for_select;
             // Chuyển đổi định dạng ngày nếu cần
             const formattedDate = formatDate(ngaytao_for_input);
 
@@ -411,6 +415,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    //===== Sửa quyền tài khoản ======>
+    $(document).ready(function () {
+        $('.btn-save-taikhoan').on('click', function () {
+            console.log("Bạn đã chọn sửa quyền tài khoản.");
+
+            // Lấy dữ liệu từ form
+            const tendangnhap = tendangnhap_toancuc;
+            const maquyentk = $('.select-quyen_tk').val(); // Mã quyền mới
+
+            console.log(maquyen_tk_toancuc);
+
+            // Kiểm tra các ô input không được rỗng
+            if (!tendangnhap) {
+                alert('Vui lòng nhập tên đăng nhập.');
+                return; // Dừng lại nếu ô tên đăng nhập rỗng
+            } else if (maquyentk == -1) {
+                alert('Vui lòng chọn mã quyền.');
+                return; // Dừng lại nếu mã quyền không hợp lệ
+            }
+
+            if (maquyentk === maquyen_tk_toancuc) {
+                alert('Mã quyền không thay đổi. Vui lòng chọn mã quyền khác.');
+                return; // Dừng lại nếu không có sự thay đổi
+            }
+
+            const confirmMessage = `Bạn có chắc chắn muốn thay đổi quyền tài khoản ?`;
+            if (!confirm(confirmMessage)) {
+                return; // Nếu người dùng không xác nhận, dừng lại
+            }
+
+
+            // Tạo FormData để gửi dữ liệu
+            const formData = new FormData();
+            formData.append('action', 'updateMaQuyentk');
+            formData.append('tendangnhap', tendangnhap); // Tên đăng nhập
+            formData.append('maquyen', maquyentk); // Mã quyền mới
+
+            // Gửi dữ liệu đến máy chủ
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý
+                type: 'POST',
+                data: formData,
+                processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                success: function (data) {
+                    if (data.list_sua_maquyen_tk && data.list_sua_maquyen_tk.length > 0) {
+                        $.each(data.list_sua_maquyen_tk, function (index, result) {
+                            if (result.status === "success") {
+                                alert(result.message);
+                                resetInput();
+                                reset_table_taikhoan();
+                            } else {
+                                alert(result.message);
+                            }
+                        });
+                    } else {
+                        alert("Có lỗi hoặc không có quyền nào được cập nhật.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi:', error);
+                    console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                }
+            });
+        });
+    });
+
+
     // function reset_select_chucnang() {
     //     $(document).ready(function () {
     //         var option0 = $('.select-chucnang_tk option[value="-1"]').clone();
@@ -452,6 +525,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let tendangnhap_toancuc = null;
+
+let maquyen_tk_toancuc = null;
 
 
 function opentk(tendangnhap) {

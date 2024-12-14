@@ -773,6 +773,46 @@ if (isset($_POST['action'])) {
 
 // ================================================ UPDATE ============================================================
 
+$list_sua_maquyen_tk = array();
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'updateMaQuyentk') {
+        // Lấy dữ liệu từ form
+        $tendangnhap = $_POST['tendangnhap']; // Tên đăng nhập của tài khoản
+        $maquyen_moi = $_POST['maquyen']; // Mã quyền mới
+
+        // Chuẩn bị câu lệnh cập nhật mã quyền
+        $sql_update = "UPDATE taikhoan SET maquyen = ? WHERE tendangnhap = ?";
+        $stmt = $connect->prepare($sql_update);
+
+        if ($stmt === false) {
+            die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+        }
+
+        // Bind các tham số
+        $stmt->bind_param("is", $maquyen_moi, $tendangnhap); // "i" cho số nguyên, "s" cho chuỗi
+
+        if ($stmt->execute()) {
+            $list_sua_maquyen_tk[] = array(
+                "status" => "success",
+                "message" => "Cập nhật mã quyền thành công!"
+            );
+        } else {
+            $list_sua_maquyen_tk[] = array(
+                "status" => "error",
+                "message" => "Lỗi khi cập nhật mã quyền: " . $stmt->error
+            );
+        }
+    }
+} else {
+    $list_sua_maquyen_tk[] = array(
+        "status" => "error",
+        "message" => "Không có hành động nào được chỉ định."
+    );
+}
+
+
 //==== Sửa sách ====>
 $list_sua_sach = array();
 if (isset($_POST['action'])) {
@@ -1248,15 +1288,20 @@ if (isset($_POST['tendangnhap_xoa'])) {
 }
 
 //=== Xử lý XÓA chi tiết sách ===>
+$list_xoa_ct_sach = array(); // Mảng để chứa kết quả
+
 if (isset($_POST['mavach_xoa'])) {
     $mavach = $_POST['mavach_xoa']; // Lấy giá trị mavach từ input
 
     // Chuẩn bị câu lệnh xóa chi tiết sách
     $sql_delete = "DELETE FROM chitietsach WHERE mavach = ?";
     $stmt = $connect->prepare($sql_delete);
-    $stmt->bind_param("i", $mavach); // Sử dụng "i" vì mavach là số nguyên
 
-    $list_xoa_ct_sach = array(); // Mảng để chứa kết quả
+    if ($stmt === false) {
+        die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+    }
+
+    $stmt->bind_param("i", $mavach); // Sử dụng "i" vì mavach là số nguyên
 
     if ($stmt->execute()) {
         $list_xoa_ct_sach[] = array(
@@ -1304,7 +1349,7 @@ if (isset($_POST['masach_timAnh'])) {
     } else {
         $list_tim_anh_sach[] = array(
             "status" => "fail",
-            "message" => "Không tìm thấy hình ảnh cho mã sách: $masach"
+            "message" => "Không tìm thấy hình ảnh cho mã sách"
         );
     }
 } else {
@@ -1340,7 +1385,7 @@ if (isset($_POST['manv_timAnh_nv'])) {
     } else {
         $list_tim_anh_nv[] = array(
             "status" => "fail",
-            "message" => "Không tìm thấy hình ảnh cho mã nhân viên: $masach"
+            "message" => "Không tìm thấy hình ảnh cho mã nhân viên"
         );
     }
 } else {
@@ -1401,6 +1446,7 @@ $response = array(
     'list_sua_nv' => $list_sua_nv,
     'list_sua_dg' => $list_sua_dg,
     'list_sua_loaidocgia' => $list_sua_loaidocgia,
+    'list_sua_maquyen_tk' => $list_sua_maquyen_tk,
 );
 
 echo json_encode($response);

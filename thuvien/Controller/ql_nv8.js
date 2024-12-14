@@ -310,12 +310,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (data.list_tim_anh_nv.length > 0) {
                         // Lấy giá trị từ phần tử đầu tiên trong danh sách
                         const img = data.list_tim_anh_nv[0];
-                        if (img.status === 'success') {
-                            // Cập nhật thẻ img với đường dẫn hình ảnh
+                        if (img.img !== null) {
+                            // Nếu có hình ảnh, cập nhật thẻ img với đường dẫn hình ảnh
                             $('.image-nv').attr('src', '../img/' + img.img);
                             imageFile_check_nv = img.img;
                         } else {
-                            alert("Không có ảnh"); // Thông báo lỗi nếu không tìm thấy hình ảnh
+                            // Nếu không có hình ảnh, có thể ẩn thẻ img hoặc hiển thị hình ảnh mặc định
+                            $('.image-nv').attr('src', '../img/noimages.png'); // Đường dẫn đến hình ảnh mặc định
+                            imageFile_check_nv = img.img; // Hoặc có thể không cần lưu giá trị này
                         }
                     } else {
                         alert("Không có ảnh"); // Thông báo lỗi nếu không có dữ liệu

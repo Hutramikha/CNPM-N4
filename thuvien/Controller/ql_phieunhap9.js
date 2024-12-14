@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         btn_add_pn.disabled = true;
 
-        table_ct_phieu_nhap_xem.style.display = 'table';
-        table_ct_phieu_nhap.style.display = 'none';
+        // table_ct_phieu_nhap_xem.style.display = 'table';
+        // table_ct_phieu_nhap.style.display = 'none';
 
         resetInput();
         disableInput();

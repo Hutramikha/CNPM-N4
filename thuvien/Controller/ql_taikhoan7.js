@@ -387,6 +387,10 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.btn-delete-taikhoan').on('click', function () {
             if (tendangnhap_toancuc) {
                 // Gửi yêu cầu xóa đến server
+                const confirmMessage = `Bạn có chắc chắn muốn xóa tài khoản ?`;
+                if (!confirm(confirmMessage)) {
+                    return; // Nếu người dùng không xác nhận, dừng lại
+                }
                 $.ajax({
                     url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
                     method: 'POST',
@@ -444,7 +448,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!confirm(confirmMessage)) {
                 return; // Nếu người dùng không xác nhận, dừng lại
             }
-
 
             // Tạo FormData để gửi dữ liệu
             const formData = new FormData();
@@ -531,6 +534,10 @@ let maquyen_tk_toancuc = null;
 
 function opentk(tendangnhap) {
     console.log(tendangnhap);
+    const confirmMessage = `Bạn có chắc chắn muốn mở khóa ?`;
+    if (!confirm(confirmMessage)) {
+        return; // Nếu người dùng không xác nhận, dừng lại
+    }
     $.ajax({
         type: "POST",
         url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP
@@ -560,6 +567,10 @@ function opentk(tendangnhap) {
 
 function closetk(tendangnhap) {
     console.log(tendangnhap);
+    const confirmMessage = `Bạn có chắc chắn muốn khóa ?`;
+    if (!confirm(confirmMessage)) {
+        return; // Nếu người dùng không xác nhận, dừng lại
+    }
     $.ajax({
         type: "POST",
         url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP

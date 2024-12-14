@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resetIMG();
 
         save_for = 1;
+
     });
 
     btn_edit.addEventListener('click', () => {
@@ -108,6 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
         reset_select_nhaxuatban();
         reset_select_tacgia();
         reset_select_tinhtrangsach_sach();
+
+        currentValue_phimuon = 0;
+        currentValue_gianhap = 0;
     });
 
     btn_reset.addEventListener('click', () => {
@@ -133,6 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
         reset_select_tacgia();
         reset_select_tinhtrangsach_sach();
 
+        currentValue_phimuon = 0;
+        currentValue_gianhap = 0;
     });
 
     $(document).ready(function () {
@@ -676,6 +682,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                             resetIMG();
                                             resetInput();
                                             reset_table_sach();
+                                            currentValue_phimuon = 0;
+                                            currentValue_gianhap = 0;
                                         } else {
                                             alert(sach.message);
                                         }
@@ -782,6 +790,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                             resetIMG();
                                             resetInput();
                                             reset_table_sach();
+                                            currentValue_phimuon = 0;
+                                            currentValue_gianhap = 0;
                                         } else {
                                             alert(sach.message);
                                         }

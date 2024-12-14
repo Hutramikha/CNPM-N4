@@ -1840,6 +1840,9 @@ function deleteProvider(provider_id) {
                     const rowToDelete = document.querySelector(`tr[pro-data-id="${provider_id}"]`);
                     if (rowToDelete) {
                         rowToDelete.remove();
+                        $(document).ready(function() {
+                            reset_select_nhacc();
+                        });  
                     }
                 } else {
                     alert("Error deleting provider: " + (data.error || "Unknown error"));
@@ -1916,6 +1919,9 @@ function submitProvider() {
                     if (response.success) {
                         alert(response.message); // "Nhà cung cấp được thêm thành công!"
                         // Xóa dữ liệu input sau khi thêm thành công
+                        $(document).ready(function() {
+                            reset_select_nhacc();
+                        });  
                         document.getElementById('input-tenncc').value = '';
                         document.getElementById('input-sdtncc').value = '';
                         document.getElementById('input-dcncc').value = '';
@@ -2029,6 +2035,9 @@ function updateProData(id, column1, value1, column2, value2, column3, value3) {
     xhr.onload = function () {
         if (xhr.status === 200 && xhr.responseText.trim() === "success") {
             alert("Cập nhật thành công!");
+            $(document).ready(function() {
+                reset_select_nhacc();
+            });  
         } else {
             console.error(xhr.responseText);
         }

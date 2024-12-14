@@ -37,25 +37,25 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_img.disabled = true;
     }
 
-    btn_edit.addEventListener('click', () => {
-        btn_edit.disabled = true; 
-        btn_save.disabled = false;
-        btn_cancel.disabled = false;  
+    // btn_edit.addEventListener('click', () => {
+    //     btn_edit.disabled = true; 
+    //     btn_save.disabled = false;
+    //     btn_cancel.disabled = false;  
 
-        ableInput();
-    });
+    //     ableInput();
+    // });
 
-    btn_cancel.addEventListener('click', () => {
-        btn_edit.disabled = false; 
-        btn_save.disabled = true;
-        btn_cancel.disabled = true; 
+    // btn_cancel.addEventListener('click', () => {
+    //     btn_edit.disabled = false; 
+    //     btn_save.disabled = true;
+    //     btn_cancel.disabled = true; 
 
-        input_img_admin_info.value = '';
+    //     input_img_admin_info.value = '';
         
-        img.src = '../img/noimages.png';
+    //     img.src = '../img/noimages.png';
 
-        disableInput();
-    });
+    //     disableInput();
+    // });
     
 });
 
@@ -78,6 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     $('.info_admin-email').val(data.list_thongtin_taikhoan.email);
                     $('.info_admin-sdt').val(data.list_thongtin_taikhoan.sdt);
                     $('.info_admin-diachi').val(data.list_thongtin_taikhoan.diachi);
+                    if (data.list_thongtin_taikhoan.manv) {
+                        manv_for_pn = data.list_thongtin_taikhoan.manv;
+                    } else {
+                        manv_for_pn = data.list_thongtin_taikhoan.dg;
+                    }
+                    console.log('HELOO ' + manv_for_pn);
                     // Hiển thị ảnh nếu có
                     if (data.list_thongtin_taikhoan.img !== null) {
                         $('.image-nv-info').attr('src', '../img/' + data.list_thongtin_taikhoan.img);

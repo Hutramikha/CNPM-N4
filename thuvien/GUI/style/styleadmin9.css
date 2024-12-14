@@ -625,7 +625,8 @@ td {
 .table-taikhoan_docgia tbody tr:hover, 
 .table-ct-sach_da_muon tbody tr:hover,
 .table-nhanvien tbody tr:hover,
-.table-docgia tbody tr:hover{
+.table-docgia tbody tr:hover,
+.table-ct-phieu_nhap tbody tr:hover{
     background-color: #ddd8d8bc; /* Màu nền khi hover */
     cursor: pointer; /* Thay đổi con trỏ chuột thành pointer */
 }
@@ -675,4 +676,13 @@ td {
 
 .tab-content .tab-pane.active {
     display: block;
-}   
+}
+
+
+.btn-remove-ct-pn {
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    padding: 3px 5px;
+    font-weight: 500;
+}

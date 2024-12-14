@@ -4,6 +4,18 @@
 
 // ================================================ HÀM  ============================================================ 
 
+
+function generateRandomBarcode($length = 8) {
+    $digits = '0123456789';
+    $barcode = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $barcode .= $digits[rand(0, strlen($digits) - 1)];
+    }
+
+    return $barcode;
+}
+
 // Hàm random cho tạo tài khoản
 function random_string($length, $type) {
     if ($type == 'numbers') {
@@ -1451,6 +1463,133 @@ if (isset($_POST['matk_info'])) {
 }
 
 
+// ================================================ Lấy ra giá nhập sách ============================================================
+$list_gianhap_sach = array(); // Khởi tạo mảng giá nhập
+if (isset($_POST['masach_gianhap'])) {
+    $bookId = $_POST['masach_gianhap'];
+
+    // Truy vấn giá nhập từ bảng sach
+    $query = "SELECT gianhap FROM sach WHERE masach = ?";
+    $stmt = $connect->prepare($query);
+    $stmt->bind_param("i", $bookId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $list_gianhap_sach[] = $row['gianhap']; // Thêm giá nhập vào mảng
+        }
+    } else {
+        $list_gianhap_sach['status'] = 'fail';
+    }
+}
+
+// ================================================ Tạo phiếu nhập ============================================================
+$list_tao_pn = array(); // Mảng để lưu trữ kết quả
+if (isset($_POST['mancc_pn']) && isset($_POST['manv_pn'])) {
+    // Bước 1: Tạo phiếu nhập mới
+    $sql = "INSERT INTO phieunhap (mancc, manv, ngaynhap, tongtien) VALUES (?, ?, ?, ?)";
+    $stmt = $connect->prepare($sql);
+    $mancc = $_POST['mancc_pn'];
+    $manv = $_POST['manv_pn'];
+    $ngaynhap = date('Y-m-d');
+    $tongtien = 0; // Tính tổng tiền từ các sản phẩm
+    $stmt->bind_param("iiss", $mancc, $manv, $ngaynhap, $tongtien);
+
+    if ($stmt->execute()) {
+        $mapn = $connect->insert_id;
+        $list_tao_pn[] = array(
+        "status" => "success",
+        "message" => "Tạo phiếu nhập thành công.",
+        "maphieunhap" => $mapn
+    );
+    } else {
+        $list_tao_pn[] = array(
+            "status" => "fail",
+            "message" => "Không có sản phẩm nào được gửi."
+     );
+    }
+}
+
+
+$list_them_ct_pn = array(); // Mảng để lưu trữ kết quả
+if (isset($_POST['masach']) && isset($_POST['gianhap']) && isset($_POST['soluong']) && isset($_POST['maphieunhap']) && isset($_POST['thanhtien_pn'])) {
+    $masach = $_POST['masach'];
+    $gianhap = $_POST['gianhap'];
+    $soluong = $_POST['soluong'];
+    $maphieunhap = $_POST['maphieunhap'];
+    $thanhtien = $_POST['thanhtien_pn'];
+
+    // Thêm chi tiết phiếu nhập
+    $sql_ct = "INSERT INTO chitietphieunhap (mapn, masach, gianhap, soluong, thanhtien) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $connect->prepare($sql_ct);
+    $stmt->bind_param("iisis", $maphieunhap, $masach, $gianhap, $soluong, $thanhtien);
+
+    if ($stmt->execute()) {
+        $list_them_ct_pn[] = array(
+            "status" => "success",
+            "message" => "Tạo chi tiết phiếu nhập thành công.",
+        );
+
+        // Bắt đầu thêm chi tiết sách
+        for ($i = 0; $i < $soluong; $i++) {
+            $mavach = generateRandomBarcode(); // Giả sử bạn có một hàm để sinh mã vạch
+            $matinhtrang = 0;
+            $khu = null; // Giá trị khu là NULL
+            $trangthai = 0;
+
+            // Thêm chi tiết sách
+            $sql_chitiet = "INSERT INTO chitietsach (mavach, masach, matinhtrang, khu, trangthai) VALUES (?, ?, ?, ?, ?)";
+            $stmtChitiet = $connect->prepare($sql_chitiet);
+            $stmtChitiet->bind_param("siisi", $mavach, $masach, $matinhtrang, $khu, $trangthai);
+
+            $stmtChitiet->execute();
+        }
+    } else {
+        $list_them_ct_pn[] = array(
+            "status" => "fail",
+            "message" => "Lỗi khi tạo chi tiết phiếu nhập: " . $stmt->error,
+        );
+    }
+
+    // Đóng các statement
+    $stmt->close();
+    if (isset($stmtChitiet)) {
+        $stmtChitiet->close();
+    }
+} else {
+    $list_them_ct_pn[] = array(
+        "status" => "fail",
+        "message" => "Không có sản phẩm nào được gửi."
+    );
+}
+
+
+
+$list_sua_tongtien_pn = array(); // Mảng để lưu trữ kết quả
+if (isset($_POST['tongtien_pn']) && isset($_POST['maphieunhap_tt'])) {
+    
+    $tongtien_pn = $_POST['tongtien_pn'];
+    $maphieunhap_tt = $_POST['maphieunhap_tt'];
+
+    $sql = "UPDATE phieunhap SET tongtien = ? WHERE mapn = ?";
+    $stmt = $connect->prepare($sql);
+    $stmt->bind_param("si", $tongtien_pn, $maphieunhap_tt);
+
+    if ($stmt->execute()) {
+        $list_sua_tongtien_pn[] = array(
+        "status" => "success",
+        "message" => "Tạo phiếu nhập thành công",
+    );
+    } else {
+        $list_sua_tongtien_pn[] = array(
+            "status" => "fail",
+            "message" => "Tạo phiếu nhập thất bại."
+     );
+    }
+}
+
 // ================================================ echo json encode ============================================================
 
 $response = array(
@@ -1504,6 +1643,9 @@ $response = array(
     'list_sua_loaidocgia' => $list_sua_loaidocgia,
     'list_sua_maquyen_tk' => $list_sua_maquyen_tk,
     'list_thongtin_taikhoan' => $list_thongtin_taikhoan,
+    'list_tao_pn' => $list_tao_pn,
+    'list_gianhap_sach' => $list_gianhap_sach,
+    'list_them_ct_pn' => $list_them_ct_pn,
 );
 
 echo json_encode($response);

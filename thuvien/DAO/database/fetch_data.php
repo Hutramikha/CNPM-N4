@@ -1388,9 +1388,6 @@ if (isset($_POST['mapq_xoa'])) {
     );
 }
 
-echo json_encode(['list_xoa_quyen' => $list_xoa_quyen]);
-
-
 //=== Xử lý XÓA độc giả ===>
 if (isset($_POST['madg_xoa'])) {
     $madg = $_POST['madg_xoa'];

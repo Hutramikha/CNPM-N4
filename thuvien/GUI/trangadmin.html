@@ -1719,12 +1719,12 @@
                         <h1>THÔNG TIN CÁ NHÂN</h1>
                     </div>
                 </div>
-                <div class="button_contain">
+                <!-- <div class="button_contain">
                     <button class="btn_action btn-edit btn-edit-info_admin">Sửa</button>
                     <button class="btn_action btn-save btn-save-info_admin" disabled>Lưu</button>
                     <button class="btn_action btn-cancel btn-cancel-info_admin" disabled>Hủy</button>
-                </div>
-                <div style="display: flex; justify-content: center;">
+                </div> -->
+                <div style="display: flex; justify-content: center; margin-top: 1%;">
                     <div class="input_contain" style="width: 50%; flex-direction: column;">
                         <div class="input_contain_child">
                             <div class="input-group">
@@ -1762,16 +1762,17 @@
                                     style="width: 22vw;" disabled>
                             </div>
                             <div class="input-group">
-                                <label class="input-label">Chọn ảnh:</label>
-                                <input type="file" id="image-upload" class="image-upload info_admin-btn_img"
-                                    onchange="previewImageNVinfo(event)" accept="image/*" disabled>
-                            </div>
+                                <label class="input-label">Ảnh đại diện:</label>
+                                <!-- <input type="file" id="image-upload" class="image-upload info_admin-btn_img"
+                                    onchange="previewImageNVinfo(event)" accept="image/*" disabled> -->
+                                    <div class="image-container">
+                                        <div class="image-preview">
+                                            <img id="image_max" class="image-nv-info" src="../img/noimages.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
-                        <div class="image-container">
-                            <div class="image-preview">
-                                <img id="image_max" class="image-nv-info" src="../img/noimages.png" alt="">
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <div style="height: 1vh;"></div>

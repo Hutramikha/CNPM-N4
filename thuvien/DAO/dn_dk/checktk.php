@@ -6,7 +6,7 @@ if (isset($_POST['usernamekk'])) {
     $username = $_POST['usernamekk'];
     // rest of your code
 $ttkhRe = 'noo';
-$recoverRe = 'noo';
+// $recoverRe = 'noo';
 
 $khachhangSql = "SELECT trangthai FROM taikhoan WHERE tendangnhap = '$username'";
 $khachhangResult = mysqli_query($connect, $khachhangSql);

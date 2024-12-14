@@ -256,9 +256,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("Error deleting category: " + (data.error || "Unknown error"));
                     }
                 })
-                .catch(error => console.error('Error deleting category:', error));
+                .catch(error => {
+                    console.error('Error deleting category:', error); 
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
         } else {
-            exit();
+            return;
         }
     }
 
@@ -508,9 +511,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("Error deleting penalty: " + (data.error || "Unknown error"));
                     }
                 })
-                .catch(error => console.error('Error deleting penalty:', error));
+                .catch(error => {
+                    console.error('Error deleting penalty:', error); 
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
         } else {
-            exit();
+            return;
         }
     }
 
@@ -752,7 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xóa Tình Trạng
     function deleteStatus(status_id) {
-        if (confirm(`Xóa tình trạng sách mã: "${provider_id}"`)) {
+        if (confirm(`Xóa tình trạng sách mã: "${status_id}"`)) {
             console.log('Attempting to delete status with ID:', status_id);
             fetch('../DAO/deleteStatus.php', {
                 method: 'POST',
@@ -776,9 +782,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("Error deleting status: " + (data.error || "Unknown error"));
                     }
                 })
-                .catch(error => console.error('Error deleting status:', error));
+                .catch(error => {
+                    console.error('Error deleting status:', error); 
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
         } else {
-            exit();
+            return;
         }
     }
 
@@ -1032,9 +1041,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("Error deleting reader-category: " + (data.error || "Unknown error"));
                     }
                 })
-                .catch(error => console.error('Error deleting reader-category:', error));
+                .catch(error => {
+                    console.error('Error deleting reader-category:', error); 
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
         } else {
-            exit();
+            return;
         }
     }
 
@@ -1298,9 +1310,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("Error deleting publisher: " + (data.error || "Unknown error"));
                     }
                 })
-                .catch(error => console.error('Error deleting publisher:', error));
+                .catch(error => {
+                    console.error('Error deleting publisher:', error); 
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
         } else {
-            exit();
+            return;
         }
     }
 
@@ -1443,255 +1458,258 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //-----------------Chức năng chức năng
-    const openFuncForm = document.querySelector('.btn-chucnang');
-    const closeFuncForm = document.querySelector('.btn-close-func-form');
-    const updatefunc = document.querySelector('.updatebtn-func');
-    const addfunction = document.querySelector('.addbtn-func');
-    const closefunction = document.querySelector('.cancelfuncsubmit');
-    const addfuncSubmit = document.querySelector('.addfuncsubmit');
-    const funcsearchinput = document.querySelector('.search-func');
-    const funcrefresh = document.getElementById('funcrefresh');
-    funcrefresh.addEventListener('click', () => {
-        funcsearchinput.value = "";
-        cancelFuncEdit();
-    });
-    addfunction.addEventListener('click', () => addFunction());
-    closefunction.addEventListener('click', () => closeFunction());
-    addfuncSubmit.addEventListener('click', () => submitFunction());
-    updatefunc.addEventListener('click', () => funcEditTable());
-    openFuncForm.addEventListener("click", () => FunctionBTN());
-    closeFuncForm.addEventListener("click", () => FunctionFormExit());
-    var countswitchfunc = 0;
-    // Mở Form Func
-    function FunctionBTN() {
-        document.querySelector('.Function').style.display = "flex";
-        document.getElementById('account-overlay').style.display = "block";
-
-    }
-    // Thoát Form Func
-    function FunctionFormExit() {
-        funcsearchinput.value = "";
-        cancelFuncEdit();
-        document.querySelector('.Function').style.display = "none";
-        document.getElementById('account-overlay').style.display = "none";
-    }
-
-    // Load DataFrame Chức Năng
-    function fetchTableDataFunction() {
-        countswitchfunc = 0;
-        updatefunc.style.backgroundColor = 'orange';
-        updatefunc.innerText = 'Sửa';
-
-        // Nếu search bar có giá trị fetch.php => fetch?search=$(giá trị mã hóa)
-        let url = '../DAO/fetchdataFunction.php';
-        if (funcsearchinput.value.trim()) {
-            url += `?search=${encodeURIComponent(funcsearchinput.value.trim())}`;
-        }
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data); // Debugging
-                const tableBody = document.querySelector('.func-table-body');
-                tableBody.innerHTML = ""; // Clear existing table rows
-
-                data.forEach(row => {
-                    const tableRow = document.createElement('tr');
-                    tableRow.style.textAlign = "center";
-                    tableRow.setAttribute('func-data-id', row.machucnang); // Set row's data-id for later reference
-                    tableRow.innerHTML = `
-                        <td style="" class="text_center">${row.machucnang}</td>
-                        <td style="" class="text_center">${row.tenchucnang}</td>
-                        <td><button type="button" class="delete-func-btn text_center" func-data-id="${row.machucnang}" style="background-color:red">Xóa</button></td>
-                    `;
-                    tableBody.appendChild(tableRow);
-                });
-
-                // Add event listeners cho nút xóa ngay sau khi data được truyền vào
-                document.querySelectorAll('.delete-func-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const functionId = this.getAttribute('func-data-id');
-                        deleteFunction(functionId);
-                    });
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }
-    window.onload = fetchTableDataFunction();
-
-    // Xóa Chức Năng
-    function deleteFunction(function_id) {
-        if (confirm(`Xóa chức năng mã: "${function_id}"`)) {
-            console.log('Attempting to delete function with ID:', function_id);
-            fetch('../DAO/deleteFunction.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `machucnang=${function_id}`
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Delete response:', data); // Log response (check trong console)
-                    if (data.success) {
-                        $(document).ready(function () {
-                            reset_select_chucnang();
-                        });
-                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
-                        const rowToDelete = document.querySelector(`tr[func-data-id="${function_id}"]`);
-                        if (rowToDelete) {
-                            rowToDelete.remove();
-                        }
-                    } else {
-                        alert("Error deleting function: " + (data.error || "Unknown error"));
-                    }
-                })
-                .catch(error => console.error('Error deleting function:', error));
-        } else {
-            exit();
-        }
-    }
-
-
-    // Thêm Chức Năng
-    function addFunction() {
-        document.querySelector('.addfunc-input').style.display = 'flex';
-        document.getElementById('addfunc-overlay').style.display = 'block';
-    }
-    function closeFunction() {
-        document.querySelector('.addfunc-input').style.display = 'none';
-        document.getElementById('addfunc-overlay').style.display = 'none';
-        document.getElementById('func-warning').style.color = "none";
-        document.getElementById('func-warning').innerHTML = "";
-    }
-    function submitFunction() {
-        // values từ input
-        var functionName = document.getElementById('input-tencn').value;
-
-        // valid input?
-        if (functionName) {
-            document.getElementById('func-warning').style.color = "none";
-            document.getElementById('func-warning').innerHTML = "";
-            //            Sử dụng AJAX để gửi data đến server web
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "../DAO/addFunction.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-
-                    if (response.success) {
-                        $(document).ready(function () {
-                            reset_select_chucnang();
-                        });
-                        alert(response.message); // "Chức Năng được thêm thành công!"
-                        // Clear the inputs after adding
-                        document.getElementById('input-tencn').value = '';
-                        fetchTableDataFunction();
-                    } else {
-                        alert("An error occurred: " + (response.error || "Unknown error"));
-                    }
-                }
-            };
-
-            xhr.send("&functionName=" + encodeURIComponent(functionName));
-        } else {
-            document.getElementById('func-warning').style.color = "red";
-            document.getElementById('func-warning').innerHTML = "Hãy điền đầy đủ thông tin";
-        }
-    }
-
-    //  Cập nhật Chức Năng
-    function funcEditTable() {
-        console.log(countswitchfunc);
-        if (countswitchfunc === 1) {
-            cancelFuncEdit();
-            countswitchfunc = 0;
-        } else {
-            document.querySelectorAll('.func-table-body tr').forEach(row => {
-                updatefunc.style.backgroundColor = 'Red';
-                updatefunc.innerText = 'Hủy';
-
-                // Enable editable 'tencn'
-                const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
-                nameCell.contentEditable = 'true';
-
-                // Tạo nút save
-                const saveButton = document.createElement('button');
-                saveButton.type = "button";
-                saveButton.textContent = 'Lưu'; // Save
-                saveButton.classList.add('func-save-btn');
-
-                // Add mỗi row
-                const actionCell = row.querySelector('td:nth-child(3)'); // Action cell
-                actionCell.appendChild(saveButton);
-
-                // Add event listeners cho Save
-                saveButton.addEventListener('click', () => saveFuncEdit(row));
-                countswitchfunc = 1;
-            });
-        }
-    }
-
-    // Function save the edit
-    function saveFuncEdit(row) {
-        const nameCell = row.querySelector('td:nth-child(2)');
-        const functionId = row.getAttribute('func-data-id');
-        const updatedValue = nameCell.textContent;
-
-        updateFuncData(functionId, 'tenchucnang', updatedValue);
-    }
-
-    function cancelFuncEdit() {
-        const table = document.querySelector('.df-func');
-        const rows = table.querySelectorAll('.func-table-body tr'); // Chỉ chọn những row trong table
-        rows.forEach(row => {
-            const nameCell = row.querySelector('td:nth-child(2)');
-            nameCell.contentEditable = 'false';
-        });
-        fetchTableDataFunction();
-        removeFuncEditButtons();
-    }
-
-    // Function remove save và support đổi edit mode
-    function removeFuncEditButtons() {
-        document.querySelectorAll('.func-save-btn').forEach(button => button.remove());
-        updatefunc.style.backgroundColor = 'orange';
-        updatefunc.innerText = 'Sửa';
-    }
-
-    // Function for handling data update
-    function updateFuncData(id, column, value) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "../DAO/updateFunction.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function () {
-            if (xhr.status === 200 && xhr.responseText.trim() === "success") {
-                $(document).ready(function () {
-                    reset_select_chucnang();
-                });
-                alert("Cập nhật thành công!");
-            }
-        };
-        xhr.send("id=" + encodeURIComponent(id) + "&column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
-    }
-
-    // Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi
-    document.getElementById('input-tencn').addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-        }
-    });
-    funcsearchinput.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            fetchTableDataFunction(); // Lấy search input value rồi lấy data dựa trên input value đấy
-        }
-    });
+//    const openFuncForm = document.querySelector('.btn-chucnang');
+//    const closeFuncForm = document.querySelector('.btn-close-func-form');
+//    const updatefunc = document.querySelector('.updatebtn-func');
+//    const addfunction = document.querySelector('.addbtn-func');
+//    const closefunction = document.querySelector('.cancelfuncsubmit');
+//    const addfuncSubmit = document.querySelector('.addfuncsubmit');
+//    const funcsearchinput = document.querySelector('.search-func');
+//    const funcrefresh = document.getElementById('funcrefresh');
+//    funcrefresh.addEventListener('click', () => {
+//        funcsearchinput.value = "";
+//        cancelFuncEdit();
+//    });
+//    addfunction.addEventListener('click', () => addFunction());
+//    closefunction.addEventListener('click', () => closeFunction());
+//    addfuncSubmit.addEventListener('click', () => submitFunction());
+//    updatefunc.addEventListener('click', () => funcEditTable());
+//    openFuncForm.addEventListener("click", () => FunctionBTN());
+//    closeFuncForm.addEventListener("click", () => FunctionFormExit());
+//    var countswitchfunc = 0;
+//    // Mở Form Func
+//    function FunctionBTN() {
+//        document.querySelector('.Function').style.display = "flex";
+//        document.getElementById('account-overlay').style.display = "block";
+//
+//    }
+//    // Thoát Form Func
+//    function FunctionFormExit() {
+//        funcsearchinput.value = "";
+//        cancelFuncEdit();
+//        document.querySelector('.Function').style.display = "none";
+//        document.getElementById('account-overlay').style.display = "none";
+//    }
+//
+//    // Load DataFrame Chức Năng
+//    function fetchTableDataFunction() {
+//        countswitchfunc = 0;
+//        updatefunc.style.backgroundColor = 'orange';
+//        updatefunc.innerText = 'Sửa';
+//
+//        // Nếu search bar có giá trị fetch.php => fetch?search=$(giá trị mã hóa)
+//        let url = '../DAO/fetchdataFunction.php';
+//        if (funcsearchinput.value.trim()) {
+//            url += `?search=${encodeURIComponent(funcsearchinput.value.trim())}`;
+//        }
+//
+//        fetch(url)
+//            .then(response => {
+//                if (!response.ok) {
+//                    throw new Error('Network response was not ok');
+//                }
+//                return response.json();
+//            })
+//            .then(data => {
+//                console.log(data); // Debugging
+//                const tableBody = document.querySelector('.func-table-body');
+//                tableBody.innerHTML = ""; // Clear existing table rows
+//
+//                data.forEach(row => {
+//                    const tableRow = document.createElement('tr');
+//                    tableRow.style.textAlign = "center";
+//                    tableRow.setAttribute('func-data-id', row.machucnang); // Set row's data-id for later reference
+//                    tableRow.innerHTML = `
+//                        <td style="" class="text_center">${row.machucnang}</td>
+//                        <td style="" class="text_center">${row.tenchucnang}</td>
+//                        <td><button type="button" class="delete-func-btn text_center" func-data-id="${row.machucnang}" style="background-color:red">Xóa</button></td>
+//                    `;
+//                    tableBody.appendChild(tableRow);
+//                });
+//
+//                // Add event listeners cho nút xóa ngay sau khi data được truyền vào
+//                document.querySelectorAll('.delete-func-btn').forEach(button => {
+//                    button.addEventListener('click', function () {
+//                        const functionId = this.getAttribute('func-data-id');
+//                        deleteFunction(functionId);
+//                    });
+//                });
+//            })
+//            .catch(error => console.error('Error fetching data:', error));
+//    }
+//    window.onload = fetchTableDataFunction();
+//
+//    // Xóa Chức Năng
+//    function deleteFunction(function_id) {
+//        if (confirm(`Xóa chức năng mã: "${function_id}"`)) {
+//            console.log('Attempting to delete function with ID:', function_id);
+//            fetch('../DAO/deleteFunction.php', {
+//                method: 'POST',
+//                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//                body: `machucnang=${function_id}`
+//            })
+//                .then(response => response.json())
+//                .then(data => {
+//                    console.log('Delete response:', data); // Log response (check trong console)
+//                    if (data.success) {
+//                        $(document).ready(function () {
+//                            reset_select_chucnang();
+//                        });
+//                        // Tìm và xóa row mà không reload page (edit trực tiếp trên html ko đụng đến cái j khác)
+//                        const rowToDelete = document.querySelector(`tr[func-data-id="${function_id}"]`);
+//                        if (rowToDelete) {
+//                            rowToDelete.remove();
+//                        }
+//                    } else {
+//                        alert("Error deleting function: " + (data.error || "Unknown error"));
+//                    }
+//                })
+//            	  .catch(error => {
+//                    console.error('Error deleting function:', error); 
+//                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+//            	  });
+//        } else {
+//            return;
+//        }
+//    }
+//
+//
+//    // Thêm Chức Năng
+//    function addFunction() {
+//        document.querySelector('.addfunc-input').style.display = 'flex';
+//        document.getElementById('addfunc-overlay').style.display = 'block';
+//    }
+//    function closeFunction() {
+//        document.querySelector('.addfunc-input').style.display = 'none';
+//        document.getElementById('addfunc-overlay').style.display = 'none';
+//        document.getElementById('func-warning').style.color = "none";
+//        document.getElementById('func-warning').innerHTML = "";
+//    }
+//    function submitFunction() {
+//        // values từ input
+//        var functionName = document.getElementById('input-tencn').value;
+//
+//        // valid input?
+//        if (functionName) {
+//            document.getElementById('func-warning').style.color = "none";
+//            document.getElementById('func-warning').innerHTML = "";
+//            //            Sử dụng AJAX để gửi data đến server web
+//            var xhr = new XMLHttpRequest();
+//            xhr.open("POST", "../DAO/addFunction.php", true);
+//            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//
+//            xhr.onreadystatechange = function () {
+//                if (xhr.readyState === 4 && xhr.status === 200) {
+//                    const response = JSON.parse(xhr.responseText);
+//
+//                    if (response.success) {
+//                        $(document).ready(function () {
+//                            reset_select_chucnang();
+//                        });
+//                        alert(response.message); // "Chức Năng được thêm thành công!"
+//                        // Clear the inputs after adding
+//                        document.getElementById('input-tencn').value = '';
+//                        fetchTableDataFunction();
+//                    } else {
+//                        alert("An error occurred: " + (response.error || "Unknown error"));
+//                    }
+//                }
+//            };
+//
+//            xhr.send("&functionName=" + encodeURIComponent(functionName));
+//        } else {
+//            document.getElementById('func-warning').style.color = "red";
+//            document.getElementById('func-warning').innerHTML = "Hãy điền đầy đủ thông tin";
+//        }
+//    }
+//
+//    //  Cập nhật Chức Năng
+//    function funcEditTable() {
+//        console.log(countswitchfunc);
+//        if (countswitchfunc === 1) {
+//            cancelFuncEdit();
+//            countswitchfunc = 0;
+//        } else {
+//            document.querySelectorAll('.func-table-body tr').forEach(row => {
+//                updatefunc.style.backgroundColor = 'Red';
+//                updatefunc.innerText = 'Hủy';
+//
+//                // Enable editable 'tencn'
+//                const nameCell = row.querySelector('td:nth-child(2)'); // Name cell
+//                nameCell.contentEditable = 'true';
+//
+//                // Tạo nút save
+//                const saveButton = document.createElement('button');
+//                saveButton.type = "button";
+//                saveButton.textContent = 'Lưu'; // Save
+//                saveButton.classList.add('func-save-btn');
+//
+//                // Add mỗi row
+//                const actionCell = row.querySelector('td:nth-child(3)'); // Action cell
+//                actionCell.appendChild(saveButton);
+//
+//                // Add event listeners cho Save
+//                saveButton.addEventListener('click', () => saveFuncEdit(row));
+//                countswitchfunc = 1;
+//            });
+//        }
+//    }
+//
+//    // Function save the edit
+//    function saveFuncEdit(row) {
+//        const nameCell = row.querySelector('td:nth-child(2)');
+//        const functionId = row.getAttribute('func-data-id');
+//        const updatedValue = nameCell.textContent;
+//
+//        updateFuncData(functionId, 'tenchucnang', updatedValue);
+//    }
+//
+//    function cancelFuncEdit() {
+//        const table = document.querySelector('.df-func');
+//        const rows = table.querySelectorAll('.func-table-body tr'); // Chỉ chọn những row trong table
+//        rows.forEach(row => {
+//            const nameCell = row.querySelector('td:nth-child(2)');
+//            nameCell.contentEditable = 'false';
+//        });
+//        fetchTableDataFunction();
+//        removeFuncEditButtons();
+//    }
+//
+//    // Function remove save và support đổi edit mode
+//    function removeFuncEditButtons() {
+//        document.querySelectorAll('.func-save-btn').forEach(button => button.remove());
+//        updatefunc.style.backgroundColor = 'orange';
+//        updatefunc.innerText = 'Sửa';
+//    }
+//
+//    // Function for handling data update
+//    function updateFuncData(id, column, value) {
+//        let xhr = new XMLHttpRequest();
+//        xhr.open("POST", "../DAO/updateFunction.php", true);
+//        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//        xhr.onload = function () {
+//            if (xhr.status === 200 && xhr.responseText.trim() === "success") {
+//                $(document).ready(function () {
+//                    reset_select_chucnang();
+//                });
+//                alert("Cập nhật thành công!");
+//            }
+//        };
+//        xhr.send("id=" + encodeURIComponent(id) + "&column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
+//    }
+//
+//    // Thay vì tìm hiểu nguyên do vì sao mỗi input là enter lại gây lỗi thì thêm dòng này để vá lỗi
+//    document.getElementById('input-tencn').addEventListener('keydown', function (event) {
+//        if (event.key === 'Enter') {
+//            event.preventDefault();
+//        }
+//    });
+//    funcsearchinput.addEventListener('keydown', function (event) {
+//        if (event.key === 'Enter') {
+//            event.preventDefault();
+//            fetchTableDataFunction(); // Lấy search input value rồi lấy data dựa trên input value đấy
+//        }
+//    });
 
     //------ajax đăng xuất-------
     $(document).ready(function () {
@@ -1827,9 +1845,12 @@ function deleteProvider(provider_id) {
                     alert("Error deleting provider: " + (data.error || "Unknown error"));
                 }
             })
-            .catch(error => console.error('Error deleting provider:', error));
+            .catch(error => {
+                console.error('Error deleting provider:', error); 
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            });
     } else {
-        exit();
+        return;
     }
 }
 
@@ -2147,9 +2168,12 @@ function deleteAuthor(author_id) {
                     alert("Lỗi khi xóa tác giả: " + (data.error || "Lỗi không xác định"));
                 }
             })
-            .catch(error => console.error('Lỗi khi xóa tác giả:', error));
+            .catch(error => {
+                console.error('Error deleting author:', error); 
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            });
     } else {
-        exit();
+        return;
     }
 }
 

@@ -59,23 +59,58 @@ document.addEventListener("DOMContentLoaded", () => {
     
 });
 
+
+
+    // Hàm để lấy thông tin tài khoản dựa trên mã tài khoản (matk)
+    function getUserInfo(matk) {
+        $.ajax({
+            url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+            type: 'POST',
+            data: { matk_info: matk }, // Gửi mã tài khoản từ tham số
+            dataType: 'json',
+            success: function (data) {
+                console.log('Phản hồi từ server:', data.list_thongtin_taikhoan);
+                if (data.list_thongtin_taikhoan && Object.keys(data.list_thongtin_taikhoan).length > 0) {
+                    // Điền thông tin vào các trường input
+                    $('.info_admin-ten').val(data.list_thongtin_taikhoan.ten);
+                    $('.info_admin-gioitinh').val(data.list_thongtin_taikhoan.gioitinh);
+                    $('.info_admin-ngaysinh').val(data.list_thongtin_taikhoan.ngaysinh);
+                    $('.info_admin-email').val(data.list_thongtin_taikhoan.email);
+                    $('.info_admin-sdt').val(data.list_thongtin_taikhoan.sdt);
+                    $('.info_admin-diachi').val(data.list_thongtin_taikhoan.diachi);
+                    // Hiển thị ảnh nếu có
+                    if (data.list_thongtin_taikhoan.img !== null) {
+                        $('.image-nv-info').attr('src', '../img/' + data.list_thongtin_taikhoan.img);
+                    } else {
+                        $('.image-nv-info').attr('src', '../img/noimages.png'); // Hình mặc định
+                    }
+                } else {
+                    console.log(data.message || "Không có thông tin tài khoản.");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Lỗi khi gửi yêu cầu:', textStatus, errorThrown);
+            }
+        });
+    }
+    
+    // Gọi hàm với mã tài khoản cụ thể
+    // getUserInfo('ttda0864');
+
+
+
+
 // Hàm chọn ảnh
 let imagePathNVinfo;
-function previewImageNVinfo(event) {
-    const input = event.target; // Lấy input file
+function previewImageNV(event) {
+    const input = event.target;
     const imagePreview = document.querySelector('.image-nv-info');
 
     if (input.files && input.files[0]) {
-        const reader = new FileReader(); // Tạo đối tượng FileReader
-
-        reader.onload = function(e) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
             imagePreview.src = e.target.result; // Cập nhật src của img với dữ liệu hình ảnh
         }
-
         reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
-
-        // Lưu đường dẫn tạm thời (base64) để sử dụng sau này
-        imagePathNVinfo = URL.createObjectURL(input.files[0]);
-        console.log("Đường dẫn hình ảnh:", imagePathNVinfo); // Bạn có thể lưu đường dẫn này vào database sau này
     }
 }

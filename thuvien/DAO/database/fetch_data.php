@@ -1395,6 +1395,62 @@ if (isset($_POST['manv_timAnh_nv'])) {
     );
 }
 
+
+// ================================================ Hiện thông tin tài khoản ============================================================
+
+// Kiểm tra xem có gửi dữ liệu không
+$list_thongtin_taikhoan = array();
+
+if (isset($_POST['matk_info'])) {
+    $matk = $_POST['matk_info']; // Lấy mã tài khoản từ POST
+
+    // Kiểm tra trong bảng nhân viên
+    $sql_nhanvien = "SELECT * FROM nhanvien WHERE matk = ?";
+    $stmt_nhanvien = $connect->prepare($sql_nhanvien);
+    $stmt_nhanvien->bind_param("s", $matk); // "s" vì matk là chuỗi
+
+    if ($stmt_nhanvien->execute()) {
+        $result_nhanvien = $stmt_nhanvien->get_result();
+        if ($result_nhanvien->num_rows > 0) {
+            // Nếu tìm thấy thông tin nhân viên
+            $list_thongtin_taikhoan = $result_nhanvien->fetch_assoc();
+        } else {
+            // Nếu không tìm thấy, kiểm tra bảng độc giả
+            $sql_docgia = "SELECT * FROM docgia WHERE matk = ?";
+            $stmt_docgia = $connect->prepare($sql_docgia);
+            $stmt_docgia->bind_param("s", $matk);
+
+            if ($stmt_docgia->execute()) {
+                $result_docgia = $stmt_docgia->get_result();
+                if ($result_docgia->num_rows > 0) {
+                    // Nếu tìm thấy thông tin độc giả
+                    $list_thongtin_taikhoan = $result_docgia->fetch_assoc();
+                } else {
+                    // Không tìm thấy thông tin
+                    $list_thongtin_taikhoan['status'] = 'error';
+                    $list_thongtin_taikhoan['message'] = 'Không tìm thấy tài khoản.';
+                }
+            } else {
+                $list_thongtin_taikhoan['status'] = 'error';
+                $list_thongtin_taikhoan['message'] = 'Lỗi khi truy vấn bảng độc giả: ' . $stmt_docgia->error;
+            }
+
+            // Đóng câu lệnh truy vấn độc giả
+            $stmt_docgia->close();
+        }
+    } else {
+        $list_thongtin_taikhoan['status'] = 'error';
+        $list_thongtin_taikhoan['message'] = 'Lỗi khi truy vấn bảng nhân viên: ' . $stmt_nhanvien->error;
+    }
+
+    // Đóng câu lệnh truy vấn nhân viên
+    $stmt_nhanvien->close();
+} else {
+    $list_thongtin_taikhoan['status'] = 'error';
+    $list_thongtin_taikhoan['message'] = 'Mã tài khoản không hợp lệ.';
+}
+
+
 // ================================================ echo json encode ============================================================
 
 $response = array(
@@ -1447,6 +1503,7 @@ $response = array(
     'list_sua_dg' => $list_sua_dg,
     'list_sua_loaidocgia' => $list_sua_loaidocgia,
     'list_sua_maquyen_tk' => $list_sua_maquyen_tk,
+    'list_thongtin_taikhoan' => $list_thongtin_taikhoan,
 );
 
 echo json_encode($response);

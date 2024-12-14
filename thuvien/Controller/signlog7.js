@@ -214,6 +214,7 @@ function SignupAlert() {
 }
 
 function closeForm() {
+    console.log('kkk');
     const wrapper = document.querySelector('.wrapper');
     const overlay = document.getElementById('div_overlay');
     wrapper.classList.remove('active_form');
@@ -250,17 +251,8 @@ $(document).ready(function () {
         var username = $('#input_username_login').val();
         var password = $('#input_password_login').val();
 
-        console.log(username);
-        console.log(password);
-
-        if ($('#remember-checkbox').prop('checked')) {
-            var usernameLuu = $('#input_username_login').val();
-            var passwordLuu = $('#input_password_login').val();
-        } else {
-            var usernameLuu = "";
-            var passwordLuu = "";
-            console.log('Checkbox ko được check');
-        }
+        var usernameLuu = $('#remember-checkbox').prop('checked') ? username : "";
+        var passwordLuu = $('#remember-checkbox').prop('checked') ? password : "";
 
         var errorUsername = document.querySelector('.error_username_login');
         var errorPassword = document.querySelector('.error_password_login');
@@ -279,52 +271,43 @@ $(document).ready(function () {
             $.ajax({
                 url: '../DAO/dn_dk/checktk.php',
                 type: 'POST',
+                dataType: 'json',
                 data: { usernamekk: username },
                 success: function (response) {
-                    console.log(response);
-                    var data = JSON.parse(response);
-                    console.log(data.tttk);
-                    if (data.tttk === 'fail') {
-                        // Thực hiện hành động khi tttk = 1
-                        document.querySelector('.error_login').classList.add('active');
-                        document.querySelector('.error_login').innerHTML = '* Tài khoản này đã bị khóa';
-                    } else if (data.recovery === 'fail') {
-                        document.querySelector('.error_login').classList.add('active');
-                        document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
-                    }
-                    else {
+                    console.log('Phản hồi từ checktk:', response); // Kiểm tra phản hồi
+                    if (response.tttk === 'success') {
                         $.ajax({
-                            url: '../DAO/dn_dk/login.php', // Đường dẫn đến file PHP xử lý kiểm tra đăng nhập
+                            url: '../DAO/dn_dk/login.php',
                             type: 'POST',
                             data: { username_dn: username, password_dn: password, username_luu: usernameLuu, password_luu: passwordLuu },
                             dataType: 'json',
                             success: function (response) {
-                                console.log(response.status);
-                                console.log(response.username);
+                                console.log('Phản hồi từ login:', response); // Kiểm tra phản hồi
                                 if (response.status === 'success') {
-                                    // Đăng nhập thành công, lưu username vào localStorage
+                                    console.log("Đăng nhập thành công");
                                     localStorage.setItem('username', response.username);
-
-                                    // Đăng nhập thành công, chuyển hướng đến trang khác hoặc thực hiện các hành động khác
                                     resetInputDN();
                                     closeForm();
-                                    // Thay đổi trang chủ khi đăng nhập thành công
-                                    // window.location.href = 'Form.php';
-                                    // Lấy username từ localStorage
-
                                     setTimeout(function () {
                                         window.location.reload();
                                     }, 250);
-                                }
-                                else {
-                                    // Hiển thị thông báo lỗi đăng nhập
+                                } else {
                                     document.querySelector('.error_login').classList.add('active');
                                     document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
                                 }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.error('Lỗi khi gửi yêu cầu đăng nhập:', textStatus, errorThrown);
                             }
                         });
+                    } else {
+                        document.querySelector('.error_login').classList.add('active');
+                        document.querySelector('.error_login').innerHTML = '* Tên đăng nhập hoặc mật khẩu không chính xác';
                     }
                 },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Lỗi khi gửi yêu cầu kiểm tra tài khoản:', textStatus, errorThrown);
+                }
             });
         }
     });

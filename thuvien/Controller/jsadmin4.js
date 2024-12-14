@@ -2376,7 +2376,6 @@ function fetchChiTietQuyen(maquyen) {
                 tableRow.setAttribute('ctq-data-id', row.maquyen); // Set row's data-id for later reference
                 tableRow.innerHTML = `
                     <td>${stt++}</td>
-                    <td>${row.maquyen}</td>
                     <td>${row.tenchucnang}</td>
                     <td>${row.hanhdong}</td>
                     <td><input type="checkbox" ${row.hoatdong ? 'checked' : ''}></td>

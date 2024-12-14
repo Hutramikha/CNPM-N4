@@ -240,6 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const cells = $(this).children('td');
 
             const masach_for_input = $(cells[1]).text(); // Cột Mã sách
+            console.log(masach_for_input);
             const tensach_for_input = $(cells[2]).text(); // Cột Tên sách
             const tomtat_for_input = $(cells[3]).text(); // Cột Tóm tắt
             const matl_for_select = $(cells[4]).text(); // Cột Mã TL

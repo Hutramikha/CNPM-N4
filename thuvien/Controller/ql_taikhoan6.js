@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.append('action', 'updateMaQuyentk');
             formData.append('tendangnhap', tendangnhap); // Tên đăng nhập
             formData.append('maquyen', maquyentk); // Mã quyền mới
-
+            
             // Gửi dữ liệu đến máy chủ
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // URL đến file PHP xử lý

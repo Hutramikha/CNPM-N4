@@ -18,6 +18,8 @@ if (isset($_POST['username_dn']) && isset($_POST['password_dn'])) {
         $_SESSION['mySession'][0] = $username;
         $_SESSION['mySession'][1] = $password;
         setcookie("username",$username,time()+(86400*1),'/');
+        $response = array('status' => 'success');
+        echo json_encode($response);
 
         if ($usernameluu!=="" && $passwordluu!=="") {
             setcookie("user",$usernameluu,time()+(86400*7),'/');

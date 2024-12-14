@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_cancel.disabled = false;
         resetInput();
         ableInput();
+        save_for_pq = 1;
     });
 
     btn_edit.addEventListener('click', () => {
@@ -46,6 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_delete.disabled = true;
         btn_save.disabled = false;
         btn_cancel.disabled = false;
+
+        save_for_pq = 2;
 
         ableInput();
     });
@@ -66,11 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btn_reset.addEventListener('click', () => {
+        input_search.value ='';
         btn_add.disabled = false;
         btn_edit.disabled = false;
         btn_delete.disabled = false;
         btn_save.disabled = true;
         btn_cancel.disabled = true;
+
+        save_for_pq = 0
 
         disableInput();
         resetInput();
@@ -130,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    //======================================Tìm kiếm nhân viên
+    //======================================Tìm kiếm phân quyền
     $(document).ready(function () {
         // Hàm tìm kiếm nhân viên
         function searchPowers() {
@@ -160,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
                         });
                     } else {
-                        $('.table-quyen tbody').append('<tr><td colspan="9">Không tìm thấy nhóm quyền nào.</td></tr>');
+                        $('.table-quyen tbody').append('<tr><td colspan="3">Không tìm thấy nhóm quyền nào.</td></tr>');
                     }
                 },
                 error: function (xhr, status, error) {
@@ -173,9 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.btn-search-pq').on('click', function () {
             searchPowers();
         });
-        $('.btn-save-pq').on('click', function () {
-            insertPermission();
-        });
+
+        //$('.btn-save-pq').on('click', function () {
+        //    insertPermission();
+        //});
      
 
         // Tìm kiếm khi nhấn phím Enter
@@ -203,13 +210,200 @@ document.addEventListener("DOMContentLoaded", () => {
             $('.input-ten_pq').val(ten_for_input);
             $('.input-mota_pq').val(mota_for_input);
 
-            fetchChiTietQuyen(mapq_for_input)
+            ma_pq_toancuc = mapq_for_input;
+            maquyen_check = mapq_for_input;
+            tenquyen_check = ten_for_input;
+
+            fetchChiTietQuyen(mapq_for_input);
+        });
+    });
+
+    $(document).ready(function () {
+        $('btn-delete-pq').on('click', function() {
+            if (ma_pq_toancuc = 0) {
+                alert('Bạn không thể xóa quyền admin!');
+                return;
+            }
+            else if (ma_pq_toancuc) {
+                const confirmMessage = `Bạn có chắc chắn muốn xóa nhân viên ?`;
+                if (!confirm(confirmMessage)) {
+                    return;
+                }
+                $.ajax({
+                    url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý xóa
+                    method: 'POST',
+                    data: { mapq_xoa: ma_pq_toancuc }, // Gửi masach
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data.list_xoa_quyen, function (index, maquyen) {
+                            if (maquyen.status === "success") {
+                                alert(maquyen.message);
+                                resetInput();
+                                reset_table_nhanvien();
+                            } else {
+                                alert(maquyen.message);
+                            }
+                        })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn để xóa.');
+            }
         });
     });
 
     $(document).ready(function () {
         window.reset_table_quyen = reset_table_quyen;
     });
+
+    $(document).ready(function () {
+        $('.btn-save-nv').click(function () {
+
+            switch (save_for_pq) {
+                case 1:
+                    $(document).ready(function () {
+                        let isValid_pq = true;
+                        
+                        const maquyen = $('.input-ma_pq').val();
+                        const tenquyen = $('.input-ten_pq').val();
+                        const mota = $('input-mota_pq').val();
+
+                        if(maquyen) {
+                            alert('Vui lòng nhập mã quyền.');
+                            isValid_pq = false;
+                        } else if(!tenquyen) {
+                            alert('Vui lòng nhập tên quyền.');
+                            isValid_pq = false;
+                        } else if(!mota) {
+                            alert('Vui lòng nhập mô tả.');
+                            isValid_pq = false;
+                        }
+
+                        if (!isValid_pq) {
+                            return;
+                        }
+
+                        const confirmMessage = `Bạn có chắc chắn muốn thêm quyền?`;
+                        if (!confirm(confirmMessage)) {
+                            return; // Nếu người dùng không xác nhận, dừng lại
+                        }
+                         
+                        const formData = new FormData();
+                        formData.append('action', 'addQuyen');
+                        formData.append('maquyen', maquyen);
+                        formData.append('tenquyen', tenquyen);
+
+                        $.ajax({
+                            url: '../DAO/database/fetch_data.php',
+                            type: 'POST',
+                            data: formData,
+                            processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                            contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                            dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                            success: function (data) {
+                                if (data.list_them_quyen && data.list_them_quyen.length > 0) {
+                                    $.each(data.list_them_quyen, function (index, quyen) {
+                                        if (quyen.status === "success") {
+                                                alert(quyen.message);
+                                                resetInput();
+                                                reset_table_quyen();
+                                            } else {
+                                                alert(quyen.message);
+                                            }
+                                        });
+                                } else {
+                                    alert("Có lỗi.");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi:', error);
+                                console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                            }
+                        });
+                    });
+                    break;
+
+                case 2:
+                    const maquyen = $('.input-ma_pq').val();
+                    const tenquyen = $('.input-ten_pq').val();
+                    const mota = $('input-mota_pq').val();
+
+                    let isChangedpq = false;
+
+                    // Kiểm tra xem có thay đổi hay không
+                    if (maquyen !== maquyen_check) isChangednv = true;
+                    if (tenquyen !== tenquyen_check) isChangednv = true;
+
+                    if (!isChangedpq) {
+                        alert("Không có thay đổi nào để cập nhật.");
+                        return; // Dừng lại nếu không có thay đổi
+                    }
+
+                    if(maquyen) {
+                        alert('Vui lòng nhập mã quyền.');
+                        isValid_pq = false;
+                    } else if(!tenquyen) {
+                        alert('Vui lòng nhập tên quyền.');
+                        isValid_pq = false;
+                    } else if(!mota) {
+                        alert('Vui lòng nhập mô tả.');
+                        isValid_pq = false;
+                    }
+
+                    if (!isValid_pq) {
+                        return;
+                    }
+
+                    const confirmMessage = `Bạn có chắc chắn muốn thêm quyền?`;
+                    if (!confirm(confirmMessage)) {
+                        return; // Nếu người dùng không xác nhận, dừng lại
+                    }
+                     
+                    const formData = new FormData();
+                    formData.append('action', 'suaQuyen');
+                    formData.append('maquyen', maquyen);
+                    formData.append('tenquyen', tenquyen);
+
+                    $.ajax({
+                        url: '../DAO/database/fetch_data.php',
+                        type: 'POST',
+                        data: formData,
+                        processData: false, // Đặt false để jQuery không xử lý dữ liệu
+                        contentType: false, // Đặt false để jQuery không tự động thêm header Content-Type
+                        dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
+                        success: function (data) {
+                            if (data.list_sua_quyen && data.list_sua_quyen.length > 0) {
+                                $.each(data.list_sua_quyen, function(index, quyen) {
+                                    if (quyen.status === "success") {
+                                            alert(quyen.message);
+                                            resetInput();
+                                            reset_table_quyen();
+                                        } else {
+                                            alert(quyen.message);
+                                        }
+                                    });
+                            } else {
+                                alert("Có lỗi.");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Lỗi:', error);
+                            console.log('Phản hồi từ máy chủ:', xhr.responseText); // In ra phản hồi
+                        }
+                    });
+            break;
+
+            default:
+                alert("Trường hợp không hợp lệ. Vui lòng chọn 1 hoặc 2.");
+                break;
+        }
+    });
+});
+
     // Hàm thêm quyền
     function insertPermission() {
         const ma_pq = input_ma_pq.value;
@@ -248,3 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let ma_pq_toancuc = null;
+
+let save_for_pq = 0;
+
+let maquyen_check;
+let tenquyen_check;

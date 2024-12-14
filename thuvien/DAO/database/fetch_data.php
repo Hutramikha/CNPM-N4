@@ -453,6 +453,36 @@ if ($result_timkiem_nhanvien->num_rows > 0) {
     }
 }
 
+// =========================== Tìm kiếm quyền ===>
+$list_timkiem_quyen = array();
+
+if (isset($_GET['search_quyen'])) {
+    $search_quyen = $_GET['search_quyen'];
+
+    if (is_numeric($search_quyen)) {
+        // Nếu là số, tìm kiếm theo mã quyền (maquyen)
+        $sql_timkiem_quyen = "SELECT * FROM quyen WHERE maquyen = ?";
+        $stmt = $connect->prepare($sql_timkiem_quyen);
+        $stmt->bind_param('i', $search_quyen); // 'i' cho integer
+    } else {
+        // Nếu không phải là số, tìm kiếm theo tên quyền (tenquyen)
+        $sql_timkiem_quyen = "SELECT * FROM quyen WHERE tenquyen LIKE ?";
+        $stmt = $connect->prepare($sql_timkiem_quyen);
+        $search_quyen_param = "%$search_quyen%"; // Thêm % cho chuỗi
+        $stmt->bind_param('s', $search_quyen_param); // 's' cho string
+    }
+
+    // Thực thi câu lệnh và xử lý kết quả
+    $stmt->execute();
+    $result_timkiem_quyen = $stmt->get_result();
+
+    if ($result_timkiem_quyen->num_rows > 0) {
+        while ($row = $result_timkiem_quyen->fetch_assoc()) {
+            $list_timkiem_quyen[] = $row;
+        }
+    }
+}
+
 // =========================== Tìm kiếm độc giả ===>
 $search_docgia = isset($_GET['search_docgia']) ? $_GET['search_docgia'] : '';
 
@@ -783,6 +813,68 @@ if (isset($_POST['action'])) {
     }
 }
 
+//=== Xử lý THÊM QUYỀN ===>
+$list_them_quyen = array(); // Khởi tạo mảng kết quả
+
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'addQuyen') {
+        // Lấy dữ liệu từ form
+        $maquyen = $_POST['maquyen'];
+        $tenquyen = $_POST['tenquyen'];
+
+        // Kiểm tra nếu mã quyền đã tồn tại
+        $check_sql = "SELECT * FROM quyen WHERE maquyen = ?";
+        $check_stmt = $connect->prepare($check_sql);
+        $check_stmt->bind_param("i", $maquyen);
+        $check_stmt->execute();
+        $result = $check_stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Mã quyền đã tồn tại
+            $list_them_quyen[] = array(
+                "status" => "fail",
+                "message" => "Mã quyền đã tồn tại!"
+            );
+        } else {
+            // Câu lệnh INSERT để thêm quyền
+            $sql = "INSERT INTO quyen (maquyen, tenquyen) VALUES (?, ?)";
+            $stmt = $connect->prepare($sql);
+            
+            if ($stmt === false) {
+                die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+            }
+
+            // Gắn giá trị vào câu lệnh
+            $stmt->bind_param("is", $maquyen, $tenquyen);
+
+            // Thực thi câu lệnh và trả kết quả
+            if ($stmt->execute()) {
+                $list_them_quyen[] = array(
+                    "status" => "success",
+                    "message" => "Thêm quyền thành công!"
+                );
+            } else {
+                $list_them_quyen[] = array(
+                    "status" => "fail",
+                    "message" => "Lỗi: " . $stmt->error
+                );
+            }
+        }
+    } else {
+        $list_them_quyen[] = array(
+            "status" => "fail",
+            "message" => "Hành động không hợp lệ!"
+        );
+    }
+} else {
+    $list_them_quyen[] = array(
+        "status" => "fail",
+        "message" => "Dữ liệu gửi lên không đầy đủ!"
+    );
+}
+
 // ================================================ UPDATE ============================================================
 
 $list_sua_maquyen_tk = array();
@@ -952,6 +1044,68 @@ if (isset($_POST['action'])) {
             );
         }
     }
+}
+
+//=== Xử lý SỬA QUYỀN ===>
+$list_sua_quyen = array(); // Khởi tạo mảng kết quả
+
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'suaQuyen') {
+        // Lấy dữ liệu từ form
+        $maquyen = $_POST['maquyen']; // Mã quyền cần cập nhật
+        $tenquyen = $_POST['tenquyen']; // Tên quyền mới
+
+        // Kiểm tra xem mã quyền có tồn tại trong cơ sở dữ liệu không
+        $check_sql = "SELECT * FROM quyen WHERE maquyen = ?";
+        $check_stmt = $connect->prepare($check_sql);
+        $check_stmt->bind_param("i", $maquyen);
+        $check_stmt->execute();
+        $result = $check_stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Câu lệnh UPDATE để sửa quyền
+            $sql = "UPDATE quyen SET tenquyen = ? WHERE maquyen = ?";
+            $stmt = $connect->prepare($sql);
+
+            if ($stmt === false) {
+                die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+            }
+
+            // Gắn giá trị vào câu lệnh
+            $stmt->bind_param("si", $tenquyen, $maquyen);
+
+            // Thực thi câu lệnh và trả kết quả
+            if ($stmt->execute()) {
+                $list_sua_quyen[] = array(
+                    "status" => "success",
+                    "message" => "Cập nhật quyền thành công!"
+                );
+            } else {
+                $list_sua_quyen[] = array(
+                    "status" => "fail",
+                    "message" => "Lỗi: " . $stmt->error
+                );
+            }
+        } else {
+            // Mã quyền không tồn tại
+            $list_sua_quyen[] = array(
+                "status" => "fail",
+                "message" => "Mã quyền không tồn tại!"
+            );
+        }
+    } else {
+        $list_sua_quyen[] = array(
+            "status" => "fail",
+            "message" => "Hành động không hợp lệ!"
+        );
+    }
+} else {
+    $list_sua_quyen[] = array(
+        "status" => "fail",
+        "message" => "Dữ liệu gửi lên không đầy đủ!"
+    );
 }
 
 //==== Sửa độc giả ====>
@@ -1188,6 +1342,53 @@ if (isset($_POST['manv_xoa'])) {
         "message" => "Mã nhân viên không hợp lệ"
     );
 }
+//=== Xử lý XÓA quyền ===>
+if (isset($_POST['mapq_xoa'])) {
+    $maquyen = $_POST['mapq_xoa']; // Lấy mã quyền cần xóa từ POST
+
+    // Kiểm tra nếu mã quyền là 0 (Admin) thì không cho xóa
+    if ($maquyen == 0) {
+        $list_xoa_quyen[] = array(
+            "status" => "error",
+            "message" => "Bạn không thể xóa quyền admin!"
+        );
+        echo json_encode(['list_xoa_quyen' => $list_xoa_quyen]);
+        exit;
+    }
+
+    // Chuẩn bị câu lệnh xóa
+    $sql = "DELETE FROM chitietquyen WHERE maquyen = ?";
+    $stmt = $connect->prepare($sql);
+    $stmt->bind_param("i", $maquyen);
+
+    $list_xoa_quyen = array();
+
+    // Thực thi câu lệnh xóa
+    if ($stmt->execute()) {
+        // Trả về kết quả thành công
+        $list_xoa_quyen[] = array(
+            "status" => "success",
+            "message" => "Xóa quyền thành công!"
+        );
+    } else {
+        // Trả về lỗi nếu có vấn đề
+        $list_xoa_quyen[] = array(
+            "status" => "error",
+            "message" => "Lỗi: " . $stmt->error
+        );
+    }
+
+    // Đóng statement
+    $stmt->close();
+} else {
+    // Trường hợp không nhận được mã quyền
+    $list_xoa_quyen[] = array(
+        "status" => "error",
+        "message" => "Mã quyền không hợp lệ!"
+    );
+}
+
+echo json_encode(['list_xoa_quyen' => $list_xoa_quyen]);
 
 
 //=== Xử lý XÓA độc giả ===>
@@ -1630,6 +1831,7 @@ $response = array(
     'list_xuly_phieumuon' => $list_xuly_phieumuon,
     'list_xoa_sach' => $list_xoa_sach,
     'list_xoa_nhanvien' => $list_xoa_nhanvien,
+    'list_xoa_quyen' => $list_xoa_quyen,
     'list_xoa_docgia' => $list_xoa_docgia,
     'list_xoa_ct_sach' => $list_xoa_ct_sach,
     'list_xoa_taikhoan' => $list_xoa_taikhoan,
@@ -1637,8 +1839,11 @@ $response = array(
     'list_tim_anh_sach' => $list_tim_anh_sach,
     'list_sua_sach' => $list_sua_sach,
     'list_them_nhanvien' => $list_them_nhanvien,
+    'list_timkiem_quyen' => $list_timkiem_quyen,
+    'list_them_quyen' => $list_them_quyen,
     'list_tim_anh_nv' => $list_tim_anh_nv,
     'list_sua_nv' => $list_sua_nv,
+    'list_sua_quyen' => $list_sua_quyen,
     'list_sua_dg' => $list_sua_dg,
     'list_sua_loaidocgia' => $list_sua_loaidocgia,
     'list_sua_maquyen_tk' => $list_sua_maquyen_tk,

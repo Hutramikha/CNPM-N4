@@ -460,7 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             dataType: 'json', // Chỉ định kiểu dữ liệu là JSON
                             success: function (data) {
                                 if (data.list_them_nhanvien && data.list_them_nhanvien.length > 0) {
-                                    $.each(data.list_them_nhanvien, function (index, nhanvien) {
+                                    $.each(data.list_them_nhanvien, function(index, nhanvien) {
                                         if (nhanvien.status === "success") {
                                             alert(nhanvien.message);
                                             resetIMG();

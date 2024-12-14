@@ -16,7 +16,7 @@ $khachhangResult = mysqli_query($connect, $khachhangSql);
 
     if (mysqli_num_rows($khachhangResult) > 0) {
         $khachhangRow = mysqli_fetch_assoc($khachhangResult);
-        $tttk = $khachhangRow['tttk'];
+        $tttk = $khachhangRow['trangthai'];
 
         if($tttk == 1) {
             $ttkhRe = 'fail';

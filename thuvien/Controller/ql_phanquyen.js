@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_edit.disabled = true;
         btn_save.disabled = false;
         btn_cancel.disabled = false;
-
+        resetInput();
         ableInput();
     });
 
@@ -173,6 +173,10 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.btn-search-pq').on('click', function () {
             searchPowers();
         });
+        $('.btn-save-pq').on('click', function () {
+            insertPermission();
+        });
+     
 
         // Tìm kiếm khi nhấn phím Enter
         $('.search-input-pq').on('keypress', function (e) {
@@ -189,11 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.table-quyen tbody').on('click', 'tr', function () {
             // Lấy dữ liệu từ các cột
             const cells = $(this).children('td');
-            
+
             const mapq_for_input = $(cells[0]).text(); // Cột Mã NV
             const ten_for_input = $(cells[1]).text(); // Cột Mã TK
             const mota_for_input = $(cells[2]).text();
-    
+
             // Đổ dữ liệu vào các input và select
             $('.input-ma_pq').val(mapq_for_input);
             $('.input-ten_pq').val(ten_for_input);
@@ -206,6 +210,40 @@ document.addEventListener("DOMContentLoaded", () => {
     $(document).ready(function () {
         window.reset_table_quyen = reset_table_quyen;
     });
+    // Hàm thêm quyền
+    function insertPermission() {
+        const ma_pq = input_ma_pq.value;
+        const ten_pq = input_ten_pq.value;
+
+        // Kiểm tra nếu input trống
+        if (!ma_pq || !ten_pq ) {
+            alert('Vui lòng nhập đầy đủ thông tin.');
+            return;
+        }
+    
+        // Gửi dữ liệu tới server qua AJAX
+        $.ajax({
+            url: '../DAO/updateQuyen.php', // Đường dẫn đến file PHP xử lý insert
+            method: 'POST',
+            data: {
+                maquyen: ma_pq,
+                tenquyen: ten_pq,
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Thêm quyền thành công.');
+                    reset_table_quyen(); // Cập nhật lại bảng sau khi thêm
+                    resetInput(); // Reset form
+                } else {
+                    alert('Lỗi khi thêm quyền: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi:', error);
+            }
+        });
+    }
+    
 
 });
 

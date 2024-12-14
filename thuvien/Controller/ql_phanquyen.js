@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     $(document).ready(function () {
-        $('.btn-save-nv').click(function () {
+        $('.btn-save-pq').click(function () {
 
             switch (save_for_pq) {
                 case 1:
@@ -270,18 +270,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         
                         const maquyen = $('.input-ma_pq').val();
                         const tenquyen = $('.input-ten_pq').val();
-                        const mota = $('input-mota_pq').val();
 
-                        if(maquyen) {
+                        if(!maquyen) {
                             alert('Vui lòng nhập mã quyền.');
                             isValid_pq = false;
                         } else if(!tenquyen) {
                             alert('Vui lòng nhập tên quyền.');
                             isValid_pq = false;
-                        } else if(!mota) {
-                            alert('Vui lòng nhập mô tả.');
-                            isValid_pq = false;
-                        }
+                        } 
 
                         if (!isValid_pq) {
                             return;
@@ -343,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         return; // Dừng lại nếu không có thay đổi
                     }
 
-                    if(maquyen) {
+                    if(!maquyen) {
                         alert('Vui lòng nhập mã quyền.');
                         isValid_pq = false;
                     } else if(!tenquyen) {

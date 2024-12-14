@@ -2297,6 +2297,7 @@ const searchinputctq = document.querySelector('.search-ctq');
 
 openCtqForm.addEventListener("click", () => PhanquyenBTN());
 closeCtqForm.addEventListener("click", () => PhanquyenFormExit());
+closeCtqForm.addEventListener("click", () => submitPhanquyen());
 var countswitch = 0;
 // Mở Form Ctq
 function PhanquyenBTN() {
@@ -2311,6 +2312,69 @@ function PhanquyenFormExit() {
 }
 
 // Load DataFrame Phân quyền
+function submitPhanquyen() {
+    const data = []; // Khởi tạo mảng dữ liệu cần gửi
+
+    // Lấy mã quyền từ bảng .table-quyen (dựa trên hàng đã chọn)
+    const selectedRow = document.querySelector('.table-quyen tbody tr.selected');
+    if (!selectedRow) {
+        alert("Hãy chọn một dòng trong bảng quyền trước.");
+        return;
+    }
+    const maquyen = selectedRow.querySelector('td:first-child').textContent.trim();
+
+    // Thu thập dữ liệu từ bảng chi tiết quyền
+    const rows = document.querySelectorAll('.ctq-table-body tr');
+    rows.forEach(row => {
+        const tenchucnang = row.cells[1].textContent.trim();
+        const hanhdong = row.cells[2].textContent.trim();
+        const hoatdong = row.cells[3].querySelector('input[type="checkbox"]').checked;
+
+        data.push({
+            maquyen: maquyen,
+            tenchucnang: tenchucnang,
+            hanhdong: hanhdong,
+            hoatdong: hoatdong
+        });
+    });
+
+    // Kiểm tra nếu không có dữ liệu
+    if (data.length === 0) {
+        alert("Không có dữ liệu để lưu.");
+        return;
+    }
+
+    // Gửi dữ liệu tới server
+    fetch('../DAO/updatePhanquyen.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert(result.message);
+            } else {
+                alert("Lỗi: " + result.message);
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi khi gửi dữ liệu:", error);
+            alert("Đã xảy ra lỗi khi gửi dữ liệu.");
+        });
+}
+
+// Gắn sự kiện click để chọn hàng trong bảng .table-quyen
+$(document).ready(function () {
+    $('.table-quyen tbody').on('click', 'tr', function () {
+        $('.table-quyen tbody tr').removeClass('selected');
+        $(this).addClass('selected');
+    });
+});
+
+
 
 // Function for handling data update
 function updateCtqData(id, column1, value1, column2, value2, column3, value3) {

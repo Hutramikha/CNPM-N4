@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 success: function (data) {
                     // Hiển thị dữ liệu cho danh sách nhân viên
                     $.each(data.list_quyen, function (index, quyen) {
-                        $('.table-nhanvien tbody').append(
+                        $('.table-quyen tbody').append(
                             '<tr>' +
                             '<td>' + quyen.maquyen + '</td>' +
                             '<td>' + quyen.tenquyen + '</td>' +

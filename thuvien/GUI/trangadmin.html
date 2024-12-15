@@ -1505,7 +1505,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div style="text-align: center;">
+                        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
                             <div class="total-money-pn">
                                 <label style="font-size: 16px;">Tổng tiền: </label>
                                 <span id="total-money-pn">0</span> <!-- Hiển thị tổng tiền -->
@@ -1513,14 +1513,14 @@
 
                             <div class="total-records-pn">
                                 <label style="font-size: 16px;">Số lượng bản ghi: </label>
-                                <span id="total-records">0</span> <!-- Hiển thị số lượng bản ghi -->
+                                <span id="total-records-pn">0</span> <!-- Hiển thị số lượng bản ghi -->
                             </div>
                         </div>
                         <div style="height: 1vh;"></div>
                     </div>
                     <div id="phieumuon-tk" class="tab-pane-tk">
                         <div class="table_contain">
-                            <div>                                
+                            <div>                                 
                                 <label class="input-label" style="font-size: 16px;">Từ ngày:</label>
                                 <input type="date" class="input-control input_thongke_tu_ngay_pm"
                                     style="height: 5vh; width: 12.5%; margin-right: 0.5%;" placeholder="Chọn ngày">
@@ -1530,8 +1530,9 @@
                                 <button class="btn_action btn-save btn-tk_pm" type="button">Lọc</button>
                             </div>
                         </div>
+                    
                         <div style="height: 1vh;"></div>
-
+                    
                         <div class="table_contain">
                             <div class="table_limit-4h" style="margin-bottom: 2%;">
                                 <table class="table-phieu_muon-tk">
@@ -1552,7 +1553,22 @@
                                 </table>
                             </div>
                         </div>
+                    
+                        <!-- Hiển thị tổng phí mượn và số lượng bản ghi -->
+                        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                            <div class="total-money">
+                                <label style="font-size: 16px;">Tổng phí mượn: </label>
+                                <span id="total-fee">0</span> <!-- Hiển thị tổng phí mượn -->
+                            </div>
+                            <div class="total-records">
+                                <label style="font-size: 16px;">Số lượng bản ghi: </label>
+                                <span id="total-records-pm">0</span> <!-- Hiển thị số lượng bản ghi -->
+                            </div>
+                        </div>
+                    
+                        <div style="height: 1vh;"></div>
                     </div>
+                    
                     <div id="phieutra-tk" class="tab-pane-tk">
                         <div class="table_contain">
                             <div>                        

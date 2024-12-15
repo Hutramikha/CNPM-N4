@@ -274,6 +274,29 @@ if ($result_pm->num_rows > 0) {
     }
 }
 
+// Phiếu mượn từ ngày tới ngày
+$fromDate_pm = $_GET['fromDate_pm'] ?? '';
+$toDate_pm = $_GET['toDate_pm'] ?? '';
+
+$sql_pm1 = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+           FROM phieumuon pm
+           LEFT JOIN docgia dg ON pm.madg = dg.madg
+           LEFT JOIN nhanvien nv ON pm.manv = nv.manv";
+
+if (!empty($fromDate_pm) && !empty($toDate_pm)) {
+    $sql_pm1 .= " WHERE pm.ngaymuon BETWEEN '$fromDate_pm' AND '$toDate_pm'";
+}
+
+$result_pm1 = $connect->query($sql_pm1);
+
+$list_phieumuon = array();
+
+if ($result_pm1->num_rows > 0) {
+    while ($row = $result_pm1->fetch_assoc()) {
+        $list_phieumuon[] = $row;
+    }
+}
+
 // Phiếu trả
 $sql_pt = 'SELECT * , dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
         FROM phieutra pt

@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
     
                     $('#total-money-pn').text(totalMoney.toFixed(0));
-                    $('#total-records').text(totalRecords);
+                    $('#total-records-pn').text(totalRecords);
                 },
                 error: function(xhr, status, error) {
                     console.log("Error: " + error);
@@ -99,5 +99,61 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Vui lòng chọn đầy đủ phạm vi ngày.");
         }
     });
+
+    const btn_submit_pm = document.querySelector('.btn-tk_pm');
+
+    btn_submit_pm.addEventListener('click', () => {
+        const fromDate_pm = document.querySelector('.input_thongke_tu_ngay_pm').value;
+        const toDate_pm = document.querySelector('.input_thongke_den_ngay_pm').value;
+        
+        console.log(fromDate_pm);
+        console.log(toDate_pm);
+        
+        if (fromDate_pm && toDate_pm) {
+            // Gửi yêu cầu AJAX đến server với các tham số ngày
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                data: {
+                    fromDate_pm: fromDate_pm,
+                    toDate_pm: toDate_pm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    // Làm mới nội dung bảng
+                    $('.table-phieu_muon-tk tbody').empty(); // Xóa các dòng cũ trong bảng
+
+                    let totalFee = 0;
+                    let recordCount = 0;
+
+                    // Hiển thị dữ liệu mới từ server
+                    $.each(data.list_phieumuon, function (index, phieumuon) {
+                        $('.table-phieu_muon-tk tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + phieumuon.mapm + '</td>' +
+                            '<td>' + phieumuon.ngaymuon + '</td>' +
+                            '<td>' + phieumuon.hantra + '</td>' +
+                            '<td>' + phieumuon.madg + '</td>' +
+                            '<td>' + phieumuon.manv + '</td>' +
+                            '<td>' + phieumuon.tongphimuon + '</td>' +
+                            '</tr>'
+                        );
+                        
+                        // Tính tổng phí mượn và số lượng bản ghi
+                        totalFee += parseFloat(phieumuon.tongphimuon) || 0;
+                        recordCount++;
+                    });
+
+                    // Cập nhật tổng phí mượn và số lượng bản ghi
+                    $('#total-fee').text(totalFee);
+                    $('#total-records-pm').text(recordCount);
+                }
+            });
+        } else {
+            alert("Vui lòng chọn đầy đủ phạm vi ngày.");
+        }
+    });
+
     
 });

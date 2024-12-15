@@ -1391,6 +1391,22 @@ if (isset($_POST['mapq_xoa'])) {
             "message" => "Bạn không thể xóa quyền admin!"
         );
     } else {
+        // Kiểm tra nếu quyền đang được sử dụng trong bảng taikhoan
+        $sql_check_taikhoan = "SELECT COUNT(*) AS total FROM taikhoan WHERE maquyen = ?";
+        $stmt_check = $connect->prepare($sql_check_taikhoan);
+        $stmt_check->bind_param("i", $maquyen);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        $row = $result_check->fetch_assoc();
+        
+        if ($row['total'] > 0) {
+            // Quyền đang được sử dụng, không thể xóa
+            $list_xoa_quyen[] = array(
+                "status" => "error",
+                "message" => "Quyền đang được sử dụng trong tài khoản, không thể xóa!"
+            );
+            return;
+        }
         // Xóa chi tiết quyền trước
         $sql_chitiet = "DELETE FROM chitietquyen WHERE maquyen = ?";
         $stmt_chitiet = $connect->prepare($sql_chitiet);
@@ -1431,6 +1447,7 @@ if (isset($_POST['mapq_xoa'])) {
         "message" => "Mã quyền không hợp lệ!"
     );
 }
+
 
 //=== Xử lý XÓA độc giả ===>
 if (isset($_POST['madg_xoa'])) {

@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ableInput();
         resetInput();
 
-        save_for_ct_pt = 1;
+        // save_for_ct_pt = 1;
     });
 
     btn_edit_ct_pt.addEventListener('click', () => {
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_create_pt.disabled = false;
         btn_cancel.disabled = false;
 
-        save_for_ct_pt = 2;
+        // save_for_ct_pt = 2;
 
         ableInput();
     });
@@ -418,77 +418,77 @@ document.addEventListener("DOMContentLoaded", () => {
     // });  
     
 
-    // Thêm sản phẩm vào bảng chi tiết phiếu nhập
-    function addProductToTablePT(mavach, mapm, tinhtrang, vitri, hinhthucphat, phiphat) {
-        const rowCount = $('.table-ct-phieu_tra tbody tr').length;
+    // // Thêm sản phẩm vào bảng chi tiết phiếu nhập
+    // function addProductToTablePT(mavach, mapm, tinhtrang, vitri, hinhthucphat, phiphat) {
+    //     const rowCount = $('.table-ct-phieu_tra tbody tr').length;
     
-        // Kiểm tra xem sản phẩm đã tồn tại trong selectedProducts_pt với cùng mapm chưa
-        let existingProduct = selectedProducts_pt.find(product => product.mapm === mapm && product.mavach === mavach);
+    //     // Kiểm tra xem sản phẩm đã tồn tại trong selectedProducts_pt với cùng mapm chưa
+    //     let existingProduct = selectedProducts_pt.find(product => product.mapm === mapm && product.mavach === mavach);
     
-        if (existingProduct) {
-            // Nếu sản phẩm đã tồn tại, thông báo lỗi cho người dùng
-            alert(`Sản phẩm với mã vạch ${mavach} đã tồn tại trong phiếu mượn ${mapm}. Không thể thêm lại.`);
-            console.error(`Sản phẩm với mã vạch ${mavach} đã tồn tại trong phiếu mượn ${mapm}.`);
-        } else {
-            // Nếu sản phẩm chưa tồn tại, thêm mới vào bảng và mảng
-            const newRow = `<tr>
-                <td>${rowCount + 1}</td>
-                <td>${mavach}</td>
-                <td>${mapm}</td>
-                <td>${tinhtrang}</td>
-                <td>${vitri}</td>
-                <td>${hinhthucphat}</td>
-                <td>${phiphat}</td>
-                <td><button class="btn-delete btn-remove-ct-pt">Xóa</button></td>
-            </tr>`;
+    //     if (existingProduct) {
+    //         // Nếu sản phẩm đã tồn tại, thông báo lỗi cho người dùng
+    //         alert(`Sản phẩm với mã vạch ${mavach} đã tồn tại trong phiếu mượn ${mapm}. Không thể thêm lại.`);
+    //         console.error(`Sản phẩm với mã vạch ${mavach} đã tồn tại trong phiếu mượn ${mapm}.`);
+    //     } else {
+    //         // Nếu sản phẩm chưa tồn tại, thêm mới vào bảng và mảng
+    //         const newRow = `<tr>
+    //             <td>${rowCount + 1}</td>
+    //             <td>${mavach}</td>
+    //             <td>${mapm}</td>
+    //             <td>${tinhtrang}</td>
+    //             <td>${vitri}</td>
+    //             <td>${hinhthucphat}</td>
+    //             <td>${phiphat}</td>
+    //             <td><button class="btn-delete btn-remove-ct-pt">Xóa</button></td>
+    //         </tr>`;
             
-            $('.table-ct-phieu_tra tbody').append(newRow);
+    //         $('.table-ct-phieu_tra tbody').append(newRow);
             
-            // Thêm mới vào mảng selectedProducts_pt
-            selectedProducts_pt.push({ mavach, mapm, tinhtrang, vitri, hinhthucphat, phiphat });
-        }
+    //         // Thêm mới vào mảng selectedProducts_pt
+    //         selectedProducts_pt.push({ mavach, mapm, tinhtrang, vitri, hinhthucphat, phiphat });
+    //     }
         
-        // Gộp các sản phẩm theo mapm
-        const groupedProducts = selectedProducts_pt.reduce((acc, product) => {
-            if (!acc[product.mapm]) {
-                acc[product.mapm] = []; // Khởi tạo mảng cho mapm mới
-            }
-            acc[product.mapm].push(product); // Thêm sản phẩm vào mảng
-            return acc;
-        }, {});
+    //     // Gộp các sản phẩm theo mapm
+    //     const groupedProducts = selectedProducts_pt.reduce((acc, product) => {
+    //         if (!acc[product.mapm]) {
+    //             acc[product.mapm] = []; // Khởi tạo mảng cho mapm mới
+    //         }
+    //         acc[product.mapm].push(product); // Thêm sản phẩm vào mảng
+    //         return acc;
+    //     }, {});
     
-        console.log(groupedProducts); // In ra nhóm sản phẩm
-    }
+    //     console.log(groupedProducts); // In ra nhóm sản phẩm
+    // }
 
 });
 
 
-let selectedProducts_pt = [];
+// let selectedProducts_pt = [];
 
-let save_for_ct_pt = 0;
+// let save_for_ct_pt = 0;
 
 // Xóa sản phẩm khỏi bảng
-$('.table-ct-phieu_tra').on('click', '.btn-remove-ct-pt', function () {
-    const row = $(this).closest('tr'); // Lấy hàng được nhấp
-    const bookId = row.find('td:nth-child(2)').text(); // Lấy mã sách từ cột tương ứng
+// $('.table-ct-phieu_tra').on('click', '.btn-remove-ct-pt', function () {
+//     const row = $(this).closest('tr'); // Lấy hàng được nhấp
+//     const bookId = row.find('td:nth-child(2)').text(); // Lấy mã sách từ cột tương ứng
 
-    // Xóa hàng khỏi bảng
-    row.remove();
+//     // Xóa hàng khỏi bảng
+//     row.remove();
 
-    // Cập nhật lại STT
-    $('.table-ct-phieu_tra tbody tr').each(function (index) {
-        $(this).find('td:first').text(index + 1);
-    });
+//     // Cập nhật lại STT
+//     $('.table-ct-phieu_tra tbody tr').each(function (index) {
+//         $(this).find('td:first').text(index + 1);
+//     });
 
-    // Xóa sản phẩm khỏi mảng selectedProducts
-    const indexToRemove = selectedProducts_pt.findIndex(product => product.mavach == bookId); // Tìm chỉ số sản phẩm
+//     // Xóa sản phẩm khỏi mảng selectedProducts
+//     const indexToRemove = selectedProducts_pt.findIndex(product => product.mavach == bookId); // Tìm chỉ số sản phẩm
 
-    if (indexToRemove !== -1) {
-        selectedProducts_pt.splice(indexToRemove, 1); // Xóa sản phẩm khỏi mảng
-        console.log(`Sản phẩm ID: ${bookId} đã được xóa khỏi mảng.`);
-    } else {
-        console.log(`Sản phẩm ID: ${bookId} không tồn tại trong mảng.`);
-    }
+//     if (indexToRemove !== -1) {
+//         selectedProducts_pt.splice(indexToRemove, 1); // Xóa sản phẩm khỏi mảng
+//         console.log(`Sản phẩm ID: ${bookId} đã được xóa khỏi mảng.`);
+//     } else {
+//         console.log(`Sản phẩm ID: ${bookId} không tồn tại trong mảng.`);
+//     }
 
-    console.log(selectedProducts_pt); // In ra mảng đã cập nhật
-});
+//     console.log(selectedProducts_pt); // In ra mảng đã cập nhật
+// });

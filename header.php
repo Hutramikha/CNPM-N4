@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,10 +83,10 @@
                     <span> Quy định sử dụng dịch vụ </span>
                 </a>
             </li>
-        
+
             <script>
 
-</script>
+            </script>
         </ul>
 
         <!-- Content Wrapper -->
@@ -119,6 +117,6 @@
                             </div>
                         </div>
                     </form>
-
+                    
                 </nav>
             </div>

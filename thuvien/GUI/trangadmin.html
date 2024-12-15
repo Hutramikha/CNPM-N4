@@ -1505,7 +1505,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
                             <div class="total-money-pn">
                                 <label style="font-size: 16px;">Tổng tiền: </label>
                                 <span id="total-money-pn">0</span> <!-- Hiển thị tổng tiền -->
@@ -1514,6 +1514,11 @@
                             <div class="total-records-pn">
                                 <label style="font-size: 16px;">Số lượng bản ghi: </label>
                                 <span id="total-records-pn">0</span> <!-- Hiển thị số lượng bản ghi -->
+                            </div>
+
+                            <div class="average-records-pn">
+                                <label style="font-size: 16px;">Trung bình số tiền mỗi bản ghi: </label>
+                                <span id="average-records-pn">0</span> <!-- Hiển thị số lượng bản ghi -->
                             </div>
                         </div>
                         <div style="height: 1vh;"></div>
@@ -1555,7 +1560,7 @@
                         </div>
                     
                         <!-- Hiển thị tổng phí mượn và số lượng bản ghi -->
-                        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
                             <div class="total-money">
                                 <label style="font-size: 16px;">Tổng phí mượn: </label>
                                 <span id="total-fee">0</span> <!-- Hiển thị tổng phí mượn -->
@@ -1563,6 +1568,10 @@
                             <div class="total-records">
                                 <label style="font-size: 16px;">Số lượng bản ghi: </label>
                                 <span id="total-records-pm">0</span> <!-- Hiển thị số lượng bản ghi -->
+                            </div>
+                            <div class="average-records-pm">
+                                <label style="font-size: 16px;">Trung bình phí mượn mỗi bản ghi: </label>
+                                <span id="average-records-pm">0</span> <!-- Hiển thị số lượng bản ghi -->
                             </div>
                         </div>
                     
@@ -1580,8 +1589,7 @@
                                     style="height: 5vh; width: 12.5%;" placeholder="Chọn ngày">
                                 <button class="btn_action btn-save btn-tk_pt" type="button">Lọc</button>
                             </div>
-                        </div>
-
+                        </div>            
                         <div class="table_contain">
                             <div style="display: flex; justify-content: center;">
                                 <div class="table_limit-3h" style="width: 60%; max-height: 24vh;">
@@ -1604,8 +1612,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 1vh;"></div>
+                                            
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                            <div class="total-fee">
+                                <label style="font-size: 16px;">Tổng phí phạt: </label>
+                                <span id="total-fee-pt">0</span> <!-- Hiển thị tổng phí phạt -->
+                            </div>
+                            <div class="total-records">
+                                <label style="font-size: 16px;">Số lượng bản ghi: </label>
+                                <span id="total-records-pt">0</span> <!-- Hiển thị số lượng bản ghi -->
+                            </div>
+                            <div class="average-records-pt">
+                                <label style="font-size: 16px;">Trung bình số tiền phạt mỗi bản ghi: </label>
+                                <span id="average-records-pt">0</span> <!-- Hiển thị số lượng bản ghi -->
+                            </div>
+                        </div>
+                        
                     </div>
+                    
+                    
                     <div id="doanhthu-tk" class="tab-pane-tk">
                         <div class="table_contain">
                             <div>

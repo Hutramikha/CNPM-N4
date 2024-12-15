@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Khai báo biến để tính tổng tiền
                     let totalMoney = 0;
                     let totalRecords = 0;
+                    let averageRecord =0;
     
                     // Hiển thị dữ liệu mới từ server
                     $.each(data.list_phieunhap, function (index, phieunhap) {
@@ -87,7 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         totalMoney += parseFloat(phieunhap.tongtien);
                         totalRecords++;
                     });
-    
+                    averageRecord = totalRecords > 0 ? totalMoney / totalRecords : 0;
+                    $('#average-records-pn').text(averageRecord.toFixed(2))
                     $('#total-money-pn').text(totalMoney.toFixed(0));
                     $('#total-records-pn').text(totalRecords);
                 },
@@ -125,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     let totalFee = 0;
                     let recordCount = 0;
+                    let averageRecord = 0;
 
                     // Hiển thị dữ liệu mới từ server
                     $.each(data.list_phieumuon, function (index, phieumuon) {
@@ -144,8 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         totalFee += parseFloat(phieumuon.tongphimuon) || 0;
                         recordCount++;
                     });
-
-                    // Cập nhật tổng phí mượn và số lượng bản ghi
+                    averageRecord = recordCount > 0 ? totalFee / recordCount : 0;
+                    $('#average-records-pm').text(averageRecord.toFixed(2));
                     $('#total-fee').text(totalFee);
                     $('#total-records-pm').text(recordCount);
                 }
@@ -155,5 +158,54 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    
+    const btn_submit_pt = document.querySelector('.btn-tk_pt');
+
+    btn_submit_pt.addEventListener('click', () => {
+        const fromDate_pt = document.querySelector('.input_thongke_tu_ngay_pt').value;
+        const toDate_pt = document.querySelector('.input_thongke_den_ngay_pt').value;
+
+        if (fromDate_pt && toDate_pt) {
+            // Gửi yêu cầu AJAX đến server
+            $.ajax({
+                url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+                method: 'GET',
+                data: {
+                    fromDate_pt: fromDate_pt,
+                    toDate_pt: toDate_pt
+                },
+                dataType: 'json',
+                success: function (data) {
+                    // Làm mới nội dung bảng
+                    $('.table-phieu_tra-tk tbody').empty();
+
+                    // Hiển thị dữ liệu mới từ server
+                    let totalFee = 0;
+                    let recordCount = 0;
+                    let averageRecord = 0;
+                    $.each(data.list_phieutra, function (index, phieutra) {
+                        $('.table-phieu_tra-tk tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + phieutra.mapt + '</td>' +
+                            '<td>' + phieutra.ngaytra + '</td>' +
+                            '<td>' + phieutra.mapm + '</td>' +
+                            '<td>' + phieutra.madg + '</td>' +
+                            '<td>' + phieutra.manv + '</td>' +
+                            '<td>' + phieutra.tongphiphat + '</td>' +
+                            '</tr>'
+                        );
+                        totalFee += parseFloat(phieutra.tongphiphat);
+                        recordCount++;
+                    });
+                    averageRecord = recordCount > 0 ? totalFee / recordCount : 0;
+                    $('#average-records-pt').text(averageRecord.toFixed(2));
+                    $('#total-fee-pt').text(totalFee);
+                    $('#total-records-pt').text(recordCount);
+                }
+            });
+        } else {
+            alert("Vui lòng chọn đầy đủ phạm vi ngày.");
+        }
+    });
+
 });

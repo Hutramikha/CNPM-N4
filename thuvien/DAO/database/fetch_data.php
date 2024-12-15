@@ -312,6 +312,29 @@ if ($result_pt->num_rows > 0) {
     }
 }
 
+// Phiếu trả từ ngày tới ngày
+$fromDate_pt = $_GET['fromDate_pt'] ?? '';
+$toDate_pt = $_GET['toDate_pt'] ?? '';
+
+$sql_pt1 = "SELECT pt.*, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+           FROM phieutra pt
+           LEFT JOIN docgia dg ON pt.madg = dg.madg
+           LEFT JOIN nhanvien nv ON pt.manv = nv.manv";
+
+if (!empty($fromDate_pt) && !empty($toDate_pt)) {
+    $sql_pt1 .= " WHERE pt.ngaytra BETWEEN '$fromDate_pt' AND '$toDate_pt'";
+}
+
+$result_pt1 = $connect->query($sql_pt1);
+
+$list_phieutra = array();
+
+if ($result_pt1->num_rows > 0) {
+    while ($row = $result_pt1->fetch_assoc()) {
+        $list_phieutra[] = $row;
+    }
+}
+
 // Quyền
 $sql_quyen = 'SELECT * FROM quyen';
 $result_quyen = $connect->query($sql_quyen);

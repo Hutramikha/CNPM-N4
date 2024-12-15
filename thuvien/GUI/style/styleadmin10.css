@@ -687,3 +687,12 @@ td {
     padding: 3px 5px;
     font-weight: 500;
 }
+
+/*css thong ke*/
+.tab-content-tk .tab-pane-tk {
+    display: none;
+}
+
+.tab-content-tk .tab-pane-tk.active {
+    display: block;
+}

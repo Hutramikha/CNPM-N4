@@ -241,6 +241,24 @@ if ($result_pn->num_rows > 0) {
     }
 }
 
+// Phiếu nhập từ ngày tới ngày
+$fromDate_pn = $_GET['fromDate_pn'] ?? '';
+$toDate_pn = $_GET['toDate_pn'] ?? '';
+$sql_pn1 = "SELECT *
+            FROM phieunhap pn
+            LEFT JOIN nhacungcap ncc ON pn.mancc = ncc.mancc";
+
+if (!empty($fromDate_pn) && !empty($toDate_pn)) {
+    $sql_pn1 .= " WHERE pn.ngaynhap BETWEEN '$fromDate_pn' AND '$toDate_pn'";
+}
+$result_pn1 = $connect->query($sql_pn1);
+$list_phieunhap = array();
+if ($result_pn1->num_rows > 0) {
+    while ($row = $result_pn1->fetch_assoc()) {
+        $list_phieunhap[] = $row;
+    }
+}
+
 // Phiếu mượn
 $sql_pm = 'SELECT * , dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
         FROM phieumuon pm

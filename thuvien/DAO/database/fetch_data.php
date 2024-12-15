@@ -862,22 +862,22 @@ if (isset($_POST['action'])) {
             }
 
             $sql_chitiet = "INSERT INTO chitietquyen (maquyen, machucnang, hanhdong, hoatdong) VALUES 
-            (?, 1, 'truycap', true),
-            (?, 1, 'them, sua, xoa', true),
-            (?, 2, 'truycap', true),
-            (?, 2, 'them, sua, xoa', true),
-            (?, 3, 'truycap', true),
-            (?, 3, 'sua, xoa', true),
-            (?, 4, 'truycap', true),
-            (?, 5, 'truycap', true),
-            (?, 5, 'them, sua', true),
-            (?, 6, 'truycap', true),
-            (?, 6, 'them, sua', true),
-            (?, 7, 'truycap', true),
-            (?, 7, 'sua, xoa', true),
-            (?, 8, 'truycap', true),
-            (?, 8, 'them, sua, xoa', true),
-            (?, 9, 'truycap', true)";
+            (?, 1, 'Truy cập', true),
+            (?, 1, 'Thêm, sửa, xóa', true),
+            (?, 2, 'Truy cập', true),
+            (?, 2, 'Thêm, sửa, xóa', true),
+            (?, 3, 'Truy cập', true),
+            (?, 3, 'Sửa, xóa', true),
+            (?, 4, 'Truy cập', true),
+            (?, 5, 'Truy cập', true),
+            (?, 5, 'Thêm, sửa', true),
+            (?, 6, 'Truy cập', true),
+            (?, 6, 'Thêm, sửa', true),
+            (?, 7, 'Truy cập', true),
+            (?, 7, 'Sửa, xóa', true),
+            (?, 8, 'Truy cập', true),
+            (?, 8, 'Thêm, sửa, xóa', true),
+            (?, 9, 'Truy cập', true)";
 
         $stmt_chitiet = $connect->prepare($sql_chitiet);
 

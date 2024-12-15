@@ -408,6 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     $('.table-ct-phieu_nhap tbody').empty();
                                     reset_select_nhacc();
                                     reset_select_sach_pn();
+                                    let mapnmoi = pn.maphieunhap;
                                     currentValue_soluong = 0;
                                     // Có thể thêm logic để reset lại bảng và danh sách sản phẩm
                                     mancc_for_pn = 0;
@@ -423,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 masach: selectedProducts[i].id,
                                                 gianhap: selectedProducts[i].price,
                                                 soluong: selectedProducts[i].quantity,
-                                                maphieunhap: pn.maphieunhap,
+                                                maphieunhap: mapnmoi,
                                                 thanhtien_pn: thanhtien_pn,
                                             },
                                             dataType: 'json',
@@ -432,32 +433,33 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     $.each(data.list_them_ct_pn, function (index, ctpn) {
                                                         if (ctpn.status === "success") {
                                                             console.log(ctpn.message);
+                                                            if (dem_tt == 0) {
+                                                                $.ajax({
+                                                                    url: '../DAO/database/fetch_data.php',
+                                                                    method: 'POST',
+                                                                    data: {
+                                                                        tongtien_pn: totalPrice,
+                                                                        maphieunhap_tt: mapnmoi,
+                                                                    },
+                                                                    dataType: 'json',
+                                                                    success: function (data) {
+                                                                        if (data.list_sua_tongtien_pn.length > 0) {
+                                                                            $.each(data.list_sua_tongtien_pn, function (index, ttpn) {
+                                                                                if (ttpn.status === "success") {
+                                                                                    alert(ttpn.message);
+                                                                                    reset_table_phieu_nhap();
+                                                                                } else {
+                                                                                    alert(ttpn.message);
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
                                                         } else {
                                                             console.log(ctpn.message);
                                                         }
                                                     })
-                                                    if (dem_tt == 0) {
-                                                        $.ajax({
-                                                            url: '../DAO/database/fetch_data.php',
-                                                            method: 'POST',
-                                                            data: {
-                                                                tongtien_pn: totalPrice,
-                                                                maphieunhap_tt: pn.maphieunhap,
-                                                            },
-                                                            dataType: 'json',
-                                                            success: function (data) {
-                                                                if (data.list_sua_tongtien_pn.length > 0) {
-                                                                    $.each(data.list_sua_tongtien_pn, function (index, ttpn) {
-                                                                        if (ttpn.status === "success") {
-                                                                            alert(ttpn.message);
-                                                                        } else {
-                                                                            alert(ttpn.message);
-                                                                        }
-                                                                    })
-                                                                }
-                                                            }
-                                                        });
-                                                    }
                                                 }
                                             }
                                         });
@@ -475,7 +477,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             alert('Vui lòng thêm sản phẩm trước khi tạo phiếu nhập.');
         }
-        reset_table_phieu_nhap();
     });
 
 

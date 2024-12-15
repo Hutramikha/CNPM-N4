@@ -1747,8 +1747,7 @@ if (isset($_POST['masach']) && isset($_POST['gianhap']) && isset($_POST['soluong
         );
     }
 
-    // Đóng các statement
-    $stmt->close();
+
     if (isset($stmtChitiet)) {
         $stmtChitiet->close();
     }

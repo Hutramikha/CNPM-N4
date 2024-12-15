@@ -404,10 +404,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.list_tao_pn.length > 0) {
                             $.each(data.list_tao_pn, function (index, pn) {
                                 if (pn.status === "success") {
-                                    console.log(pn.message);
                                     $('.table-ct-phieu_nhap tbody').empty();
                                     reset_select_nhacc();
                                     reset_select_sach_pn();
+                                    alert(pn.message);
                                     let mapnmoi = pn.maphieunhap;
                                     currentValue_soluong = 0;
                                     // Có thể thêm logic để reset lại bảng và danh sách sản phẩm
@@ -446,10 +446,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                                                         if (data.list_sua_tongtien_pn.length > 0) {
                                                                             $.each(data.list_sua_tongtien_pn, function (index, ttpn) {
                                                                                 if (ttpn.status === "success") {
-                                                                                    alert(ttpn.message);
+                                                                                    console.log(ttpn.message);
                                                                                     reset_table_phieu_nhap();
                                                                                 } else {
-                                                                                    alert(ttpn.message);
+                                                                                    console.log(ttpn.message);
                                                                                 }
                                                                             })
                                                                         }
@@ -581,7 +581,7 @@ $(document).ready(function () {
         selectedProducts.push({ id: bookId, price: price, quantity: quantity });
     }
 
-    // Nút thêm sản phẩm
+    // Nút lưu sản phẩm
     $('.btn-save-ct-phieu_nhap').click(function () {
         switch (save_for_ct_pn) {
             case 1:

@@ -1545,27 +1545,70 @@ $list_xoa_ct_sach = array(); // Mảng để chứa kết quả
 if (isset($_POST['mavach_xoa'])) {
     $mavach = $_POST['mavach_xoa']; // Lấy giá trị mavach từ input
 
-    // Chuẩn bị câu lệnh xóa chi tiết sách
-    $sql_delete = "DELETE FROM chitietsach WHERE mavach = ?";
-    $stmt = $connect->prepare($sql_delete);
-
-    if ($stmt === false) {
+    // Bước 1: Tìm mã sách từ bảng chitietsach
+    $sql_find = "SELECT masach FROM chitietsach WHERE mavach = ?";
+    $stmtFind = $connect->prepare($sql_find);
+    
+    if ($stmtFind === false) {
         die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
     }
 
-    $stmt->bind_param("i", $mavach); // Sử dụng "i" vì mavach là số nguyên
+    $stmtFind->bind_param("i", $mavach); // Sử dụng "i" vì mavach là số nguyên
+    $stmtFind->execute();
+    $resultFind = $stmtFind->get_result();
 
-    if ($stmt->execute()) {
-        $list_xoa_ct_sach[] = array(
-            "status" => "success",
-            "message" => "Xóa chi tiết sách thành công."
-        );
+    if ($resultFind->num_rows > 0) {
+        $row = $resultFind->fetch_assoc();
+        $masach = $row['masach']; // Lấy mã sách
+
+        // Bước 2: Cập nhật số lượng sách
+        $sql_update = "UPDATE sach SET soluong = soluong - 1 WHERE masach = ?";
+        $stmtUpdate = $connect->prepare($sql_update);
+        $stmtUpdate->bind_param("i", $masach);
+
+        if ($stmtUpdate->execute()) {
+            // Bước 3: Xóa chi tiết sách
+            $sql_delete = "DELETE FROM chitietsach WHERE mavach = ?";
+            $stmtDelete = $connect->prepare($sql_delete);
+
+            if ($stmtDelete === false) {
+                die('Lỗi chuẩn bị câu lệnh: ' . $connect->error);
+            }
+
+            $stmtDelete->bind_param("i", $mavach); // Sử dụng "i" vì mavach là số nguyên
+
+            if ($stmtDelete->execute()) {
+                $list_xoa_ct_sach[] = array(
+                    "status" => "success",
+                    "message" => "Xóa chi tiết sách thành công và cập nhật số lượng sách."
+                );
+            } else {
+                $list_xoa_ct_sach[] = array(
+                    "status" => "error",
+                    "message" => "Lỗi khi xóa chi tiết sách: " . $stmtDelete->error
+                );
+            }
+
+            // Đóng câu lệnh xóa
+            $stmtDelete->close();
+        } else {
+            $list_xoa_ct_sach[] = array(
+                "status" => "error",
+                "message" => "Lỗi khi cập nhật số lượng sách: " . $stmtUpdate->error
+            );
+        }
+
+        // Đóng câu lệnh cập nhật
+        $stmtUpdate->close();
     } else {
         $list_xoa_ct_sach[] = array(
             "status" => "error",
-            "message" => "Lỗi khi xóa chi tiết sách: " . $stmt->error
+            "message" => "Mã vạch không tồn tại."
         );
     }
+
+    // Đóng câu lệnh tìm
+    $stmtFind->close();
 } else {
     $list_xoa_ct_sach[] = array(
         "status" => "error",
@@ -1703,7 +1746,7 @@ if (isset($_POST['matk_info'])) {
 }
 
 
-// ================================================ Lấy ra giá nhập sách ============================================================
+// ================================================ Lấy ra giá nhập sách và phí phạt sách ============================================================
 $list_gianhap_sach = array(); // Khởi tạo mảng giá nhập
 if (isset($_POST['masach_gianhap'])) {
     $bookId = $_POST['masach_gianhap'];
@@ -1724,6 +1767,90 @@ if (isset($_POST['masach_gianhap'])) {
         $list_gianhap_sach['status'] = 'fail';
     }
 }
+
+$list_layphiphat_sach = array(); // Khởi tạo mảng giá nhập
+if (isset($_POST['idphat'])) {
+    $idphat = $_POST['idphat'];
+
+    // Truy vấn giá nhập từ bảng sach
+    $query = "SELECT phiphat FROM hinhthucphat WHERE maphat = ?";
+    $stmt = $connect->prepare($query);
+    $stmt->bind_param("i", $idphat);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $list_layphiphat_sach[] = $row['phiphat']; // Thêm giá nhập vào mảng
+        }
+    } else {
+        $list_layphiphat_sach['status'] = 'fail';
+    }
+}
+
+// ================================================ Tạo phiếu trả ============================================================
+$list_tao_pt = array(); // Mảng để lưu trữ kết quả
+if (isset($_POST['mapm']) && isset($_POST['tongphiphat']) && isset($_POST['madocgia_pt']) && isset($_POST['manv_pt'])) {
+    $mapm = $_POST['mapm'];
+    $tongphiphat = $_POST['tongphiphat'];
+    $madg = $_POST['madocgia_pt'];
+    $manv = $_POST['manv_pt'];
+    $ngaytra = date('Y-m-d');
+    
+    // Truy vấn để thêm phiếu trả mới
+    $stmt = $connect->prepare("INSERT INTO phieutra (ngaytra, mapm, madg, manv, tongphiphat) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("siiis",$ngaytra ,$mapm, $madg, $manv, $tongphiphat);
+    
+    if ($stmt->execute()) {
+         // Lấy mã phiếu trả mới
+        $mapt = $stmt->insert_id; // Mã phiếu trả tự tăng
+        $list_tao_pt[] = array(
+            "status" => "success",
+            "message" => "Tạo phiếu trả thành công.",
+            "maphieutra" => $mapt
+        );
+    } else {
+        $list_tao_pt[] = array(
+            "status" => "fail",
+            "message" => "Không có sản phẩm nào được gửi."
+     );
+    }
+}
+
+
+$list_them_ct_pt = array(); // Mảng để lưu trữ kết quả
+if (isset($_POST['mapt']) && isset($_POST['tinhtrangsach']) && isset($_POST['mavach']) && isset($_POST['maphat']) && isset($_POST['phiphat'])) {
+    $mapt = $_POST['mapt'];
+    $mavach = $_POST['mavach'];
+    $maphat = $_POST['maphat'];
+    $phiphat = $_POST['phiphat'];
+
+    $tinhtrangsach = $_POST['tinhtrangsach'];
+
+    // Truy vấn để thêm chi tiết phiếu trả
+    $stmt = $connect->prepare("INSERT INTO chitietphieutra (mapt, mavach, maphat, phiphat) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiis", $mapt, $mavach, $maphat, $phiphat);
+    if ($stmt->execute()) {
+       $list_them_ct_pt[] = array(
+           "status" => "success",
+           "message" => "Thêm chi tiết phiếu trả thành công.",
+           "maphieutra" => $mapt
+       );
+       $stmt_up_cts = $connect->prepare("UPDATE chitietsach SET matinhtrang = ?, trangthai = 0 WHERE mavach = ?");
+       $stmt_up_cts->bind_param("ii", $tinhtrangsach, $mavach);
+
+       $stmt_up_cts->execute();
+       $stmt_up_cts->close();
+   } else {
+       $list_them_ct_pt[] = array(
+           "status" => "fail",
+           "message" => "Thêm chi tiết phiếu trả thất bại."
+    );
+   }
+}
+
+
 
 // ================================================ Tạo phiếu nhập ============================================================
 $list_tao_pn = array(); // Mảng để lưu trữ kết quả
@@ -1786,6 +1913,17 @@ if (isset($_POST['masach']) && isset($_POST['gianhap']) && isset($_POST['soluong
 
             $stmtChitiet->execute();
         }
+
+        // Cập nhật lại số lượng sách
+        $sql_update_sl_sach = "UPDATE sach SET soluong = soluong + ? WHERE masach = ?";
+        $stmtUpdate = $connect->prepare($sql_update_sl_sach);
+        $stmtUpdate->bind_param("ii", $soluong, $masach);
+
+        $stmtUpdate->execute();
+
+        // Đóng câu lệnh cập nhật
+        $stmtUpdate->close();
+
     } else {
         $list_them_ct_pn[] = array(
             "status" => "fail",
@@ -1793,7 +1931,7 @@ if (isset($_POST['masach']) && isset($_POST['gianhap']) && isset($_POST['soluong
         );
     }
 
-
+    // Đóng câu lệnh chi tiết
     if (isset($stmtChitiet)) {
         $stmtChitiet->close();
     }
@@ -1890,6 +2028,9 @@ $response = array(
     'list_sua_maquyen_tk' => $list_sua_maquyen_tk,
     'list_thongtin_taikhoan' => $list_thongtin_taikhoan,
     'list_gianhap_sach' => $list_gianhap_sach,
+    'list_layphiphat_sach' => $list_layphiphat_sach,
+    'list_tao_pt' => $list_tao_pt,
+    'list_them_ct_pt' => $list_them_ct_pt,
 );
 
 echo json_encode($response);

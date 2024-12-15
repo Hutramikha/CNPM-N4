@@ -906,6 +906,7 @@ function xoactSach(mavach) {
             $.each(data.list_xoa_ct_sach, function (index, ctSach) {
                 if (ctSach.status === "success") {
                     alert(ctSach.message);
+                    reset_table_sach2();
                     reset_table_ct_sach(ma_sach_toancuc);
                 }
                 else {
@@ -941,4 +942,39 @@ function previewImageSach(event) {
         }
         reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
     }
+}
+
+function reset_table_sach2() {
+    $(document).ready(function () {
+        $('.table-sach tbody').empty();
+        $('.table-ct-sach tbody').empty();
+        // Fetch dữ liệu từ server
+        $.ajax({
+            url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Hiển thị dữ liệu cho danh sách sách
+                $.each(data.list_sach, function (index, sach) {
+                    $('.table-sach tbody').append(
+                        '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + sach.masach + '</td>' +
+                        '<td>' + sach.tensach + '</td>' +
+                        '<td>' + sach.tomtat + '</td>' +
+                        '<td>' + sach.matl + '</td>' +
+                        '<td>' + sach.manxb + '</td>' +
+                        '<td>' + sach.matg + '</td>' +
+                        '<td>' + sach.soluong + '</td>' +
+                        '<td>' + sach.phimuon + '</td>' +
+                        '<td>' + sach.gianhap + '</td>' +
+                        '</tr>'
+                    );
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi:', error);
+            }
+        });
+    });
 }

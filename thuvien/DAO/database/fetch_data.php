@@ -1294,6 +1294,27 @@ if (isset($_POST['ma_xuly_pm'])) {
 
 // ================================================ DELETE ===========================================================
 
+//==== Xóa phiếu mượn chưa đc xử lý ===>
+$list_xoa_pmuon = array();
+if (isset($_POST['mapm_xoa'])) {
+$stmt = $conn->prepare("DELETE FROM phieumuon WHERE mapm = ?");
+$stmt->bind_param("i", $mapm);
+
+// Thực hiện câu lệnh
+if ($stmt->execute()) {
+    $list_xoa_pmuon[] = array(
+        "status" => "success",
+        "message" => "Xóa phiếu mượn thành công"
+    );
+} else {
+    $list_xoa_pmuon[] = array(
+        "status" => "success",
+        "message" => "Xóa phiếu mượn thành công"
+    );
+}
+
+}
+
 //=== Xử lý XÓA sách ===>
 if (isset($_POST['masach_xoa'])) {
     $masach = $_POST['masach_xoa']; // Lấy giá trị masach từ input

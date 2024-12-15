@@ -823,11 +823,11 @@
                     </button>
                 </div>
                 <div class="table_contain">
-                    <div class="table_limit-4h" style="margin-bottom: 2%;">
+                    <div class="table_limit-4h" style="margin-bottom: 2%; max-height: 44.3vh;">
                         <table class="table-phieu_muon">
                             <thead>
                                 <tr>
-                                    <th colspan="8" class="table-title">Danh Sách Phiếu Mượn</th>
+                                    <th colspan="9" class="table-title">Danh Sách Phiếu Mượn</th>
                                 </tr>
                                 <tr>
                                     <th class="table_stt">STT</th>
@@ -838,6 +838,7 @@
                                     <th>Mã nhân viên</th>
                                     <th>Tổng phí mượn</th>
                                     <th class="text_center">Trạng thái</th>
+                                    <th class="text_center">Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1786,18 +1787,19 @@
     <script src="../Controller/jsadmin4.js"></script>
     <script src="../Controller/ql_sach16.js"></script>
     <script src="../Controller/ql_nv8.js"></script>
-    <script src="../Controller/ql_phanquyen.js"></script>
+    <script src="../Controller/ql_phanquyen2.js"></script>
     <script src="../Controller/ql_dg5.js"></script>
     <script src="../Controller/ql_phieunhap18.js"></script>
-    <script src="../Controller/ql_phieumuon3.js"></script>
+    <script src="../Controller/ql_phieumuon4.js"></script>
     <script src="../Controller/ql_phieutra11.js"></script>
     <script src="../Controller/ql_taikhoan7.js"></script>
-    <script src="../Controller/info_admin3.js"></script>
+    <script src="../Controller/info_admin4.js"></script>
     <script src="../Controller/thongke.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             getUserInfo('admin'); // Gọi hàm với mã tài khoản cụ thể
+            getUserNAME('admin');
         });
     </script>
 </body>

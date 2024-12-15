@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Các nút hành động */
     const btn_reset = document.querySelector('.btn-reset-phieu_muon');
-    
+
     const input_search = document.querySelector('.search-input-phieu_muon');
 
     btn_reset.addEventListener('click', () => {
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // FETCH DATA=========================================
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Fetch dữ liệu từ server
         $.ajax({
             url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
@@ -22,14 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Hiển thị dữ liệu cho danh sách tài khoản độc giả
                 $.each(data.list_phieumuon, function (index, phieumuon) {
                     let trangThaiHTML;
-        
+                    let trangThaiHTML_Xoa;
+
                     // Kiểm tra trạng thái
                     if (phieumuon.trangthai == 0) {
                         trangThaiHTML = '<button class="btn-xu-ly" onclick="xuLyPhieuMuon(' + phieumuon.mapm + ')">Xử Lý</button>';
+                        trangThaiHTML_Xoa = '<button class="btn-lock" onclick="deletePM(\'' + phieumuon.mapm + '\')">Xóa</button>';
                     } else {
                         trangThaiHTML = '<span class="da-xu-ly">Đã Xử Lý</span>';
+                        trangThaiHTML_Xoa = '<button class="btn-lock" style ="background-color: #ccc; cursor: not-allowed; " onclick="deletePM(\'' + phieumuon.mapm + '\')" disabled>Xóa</button>'
                     }
-        
+
                     // Thêm dòng vào bảng
                     $('.table-phieu_muon tbody').append(
                         '<tr>' +
@@ -39,8 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<td>' + phieumuon.hantra + '</td>' +
                         '<td>' + phieumuon.madg + '-' + phieumuon.ten_docgia + '</td>' +
                         '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
-                        '<td>' + phieumuon.tongphimuon +'</td>' +
+                        '<td>' + phieumuon.tongphimuon + '</td>' +
                         '<td>' + trangThaiHTML + '</td>' +
+                        '<td> ' + trangThaiHTML_Xoa + ' </td>' +
                         '</tr>'
                     );
                 });
@@ -53,11 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // sự kiện click vào bảng sách để xem chi tiết phiêu mượn
     $(document).ready(function () {
-        $('.table-phieu_muon tbody').on('click', 'tr', function () {
+        $('.table-phieu_muon tbody').on('click', 'tr', function (event) {
+            // Lấy chỉ số cột mà người dùng click
+            var columnIndex = $(event.target).index();
+
+            // Kiểm tra nếu click vào cột 7 hoặc cột 8 (chỉ số 6 và 7)
+            if (columnIndex === 7 || columnIndex === 8) {
+                return; // Không làm gì và dừng lại nếu là cột 7 hoặc 8
+            }
+
             var ma_phieu_muon = $(this).find('td').eq(1).text(); // Lấy giá trị từ ô <td> thứ hai
             console.log(ma_phieu_muon);
             $('.table-ct-phieu_muon tbody').empty();
-            
+
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
                 method: 'POST',
@@ -85,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function reset_table_phieumuon() {
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.table-ct-phieu_muon tbody').empty();
             $('.table-phieu_muon tbody').empty();
             // Fetch dữ liệu từ server
@@ -96,15 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 success: function (data) {
                     // Hiển thị dữ liệu cho danh sách tài khoản độc giả
                     $.each(data.list_phieumuon, function (index, phieumuon) {
-                        let trangThaiHTML;
-            
+                        let trangThaiHTML_Xoa;
+
                         // Kiểm tra trạng thái
                         if (phieumuon.trangthai == 0) {
                             trangThaiHTML = '<button class="btn-xu-ly" onclick="xuLyPhieuMuon(' + phieumuon.mapm + ')">Xử Lý</button>';
+                            trangThaiHTML_Xoa = '<button class="btn-lock" onclick="deletePM(\'' + phieumuon.mapm + '\')">Xóa</button>';
                         } else {
                             trangThaiHTML = '<span class="da-xu-ly">Đã Xử Lý</span>';
+                            trangThaiHTML_Xoa = '<button class="btn-lock" style ="background-color: #ccc; cursor: not-allowed; "  onclick="deletePM(\'' + phieumuon.mapm + '\')" disabled>Xóa</button>'
                         }
-            
+
                         // Thêm dòng vào bảng
                         $('.table-phieu_muon tbody').append(
                             '<tr>' +
@@ -114,8 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + phieumuon.hantra + '</td>' +
                             '<td>' + phieumuon.madg + '-' + phieumuon.ten_docgia + '</td>' +
                             '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
-                            '<td>' + phieumuon.tongphimuon +'</td>' +
+                            '<td>' + phieumuon.tongphimuon + '</td>' +
                             '<td>' + trangThaiHTML + '</td>' +
+                            '<td> ' + trangThaiHTML_Xoa + ' </td>' +
                             '</tr>'
                         );
                     });
@@ -133,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hàm tìm kiếm phiếu mượn
         function searchPhieuMuon() {
             const searchQuery = $('.search-input-phieu_muon').val(); // Lấy giá trị từ ô tìm kiếm
-            
+
             if (searchQuery.trim() === '') {
                 $('.table-phieu_muon tbody').empty();
                 $('.table-phieu_muon tbody').append('<tr><td colspan="8">Không tìm thấy phiếu mượn nào.</td></tr>');
@@ -149,12 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 success: function (data) {
                     // Xóa kết quả cũ trong bảng
                     $('.table-phieu_muon tbody').empty();
-    
+
                     // Kiểm tra và hiển thị dữ liệu cho danh sách phiếu mượn
                     if (data.list_timkiem_phieumuon.length > 0) {
                         $.each(data.list_timkiem_phieumuon, function (index, phieumuon) {
                             let trangThaiHTML;
-            
+
                             // Kiểm tra trạng thái
                             if (phieumuon.trangthai == 0) {
                                 trangThaiHTML = '<button class="btn-xu-ly" onclick="xuLyPhieuMuon(' + phieumuon.mapm + ')">Xử Lý</button>';
@@ -169,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<td>' + phieumuon.hantra + '</td>' +
                                 '<td>' + phieumuon.madg + '-' + phieumuon.ten_docgia + '</td>' +
                                 '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
-                                '<td>' + phieumuon.tongphimuon +'</td>' +
+                                '<td>' + phieumuon.tongphimuon + '</td>' +
                                 '<td>' + trangThaiHTML + '</td>' +
                                 '</tr>'
                             );
@@ -183,12 +198,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
-    
+
         // Tìm kiếm khi nhấn nút
         $('.btn-search-phieu_muon').on('click', function () {
             searchPhieuMuon();
         });
-    
+
         // Tìm kiếm khi nhấn phím Enter
         $('.search-input-phieu_muon').on('keypress', function (e) {
             if (e.which === 13) { // Kiểm tra phím Enter
@@ -197,13 +212,45 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-    
+
 
     $(document).ready(function () {
         window.reset_table_phieumuon = reset_table_phieumuon; // Gán hàm vào window
     });
-    
+
 });
+
+
+function deletePM(ma) {
+
+    if (!confirm("Bạn có chắc chắn muốn xóa phiếu mượn này không?")) {
+        return;
+    }
+    // Gửi yêu cầu xóa đến server
+    $.ajax({
+        url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP xử lý
+        method: 'POST',
+        data: { mapm_xoa: ma },
+        dataType: 'json',
+        success: function (data) {
+            if (data.list_timkiem_phieumuon.length > 0) {
+                $.each(data.list_timkiem_phieumuon, function (index, phieumuon) {
+                    if (pmuon.status === "success") {
+                        alert("Xóa phiếu mượn thành công.");
+
+                    } else {
+                        alert("Lỗi: " + response.message);
+                    }
+                }
+                )
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi:', error);
+            alert("Đã xảy ra lỗi khi xóa phiếu mượn.");
+        }
+    });
+}
 
 
 
@@ -213,17 +260,17 @@ function xuLyPhieuMuon(ma) {
         url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP
         data: { ma_xuly_pm: ma },
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             $.each(data.list_xuly_phieumuon, function (index, phieumuon) {
-            if (phieumuon.status === 'success') {
-                $(document).ready(function() {
-                    reset_table_phieumuon();
-                });
-                alert("Đã xử lý mã phiếu:" + ma);
-            } else {
-                alert("Có lỗi xảy ra khi xử lý phiếu mượn");
-            }
-        });
+                if (phieumuon.status === 'success') {
+                    $(document).ready(function () {
+                        reset_table_phieumuon();
+                    });
+                    alert("Đã xử lý mã phiếu:" + ma);
+                } else {
+                    alert("Có lỗi xảy ra khi xử lý phiếu mượn");
+                }
+            });
         },
         error: function (xhr, status, error) {
             console.error('Lỗi:', error);

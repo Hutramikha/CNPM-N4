@@ -241,6 +241,24 @@ if ($result_pn->num_rows > 0) {
     }
 }
 
+// Phiếu nhập từ ngày tới ngày
+$fromDate_pn = $_GET['fromDate_pn'] ?? '';
+$toDate_pn = $_GET['toDate_pn'] ?? '';
+$sql_pn1 = "SELECT *
+            FROM phieunhap pn
+            LEFT JOIN nhacungcap ncc ON pn.mancc = ncc.mancc";
+
+if (!empty($fromDate_pn) && !empty($toDate_pn)) {
+    $sql_pn1 .= " WHERE pn.ngaynhap BETWEEN '$fromDate_pn' AND '$toDate_pn'";
+}
+$result_pn1 = $connect->query($sql_pn1);
+$list_phieunhap = array();
+if ($result_pn1->num_rows > 0) {
+    while ($row = $result_pn1->fetch_assoc()) {
+        $list_phieunhap[] = $row;
+    }
+}
+
 // Phiếu mượn
 $sql_pm = 'SELECT * , dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
         FROM phieumuon pm
@@ -256,6 +274,29 @@ if ($result_pm->num_rows > 0) {
     }
 }
 
+// Phiếu mượn từ ngày tới ngày
+$fromDate_pm = $_GET['fromDate_pm'] ?? '';
+$toDate_pm = $_GET['toDate_pm'] ?? '';
+
+$sql_pm1 = "SELECT *, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+           FROM phieumuon pm
+           LEFT JOIN docgia dg ON pm.madg = dg.madg
+           LEFT JOIN nhanvien nv ON pm.manv = nv.manv";
+
+if (!empty($fromDate_pm) && !empty($toDate_pm)) {
+    $sql_pm1 .= " WHERE pm.ngaymuon BETWEEN '$fromDate_pm' AND '$toDate_pm'";
+}
+
+$result_pm1 = $connect->query($sql_pm1);
+
+$list_phieumuon = array();
+
+if ($result_pm1->num_rows > 0) {
+    while ($row = $result_pm1->fetch_assoc()) {
+        $list_phieumuon[] = $row;
+    }
+}
+
 // Phiếu trả
 $sql_pt = 'SELECT * , dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
         FROM phieutra pt
@@ -267,6 +308,29 @@ $list_phieutra = array();
 
 if ($result_pt->num_rows > 0) {
     while ($row = $result_pt->fetch_assoc()) {
+        $list_phieutra[] = $row;
+    }
+}
+
+// Phiếu trả từ ngày tới ngày
+$fromDate_pt = $_GET['fromDate_pt'] ?? '';
+$toDate_pt = $_GET['toDate_pt'] ?? '';
+
+$sql_pt1 = "SELECT pt.*, dg.ten AS ten_docgia, nv.ten AS ten_nhanvien
+           FROM phieutra pt
+           LEFT JOIN docgia dg ON pt.madg = dg.madg
+           LEFT JOIN nhanvien nv ON pt.manv = nv.manv";
+
+if (!empty($fromDate_pt) && !empty($toDate_pt)) {
+    $sql_pt1 .= " WHERE pt.ngaytra BETWEEN '$fromDate_pt' AND '$toDate_pt'";
+}
+
+$result_pt1 = $connect->query($sql_pt1);
+
+$list_phieutra = array();
+
+if ($result_pt1->num_rows > 0) {
+    while ($row = $result_pt1->fetch_assoc()) {
         $list_phieutra[] = $row;
     }
 }
@@ -731,10 +795,13 @@ if (isset($_POST['action'])) {
         if (isset($_FILES['img']['name'])) {
             $image = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            // $uploadDir2 = "img/"; // Thư mục lưu trữ hình ảnh
             $hinhanhpath = basename($_FILES['img']['name']);
             $uploadFile = $uploadDir . $hinhanhpath;
+            // $uploadFile2 = $uploadDir2 . $hinhanhpath;
 
-            move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);  
+            move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);
+            // move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile2);    
         }
          
         // Chuẩn bị câu lệnh thêm sách
@@ -1272,27 +1339,75 @@ if (isset($_POST['tendangnhap']) && isset($_POST['trangthai'])) {
 if (isset($_POST['ma_xuly_pm'])) {
     $ma_xuly_pm = $_POST['ma_xuly_pm'];
 
+    // Cập nhật trạng thái phiếu mượn
     $stmt = $connect->prepare("UPDATE phieumuon SET trangthai = 1 WHERE mapm = ?");
-    $stmt->bind_param("s", $ma_xuly_pm);
+    $stmt->bind_param("i", $ma_xuly_pm);
 
     $list_xuly_phieumuon = array();
 
     if ($stmt->execute()) {
+        // Truy xuất chi tiết phiếu mượn
+        $stmt_details = $connect->prepare("SELECT mavach FROM chitietphieumuon WHERE mapm = ?");
+        $stmt_details->bind_param("i", $ma_xuly_pm);
+        $stmt_details->execute();
+        $result_details = $stmt_details->get_result();
+
+        // Cập nhật trạng thái cho từng chi tiết sách
+        while ($row = $result_details->fetch_assoc()) {
+            $mavach = $row['mavach'];
+
+            // Cập nhật trạng thái chi tiết sách
+            $stmt_update = $connect->prepare("UPDATE chitietsach SET trangthai = 1 WHERE mavach = ?");
+            $stmt_update->bind_param("i", $mavach);
+
+            if (!$stmt_update->execute()) {
+                $list_xuly_phieumuon[] = array(
+                    "status" => "error",
+                    "message" => "Không thể cập nhật trạng thái cho mã vạch: " . $mavach,
+                );
+            }
+        }
+
         $list_xuly_phieumuon[] = array(
             "status" => "success",
+            "message" => "Cập nhật phiếu mượn thành công và trạng thái sách đã được cập nhật."
         );
     } else {
         $list_xuly_phieumuon[] = array(
             "status" => "error",
+            "message" => "Không thể cập nhật phiếu mượn."
         );
     }
 } else {
     $list_xuly_phieumuon[] = array(
         "status" => "error",
+        "message" => "Không có mã phiếu mượn được gửi."
     );
 }
 
 // ================================================ DELETE ===========================================================
+
+//==== Xóa phiếu mượn chưa đc xử lý ===>
+$list_xoa_pmuon = array();
+if (isset($_POST['mapm_xoa'])) {
+$mapm = $_POST['mapm_xoa'];
+$stmt = $connect->prepare("DELETE FROM phieumuon WHERE mapm = ?");
+$stmt->bind_param("i", $mapm);
+
+// Thực hiện câu lệnh
+if ($stmt->execute()) {
+    $list_xoa_pmuon[] = array(
+        "status" => "success",
+        "message" => "Xóa phiếu mượn thành công"
+    );
+} else {
+    $list_xoa_pmuon[] = array(
+        "status" => "success",
+        "message" => "Xóa phiếu mượn thành công"
+    );
+}
+
+}
 
 //=== Xử lý XÓA sách ===>
 if (isset($_POST['masach_xoa'])) {
@@ -2050,6 +2165,7 @@ $response = array(
     'list_layphiphat_sach' => $list_layphiphat_sach,
     'list_tao_pt' => $list_tao_pt,
     'list_them_ct_pt' => $list_them_ct_pt,
+    'list_xoa_pmuon' => $list_xoa_pmuon,
 );
 
 echo json_encode($response);

@@ -106,7 +106,7 @@ if (empty($danhsach)) {
         $stmt_dangMuon->execute();
 
         echo '<div class="item-container">
-            <img src="img/' . $img . '" class="book-image">
+            <img src="thuvien/img/' . $img . '" class="book-image">
             <div class="save-favorite-button">';
         if ($stmtCheckYeuThich->rowCount() > 0) {
             echo '<i class="fa-solid fa-star"></i>';

@@ -99,6 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         reset_select_tinhtrang_pt();
 
         selectedProducts_pt = [];
+
+        console.log(USERNAME);
     });
 
     btn_save_ct_pt.addEventListener('click', () => {

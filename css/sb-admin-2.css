@@ -4101,6 +4101,14 @@ input[type="button"].btn-block {
   display: block;
 }
 
+.tab-content-tk > .tab-pane-tk {
+  display: none;
+}
+
+.tab-content-tk > .active {
+  display: block;
+}
+
 .navbar {
   position: relative;
   display: flex;

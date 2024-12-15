@@ -525,10 +525,8 @@ function updateButtonState(actionPermissions) {
 
 // Khởi tạo xử lý khi DOM đã sẵn sàng
 document.addEventListener('DOMContentLoaded', function () {
-    const username = 'admin'; // Lấy username từ session hoặc giá trị phù hợp
-
-    // Lấy quyền từ server
-    getPermissions(username).then(response => {
+    
+    getPermissions(USERNAME).then(response => {
         if (response.accessPermissions) {
             // Cập nhật hiển thị menu
             updateMenuVisibility(response.accessPermissions);

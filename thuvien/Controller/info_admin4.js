@@ -99,6 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    function getUserNAME(matk) {
+        USERNAME = matk;
+    }   
     
     // Gọi hàm với mã tài khoản cụ thể
     // getUserInfo('ttda0864');
@@ -120,3 +124,6 @@ function previewImageNV(event) {
         reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh
     }
 }
+
+
+let USERNAME = null;

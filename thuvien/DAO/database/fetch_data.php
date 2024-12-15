@@ -749,10 +749,13 @@ if (isset($_POST['action'])) {
         if (isset($_FILES['img']['name'])) {
             $image = $_FILES['img']['name'];
             $uploadDir = "../../img/"; // Thư mục lưu trữ hình ảnh
+            // $uploadDir2 = "img/"; // Thư mục lưu trữ hình ảnh
             $hinhanhpath = basename($_FILES['img']['name']);
             $uploadFile = $uploadDir . $hinhanhpath;
+            // $uploadFile2 = $uploadDir2 . $hinhanhpath;
 
-            move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);  
+            move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile);
+            // move_uploaded_file($_FILES['img']['tmp_name'], $uploadFile2);    
         }
          
         // Chuẩn bị câu lệnh thêm sách
@@ -1290,27 +1293,75 @@ if (isset($_POST['tendangnhap']) && isset($_POST['trangthai'])) {
 if (isset($_POST['ma_xuly_pm'])) {
     $ma_xuly_pm = $_POST['ma_xuly_pm'];
 
+    // Cập nhật trạng thái phiếu mượn
     $stmt = $connect->prepare("UPDATE phieumuon SET trangthai = 1 WHERE mapm = ?");
-    $stmt->bind_param("s", $ma_xuly_pm);
+    $stmt->bind_param("i", $ma_xuly_pm);
 
     $list_xuly_phieumuon = array();
 
     if ($stmt->execute()) {
+        // Truy xuất chi tiết phiếu mượn
+        $stmt_details = $connect->prepare("SELECT mavach FROM chitietphieumuon WHERE mapm = ?");
+        $stmt_details->bind_param("i", $ma_xuly_pm);
+        $stmt_details->execute();
+        $result_details = $stmt_details->get_result();
+
+        // Cập nhật trạng thái cho từng chi tiết sách
+        while ($row = $result_details->fetch_assoc()) {
+            $mavach = $row['mavach'];
+
+            // Cập nhật trạng thái chi tiết sách
+            $stmt_update = $connect->prepare("UPDATE chitietsach SET trangthai = 1 WHERE mavach = ?");
+            $stmt_update->bind_param("i", $mavach);
+
+            if (!$stmt_update->execute()) {
+                $list_xuly_phieumuon[] = array(
+                    "status" => "error",
+                    "message" => "Không thể cập nhật trạng thái cho mã vạch: " . $mavach,
+                );
+            }
+        }
+
         $list_xuly_phieumuon[] = array(
             "status" => "success",
+            "message" => "Cập nhật phiếu mượn thành công và trạng thái sách đã được cập nhật."
         );
     } else {
         $list_xuly_phieumuon[] = array(
             "status" => "error",
+            "message" => "Không thể cập nhật phiếu mượn."
         );
     }
 } else {
     $list_xuly_phieumuon[] = array(
         "status" => "error",
+        "message" => "Không có mã phiếu mượn được gửi."
     );
 }
 
 // ================================================ DELETE ===========================================================
+
+//==== Xóa phiếu mượn chưa đc xử lý ===>
+$list_xoa_pmuon = array();
+if (isset($_POST['mapm_xoa'])) {
+$mapm = $_POST['mapm_xoa'];
+$stmt = $connect->prepare("DELETE FROM phieumuon WHERE mapm = ?");
+$stmt->bind_param("i", $mapm);
+
+// Thực hiện câu lệnh
+if ($stmt->execute()) {
+    $list_xoa_pmuon[] = array(
+        "status" => "success",
+        "message" => "Xóa phiếu mượn thành công"
+    );
+} else {
+    $list_xoa_pmuon[] = array(
+        "status" => "success",
+        "message" => "Xóa phiếu mượn thành công"
+    );
+}
+
+}
 
 //=== Xử lý XÓA sách ===>
 if (isset($_POST['masach_xoa'])) {
@@ -2068,6 +2119,7 @@ $response = array(
     'list_layphiphat_sach' => $list_layphiphat_sach,
     'list_tao_pt' => $list_tao_pt,
     'list_them_ct_pt' => $list_them_ct_pt,
+    'list_xoa_pmuon' => $list_xoa_pmuon,
 );
 
 echo json_encode($response);

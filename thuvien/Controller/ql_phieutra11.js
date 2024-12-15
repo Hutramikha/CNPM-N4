@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input_vitri_sach_pt.value = '';
         input_phiphat_sach.value = '';
 
-        select_tinhtrang_sach_pt.selectedIndex = -1;
+        select_tinhtrang_sach_pt.selectedIndex = 0;
         select_phat_sach.selectedIndex = 0;
     }
 

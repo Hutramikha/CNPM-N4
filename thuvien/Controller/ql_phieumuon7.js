@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<td>' + phieumuon.manv + '-' + phieumuon.ten_nhanvien + '</td>' +
                             '<td>' + phieumuon.tongphimuon + '</td>' +
                             '<td>' + trangThaiHTML + '</td>' +
-                            '<td> ' + trangThaiHTML_Xoa + ' </td>' +
+                            '<td> '+ trangThaiHTML_Xoa + ' </td>' +
                             '</tr>'
                         );
                     });
@@ -233,13 +233,15 @@ function deletePM(ma) {
         data: { mapm_xoa: ma },
         dataType: 'json',
         success: function (data) {
-            if (data.list_timkiem_phieumuon.length > 0) {
-                $.each(data.list_timkiem_phieumuon, function (index, phieumuon) {
+            if (data.list_xoa_pmuon.length > 0) {
+                $.each(data.list_xoa_pmuon, function (index, pmuon) {
                     if (pmuon.status === "success") {
-                        alert("Xóa phiếu mượn thành công.");
-
+                        alert(pmuon.message);
+                        $(document).ready(function () {
+                            reset_table_phieumuon();
+                        });
                     } else {
-                        alert("Lỗi: " + response.message);
+                        alert(pmuon.message);
                     }
                 }
                 )
@@ -247,6 +249,7 @@ function deletePM(ma) {
         },
         error: function (xhr, status, error) {
             console.error('Lỗi:', error);
+            console.log(xhr)
             alert("Đã xảy ra lỗi khi xóa phiếu mượn.");
         }
     });
@@ -255,6 +258,10 @@ function deletePM(ma) {
 
 
 function xuLyPhieuMuon(ma) {
+    if (!confirm("Bạn có chắc chắn muốn xử lý phiếu mượn này không?")) {
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: "../DAO/database/fetch_data.php", // Đường dẫn đến file PHP
@@ -266,9 +273,9 @@ function xuLyPhieuMuon(ma) {
                     $(document).ready(function () {
                         reset_table_phieumuon();
                     });
-                    alert("Đã xử lý mã phiếu:" + ma);
+                    alert(phieumuon.message);
                 } else {
-                    alert("Có lỗi xảy ra khi xử lý phiếu mượn");
+                    alert(phieumuon.message);
                 }
             });
         },

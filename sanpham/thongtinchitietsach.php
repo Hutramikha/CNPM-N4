@@ -70,7 +70,7 @@ if ($thongtinchitiet) {
                     Thêm vào giỏ hàng thành công
                 </div>
 
-                <div class="book-details__img"><img src="img/' . $img . '" alt=""></div>
+                <div class="book-details__img"><img src="thuvien/img/' . $img . '" alt=""></div>
                 <div class="book-details__info">
                     <h4>Tiêu đề: ' . $masach . ' ' . $tensach . '</h4>
                     <p>Tác giả: ' . $tacGia . ' <br>Thể loại: ' . $theLoai . ' <br>Nhà xuất bản: ' . $nhaXuatBan . '</p>

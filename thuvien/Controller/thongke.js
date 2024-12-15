@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
                     // Khai báo biến để tính tổng tiền
                     let totalMoney = 0;
+                    let totalRecords = 0;
     
                     // Hiển thị dữ liệu mới từ server
                     $.each(data.list_phieunhap, function (index, phieunhap) {
@@ -84,9 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
                         // Cộng tổng tiền
                         totalMoney += parseFloat(phieunhap.tongtien);
+                        totalRecords++;
                     });
     
                     $('#total-money-pn').text(totalMoney.toFixed(0));
+                    $('#total-records').text(totalRecords);
                 },
                 error: function(xhr, status, error) {
                     console.log("Error: " + error);

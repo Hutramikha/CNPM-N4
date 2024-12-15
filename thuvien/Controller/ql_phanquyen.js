@@ -451,6 +451,84 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+//Làm việc với tài khoản
+function getPermissions(username) {
+    return $.ajax({
+        url: '../DAO/database/rolePermissions.php',
+        type: 'GET',
+        data: { username: username }, // Gửi username đến server
+        dataType: 'json',
+        success: function(response) {
+            console.log('Danh sách quyền:', response.permissions);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Lỗi khi lấy quyền:', textStatus, errorThrown);
+        }
+    });
+}
+
+function updateMenuVisibility(permissions) {
+    // Danh sách các mục tương ứng với quyền
+    const menuMapping = {
+        1: '.btn-qlsach',
+        2: '.btn-qlnhanvien',
+        3: '.btn-qldocgia',
+        4: '.btn-muonsach',  // Quản lý Mượn/Trả
+        5: '.btn-trasach',
+        6: '.btn-qlphieunhap',
+        7: '.btn-qltaikhoan',
+        8: '.btn-qlphanquyen',
+        9: '.btn-thongke',
+    };
+
+    // Ẩn tất cả các mục trước
+    Object.values(menuMapping).forEach(selector => {
+        $(selector).hide();
+    });
+
+    // Hiển thị lại các mục có trong danh sách quyền
+    permissions.forEach(permission => {
+        const selector = menuMapping[permission];
+        if (selector) {
+            $(selector).show();
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const username = 'admin';
+    
+    // Lấy quyền và cập nhật giao diện
+    getPermissions(username).then(response => {
+        if (response.permissions) {
+            updateMenuVisibility(response.permissions);
+        } else {
+            console.error('Không có quyền nào được trả về.');
+        }
+    }).catch(error => {
+        console.error('Lỗi khi xử lý quyền:', error);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const username = 'admin'; // Lấy username từ đâu đó
+    
+    // Lấy thông tin tài khoản
+    getUserInfo(username);
+
+    // Lấy quyền và cập nhật menu
+    getPermissions(username).then(response => {
+        if (response.permissions) {
+            updateMenuVisibility(response.permissions);
+        } else {
+            console.error('Không có quyền nào được trả về.');
+        }
+    }).catch(error => {
+        console.error('Lỗi khi xử lý quyền:', error);
+    });
+});
+
+
 let ma_pq_toancuc = null;
 
 let save_for_pq = 0;

@@ -26,14 +26,14 @@ $tacGia = $tacGia_sql->fetchAll(PDO::FETCH_ASSOC);
             </li>
         </ul> -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown" id="locTheLoaiDropdown">
+            <li class="nav-item dropdown" id="locTheLoaiDropdown" >
                 <div class="nav-link dropdown-toggle" id="navbarDropdown"
                     role="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="true">
                     Thể loại
                 </div>
                 <div class="dropdown-menu"
-                    style=" width: calc(100% + 4rem);" id="locTheLoaiMenu">
+                    style=" width: 300x; height: 200px; max-height: 200px; overflow-y: auto" id="locTheLoaiMenu">
                     <!-- thêm lớp show vào class  -->
                     <?php
                     foreach ($theLoaiSach as $item) {
@@ -59,7 +59,7 @@ $tacGia = $tacGia_sql->fetchAll(PDO::FETCH_ASSOC);
                     aria-expanded="true">
                     Tác giả
                 </a>
-                <div class="dropdown-menu" id="locTacGiaMenu">
+                <div class="dropdown-menu" id="locTacGiaMenu" style=" width: 300x; height: 130px; max-height: 200px; overflow-y: auto">
                     <?php
                     foreach ($tacGia as $item) {
                         extract($item);

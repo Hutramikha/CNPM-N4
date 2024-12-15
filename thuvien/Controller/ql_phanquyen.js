@@ -499,36 +499,14 @@ function updateMenuVisibility(accessPermissions) {
 // Cập nhật trạng thái các nút hành động dựa trên quyền thêm/sửa/xóa
 function updateButtonState(actionPermissions) {
     const buttonMapping = {
-        1: { // Quản lý sách
-            add: '.btn-add-sach',
-            edit: '.btn-edit-sach',
-            delete: '.btn-delete-sach'
-        },
-        2: { // Quản lý nhân viên
-            add: '.btn-add-nv',
-            edit: '.btn-edit-nv',
-            delete: '.btn-delete-nv'
-        },
-        3: { // Quản lý độc giả
-            edit: '.btn-edit-dg',
-            delete: '.btn-delete-dg'
-        },
-        5: { // Quản lý trả sách
-            start: '.btn-start-ct-phieu-tra',
-            edit: '.btn-edit-ct-phieu-tra'
-        },
-        6: { // Quản lý phiếu nhập
-            start: '.btn-start-ct-phieu-nhap',
-            save: '.btn-save-ct-phieu-nhap'
-        },
-        8: { // Quản lý phân quyền
-            add: '.btn-add-pq',
-            edit: '.btn-edit-pq',
-            delete: '.btn-delete-pq'
-        }
+        1: { add: '.btn-add-sach', edit: '.btn-edit-sach', delete: '.btn-delete-sach' },
+        2: { add: '.btn-add-nv', edit: '.btn-edit-nv', delete: '.btn-delete-nv' },
+        3: { edit: '.btn-edit-dg', delete: '.btn-delete-dg' },
+        5: { add: '.btn-start-ct-phieu-tra', edit: '.btn-edit-ct-phieu-tra' },
+        6: { add: '.btn-start-ct-phieu-nhap', save: '.btn-save-ct-phieu-nhap' },
+        8: { add: '.btn-add-pq', edit: '.btn-edit-pq', delete: '.btn-delete-pq' }
     };
 
-    // Cập nhật trạng thái các nút theo quyền hành động
     for (const [machucnang, actions] of Object.entries(actionPermissions)) {
         const buttons = buttonMapping[machucnang];
 
@@ -536,7 +514,7 @@ function updateButtonState(actionPermissions) {
             for (const [action, selector] of Object.entries(buttons)) {
                 const isActive = actions[action];
 
-                // Nếu hoatdong = 0, disable nút
+                // Disable nút nếu không có quyền
                 if (isActive === false) {
                     $(selector).prop('disabled', true);
                 }

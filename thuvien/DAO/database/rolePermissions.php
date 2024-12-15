@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     try {
+        // Truy vấn lấy quyền của người dùng
         $query = "
             SELECT rp.machucnang, rp.hanhdong, rp.hoatdong
             FROM taikhoan ur
@@ -23,21 +24,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt->execute();
         $result = $stmt->get_result();
 
+        // Khai báo mảng để lưu kết quả
         $permissions = [];
         $accessPermissions = [];
 
         while ($row = $result->fetch_assoc()) {
-            // Phân loại quyền 'Truy cập'
-            if ($row['hanhdong'] === 'Truy cập') {
-                if ($row['hoatdong']) {
-                    $accessPermissions[] = $row['machucnang'];
+            $machucnang = $row['machucnang'];
+            $hanhdong = strtolower(trim($row['hanhdong'])); // Đưa về chữ thường và xóa khoảng trắng
+            $hoatdong = (bool)$row['hoatdong'];
+
+            // Phân quyền 'Truy cập'
+            if ($hanhdong === 'truy cập') {
+                if ($hoatdong) {
+                    $accessPermissions[] = $machucnang;
                 }
             } else {
-                // Chi tiết quyền thêm/sửa/xóa/lưu/hủy
-                $permissions[$row['machucnang']][$row['hanhdong']] = $row['hoatdong'];
+                // Tách hành động nếu có nhiều giá trị ngăn cách bởi dấu phẩy
+                $actions = explode(',', $row['hanhdong']);
+
+                // Khởi tạo mặc định nếu chưa tồn tại
+                if (!isset($permissions[$machucnang])) {
+                    $permissions[$machucnang] = [
+                        'add' => false,
+                        'edit' => false,
+                        'delete' => false
+                    ];
+                }
+
+                // Xử lý từng hành động
+                foreach ($actions as $action) {
+                    $action = strtolower(trim($action)); // Chuẩn hóa hành động
+                    
+                    switch ($action) {
+                        case 'thêm':
+                            $permissions[$machucnang]['add'] = $hoatdong;
+                            break;
+                        case 'sửa':
+                            $permissions[$machucnang]['edit'] = $hoatdong;
+                            break;
+                        case 'xóa':
+                            $permissions[$machucnang]['delete'] = $hoatdong;
+                            break;
+                    }
+                }
             }
         }
 
+        // Trả về kết quả JSON
         echo json_encode([
             'accessPermissions' => $accessPermissions,
             'actionPermissions' => $permissions

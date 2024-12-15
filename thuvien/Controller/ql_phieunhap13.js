@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
         mancc_for_pn = $('.select-ncc_sach_pn').val();
         if (selectedProducts.length > 0) {
             dem_tt = selectedProducts.length;
-            console.log(dem_tt);
+            console.log("đây "+ dem_tt);
             if (mancc_for_pn > 0) {
                 const confirmMessage = `Bạn có chắc chắn muốn tạo phiếu nhập ?`;
                 if (!confirm(confirmMessage)) {
@@ -411,10 +411,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                     // Có thể thêm logic để reset lại bảng và danh sách sản phẩm
                                     mancc_for_pn = 0;
                                     for (let i = 0; i < selectedProducts.length; i++) {
-                                        dem_tt = dem_tt - 1;
+                                        dem_tt -= 1;
                                         let thanhtien_pn = selectedProducts[i].price * selectedProducts[i].quantity;
-                                        totalPrice += thanhtien_pn;
+                                        totalPrice_pn += thanhtien_pn;
+                                        console.log(totalPrice_pn);
                                         console.log(thanhtien_pn);
+                                        console.log("ffffffffffff");
                                         $.ajax({
                                             url: '../DAO/database/fetch_data.php',
                                             method: 'POST',
@@ -427,20 +429,23 @@ document.addEventListener("DOMContentLoaded", () => {
                                             },
                                             dataType: 'json',
                                             success: function (data) {
+                                                console.log("ffffffffffff2222222");
                                                 if (data.list_them_ct_pn.length > 0) {
                                                     $.each(data.list_them_ct_pn, function (index, ctpn) {
                                                         if (ctpn.status === "success") {
                                                             console.log(ctpn.message);
+                                                            console.log(dem_tt);
                                                         } else {
                                                             console.log(ctpn.message);
                                                         }
                                                     })
                                                     if (dem_tt == 0) {
+                                                        console.log("tới rồi");
                                                         $.ajax({
                                                             url: '../DAO/database/fetch_data.php',
                                                             method: 'POST',
                                                             data: {
-                                                                tongtien_pn: totalPrice,
+                                                                tongtien_pn: totalPrice_pn,
                                                                 maphieunhap_tt: pn.maphieunhap,
                                                             },
                                                             dataType: 'json',
@@ -449,6 +454,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                                     $.each(data.list_sua_tongtien_pn, function (index, ttpn) {
                                                                         if (ttpn.status === "success") {
                                                                             alert(ttpn.message);
+                                                                            reset_table_phieu_nhap();
                                                                         } else {
                                                                             alert(ttpn.message);
                                                                         }
@@ -474,7 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             alert('Vui lòng thêm sản phẩm trước khi tạo phiếu nhập.');
         }
-        reset_table_phieu_nhap();
+
     });
 
 
@@ -520,7 +526,7 @@ let mancc_for_pn = 0;
 
 let selectedProducts = [];
 
-let totalPrice = 0;
+let totalPrice_pn = 0;
 
 let dem_tt = -1;
 
@@ -565,18 +571,29 @@ $(document).ready(function () {
     });
 
     // Thêm sản phẩm vào bảng chi tiết phiếu nhập
-    function addProductToTable(bookId, price, quantity, totalPrice) {
-        const rowCount = $('.table-ct-phieu_nhap tbody tr').length;
-        const newRow = `<tr>
-            <td>${rowCount + 1}</td>
-            <td>${bookId}</td>
-            <td>${price}</td>
-            <td>${quantity}</td>
-            <td>${totalPrice}</td>
-            <td><button class="btn-delete btn-remove-ct-pn">Xóa</button></td>
-        </tr>`;
-        $('.table-ct-phieu_nhap tbody').append(newRow);
-        selectedProducts.push({ id: bookId, price: price, quantity: quantity });
+    function addProductToTable(bookId, price, quantity, thanhtien_input) {
+        let existingProduct = selectedProducts.find(product => product.id === bookId);
+    
+        if (existingProduct) {
+            // Nếu sản phẩm đã tồn tại, thông báo lỗi cho người dùng
+            alert(`Chi tiết sách này đã được thêm.`);
+            console.error(`Sản phẩm với ID ${bookId} đã tồn tại trong danh sách.`);
+        } else {
+            const rowCount = $('.table-ct-phieu_nhap tbody tr').length;
+            const newRow = `<tr>
+                <td>${rowCount + 1}</td>
+                <td>${bookId}</td>
+                <td>${price}</td>
+                <td>${quantity}</td>
+                <td>${thanhtien_input}</td>
+                <td><button class="btn-delete btn-remove-ct-pn">Xóa</button></td>
+            </tr>`;
+            
+            $('.table-ct-phieu_nhap tbody').append(newRow);
+            
+            // Thêm mới vào mảng selectedProducts
+            selectedProducts.push({ id: bookId, price: price, quantity: quantity });
+        }
     }
 
     // Nút thêm sản phẩm

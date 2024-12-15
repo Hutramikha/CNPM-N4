@@ -1580,7 +1580,7 @@ if (isset($_POST['tongtien_pn']) && isset($_POST['maphieunhap_tt'])) {
     if ($stmt->execute()) {
         $list_sua_tongtien_pn[] = array(
         "status" => "success",
-        "message" => "Tạo phiếu nhập thành công",
+        "message" => "Tạo phiếu nhập thành công"
     );
     } else {
         $list_sua_tongtien_pn[] = array(
@@ -1646,6 +1646,7 @@ $response = array(
     'list_tao_pn' => $list_tao_pn,
     'list_gianhap_sach' => $list_gianhap_sach,
     'list_them_ct_pn' => $list_them_ct_pn,
+    'list_sua_tongtien_pn' => $list_sua_tongtien_pn,
 );
 
 echo json_encode($response);

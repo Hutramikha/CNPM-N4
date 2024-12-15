@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         '<tr>' +
                         '<td>' + quyen.maquyen + '</td>' +
                         '<td>' + quyen.tenquyen + '</td>' +
-                        '<td>' + quyen.tenquyen + '</td>' +
+                        '<td>' + quyen.mota + '</td>' +
                         '</tr>'
                     );
                 });
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             '<tr>' +
                             '<td>' + quyen.maquyen + '</td>' +
                             '<td>' + quyen.tenquyen + '</td>' +
-                            '<td>' + quyen.tenquyen + '</td>' +
+                            '<td>' + quyen.mota + '</td>' +
                             '</tr>'
                         );
                     });
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 '<tr>' +
                                 '<td>' + quyen.maquyen + '</td>' +
                                 '<td>' + quyen.tenquyen + '</td>' +
-                                '<td>' + quyen.tenquyen + '</td>' +
+                                '<td>' + quyen.mota + '</td>' +
                                 '</tr>'
                             );
                         });
@@ -214,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(ma_pq_toancuc);
             maquyen_check = mapq_for_input;
             tenquyen_check = ten_for_input;
+            mota_check = mota_for_input;
 
             fetchChiTietQuyen(mapq_for_input);
         });
@@ -249,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     error: function (xhr, status, error) {
                         console.error('Lỗi:', error);
                         console.log('Phản hồi từ server:', xhr.responseText); // In toàn bộ dữ liệu server trả về
-                        alert('Xóa quyền thất bại.');
+                        alert('Xóa quyền thất bại, quyền đã có tài khoản sử dụng.');
                         resetInput();
                         reset_table_quyen();
                     }
@@ -274,6 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         
                         const maquyen = $('.input-ma_pq').val();
                         const tenquyen = $('.input-ten_pq').val();
+                        const mota = $('.input-mota_pq').val();
 
                         if(!maquyen) {
                             alert('Vui lòng nhập mã quyền.');
@@ -281,7 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         } else if(!tenquyen) {
                             alert('Vui lòng nhập tên quyền.');
                             isValid_pq = false;
-                        } 
+                        } else if(!mota) {
+                            alert('Vui lòng nhập mô tả.');
+                            isValid_pq = false;
+                        }
 
                         if (!isValid_pq) {
                             return;
@@ -296,6 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         formData.append('action', 'addQuyen');
                         formData.append('maquyen', maquyen);
                         formData.append('tenquyen', tenquyen);
+                        formData.append('mota', mota);
 
                         $.ajax({
                             url: '../DAO/database/fetch_data.php',
@@ -331,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("Bạn đã chọn trường hợp 2.");
                     const maquyen = $('.input-ma_pq').val();
                     const tenquyen = $('.input-ten_pq').val();
-                    const mota = $('input-mota_pq').val();
+                    const mota = $('.input-mota_pq').val();
 
                     let isChangedpq = false;
                     let isValid_pq = true;
@@ -339,6 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Kiểm tra xem có thay đổi hay không
                     if (maquyen !== maquyen_check) isChangedpq = true;
                     if (tenquyen !== tenquyen_check) isChangedpq = true;
+                    if (mota !== mota_check) isChangedpq = true;
 
                     if (!isChangedpq) {
                         alert("Không có thay đổi nào để cập nhật.");
@@ -350,6 +357,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         isValid_pq = false;
                     } else if(!tenquyen) {
                         alert('Vui lòng nhập tên quyền.');
+                        isValid_pq = false;
+                    } else if(!mota) {
+                        alert('Vui lòng nhập mô tả.');
                         isValid_pq = false;
                     }
 
@@ -366,6 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append('action', 'suaQuyen');
                     formData.append('maquyen', maquyen);
                     formData.append('tenquyen', tenquyen);
+                    formData.append('mota', mota);
 
                     $.ajax({
                         url: '../DAO/database/fetch_data.php',
@@ -446,3 +457,4 @@ let save_for_pq = 0;
 
 let maquyen_check;
 let tenquyen_check;
+let mota_check;

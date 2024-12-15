@@ -823,6 +823,7 @@ if (isset($_POST['action'])) {
         // Lấy dữ liệu từ form
         $maquyen = $_POST['maquyen'];
         $tenquyen = $_POST['tenquyen'];
+        $mota = $_POST['mota'];
 
         // Kiểm tra nếu mã quyền đã tồn tại
         $check_sql = "SELECT * FROM quyen WHERE maquyen = ?";
@@ -839,7 +840,7 @@ if (isset($_POST['action'])) {
             );
         } else {
             // Câu lệnh INSERT để thêm quyền
-            $sql = "INSERT INTO quyen (maquyen, tenquyen) VALUES (?, ?)";
+            $sql = "INSERT INTO quyen (maquyen, tenquyen, mota) VALUES (?, ?, ?)";
             $stmt = $connect->prepare($sql);
             
             if ($stmt === false) {
@@ -847,7 +848,7 @@ if (isset($_POST['action'])) {
             }
 
             // Gắn giá trị vào câu lệnh
-            $stmt->bind_param("is", $maquyen, $tenquyen);
+            $stmt->bind_param("iss", $maquyen, $tenquyen, $mota);
 
             // Thực thi câu lệnh và trả kết quả
             if ($stmt->execute()) {
@@ -1089,6 +1090,7 @@ if (isset($_POST['action'])) {
         // Lấy dữ liệu từ form
         $maquyen = $_POST['maquyen']; // Mã quyền cần cập nhật
         $tenquyen = $_POST['tenquyen']; // Tên quyền mới
+        $mota = $_POST['mota'];
 
         // Kiểm tra xem mã quyền có tồn tại trong cơ sở dữ liệu không
         $check_sql = "SELECT * FROM quyen WHERE maquyen = ?";
@@ -1099,7 +1101,7 @@ if (isset($_POST['action'])) {
 
         if ($result->num_rows > 0) {
             // Câu lệnh UPDATE để sửa quyền
-            $sql = "UPDATE quyen SET tenquyen = ? WHERE maquyen = ?";
+            $sql = "UPDATE quyen SET tenquyen = ?, mota = ? WHERE maquyen = ?";
             $stmt = $connect->prepare($sql);
 
             if ($stmt === false) {
@@ -1107,7 +1109,7 @@ if (isset($_POST['action'])) {
             }
 
             // Gắn giá trị vào câu lệnh
-            $stmt->bind_param("si", $tenquyen, $maquyen);
+            $stmt->bind_param("ssi", $tenquyen, $mota,  $maquyen);
 
             // Thực thi câu lệnh và trả kết quả
             if ($stmt->execute()) {

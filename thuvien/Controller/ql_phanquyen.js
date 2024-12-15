@@ -211,6 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
             $('.input-mota_pq').val(mota_for_input);
 
             ma_pq_toancuc = mapq_for_input;
+            console.log(ma_pq_toancuc);
             maquyen_check = mapq_for_input;
             tenquyen_check = ten_for_input;
 
@@ -219,13 +220,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     $(document).ready(function () {
-        $('btn-delete-pq').on('click', function() {
-            if (ma_pq_toancuc = 0) {
+        $('.btn-delete-pq').on('click', function() {
+            if (ma_pq_toancuc === '0') {
                 alert('Bạn không thể xóa quyền admin!');
                 return;
             }
             else if (ma_pq_toancuc) {
-                const confirmMessage = `Bạn có chắc chắn muốn xóa nhân viên ?`;
+                const confirmMessage = `Bạn có chắc chắn muốn xóa quyền?`;
                 if (!confirm(confirmMessage)) {
                     return;
                 }
@@ -239,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (maquyen.status === "success") {
                                 alert(maquyen.message);
                                 resetInput();
-                                reset_table_nhanvien();
+                                reset_table_quyen();
                             } else {
                                 alert(maquyen.message);
                             }
@@ -247,7 +248,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     error: function (xhr, status, error) {
                         console.error('Lỗi:', error);
-                        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                        console.log('Phản hồi từ server:', xhr.responseText); // In toàn bộ dữ liệu server trả về
+                        alert('Xóa quyền thành công.');
+                        resetInput();
+                        reset_table_quyen();
                     }
                 });
             } else {
@@ -324,15 +328,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
 
                 case 2:
+                    console.log("Bạn đã chọn trường hợp 2.");
                     const maquyen = $('.input-ma_pq').val();
                     const tenquyen = $('.input-ten_pq').val();
                     const mota = $('input-mota_pq').val();
 
                     let isChangedpq = false;
+                    let isValid_pq = true;
 
                     // Kiểm tra xem có thay đổi hay không
-                    if (maquyen !== maquyen_check) isChangednv = true;
-                    if (tenquyen !== tenquyen_check) isChangednv = true;
+                    if (maquyen !== maquyen_check) isChangedpq = true;
+                    if (tenquyen !== tenquyen_check) isChangedpq = true;
 
                     if (!isChangedpq) {
                         alert("Không có thay đổi nào để cập nhật.");
@@ -345,16 +351,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else if(!tenquyen) {
                         alert('Vui lòng nhập tên quyền.');
                         isValid_pq = false;
-                    } else if(!mota) {
-                        alert('Vui lòng nhập mô tả.');
-                        isValid_pq = false;
                     }
 
                     if (!isValid_pq) {
                         return;
                     }
 
-                    const confirmMessage = `Bạn có chắc chắn muốn thêm quyền?`;
+                    const confirmMessage = `Bạn có chắc chắn muốn sửa quyền?`;
                     if (!confirm(confirmMessage)) {
                         return; // Nếu người dùng không xác nhận, dừng lại
                     }

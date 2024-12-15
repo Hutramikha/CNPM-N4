@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('.input-phiphat_sach').value = '';
 
         document.querySelector('.select-tinhtrang_sach_pt').selectedIndex = -1;
-        document.querySelector('.select-phat_sach').selectedIndex = 0;
+        // document.querySelector('.select-phat_sach').selectedIndex = 0;
 
         resetInput();
         disableInput();
@@ -303,10 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function reset_select_hinhthucphat() {
         $(document).ready(function () {
-            var option0 = $('.select-phat_sach option[value="0"]').clone();
             $('.select-phat_sach').empty();
-            // Fetch dữ liệu từ server
-            $('.select-phat_sach').append(option0);
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
                 method: 'GET',

@@ -853,7 +853,6 @@ if (isset($_POST['action'])) {
             if ($stmt->execute()) {
                 $list_them_quyen[] = array(
                     "status" => "success",
-                    "message" => "Thêm quyền thành công!"
                 );
             } else {
                 $list_them_quyen[] = array(
@@ -861,6 +860,40 @@ if (isset($_POST['action'])) {
                     "message" => "Lỗi: " . $stmt->error
                 );
             }
+
+            $sql_chitiet = "INSERT INTO chitietquyen (maquyen, machucnang, hanhdong, hoatdong) VALUES 
+            (?, 1, 'truycap', true),
+            (?, 1, 'them, sua, xoa', true),
+            (?, 2, 'truycap', true),
+            (?, 2, 'them, sua, xoa', true),
+            (?, 3, 'truycap', true),
+            (?, 3, 'sua, xoa', true),
+            (?, 4, 'truycap', true),
+            (?, 5, 'truycap', true),
+            (?, 5, 'them, sua', true),
+            (?, 6, 'truycap', true),
+            (?, 6, 'them, sua', true),
+            (?, 7, 'truycap', true),
+            (?, 7, 'sua, xoa', true),
+            (?, 8, 'truycap', true),
+            (?, 8, 'them, sua, xoa', true),
+            (?, 9, 'truycap', true)";
+
+        $stmt_chitiet = $connect->prepare($sql_chitiet);
+
+        $stmt_chitiet->bind_param("iiiiiiiiiiiiiiii", $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen, $maquyen);
+
+        if ($stmt_chitiet->execute()) {
+            $list_them_quyen[] = array(
+                "status" => "success",
+                "message" => "Thêm quyền và chi tiết quyền thành công!"
+            );
+        } else {
+            $list_them_quyen[] = array(
+                "status" => "error",
+                "message" => "Thêm quyền thành công nhưng không thể thêm chi tiết quyền: " . $stmt_chitiet->error
+            );
+        }
         }
     } else {
         $list_them_quyen[] = array(
@@ -1347,34 +1380,47 @@ if (isset($_POST['manv_xoa'])) {
 if (isset($_POST['mapq_xoa'])) {
     $maquyen = $_POST['mapq_xoa']; // Lấy mã quyền cần xóa từ POST
 
+    $list_xoa_quyen = array();
+
     // Kiểm tra nếu mã quyền là 0 (Admin) thì không cho xóa
     if ($maquyen == 0) {
         $list_xoa_quyen[] = array(
             "status" => "error",
             "message" => "Bạn không thể xóa quyền admin!"
         );
-    }
-
-    // Chuẩn bị câu lệnh xóa
-    $sql = "DELETE FROM chitietquyen WHERE maquyen = ?";
-    $stmt = $connect->prepare($sql);
-    $stmt->bind_param("i", $maquyen);
-
-    $list_xoa_quyen = array();
-
-    // Thực thi câu lệnh xóa
-    if ($stmt->execute()) {
-        // Trả về kết quả thành công
-        $list_xoa_quyen[] = array(
-            "status" => "success",
-            "message" => "Xóa quyền thành công!"
-        );
     } else {
-        // Trả về lỗi nếu có vấn đề
-        $list_xoa_quyen[] = array(
-            "status" => "error",
-            "message" => "Lỗi: " . $stmt->error
-        );
+        // Xóa chi tiết quyền trước
+        $sql_chitiet = "DELETE FROM chitietquyen WHERE maquyen = ?";
+        $stmt_chitiet = $connect->prepare($sql_chitiet);
+        $stmt_chitiet->bind_param("i", $maquyen);
+
+        if ($stmt_chitiet->execute()) {
+            // Sau khi xóa chi tiết quyền thành công, tiến hành xóa quyền
+            $sql_quyen = "DELETE FROM quyen WHERE maquyen = ?";
+            $stmt_quyen = $connect->prepare($sql_quyen);
+            $stmt_quyen->bind_param("i", $maquyen);
+
+            // Thực thi câu lệnh xóa quyền
+            if ($stmt_quyen->execute()) {
+                // Trả về kết quả thành công
+                $list_xoa_quyen[] = array(
+                    "status" => "success",
+                    "message" => "Xóa quyền và chi tiết quyền thành công!"
+                );
+            } else {
+                // Lỗi khi xóa quyền
+                $list_xoa_quyen[] = array(
+                    "status" => "error",
+                    "message" => "Lỗi khi xóa quyền: " . $stmt_quyen->error
+                );
+            }
+        } else {
+            // Lỗi khi xóa chi tiết quyền
+            $list_xoa_quyen[] = array(
+                "status" => "error",
+                "message" => "Lỗi khi xóa chi tiết quyền: " . $stmt_chitiet->error
+            );
+        }
     }
 } else {
     // Trường hợp không nhận được mã quyền

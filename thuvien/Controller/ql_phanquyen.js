@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     error: function (xhr, status, error) {
                         console.error('Lỗi:', error);
                         console.log('Phản hồi từ server:', xhr.responseText); // In toàn bộ dữ liệu server trả về
-                        alert('Xóa quyền thành công.');
+                        alert('Xóa quyền thất bại.');
                         resetInput();
                         reset_table_quyen();
                     }

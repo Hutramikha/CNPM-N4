@@ -458,22 +458,23 @@ function getPermissions(username) {
         type: 'GET',
         data: { username: username }, // Gửi username đến server
         dataType: 'json',
-        success: function(response) {
-            console.log('Danh sách quyền:', response.permissions);
+        success: function (response) {
+            console.log('Phân quyền truy cập:', response.accessPermissions);
+            console.log('Phân quyền hành động:', response.actionPermissions);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             console.error('Lỗi khi lấy quyền:', textStatus, errorThrown);
         }
     });
 }
 
-function updateMenuVisibility(permissions) {
-    // Danh sách các mục tương ứng với quyền
+// Cập nhật menu hiển thị dựa trên quyền truy cập
+function updateMenuVisibility(accessPermissions) {
     const menuMapping = {
         1: '.btn-qlsach',
         2: '.btn-qlnhanvien',
         3: '.btn-qldocgia',
-        4: '.btn-muonsach',  // Quản lý Mượn/Trả
+        4: '.btn-muonsach',
         5: '.btn-trasach',
         6: '.btn-qlphieunhap',
         7: '.btn-qltaikhoan',
@@ -486,8 +487,8 @@ function updateMenuVisibility(permissions) {
         $(selector).hide();
     });
 
-    // Hiển thị lại các mục có trong danh sách quyền
-    permissions.forEach(permission => {
+    // Hiển thị các mục có quyền truy cập
+    accessPermissions.forEach(permission => {
         const selector = menuMapping[permission];
         if (selector) {
             $(selector).show();
@@ -495,38 +496,75 @@ function updateMenuVisibility(permissions) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const username = 'admin';
-    
-    // Lấy quyền và cập nhật giao diện
+// Cập nhật trạng thái các nút hành động dựa trên quyền thêm/sửa/xóa
+function updateButtonState(actionPermissions) {
+    const buttonMapping = {
+        1: { // Quản lý sách
+            add: '.btn-add-sach',
+            edit: '.btn-edit-sach',
+            delete: '.btn-delete-sach'
+        },
+        2: { // Quản lý nhân viên
+            add: '.btn-add-nv',
+            edit: '.btn-edit-nv',
+            delete: '.btn-delete-nv'
+        },
+        3: { // Quản lý độc giả
+            edit: '.btn-edit-dg',
+            delete: '.btn-delete-dg'
+        },
+        5: { // Quản lý trả sách
+            start: '.btn-start-ct-phieu-tra',
+            edit: '.btn-edit-ct-phieu-tra'
+        },
+        6: { // Quản lý phiếu nhập
+            start: '.btn-start-ct-phieu-nhap',
+            save: '.btn-save-ct-phieu-nhap'
+        },
+        8: { // Quản lý phân quyền
+            add: '.btn-add-pq',
+            edit: '.btn-edit-pq',
+            delete: '.btn-delete-pq'
+        }
+    };
+
+    // Cập nhật trạng thái các nút theo quyền hành động
+    for (const [machucnang, actions] of Object.entries(actionPermissions)) {
+        const buttons = buttonMapping[machucnang];
+
+        if (buttons) {
+            for (const [action, selector] of Object.entries(buttons)) {
+                const isActive = actions[action];
+
+                // Nếu hoatdong = 0, disable nút
+                if (isActive === false) {
+                    $(selector).prop('disabled', true);
+                }
+            }
+        }
+    }
+}
+
+// Khởi tạo xử lý khi DOM đã sẵn sàng
+document.addEventListener('DOMContentLoaded', function () {
+    const username = 'admin'; // Lấy username từ session hoặc giá trị phù hợp
+
+    // Lấy quyền từ server
     getPermissions(username).then(response => {
-        if (response.permissions) {
-            updateMenuVisibility(response.permissions);
-        } else {
-            console.error('Không có quyền nào được trả về.');
+        if (response.accessPermissions) {
+            // Cập nhật hiển thị menu
+            updateMenuVisibility(response.accessPermissions);
+        }
+
+        if (response.actionPermissions) {
+            // Cập nhật trạng thái các nút hành động
+            updateButtonState(response.actionPermissions);
         }
     }).catch(error => {
         console.error('Lỗi khi xử lý quyền:', error);
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const username = 'admin'; // Lấy username từ đâu đó
-    
-    // Lấy thông tin tài khoản
-    getUserInfo(username);
-
-    // Lấy quyền và cập nhật menu
-    getPermissions(username).then(response => {
-        if (response.permissions) {
-            updateMenuVisibility(response.permissions);
-        } else {
-            console.error('Không có quyền nào được trả về.');
-        }
-    }).catch(error => {
-        console.error('Lỗi khi xử lý quyền:', error);
-    });
-});
 
 
 let ma_pq_toancuc = null;

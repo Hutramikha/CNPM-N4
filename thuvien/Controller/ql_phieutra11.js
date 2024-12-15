@@ -303,7 +303,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function reset_select_hinhthucphat() {
         $(document).ready(function () {
+            var option0 = $('.select-phat_sach option[value="-1"]').clone();
             $('.select-phat_sach').empty();
+            // Fetch dữ liệu từ server
+            $('.select-phat_sach').append(option0);
             $.ajax({
                 url: '../DAO/database/fetch_data.php', // Đường dẫn đến file PHP
                 method: 'GET',
@@ -488,7 +491,7 @@ $(document).ready(function () {
     // Cập nhật phí phạt khi chọn hình thức phạt
     $('.select-phat_sach').change(function () {
         const idphat = $(this).val();
-        if (idphat != 0) {
+        if (idphat != -1) {
             getPriceByIdphat(idphat).done(function (data) {
                 if (data.list_layphiphat_sach && data.list_layphiphat_sach.length > 0) {
                     $('.input-phiphat_sach').val(data.list_layphiphat_sach[0]); // Cập nhật giá nhập
@@ -553,30 +556,50 @@ $(document).ready(function () {
     }
 
     // Xóa sản phẩm khỏi bảng
-    $('.table-ct-sach_tra').on('click', '.btn-remove-ct-pt', function () {
-        const row = $(this).closest('tr'); // Lấy hàng được nhấp
-        const bookId = row.find('td:nth-child(2)').text(); // Lấy mã sách từ cột tương ứng
+$('.table-ct-sach_tra').on('click', '.btn-remove-ct-pt', function () {
+    const row = $(this).closest('tr'); // Lấy hàng được nhấp
+    const bookId = row.find('td:nth-child(2)').text(); // Lấy mã sách từ cột tương ứng
 
-        // Xóa hàng khỏi bảng
-        row.remove();
+    // Xóa hàng khỏi bảng
+    row.remove();
 
-        // Cập nhật lại STT
-        $('.table-ct-sach_tra tbody tr').each(function (index) {
-            $(this).find('td:first').text(index + 1);
-        });
-
-        // Xóa sản phẩm khỏi mảng selectedProducts
-        const indexToRemove = selectedProducts_pt.findIndex(product => product.mavach == bookId); // Tìm chỉ số sản phẩm
-
-        if (indexToRemove !== -1) {
-            selectedProducts_pt.splice(indexToRemove, 1); // Xóa sản phẩm khỏi mảng
-            console.log(`Sản phẩm ID: ${bookId} đã được xóa khỏi mảng.`);
-        } else {
-            console.log(`Sản phẩm ID: ${bookId} không tồn tại trong mảng.`);
-        }
-
-        console.log(selectedProducts_pt); // In ra mảng đã cập nhật
+    // Cập nhật lại STT
+    $('.table-ct-sach_tra tbody tr').each(function (index) {
+        $(this).find('td:first').text(index + 1);
     });
+
+    // Xóa sản phẩm khỏi selectedProducts_pt
+    const indexToRemove = selectedProducts_pt.findIndex(product => product.mavach == bookId); // Tìm chỉ số sản phẩm
+
+    if (indexToRemove !== -1) {
+        selectedProducts_pt.splice(indexToRemove, 1); // Xóa sản phẩm khỏi mảng
+        console.log(`Sản phẩm ID: ${bookId} đã được xóa khỏi mảng.`);
+    } else {
+        console.log(`Sản phẩm ID: ${bookId} không tồn tại trong mảng.`);
+    }
+
+    // Xóa sản phẩm khỏi groupedProducts
+    for (const key in groupedProducts) {
+        const products = groupedProducts[key];
+        const indexInGroup = products.findIndex(product => product.mavach == bookId); // Tìm chỉ số trong nhóm
+
+        if (indexInGroup !== -1) {
+            products.splice(indexInGroup, 1); // Xóa sản phẩm khỏi nhóm
+
+            // Kiểm tra nếu nhóm rỗng và xóa nhóm khỏi groupedProducts
+            if (products.length === 0) {
+                delete groupedProducts[key];
+                console.log(`Nhóm ${key} đã bị xóa do không còn sản phẩm nào.`);
+            }
+            console.log(`Sản phẩm ID: ${bookId} đã được xóa khỏi nhóm ${key}.`);
+            break; // Thoát khỏi vòng lặp sau khi tìm thấy
+        }
+    }
+
+    // Kiểm tra lại groupedProducts
+    console.log(selectedProducts_pt); // In ra mảng đã cập nhật
+    console.log(groupedProducts); // In ra groupedProducts đã cập nhật
+});
 
 
     // Nút lưu sản phẩm
@@ -601,10 +624,9 @@ $(document).ready(function () {
                 } else if (tinhtrang == -1) {
                     alert('Vui lòng chọn tình trạng');
                     return;
-                }
-
-                if (hinhthucphat == 0) {
-                    phiphat = 0;
+                } else if (hinhthucphat == -1) {
+                    alert('Vui lòng chọn hình thức phạt');
+                    return;
                 }
 
                 console.log("HELLO LẦN Phiếu trả " + manv_for_pn);
@@ -689,27 +711,25 @@ $(document).ready(function () {
     $('.btn-create-pt').click(function () {
         // Kiểm tra nếu groupedProducts không rỗng
         if (Object.keys(groupedProducts).length > 0) {
+            const confirmMessage = `Bạn có chắc chắn muốn tạo phiếu trả ?`;
+            if (!confirm(confirmMessage)) {
+                return; // Nếu người dùng không xác nhận, dừng lại
+            }
             createReturnReceipts(groupedProducts);
             alert("Tạo phiếu trả thành công");
-
-            reset_table_phieutra2();
         } else {
             alert("Không có sản phẩm nào để tạo phiếu trả."); // Thông báo khi không có sản phẩm
         }
     });
 
     function createReturnReceipts(groupedProducts) {
-        const confirmMessage = `Bạn có chắc chắn muốn tạo phiếu trả ?`;
-        if (!confirm(confirmMessage)) {
-            return; // Nếu người dùng không xác nhận, dừng lại
-        }
         // let length = groupedProducts.length; // Lấy độ dài của mảng
         // console.log(length);
         Object.keys(groupedProducts).forEach(mapm => {
             const products = groupedProducts[mapm];
             console.log(products);
             // Tính tổng phí phạt cho nhóm này
-            const totalFine = products.reduce((sum, product) => sum + product.phiphat, 0);
+            const totalFine = Number(products.reduce((sum, product) => sum + product.phiphat, 0));
             // Tạo phiếu trả mới
             $.ajax({
                 url: '../DAO/database/fetch_data.php',
@@ -743,6 +763,7 @@ $(document).ready(function () {
                                                 $.each(data.list_them_ct_pt, function (index, ctpt) {
                                                     if (ctpt.status === "success") {
                                                         console.log(ctpt.message);
+                                                        reset_table_phieutra2();
                                                     }
                                                 })
                                             }
@@ -758,7 +779,6 @@ $(document).ready(function () {
                 }
             });
         });
-        
     }
 
 });

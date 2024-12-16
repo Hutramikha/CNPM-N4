@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 if (data.list_them_quyen && data.list_them_quyen.length > 0) {
                                     $.each(data.list_them_quyen, function (index, quyen) {
                                         if (quyen.status === "success") {
-                                                alert(quyen.message);
+                                                alert("Thêm quyền thành công.");
                                                 resetInput();
                                                 reset_table_quyen();
                                             } else {
@@ -389,7 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (data.list_sua_quyen && data.list_sua_quyen.length > 0) {
                                 $.each(data.list_sua_quyen, function(index, quyen) {
                                     if (quyen.status === "success") {
-                                            alert(quyen.message);
+                                            alert('Sửa quyền thành công');
                                             resetInput();
                                             reset_table_quyen();
                                         } else {

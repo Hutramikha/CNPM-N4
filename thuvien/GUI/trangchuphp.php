@@ -6,9 +6,16 @@ session_start();
 if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
     $usernameluu = $_COOKIE['user'];
     $passwordluu = $_COOKIE['pass'];
+    
 } else {
     $usernameluu = "";
     $passwordluu = "";
+}
+
+if (isset($_SESSION['mySession'])) {
+    echo '<a href="trangadmin copy.php" id="adminLink" style="text-decoration: none;">
+    <button style="cursor: pointer;">Admin</button>
+</a>';
 }
 ?>
 

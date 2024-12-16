@@ -34,12 +34,18 @@ if ($thongtinchitiet) {
     $stmtCheckYeuThich->execute();
 
     // check sản phẩm đã thêm vào giỏ mượn hay chưa                         
-    $sql_tonTaiGioMuon = "SELECT masach FROM giomuontamthoi WHERE madocgia = :userId AND masach = :masach";
+    $sql_tonTaiGioMuon = "SELECT masach FROM giomuontamthoi WHERE madocgia = :userId AND masach = :masach AND trangthai = 0";
     $stmtCheckGioMuon = $db->prepare($sql_tonTaiGioMuon);
     $stmtCheckGioMuon->bindParam(':userId', $userId);
     $stmtCheckGioMuon->bindParam(':masach', $ma);
     $stmtCheckGioMuon->execute();
 
+    // check sản phẩm có đang yêu cầu mượn hay chưa                      
+    $sql_dangMuon = "SELECT masach FROM giomuontamthoi WHERE madocgia = :userId AND masach = :masach  AND trangthai = 1";
+    $stmt_dangMuon = $db->prepare($sql_dangMuon);
+    $stmt_dangMuon->bindParam(':userId', $userId);
+    $stmt_dangMuon->bindParam(':masach', $masach);
+    $stmt_dangMuon->execute();
 
     if ($genre != '') {
         $genreUrl = "&genre=" . $genre;
@@ -72,7 +78,7 @@ if ($thongtinchitiet) {
 
                 <div class="book-details__img"><img src="thuvien/img/' . $img . '" alt=""></div>
                 <div class="book-details__info">
-                    <h4>Tiêu đề: ' . $masach . ' ' . $tensach . '</h4>
+                    <h4>Tiêu đề: ' . $tensach . '</h4>
                     <p>Tác giả: ' . $tacGia . ' <br>Thể loại: ' . $theLoai . ' <br>Nhà xuất bản: ' . $nhaXuatBan . '</p>
                     <details>
                         <summary>Xem bản tóm tắt</summary>
@@ -91,13 +97,18 @@ if ($thongtinchitiet) {
                                 <i class="fa-regular fa-star" style="margin-right: 0.5rem;"></i> Thêm vào yêu thích
                             </button>';
     }
-    if ($stmtCheckGioMuon->rowCount() > 0) {
-        echo '
-                        <button class="borrow-button brbtn2_' . $masach . '"   style="width: 12rem; height: 2.8rem; font-size: 17px;" onclick="themXoaGioMuon2(' . $masach . ',' . $userId . ')"> <i class="fa-solid fa-minus" style="margin-right: 0.5rem"></i> Xóa khỏi giỏ mượn </button>';
+
+
+    if ($stmt_dangMuon->rowCount() > 0) {
+        echo '<button class="borrow-button brbtn2_ style="width: 12rem; height: 2.8rem; font-size: 17px; background-color: transparent; color: #4e73df;"> Đang yêu cầu mượn </button>';;
     } else {
-        echo ' <button class="borrow-button brbtn2_' . $masach . '" style="width: 12rem; height: 2.8rem; font-size: 17px;"  onclick="themXoaGioMuon2(' . $masach . ',' . $userId . ')"> <i class="fa-solid fa-plus"  style="margin-right: 0.5rem"></i>Thêm vào giỏ mượn</button>';
+        if ($stmtCheckGioMuon->rowCount() > 0) {
+            echo ' <button class="borrow-button brbtn2_' . $masach . '"   style="width: 12rem; height: 2.8rem; font-size: 17px;" onclick="themXoaGioMuon2(' . $masach . ',' . $userId . ')"> <i class="fa-solid fa-minus" style="margin-right: 0.5rem"></i> Xóa khỏi giỏ mượn </button>';
+        } else {
+            echo ' <button class="borrow-button brbtn2_' . $masach . '" style="width: 12rem; height: 2.8rem; font-size: 17px;"  onclick="themXoaGioMuon2(' . $masach . ',' . $userId . ')"> <i class="fa-solid fa-plus"  style="margin-right: 0.5rem"></i>Thêm vào giỏ mượn</button>';
+        }
     }
-        echo'            </div>
+    echo '            </div>
                 </div>
             </div>
         </div>

@@ -65,12 +65,12 @@
                 </div>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="index.php?act=blank" onclick="setActiveMenuBar(this, 'single')">
                     <i class="fas fa-clock"></i>
                     <span> Gia hạn sách </span>
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link" href="index.php?act=danhSachSanPham&userId=9&currentPage=1&favo=1&searchInput=''" onclick="setActiveMenuBar(this, 'single')">
                     <i class="fas fa-heart"></i>

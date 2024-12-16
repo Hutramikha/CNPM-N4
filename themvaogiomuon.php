@@ -6,7 +6,7 @@ if ($conn) {
     $userId = isset($_GET['userId']) ? intval($_GET['userId']) : '';
     $prd_id = isset($_GET['prd_id']) ? intval($_GET['prd_id']) : '';
 
-    $sql_select = "SELECT masach FROM giomuontamthoi WHERE madocgia = $userId AND masach = $prd_id";
+    $sql_select = "SELECT masach FROM giomuontamthoi WHERE madocgia = $userId AND masach = $prd_id AND trangthai = 0";
     $select_result = mysqli_query($conn, $sql_select);
 
     if ($select_result) {

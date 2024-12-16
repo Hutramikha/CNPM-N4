@@ -56,7 +56,7 @@ $userId =  isset($_GET['userId']) ? $_GET['userId'] : '';
                         <i class="fa-regular fa-trash-can" style="color: #4e73df; font-size: 24px;" ></i>
                     </button>
                     <div class="book-details" style="height: 100%; width: 85%; color: #4e73df; transform: scale(0.93);">
-                        <div class="book-details__img"><img src="img/' . $img . '" alt="" style="transform: scale(0.9);"></div>
+                        <div class="book-details__img"><img src="thuvien/img/' . $img . '" alt="" style="transform: scale(0.9);"></div>
                         <div class="book-details__info" >
                             Tên sách: ' . $tensach . ' <br>
                             Tác giả: ' . $tacGia . ' <br>
